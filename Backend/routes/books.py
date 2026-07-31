@@ -45,3 +45,18 @@ def add_book():
     connection.close()
 
     return jsonify({"message": "Kniha byla přidána."}), 201
+
+@books_bp.route("/api/books/<int:book_id>", methods=["DELETE"])
+def delete_book(book_id):
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "DELETE FROM books WHERE id = ?",
+        (book_id,)
+    )
+
+    connection.commit()
+    connection.close()
+
+    return jsonify({"message": "Kniha byla smazána."})

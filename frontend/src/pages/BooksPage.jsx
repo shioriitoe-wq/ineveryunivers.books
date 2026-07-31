@@ -1,19 +1,28 @@
 import { useEffect, useState } from "react";
-import { getBooks, addBook } from "../services/booksService";
+import {
+  getBooks,
+  addBook,
+  deleteBook,
+} from "../services/booksService";
+
+import BookCard from "../components/BookCard";
+import AddBookForm from "../components/AddBookForm";
 
 function BooksPage() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const [title, setTitle] = useState("");
-  const [status, setStatus] = useState("Rozpracováno");
+  const [error, setError] = useState(false);
 
   async function loadBooks() {
+    setLoading(true);
+    setError(false);
+
     try {
       const data = await getBooks();
       setBooks(data);
     } catch (error) {
       console.error(error);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -23,18 +32,18 @@ function BooksPage() {
     loadBooks();
   }, []);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-
+  async function handleAddBook(book) {
     try {
-      await addBook({
-        title,
-        status,
-      });
+      await addBook(book);
+      await loadBooks();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-      setTitle("");
-      setStatus("Rozpracováno");
-
+  async function handleDeleteBook(id) {
+    try {
+      await deleteBook(id);
       await loadBooks();
     } catch (error) {
       console.error(error);
@@ -50,49 +59,30 @@ function BooksPage() {
     );
   }
 
+  if (error) {
+    return (
+      <main>
+        <h2>Knihy</h2>
+        <p>Nepodařilo se načíst knihy.</p>
+        <button onClick={loadBooks}>Zkusit znovu</button>
+      </main>
+    );
+  }
+
   return (
     <main>
       <h2>Knihy</h2>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Název knihy</label>
-          <br />
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-        </div>
-
-        <br />
-
-        <div>
-          <label>Stav</label>
-          <br />
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option>Rozpracováno</option>
-            <option>Plánováno</option>
-            <option>Dokončeno</option>
-          </select>
-        </div>
-
-        <br />
-
-        <button type="submit">Přidat knihu</button>
-      </form>
+      <AddBookForm onAddBook={handleAddBook} />
 
       <hr />
 
       {books.map((book) => (
-        <div key={book.id}>
-          <h3>{book.title}</h3>
-          <p>{book.status}</p>
-        </div>
+        <BookCard
+          key={book.id}
+          book={book}
+          onDelete={handleDeleteBook}
+        />
       ))}
     </main>
   );

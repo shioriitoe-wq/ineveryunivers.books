@@ -22,3 +22,14 @@ export async function addBook(book) {
 
   return await response.json();
 }
+export async function deleteBook(id) {
+  const response = await fetch(`http://127.0.0.1:5000/api/books/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Nepodařilo se smazat knihu.");
+  }
+
+  return await response.json();
+}
