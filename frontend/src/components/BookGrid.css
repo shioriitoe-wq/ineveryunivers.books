@@ -1,0 +1,19 @@
+.book-grid{
+
+    position:absolute;
+
+    left:50%;
+    top:63%;
+
+    transform:translate(-50%,-50%);
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    gap:70px;
+
+    z-index:60;
+
+}

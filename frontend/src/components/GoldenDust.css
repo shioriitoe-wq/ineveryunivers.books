@@ -1,0 +1,388 @@
+/* ===========================================
+   DUST LAYERS
+=========================================== */
+
+.dust-layer{
+
+    position:absolute;
+
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+}
+
+.dust-layer.micro{
+
+    z-index:41;
+
+}
+
+.dust-layer.far{
+
+    z-index:42;
+
+}
+
+.dust-layer.mid{
+
+    z-index:43;
+
+}
+
+.dust-layer.near{
+
+    z-index:44;
+
+}
+
+/* ===========================================
+   PARTICLE
+=========================================== */
+
+.dust{
+
+    position:absolute;
+
+    left:var(--x);
+    top:var(--y);
+
+    opacity:var(--opacity);
+
+    transform-origin:center;
+
+    will-change:
+
+        transform,
+        opacity,
+        filter;
+
+    animation:
+
+        dustFloat var(--duration) linear infinite,
+
+        dustFade calc(var(--duration) * .75) ease-in-out infinite alternate,
+
+        dustSway calc(var(--duration) * .55) ease-in-out infinite alternate;
+
+    animation-delay:
+
+        var(--delay),
+
+        var(--delay),
+
+        var(--delay);
+
+}
+
+/* ===========================================
+   HLUBKA
+=========================================== */
+
+.dust-micro{
+
+    transform:scale(.45);
+
+    filter:blur(.15px);
+
+    opacity:calc(var(--opacity) * .35);
+
+}
+
+.dust-far{
+
+    transform:scale(.72);
+
+}
+
+.dust-mid{
+
+    transform:scale(.95);
+
+}
+
+.dust{
+
+    scale:var(--scale);
+
+
+
+}
+
+/* ===========================================
+   TVAR 0
+=========================================== */
+
+.dust-0{
+
+    width:var(--size);
+
+    height:var(--size);
+
+    border-radius:50%;
+
+    background:var(--color);
+
+}
+
+/* ===========================================
+   TVAR 1
+=========================================== */
+
+.dust-1{
+
+    width:calc(var(--size) * 1.45);
+
+    height:calc(var(--size) * .42);
+
+    border-radius:999px;
+
+    background:var(--color);
+
+}
+
+/* ===========================================
+   TVAR 2
+=========================================== */
+
+.dust-2{
+
+    width:calc(var(--size) * 1.2);
+
+    height:calc(var(--size) * .42);
+
+    border-radius:999px;
+
+    background:var(--color);
+
+    transform:rotate(38deg);
+
+}
+
+/* ===========================================
+   TVAR 3
+=========================================== */
+
+.dust-3{
+
+    width:calc(var(--size) * 1.4);
+
+    height:calc(var(--size) * 1.4);
+
+    border-radius:50%;
+
+    background:var(--color);
+
+    filter:blur(calc(var(--blur) + .7px));
+
+}
+
+/* ===========================================
+   JEMNÝ BLOOM
+=========================================== */
+
+.dust-0,
+.dust-3{
+
+    box-shadow:
+
+        0 0 4px rgba(255,228,170,.18);
+
+}
+/* ===========================================
+   HLAVNÍ POHYB
+=========================================== */
+
+@keyframes dustFloat{
+
+    0%{
+
+        transform:
+
+            translate(0px,0px)
+
+            rotate(0deg);
+
+    }
+
+    12%{
+
+        transform:
+
+            translate(
+
+                calc(var(--driftX) * .08),
+
+                calc(var(--driftY) * .06)
+
+            )
+
+            rotate(calc(var(--rotate) * .08));
+
+    }
+
+    25%{
+
+        transform:
+
+            translate(
+
+                calc(var(--driftX) * -.05),
+
+                calc(var(--driftY) * .20)
+
+            )
+
+            rotate(calc(var(--rotate) * .18));
+
+    }
+
+    40%{
+
+        transform:
+
+            translate(
+
+                calc(var(--driftX) * .22),
+
+                calc(var(--driftY) * .36)
+
+            )
+
+            rotate(calc(var(--rotate) * .35));
+
+    }
+
+    58%{
+
+        transform:
+
+            translate(
+
+                calc(var(--driftX) * -.08),
+
+                calc(var(--driftY) * .55)
+
+            )
+
+            rotate(calc(var(--rotate) * .52));
+
+    }
+
+    76%{
+
+        transform:
+
+            translate(
+
+                calc(var(--driftX) * .34),
+
+                calc(var(--driftY) * .76)
+
+            )
+
+            rotate(calc(var(--rotate) * .72));
+
+    }
+
+    100%{
+
+        transform:
+
+            translate(
+
+                var(--driftX),
+
+                var(--driftY)
+
+            )
+
+            rotate(var(--rotate));
+
+    }
+
+}
+
+/* ===========================================
+   KOLÉBÁNÍ
+=========================================== */
+
+@keyframes dustSway{
+
+    0%{
+
+        margin-left:0px;
+
+    }
+
+    20%{
+
+        margin-left:3px;
+
+    }
+
+    40%{
+
+        margin-left:-4px;
+
+    }
+
+    60%{
+
+        margin-left:5px;
+
+    }
+
+    80%{
+
+        margin-left:-2px;
+
+    }
+
+    100%{
+
+        margin-left:0px;
+
+    }
+
+}
+
+/* ===========================================
+   DÝCHÁNÍ
+=========================================== */
+
+@keyframes dustFade{
+
+    0%{
+
+        opacity:calc(var(--opacity) * .45);
+
+    }
+
+    20%{
+
+        opacity:calc(var(--opacity) * .75);
+
+    }
+
+    45%{
+
+        opacity:var(--opacity);
+
+    }
+
+    65%{
+
+        opacity:calc(var(--opacity) * .82);
+
+    }
+
+    100%{
+
+        opacity:calc(var(--opacity) * .45);
+
+    }
+
+}

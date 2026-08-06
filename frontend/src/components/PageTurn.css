@@ -1,0 +1,89 @@
+.page-turn{
+
+    position:relative;
+
+    width:100%;
+    height:100%;
+
+    transform-origin:left center;
+
+    transform-style:preserve-3d;
+
+    perspective:2600px;
+
+    overflow:hidden;
+
+    background:transparent;
+
+}
+
+.page-shadow{
+
+    position:absolute;
+
+    top:0;
+    right:-4px;
+
+    width:34px;
+    height:100%;
+
+    pointer-events:none;
+
+    background:linear-gradient(
+
+        to left,
+
+        rgba(0,0,0,.30),
+
+        rgba(0,0,0,.12),
+
+        transparent
+
+    );
+
+    opacity:0;
+
+}
+
+.page-highlight{
+
+    position:absolute;
+
+    top:0;
+    right:0;
+
+    width:8px;
+    height:100%;
+
+    pointer-events:none;
+
+    background:linear-gradient(
+
+        to left,
+
+        rgba(255,244,215,.78),
+
+        rgba(255,244,215,.18),
+
+        transparent
+
+    );
+
+    opacity:0;
+
+}
+.page-turn.turning .page-shadow{
+
+    opacity:1;
+
+    transition:opacity .25s ease;
+
+}
+
+.page-turn.turning .page-highlight{
+
+    opacity:1;
+
+    transition:opacity .2s ease;
+
+}

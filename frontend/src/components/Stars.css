@@ -1,0 +1,79 @@
+.stars{
+
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+
+    overflow:hidden;
+
+    z-index:1;
+
+}
+
+.star{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    background:#fff7ea;
+
+    opacity:.08;
+
+    filter:blur(.5px);
+
+    animation:twinkle infinite ease-in-out;
+
+}
+
+.small{
+
+    opacity:.05;
+
+}
+
+.medium{
+
+    opacity:.10;
+
+    box-shadow:
+        0 0 4px rgba(255,255,255,.25);
+
+}
+
+.big{
+
+    opacity:.16;
+
+    box-shadow:
+        0 0 6px rgba(255,255,255,.5),
+        0 0 18px rgba(255,220,160,.25);
+
+}
+
+@keyframes twinkle{
+
+    0%,94%,100%{
+
+        opacity:inherit;
+
+        transform:scale(1);
+
+    }
+
+    96%{
+
+        transform:scale(1.8);
+
+    }
+
+    98%{
+
+        transform:scale(2.6);
+
+        opacity:.9;
+
+    }
+
+}

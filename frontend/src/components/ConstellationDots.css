@@ -1,0 +1,121 @@
+.constellation-dots{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:6;
+
+}
+
+.constellation-dot{
+
+    position:absolute;
+
+    width:2px;
+    height:2px;
+
+    border-radius:50%;
+
+    background:#fff6d6;
+
+    opacity:.10;
+
+    transform:translate(-50%,-50%) scale(1);
+
+    transition:
+        opacity .45s ease,
+        transform .45s ease,
+        box-shadow .45s ease;
+
+    box-shadow:
+        0 0 2px rgba(255,245,220,.35);
+
+}
+
+/* Ambient - jemné náhodné probliknutí */
+
+.constellation-dot:nth-child(1){
+    animation:ambient 13s infinite;
+}
+
+.constellation-dot:nth-child(2){
+    animation:ambient 17s infinite 3s;
+}
+
+.constellation-dot:nth-child(3){
+    animation:ambient 15s infinite 6s;
+}
+
+.constellation-dot:nth-child(4){
+    animation:ambient 18s infinite 9s;
+}
+
+.constellation-dot:nth-child(5){
+    animation:ambient 20s infinite 2s;
+}
+
+.constellation-dot:nth-child(6){
+    animation:ambient 16s infinite 7s;
+}
+
+.constellation-dot:nth-child(7){
+    animation:ambient 19s infinite 11s;
+}
+
+.constellation-dot:nth-child(8){
+    animation:ambient 14s infinite 5s;
+}
+
+.constellation-dot:nth-child(9){
+    animation:ambient 21s infinite 8s;
+}
+
+
+/* Aktivní body při hoveru */
+
+.constellation-dot.active{
+
+    opacity:1;
+
+    transform:
+        translate(-50%,-50%)
+        scale(2.5);
+
+    box-shadow:
+        0 0 5px rgba(255,255,255,.95),
+        0 0 10px rgba(255,235,180,.95),
+        0 0 20px rgba(255,215,120,.8);
+
+}
+
+
+/* Ambient animace */
+
+@keyframes ambient{
+
+    0%,
+    92%,
+    100%{
+
+        opacity:.10;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+
+    }
+
+    95%{
+
+        opacity:.45;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1.8);
+
+    }
+
+}

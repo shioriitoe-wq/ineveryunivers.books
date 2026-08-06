@@ -1,91 +1,94 @@
-import { useEffect, useState } from "react";
-import {
-  getBooks,
-  addBook,
-  deleteBook,
-} from "../services/booksService";
+import "./BooksPage.css";
 
-import BookCard from "../components/BookCard";
-import AddBookForm from "../components/AddBookForm";
+import background from "../assets/images/paper-background.png";
+
+import windowShadow from "../assets/overlays/window-shadow.png";
+import watercolorCorners from "../assets/overlays/watercolor-corners.png";
+import watercolorCornersBack from "../assets/overlays/watercolor-corners-back.png";
+import dustTexture from "../assets/overlays/window-dust.png";
+
+import LibraryLogo from "../components/LibraryLogo";
+import BookGrid from "../components/BookGrid";
+import GoldenDust from "../components/GoldenDust";
+import GoldenGlow from "../components/GoldenGlow";
+import BackButton from "../components/BackButton";
 
 function BooksPage() {
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
-  async function loadBooks() {
-    setLoading(true);
-    setError(false);
-
-    try {
-      const data = await getBooks();
-      setBooks(data);
-    } catch (error) {
-      console.error(error);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    loadBooks();
-  }, []);
-
-  async function handleAddBook(book) {
-    try {
-      await addBook(book);
-      await loadBooks();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function handleDeleteBook(id) {
-    try {
-      await deleteBook(id);
-      await loadBooks();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  if (loading) {
     return (
-      <main>
-        <h2>Knihy</h2>
-        <p>Načítám knihy...</p>
-      </main>
+
+        <main className="books-page">
+
+            {/* Background */}
+
+            <img
+                src={background}
+                alt=""
+                className="paper-background"
+            />
+
+            {/* Back watercolor */}
+
+            <img
+                src={watercolorCornersBack}
+                alt=""
+                className="watercolor-corners-back"
+            />
+
+            {/* Front watercolor */}
+
+            <img
+                src={watercolorCorners}
+                alt=""
+                className="watercolor-corners"
+            />
+
+            {/* Window shadow */}
+
+            <img
+                src={windowShadow}
+                alt=""
+                className="window-shadow shadow-back"
+            />
+
+            <img
+                src={windowShadow}
+                alt=""
+                className="window-shadow shadow-front"
+            />
+
+            {/* Dust texture */}
+
+            <img
+                src={dustTexture}
+                alt=""
+                className="window-dust"
+            />
+
+            {/* Animated particles */}
+
+            <GoldenDust />
+
+            <GoldenGlow />
+
+            {/* Soft vignette */}
+
+            <div className="page-vignette"></div>
+
+            {/* Content */}
+            <BackButton
+                to="/"
+                color="#d9c39b"
+                hoverColor="#f0e4cf"
+            />
+            <LibraryLogo />
+
+            <BookGrid />
+
+        </main>
+
     );
-  }
 
-  if (error) {
-    return (
-      <main>
-        <h2>Knihy</h2>
-        <p>Nepodařilo se načíst knihy.</p>
-        <button onClick={loadBooks}>Zkusit znovu</button>
-      </main>
-    );
-  }
-
-  return (
-    <main>
-      <h2>Knihy</h2>
-
-      <AddBookForm onAddBook={handleAddBook} />
-
-      <hr />
-
-      {books.map((book) => (
-        <BookCard
-          key={book.id}
-          book={book}
-          onDelete={handleDeleteBook}
-        />
-      ))}
-    </main>
-  );
 }
 
 export default BooksPage;

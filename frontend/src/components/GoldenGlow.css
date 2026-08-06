@@ -1,0 +1,129 @@
+/* ===========================================
+   LAYER
+=========================================== */
+
+.golden-glow{
+
+    position:absolute;
+
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+    z-index:47;
+
+}
+
+/* ===========================================
+   SPARK
+=========================================== */
+
+.spark{
+
+    position:absolute;
+
+    left:var(--x);
+
+    top:var(--y);
+
+    width:calc(var(--size) * 3);
+
+    height:var(--size);
+
+    border-radius:999px;
+
+    transform:rotate(var(--rotate));
+    mix-blend-mode:screen;
+
+    background:
+
+        linear-gradient(
+
+            90deg,
+
+            transparent,
+
+            rgba(255,244,210,.95),
+
+            rgba(224,188,112,.95),
+
+            rgba(255,244,210,.95),
+
+            transparent
+
+        );
+
+    filter:
+
+        blur(.2px)
+
+        drop-shadow(0 0 4px rgba(255,222,150,.28));
+
+    opacity:.14;
+
+    animation:
+
+        sparkle var(--duration) ease-in-out infinite;
+
+    animation-delay:var(--delay);
+    z-index:49;
+
+}
+
+/* ===========================================
+   ANIMACE
+=========================================== */
+
+@keyframes sparkle{
+
+    0%{
+
+        opacity:.06;
+
+        transform:
+
+            rotate(var(--rotate))
+
+            scale(.85);
+
+    }
+
+    20%{
+
+        opacity:.12;
+
+    }
+
+    50%{
+
+        opacity:.30;
+
+        transform:
+
+            rotate(var(--rotate))
+
+            scale(1.2);
+
+    }
+
+    75%{
+
+        opacity:.16;
+
+    }
+
+    100%{
+
+        opacity:.06;
+
+        transform:
+
+            rotate(var(--rotate))
+
+            scale(.9);
+
+    }
+
+}

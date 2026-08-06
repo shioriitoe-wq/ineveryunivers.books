@@ -1,0 +1,55 @@
+.constellation-stars{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:5;
+
+}
+
+.constellation-star{
+
+    position:absolute;
+
+    opacity:.15;
+
+    animation:starGlow 8s infinite ease-in-out;
+
+    filter:
+        drop-shadow(0 0 10px rgba(255,235,170,.4));
+
+}
+
+@keyframes starGlow{
+
+    0%,100%{
+
+        opacity:.08;
+        transform:scale(1);
+
+    }
+
+    45%{
+
+        opacity:.12;
+
+    }
+
+    50%{
+
+        opacity:1;
+
+        transform:scale(1.8);
+
+    }
+
+    55%{
+
+        opacity:.18;
+
+    }
+
+}

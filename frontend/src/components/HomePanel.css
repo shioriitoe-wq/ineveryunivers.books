@@ -1,0 +1,145 @@
+.home-panel{
+
+    appearance:none;
+    -webkit-appearance:none;
+
+    background:transparent;
+
+    border:none;
+
+    padding:0;
+
+    cursor:pointer;
+
+    position:relative;
+
+    width:235px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    transition:
+        transform .4s ease,
+        filter .4s ease;
+
+    z-index:10;
+}
+
+/* ---------- Obrázek ---------- */
+
+.home-panel-image{
+
+    width:100%;
+
+    display:block;
+
+    transition:
+        transform .4s ease,
+        filter .4s ease;
+
+    filter:
+        drop-shadow(0 0 8px rgba(255,220,140,.12));
+}
+
+/* ---------- Jemná aura ---------- */
+
+.home-panel::before{
+
+    content:"";
+
+    position:absolute;
+
+    wiwidth:205px;
+    height:205px;
+
+    border-radius:50%;
+
+    background:radial-gradient(
+
+        circle,
+
+        rgba(120,75,185,.20),
+
+        rgba(120,75,185,.07),
+
+        transparent 72%
+
+    );
+
+    filter:blur(30px);
+
+    z-index:-1;
+
+    opacity:.85;
+
+    transition:.4s ease;
+}
+
+/* ---------- Hover ---------- */
+
+.home-panel:hover{
+
+    transform:translateY(-4px) scale(1.03);
+}
+
+.home-panel:hover .home-panel-image{
+
+    transform:scale(1.03);
+
+    filter:
+
+        drop-shadow(0 0 12px rgba(255,220,140,.55))
+        drop-shadow(0 0 35px rgba(255,220,140,.25));
+}
+
+.home-panel:hover::before{
+
+    transform:scale(1.12);
+
+    opacity:1;
+}
+
+/* ---------- Text ---------- */
+
+.home-panel h2{
+
+    position:absolute;
+
+    bottom:40px;
+
+    width:100%;
+
+    margin:0;
+
+    text-align:center;
+
+    font-family:"Cinzel",serif;
+
+    font-size:1.3rem;
+
+    letter-spacing:4px;
+
+    font-weight:500;
+
+    color:#d9b36b;
+
+    text-shadow:
+
+        0 0 10px rgba(255,220,140,.15);
+
+    transition:.3s ease;
+}
+
+.home-panel:hover h2{
+
+    color:#f4d99d;
+
+    text-shadow:
+
+        0 0 16px rgba(255,220,140,.35);
+}

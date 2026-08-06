@@ -1,0 +1,19 @@
+.library-logo{
+
+    position:absolute;
+
+    top:10px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:220px;
+
+    opacity:.65;
+
+    pointer-events:none;
+
+    z-index:60;
+
+}

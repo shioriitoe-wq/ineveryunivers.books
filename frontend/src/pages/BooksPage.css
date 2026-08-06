@@ -1,0 +1,513 @@
+/* ======================================================
+   RESET
+====================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* ======================================================
+   PAGE
+====================================================== */
+
+.books-page{
+
+    position:relative;
+
+    width:100vw;
+    height:100vh;
+
+    overflow:hidden;
+
+    background:#f7f3eb;
+
+}
+
+/* ======================================================
+   BACKGROUND
+====================================================== */
+
+.paper-background{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    pointer-events:none;
+    user-select:none;
+
+    z-index:0;
+
+    filter:
+        brightness(.93)
+        contrast(1.04)
+        saturate(.96);
+
+}
+
+/* ======================================================
+   WATERCOLOR BACK
+====================================================== */
+
+.watercolor-corners-back{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    pointer-events:none;
+    user-select:none;
+
+    z-index:3;
+
+    opacity:.58;
+
+    filter:
+        contrast(1.28)
+        saturate(1.08)
+        brightness(.97)
+        blur(.4px);
+
+    transform:scale(1.05);
+
+    animation:
+        watercolorBloom 220s ease-in-out infinite;
+
+}
+
+/* ======================================================
+   WATERCOLOR FRONT
+====================================================== */
+
+.watercolor-corners{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    pointer-events:none;
+    user-select:none;
+
+    z-index:4;
+
+    opacity:.82;
+
+    filter:
+        brightness(1.08)
+        saturate(.92);
+
+    animation:
+        watercolorFloat 280s ease-in-out infinite;
+
+}
+
+/* ======================================================
+   WINDOW SHADOW
+====================================================== */
+
+.window-shadow{
+
+    position:absolute;
+
+    inset:-8%;
+
+    width:116%;
+    height:116%;
+
+    object-fit:cover;
+
+    pointer-events:none;
+    user-select:none;
+
+    mix-blend-mode:darken;
+
+    transform-origin:center;
+
+    z-index:40;
+
+}
+
+.shadow-back{
+
+    opacity:.28;
+
+    filter:
+        blur(.15px)
+        contrast(1.08)
+        brightness(.93);
+
+    animation:
+        shadowFloatBack 60s ease-in-out infinite;
+
+}
+
+.shadow-front{
+
+    opacity:.16;
+
+    filter:
+        blur(.8px)
+        brightness(.96);
+
+    animation:
+        shadowFloatFront 38s ease-in-out infinite;
+
+}
+
+/* ======================================================
+   DUST TEXTURE
+====================================================== */
+
+.window-dust{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    pointer-events:none;
+
+    z-index:39;
+
+    opacity:.55;
+
+    mix-blend-mode:soft-light;
+
+    filter:
+        brightness(1.6)
+        contrast(1.4)
+        blur(.25px);
+
+    animation:
+        dustFloat 180s linear infinite alternate;
+
+}
+
+/* ======================================================
+   PAGE VIGNETTE
+====================================================== */
+
+.page-vignette{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 56%,
+            rgba(65,50,35,.05) 82%,
+            rgba(35,25,18,.12) 100%
+        );
+
+    z-index:8;
+
+}
+/* ======================================================
+   DUST ANIMATION
+====================================================== */
+
+@keyframes dustFloat{
+
+    0%{
+
+        transform:
+            translate(0px,0px)
+            scale(1);
+
+        opacity:.18;
+
+    }
+
+    50%{
+
+        transform:
+            translate(-10px,6px)
+            scale(1.01);
+
+        opacity:.24;
+
+    }
+
+    100%{
+
+        transform:
+            translate(8px,-8px)
+            scale(1.02);
+
+        opacity:.18;
+
+    }
+
+}
+
+/* ======================================================
+   WINDOW SHADOW BACK
+====================================================== */
+
+@keyframes shadowFloatBack{
+
+    0%{
+
+        transform:
+            translate(-18px,-10px)
+            rotate(-0.5deg)
+            scale(1);
+
+    }
+
+    18%{
+
+        transform:
+            translate(-6px,-2px)
+            rotate(-0.2deg)
+            scale(1.01);
+
+    }
+
+    36%{
+
+        transform:
+            translate(8px,6px)
+            rotate(.15deg)
+            scale(1.018);
+
+    }
+
+    55%{
+
+        transform:
+            translate(20px,14px)
+            rotate(.55deg)
+            scale(1.03);
+
+    }
+
+    74%{
+
+        transform:
+            translate(10px,18px)
+            rotate(.2deg)
+            scale(1.02);
+
+    }
+
+    88%{
+
+        transform:
+            translate(-2px,10px)
+            rotate(-.1deg)
+            scale(1.01);
+
+    }
+
+    100%{
+
+        transform:
+            translate(-16px,2px)
+            rotate(-.45deg)
+            scale(1);
+
+    }
+
+}
+
+/* ======================================================
+   WINDOW SHADOW FRONT
+====================================================== */
+
+@keyframes shadowFloatFront{
+
+    0%{
+
+        transform:
+            translate(12px,-6px)
+            rotate(.2deg)
+            scale(1.03);
+
+    }
+
+    15%{
+
+        transform:
+            translate(18px,-2px)
+            rotate(.35deg)
+            scale(1.04);
+
+    }
+
+    32%{
+
+        transform:
+            translate(6px,8px)
+            rotate(.1deg)
+            scale(1.05);
+
+    }
+
+    48%{
+
+        transform:
+            translate(-8px,18px)
+            rotate(-.15deg)
+            scale(1.06);
+
+    }
+
+    67%{
+
+        transform:
+            translate(-20px,12px)
+            rotate(-.4deg)
+            scale(1.045);
+
+    }
+
+    84%{
+
+        transform:
+            translate(-10px,0px)
+            rotate(-.1deg)
+            scale(1.03);
+
+    }
+
+    100%{
+
+        transform:
+            translate(10px,-4px)
+            rotate(.2deg)
+            scale(1.03);
+
+    }
+
+}
+/* ======================================================
+   WATERCOLOR BACK
+====================================================== */
+
+@keyframes watercolorBloom{
+
+    0%{
+
+        transform:
+            scale(1.08)
+            translate(0px,0px);
+
+    }
+
+    20%{
+
+        transform:
+            scale(1.11)
+            translate(-12px,-8px);
+
+    }
+
+    40%{
+
+        transform:
+            scale(1.13)
+            translate(10px,14px);
+
+    }
+
+    60%{
+
+        transform:
+            scale(1.11)
+            translate(16px,-8px);
+
+    }
+
+    80%{
+
+        transform:
+            scale(1.09)
+            translate(-10px,8px);
+
+    }
+
+    100%{
+
+        transform:
+            scale(1.08)
+            translate(0px,0px);
+
+    }
+
+}
+
+/* ======================================================
+   WATERCOLOR FRONT
+====================================================== */
+
+@keyframes watercolorFloat{
+
+    0%{
+
+        transform:
+            translate(0px,0px);
+
+    }
+
+    20%{
+
+        transform:
+            translate(1px,-1px);
+
+    }
+
+    40%{
+
+        transform:
+            translate(-2px,2px);
+
+    }
+
+    60%{
+
+        transform:
+            translate(2px,1px);
+
+    }
+
+    80%{
+
+        transform:
+            translate(-1px,-1px);
+
+    }
+
+    100%{
+
+        transform:
+            translate(0px,0px);
+
+    }
+
+}

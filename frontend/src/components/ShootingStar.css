@@ -1,0 +1,60 @@
+.shooting-star{
+
+    position:absolute;
+
+    top:15%;
+    left:-200px;
+
+    width:140px;
+    height:2px;
+
+    pointer-events:none;
+
+    z-index:2;
+
+    opacity:0;
+
+    background:linear-gradient(
+        90deg,
+        rgba(255,255,255,.95),
+        rgba(255,235,180,.55),
+        rgba(255,255,255,0)
+    );
+
+    filter:blur(.8px);
+
+    transform:rotate(18deg);
+
+    animation:shooting 42s linear infinite;
+
+}
+
+@keyframes shooting{
+
+    0%,96%{
+
+        opacity:0;
+
+        transform:
+            translate(0,0)
+            rotate(18deg);
+
+    }
+
+    97%{
+
+        opacity:.9;
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:
+            translate(170vw,60vh)
+            rotate(18deg);
+
+    }
+
+}

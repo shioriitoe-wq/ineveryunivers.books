@@ -1,0 +1,45 @@
+.library-wrapper{
+
+    position:absolute;
+
+    inset:0;
+
+}
+
+/* ====================================================== */
+
+@media(max-width:1500px){
+
+    .library-wrapper{
+
+        transform:
+            translate(-50%,-50%)
+            scale(.92);
+
+    }
+
+}
+
+@media(max-width:1200px){
+
+    .library-wrapper{
+
+        transform:
+            translate(-50%,-50%)
+            scale(.82);
+
+    }
+
+}
+
+@media(max-width:900px){
+
+    .library-wrapper{
+
+        transform:
+            translate(-50%,-50%)
+            scale(.70);
+
+    }
+
+}

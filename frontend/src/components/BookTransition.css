@@ -1,0 +1,90 @@
+.book-transition{
+
+    position:relative;
+
+    width:100%;
+    height:100%;
+
+    overflow:hidden;
+
+    transform-origin:left center;
+
+    transform-style:preserve-3d;
+
+    perspective:3200px;
+
+    background:transparent;
+
+}
+
+.book-shadow{
+
+    position:absolute;
+
+    top:0;
+    right:0;
+
+    width:42px;
+    height:100%;
+
+    pointer-events:none;
+
+    opacity:0;
+
+    background:
+
+        linear-gradient(
+
+            to left,
+
+            rgba(0,0,0,.35),
+
+            rgba(0,0,0,.12),
+
+            transparent
+
+        );
+
+}
+
+.book-highlight{
+
+    position:absolute;
+
+    top:0;
+    right:0;
+
+    width:10px;
+    height:100%;
+
+    pointer-events:none;
+
+    opacity:0;
+
+    background:
+
+        linear-gradient(
+
+            to left,
+
+            rgba(255,244,215,.82),
+
+            rgba(255,244,215,.18),
+
+            transparent
+
+        );
+
+}
+
+.book-transition:hover .book-shadow{
+
+    opacity:1;
+
+}
+
+.book-transition:hover .book-highlight{
+
+    opacity:1;
+
+}
