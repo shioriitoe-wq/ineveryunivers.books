@@ -1,0 +1,320 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cormorant+Garamond:wght@300;400;500&display=swap');
+
+@font-face {
+  font-family: "Biro Script Plus";
+  src: url("../assets/fonts/biro-script-plus.woff2") format("woff2"),
+       url("../assets/fonts/biro-script-plus.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* =========================================================
+   CELÁ STRÁNKA – 4 PEVNÉ PANELY
+========================================================= */
+
+.chapters-page {
+  width: 100vw;
+  height: 100vh;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+
+  overflow: hidden;
+
+  background: #111;
+}
+
+
+/* =========================================================
+   JEDNOTLIVÉ PANELY
+========================================================= */
+
+.chapter-season {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   GIF – VŽDY JEN UVNITŘ SVÉHO PANELU
+========================================================= */
+
+.chapter-season-image {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+
+/* =========================================================
+   OBSAH PANELU
+========================================================= */
+
+.chapter-season-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 35px;
+
+  text-align: center;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   NÁZEV OBDOBÍ
+========================================================= */
+
+.chapter-season-overlay h2 {
+  margin: 0;
+
+  flex-shrink: 0;
+
+  color: white;
+
+  font-family: "Cormorant Garamond", Georgia, serif;
+
+  font-size: clamp(50px, 5vw, 90px);
+
+  font-weight: 500;
+
+  letter-spacing: 0.08em;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   SEZNAM KAPITOL
+========================================================= */
+
+.chapter-list {
+  display: none;
+
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+
+  max-height: calc(100% - 130px);
+
+  margin-top: 30px;
+
+  padding: 5px 25px 15px;
+
+  gap: 6px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: none;
+}
+
+.chapter-list::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* =========================================================
+   KAPITOLY SE OBJEVÍ POUZE PŘI NAJETÍ
+========================================================= */
+
+.chapter-season:hover .chapter-list {
+  display: flex;
+}
+
+
+/* =========================================================
+   JEDNOTLIVÉ KAPITOLY
+========================================================= */
+
+.chapter-list a {
+  flex-shrink: 0;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-family: "Biro Script Plus", cursive;
+
+  font-size: clamp(17px, 1.5vw, 25px);
+
+  line-height: 1.25;
+
+  white-space: nowrap;
+}
+
+.chapter-list a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   POZICE 4 PANELŮ
+========================================================= */
+
+.summer-season {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.autumn-season {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.winter-season {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.spring-season {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+
+/* =========================================================
+   SCROLL ŠIPKY
+========================================================= */
+
+.chapter-scroll-arrow {
+  position: absolute;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  z-index: 10;
+
+  color: white;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 30px;
+
+  line-height: 1;
+
+  pointer-events: none;
+
+  text-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.8);
+
+  opacity: 0;
+}
+
+
+/* =========================================================
+   ŠIPKY SE UKÁŽOU AŽ PO NAJETÍ NA PANEL
+========================================================= */
+
+.chapter-season:hover .chapter-scroll-arrow {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   ŠIPKA NAHORU
+========================================================= */
+
+.chapter-scroll-up {
+  top: 18px;
+}
+
+
+/* =========================================================
+   ŠIPKA DOLŮ
+========================================================= */
+
+.chapter-scroll-down {
+  bottom: 18px;
+}
+
+
+/* =========================================================
+   ZPĚT
+========================================================= */
+
+.chapters-back {
+  position: fixed;
+
+  top: 25px;
+  left: 25px;
+
+  z-index: 100;
+}
+
+.chapters-back .back-button {
+  color: #f3ead8 !important;
+}
+
+.chapters-back .back-button:hover {
+  color: #ffffff !important;
+}
+
+
+/* =========================================================
+   JEMNÝ NEONOVÝ EFEKT NÁZVŮ OBDOBÍ
+========================================================= */
+
+/* LÉTO – fialovomodrá */
+
+.summer-season .chapter-season-overlay h2 {
+  text-shadow:
+    0 0 5px rgba(126, 112, 255, 0.85),
+    0 0 12px rgba(93, 111, 255, 0.45);
+}
+
+
+/* PODZIM – oranžovočervená */
+
+.autumn-season .chapter-season-overlay h2 {
+  text-shadow:
+    0 0 5px rgba(214, 53, 9, 0.65),
+    0 0 12px rgba(180, 70, 30, 0.35);
+}
+
+
+/* ZIMA – světle modrá */
+
+.winter-season .chapter-season-overlay h2 {
+  text-shadow:
+    0 0 5px rgba(100, 232, 255, 0.65),
+    0 0 12px rgba(60, 150, 255, 0.35);
+}
+
+
+/* JARO – fialová */
+
+.spring-season .chapter-season-overlay h2 {
+  text-shadow:
+    0 0 5px rgba(118, 86, 183, 0.65),
+    0 0 12px rgba(107, 74, 198, 0.35);
+}

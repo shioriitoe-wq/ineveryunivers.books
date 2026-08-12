@@ -1,0 +1,1233 @@
+/* =========================================================
+   ZÁKLAD
+========================================================= */
+
+.summer-book-page {
+    width: 100%;
+    min-height: 100svh;
+    height: 100svh;
+
+    box-sizing: border-box;
+
+    color: #222;
+
+    overflow: hidden;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    font-family: Cormorant Garamond;
+}
+
+
+/* =========================================================
+   BEACH TEXTURE
+========================================================= */
+
+.summer-beach-texture {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+/* =========================================================
+   BLUE / ORANGE AKVAREL
+========================================================= */
+
+.summer-blue-orange {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: fill;
+
+    pointer-events: none;
+
+    z-index: 1;
+
+    opacity: 0;
+
+    animation: summerBlueOrangeAppear 10s ease-out forwards;
+}
+
+
+/* =========================================================
+   ANIMACE BLUE / ORANGE
+========================================================= */
+
+@keyframes summerBlueOrangeAppear {
+
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 0.08;
+    }
+
+    50% {
+        opacity: 0.2;
+    }
+
+    75% {
+        opacity: 0.35;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
+   STATICKÝ AKVAREL
+========================================================= */
+
+.summer-aquarel {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: fill;
+
+    pointer-events: none;
+
+    z-index: 2;
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   ZPĚT
+========================================================= */
+
+.summer-back button {
+
+    background: none;
+    border: none;
+
+    color: #3f7b94;
+
+    font-family: Cormorant Garamond;
+
+    font-size: 24px;
+
+    font-weight: 400;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   ZAČÍT ČÍST
+========================================================= */
+
+.summer-read-button {
+
+    position: relative;
+
+    left: 140px;
+    top: 40px;
+
+    width: auto;
+    height: auto;
+
+    padding: 0 !important;
+    margin: 0;
+
+    background: transparent !important;
+
+    border: none !important;
+    outline: none !important;
+
+    box-shadow: none !important;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    cursor: pointer;
+}
+
+
+.summer-start-read {
+
+    display: block;
+
+    width: 190px;
+    height: auto;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    outline: none;
+
+    box-shadow: none;
+
+    object-fit: contain;
+}
+
+
+.summer-start-read-text {
+
+    position: absolute;
+
+    left: 14%;
+    top: 52%;
+
+    transform: translate(-50%, -50%);
+
+    color: white;
+
+    font-family: Cormorant Garamond;
+
+    font-size: 16px;
+
+    font-weight: 400;
+
+    letter-spacing: 1px;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   HLAVNÍ HERO
+========================================================= */
+
+.summer-hero {
+
+    width: 100%;
+
+    height: 67vh;
+
+    min-height: 480px;
+
+    box-sizing: border-box;
+
+    display: grid;
+
+    grid-template-columns: 48% 52%;
+
+    align-items: center;
+
+    padding: 70px 7% 0;
+
+    position: relative;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   LEVÁ ČÁST – KRUH OBALU
+========================================================= */
+
+.summer-cover-area {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   OBAL – WRAPPER
+========================================================= */
+
+.summer-cover-wrapper {
+
+    position: relative;
+
+    width: min(340px, 26vw);
+
+    aspect-ratio: 1 / 1;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   SAMOTNÝ KRUH
+========================================================= */
+
+.summer-cover-circle {
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    border: none;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    color: #777;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 18px;
+
+    letter-spacing: 1px;
+
+    background: #fafafa;
+
+    position: relative;
+
+    z-index: 1;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   OBRÁZEK OBALU
+========================================================= */
+
+.summer-four-seasons {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    display: block;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   RÁMEČEK OBALU
+========================================================= */
+
+.summer-cover-frame {
+
+    position: absolute;
+
+    width: 123%;
+    height: 123%;
+
+    object-fit: contain;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    pointer-events: none;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   PRAVÁ ČÁST
+========================================================= */
+
+.summer-intro {
+
+    width: 100%;
+
+    max-width: 650px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    padding-left: 30px;
+}
+
+
+/* =========================================================
+   ŽÁNR
+========================================================= */
+
+.summer-genre {
+
+    font-family: "Cormorant Garamond";
+
+    font-size: 20px;
+
+    letter-spacing: 7px;
+
+    margin-bottom: 22px;
+
+    color: #222;
+}
+
+
+/* =========================================================
+   NÁZEV
+========================================================= */
+
+.summer-intro h1 {
+
+    margin: 0;
+
+    font-family: Cormorant Garamond;
+
+    font-size: 40px !important;
+
+    line-height: 0.98;
+
+    font-weight: 400;
+
+    letter-spacing: 2px;
+
+    background: linear-gradient(
+        90deg,
+        #19dce8 0%,
+        #19dce8 15%,
+        #f39a4a 65%,
+        #f39a4a 100%
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   LINKA
+========================================================= */
+
+.summer-divider {
+
+    width: 100%;
+
+    height: 1px;
+
+    background: #999;
+
+    margin-top: 32px;
+
+    margin-bottom: 26px;
+}
+
+
+/* =========================================================
+   POPIS
+========================================================= */
+
+.summer-description {
+
+    font-family: "Biro Script Plus";
+
+    font-size: clamp(24px, 1.9vw, 32px);
+
+    line-height: 1.65;
+
+    margin: 0;
+
+    color: #3f7b94;
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    text-align: left;
+    display: block;
+}
+
+
+.summer-description p {
+
+    margin: 0;
+
+    width: 100%;
+    
+    text-align: left;
+}
+.summer-description p span {
+    display: block;
+}
+
+
+/* =========================================================
+   ZAČÍT ČÍST – ZÁKLAD
+========================================================= */
+
+.summer-read-button {
+
+    width: 100%;
+
+    max-width: 520px;
+
+    height: 76px;
+
+    margin-top: 28px;
+
+    border: 1px solid #999;
+
+    background: #ddd;
+
+    color: #fff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 30px;
+
+    box-sizing: border-box;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 21px;
+
+    cursor: pointer;
+}
+
+
+.summer-read-button span:first-child {
+
+    letter-spacing: 1px;
+}
+
+
+.summer-arrow {
+
+    font-size: 30px;
+}
+
+
+/* =========================================================
+   SPODNÍ ČTYŘI PANELY
+========================================================= */
+
+.summer-panels {
+
+    width: 100%;
+
+    height: 30vh;
+
+    min-height: 190px;
+
+    box-sizing: border-box;
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    align-items: center;
+
+    gap: 5%;
+
+    padding: 0 8% 45px;
+
+    position: relative;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   JEDEN PANEL – BEZ ELIPSY
+========================================================= */
+
+.summer-panel {
+
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    max-width: 210px;
+
+    justify-self: center;
+
+    border-radius: 50%;
+
+    border: none;
+
+    background: transparent;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    position: relative;
+
+    overflow: hidden;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   WRAPPER PANELU
+========================================================= */
+
+.summer-panel-wrapper {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 210px;
+
+    aspect-ratio: 1 / 1;
+
+    justify-self: center;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    transition:
+        transform 0.45s ease;
+}
+
+
+/* =========================================================
+   OBRÁZEK VE SPODNÍM KRUHU
+========================================================= */
+
+.summer-panel-image {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    display: block;
+
+    pointer-events: none;
+
+    z-index: 1;
+
+    transition:
+        transform 0.45s ease,
+        filter 0.45s ease;
+}
+
+
+/* =========================================================
+   RÁMEČEK
+========================================================= */
+
+.summer-panel-frame {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 120%;
+    height: 120%;
+
+    object-fit: contain;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(0deg);
+
+    transform-origin: center center;
+
+    pointer-events: none;
+
+    z-index: 10;
+
+    transition:
+        filter 0.45s ease;
+}
+
+
+/* =========================================================
+   AZUROVĚ-ORANŽOVÁ ZÁŘE
+========================================================= */
+
+.summer-panel-wrapper::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 110%;
+    height: 110%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+
+        radial-gradient(
+            circle at 35% 40%,
+            rgba(25, 220, 232, 0.32),
+            transparent 52%
+        ),
+
+        radial-gradient(
+            circle at 70% 65%,
+            rgba(243, 154, 74, 0.28),
+            transparent 52%
+        );
+
+    filter: blur(18px);
+
+    opacity: 0;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+}
+
+
+.summer-panel-wrapper:hover::before {
+
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1.08);
+}
+
+
+/* =========================================================
+   HOVER – LEHKÉ ZVĚTŠENÍ PANELU
+========================================================= */
+
+.summer-panel-wrapper:hover {
+
+    transform: scale(1.045);
+}
+
+
+/* =========================================================
+   HOVER – OBRÁZEK
+========================================================= */
+
+.summer-panel-wrapper:hover .summer-panel-image {
+
+    transform: scale(1.045);
+
+    filter:
+
+        drop-shadow(
+            0 0 10px
+            rgba(25, 220, 232, .35)
+        )
+
+        drop-shadow(
+            0 0 14px
+            rgba(243, 154, 74, .30)
+        );
+}
+
+
+/* =========================================================
+   HOVER – RÁMEČEK
+========================================================= */
+
+.summer-panel-wrapper:hover .summer-panel-frame {
+
+    animation:
+        summerFrameRotate
+        5s linear infinite;
+
+    filter:
+
+        drop-shadow(
+            0 0 7px
+            rgba(25, 220, 232, .45)
+        )
+
+        drop-shadow(
+            0 0 9px
+            rgba(243, 154, 74, .35)
+        );
+}
+
+
+/* =========================================================
+   OTÁČENÍ RÁMEČKU
+   DŮLEŽITÉ:
+   translate(-50%, -50%) JE SOUČÁSTÍ ANIMACE,
+   TAKŽE SE RÁMEČEK NEPOSUNE DO STRANY.
+========================================================= */
+
+@keyframes summerFrameRotate {
+
+    from {
+
+        transform:
+            translate(-50%, -50%)
+            rotate(0deg);
+
+    }
+
+    to {
+
+        transform:
+            translate(-50%, -50%)
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   NÁZVY SPODNÍCH PANELŮ
+========================================================= */
+
+.summer-panel-label {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: calc(100% + 12px);
+
+    transform: translateX(-50%);
+
+    width: 180%;
+
+    text-align: center;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    letter-spacing: 3px;
+
+    font-weight: 500;
+
+    background: linear-gradient(
+
+        90deg,
+
+        #19dce8 0%,
+
+        #19dce8 25%,
+
+        #f39a4a 55%,
+
+        #f39a4a 100%
+
+    );
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    white-space: nowrap;
+
+    z-index: 100;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   VLNA – DOLNÍ PRAVÝ ROH
+========================================================= */
+
+.summer-waves {
+
+    position: absolute;
+
+    right: 0;
+
+    bottom: 0;
+
+    width: 48%;
+
+    height: auto;
+
+    pointer-events: none;
+
+    z-index: 3;
+
+    transform-origin: bottom right;
+
+    animation:
+
+        summerWaveMove
+        15s ease-in-out infinite,
+
+        summerWaveSoft
+        12s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   VELMI POMALÝ POHYB VLNY
+========================================================= */
+
+@keyframes summerWaveMove {
+
+    0% {
+
+        transform:
+            scale(1.04)
+            translate3d(0, 0, 0)
+            rotate(0deg);
+
+    }
+
+    25% {
+
+        transform:
+            scale(1.04)
+            translate3d(-2px, 1px, 0)
+            rotate(-0.15deg);
+
+    }
+
+    50% {
+
+        transform:
+            scale(1.04)
+            translate3d(1px, -1px, 0)
+            rotate(0.12deg);
+
+    }
+
+    75% {
+
+        transform:
+            scale(1.04)
+            translate3d(-1px, 1px, 0)
+            rotate(-0.1deg);
+
+    }
+
+    100% {
+
+        transform:
+            scale(1.04)
+            translate3d(0, 0, 0)
+            rotate(0deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   JEMNÉ ROZPÍVÁNÍ / ZOSTŘOVÁNÍ
+========================================================= */
+
+@keyframes summerWaveSoft {
+
+    0% {
+
+        opacity: 0.88;
+
+        filter: blur(0px);
+
+    }
+
+    30% {
+
+        opacity: 0.94;
+
+        filter: blur(0.25px);
+
+    }
+
+    50% {
+
+        opacity: 0.84;
+
+        filter: blur(0.7px);
+
+    }
+
+    70% {
+
+        opacity: 0.94;
+
+        filter: blur(0.2px);
+
+    }
+
+    100% {
+
+        opacity: 0.88;
+
+        filter: blur(0px);
+
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .summer-hero {
+
+        grid-template-columns: 42% 58%;
+
+        padding-left: 5%;
+
+        padding-right: 5%;
+    }
+
+
+    .summer-cover-circle {
+
+        width: min(330px, 32vw);
+    }
+
+
+    .summer-intro {
+
+        padding-left: 15px;
+    }
+
+
+    .summer-panels {
+
+        padding-left: 5%;
+
+        padding-right: 5%;
+
+        gap: 3%;
+    }
+
+
+    .summer-panel-wrapper {
+
+        max-width: 170px;
+    }
+
+
+    .summer-panel-label {
+
+        font-size: 18px;
+
+        letter-spacing: 2.5px;
+    }
+
+}
+
+
+/* =========================================================
+   MENŠÍ OBRAZOVKY
+========================================================= */
+
+@media (max-height: 750px) {
+
+    .summer-back {
+
+        top: 18px;
+
+        left: 28px;
+    }
+
+
+    .summer-hero {
+
+        height: 65vh;
+
+        min-height: 0;
+
+        padding-top: 55px;
+    }
+
+
+    .summer-cover-circle {
+
+        width: min(330px, 27vw);
+    }
+
+
+    .summer-genre {
+
+        font-size: 17px;
+
+        margin-bottom: 14px;
+    }
+
+
+    .summer-intro h1 {
+
+        font-size: clamp(
+            42px,
+            4.5vw,
+            62px
+        );
+    }
+
+
+    .summer-divider {
+
+        margin-top: 20px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .summer-description {
+
+        font-size: 18px;
+    }
+
+
+    .summer-read-button {
+
+        height: 60px;
+
+        margin-top: 18px;
+    }
+
+
+    .summer-panels {
+
+        height: 32vh;
+
+        min-height: 150px;
+
+        padding-bottom: 55px;
+    }
+
+
+    .summer-panel-wrapper {
+
+        max-width: 150px;
+    }
+
+
+    .summer-panel-label {
+
+        font-size: 17px;
+
+        letter-spacing: 2px;
+
+        top: calc(100% + 10px);
+    }
+
+}
+/* =========================================================
+   TLAČÍTKO VEDLE TEXTU – OPRAVA POZICE
+========================================================= */
+
+.summer-intro {
+    position: relative;
+}
+
+.summer-read-button {
+    position: absolute !important;
+
+    left: auto !important;
+    right: 20px !important;
+    top: 54% !important;
+
+    width: 190px !important;
+    height: auto !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+
+    display: block !important;
+}
+
+.summer-start-read {
+    display: block;
+    width: 190px;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.summer-start-read-text {
+    left: 50%;
+    top: 52%;
+    transform: translate(-50%, -50%);
+}
+
+.summer-panel-wrapper {
+    text-decoration: none;
+    color: inherit;
+}

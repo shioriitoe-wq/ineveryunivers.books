@@ -34,17 +34,19 @@ function BookGrid() {
 
             <BookCircle
                 title="(Ne)začalo to..."
+                hoverTitle="Kluci, city a absolutní nedostatek zdravého rozumu."
                 image={nezacalo}
                 frame={sageFrame}
                 watercolor={sageWatercolor}
                 splatter={sageSplatter}
                 titleClass="large"
                 titleColor="#d7cfbb"
-                link="/books/nezacalo"
+                link="/books/nezacalo-series"
             />
 
             <BookCircle
                 title="Vespera"
+                hoverTitle="Genetická apokalypsa. Nadpřirozené schopnosti. Běžná sobota."
                 image={vespera}
                 frame={silverFrame}
                 watercolor={silverWatercolor}
@@ -55,6 +57,7 @@ function BookGrid() {
 
             <BookCircle
                 title="AEIL"
+                hoverTitle="Magie existuje. Bohužel s ní přišly i následky."
                 image={aeil}
                 frame={redFrame}
                 watercolor={redWatercolor}

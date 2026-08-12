@@ -1,0 +1,1511 @@
+﻿@font-face {
+  font-family: "Biro Script Plus";
+  src: url("../assets/fonts/biro-script-plus.woff2") format("woff2"),
+       url("../assets/fonts/biro-script-plus.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cormorant+Garamond:wght@300;400;500&display=swap');
+
+
+/* =========================================================
+   HLAVNÍ STRÁNKA
+   ========================================================= */
+
+.books-series-page {
+  position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+
+    background-image: url("../assets/images/texture.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    isolation: isolate;
+}.books-series-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 35%,
+            rgba(0, 0, 0, 0.12) 55%,
+            rgba(0, 0, 0, 0.48) 100%
+        );
+
+    pointer-events: none;
+    z-index: 0;
+}
+.books-series-page::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            ellipse 38% 55% at 18% 45%,
+            rgba(205, 220, 215, 0.16) 0%,
+            rgba(205, 220, 215, 0.08) 28%,
+            rgba(205, 220, 215, 0.025) 52%,
+            transparent 75%
+        );
+
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* =========================================================
+   HLUBŠÍ STŘED + TMAVÉ OKRAJE
+   ========================================================= */
+
+.books-series-page::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: -4;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at center 45% 45%,
+      rgba(122, 108, 95, 0.22) 0%,
+      rgba(81, 70, 59, 0.10) 42%,
+      rgba(42, 35, 30, 0.30) 75%,
+      rgba(20, 17, 14, 0.68) 100%
+    );
+
+  box-shadow:
+    inset 0 0 180px rgba(18, 14, 11, 0.72),
+    inset 0 0 80px rgba(20, 16, 13, 0.38);
+}
+
+
+/* =========================================================
+   POMÁČKANÝ PAPÍR — HLAVNÍ PNG TEXTURA
+   ========================================================= */
+
+.paper-texture {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 0;
+
+  pointer-events: none;
+
+  background-repeat: repeat;
+
+  /*
+     MENŠÍ ČÍSLO = textura je výraznější / hustší
+     VĚTŠÍ ČÍSLO = textura je jemnější / větší
+  */
+  background-size: 520px auto;
+
+  background-position: center center;
+
+  /*
+     HLAVNÍ SÍLA TEXTURY
+  */
+  opacity: 0.78;
+
+  /*
+     Textura se smíchá s hnědým pozadím.
+  */
+  mix-blend-mode: soft-light;
+}
+
+
+/* =========================================================
+   DRUHÁ JEMNÁ VRSTVA POZADÍ
+   ========================================================= */
+
+.books-series-page::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: -2;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 244, 225, 0.035) 0%,
+      transparent 60%
+    );
+
+  opacity: 0.9;
+}
+
+
+/* =========================================================
+   ATMOSFÉRA
+   ========================================================= */
+
+.background-atmosphere {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 42%,
+      rgba(180, 160, 138, 0.075) 0%,
+      rgba(120, 108, 95, 0.035) 30%,
+      transparent 68%
+    );
+
+  opacity: 1;
+}
+
+
+/* =========================================================
+   VRSTVY NAD TEXTUROU
+   ========================================================= */
+
+/*
+   DŮLEŽITÉ:
+   Už zde NENÍ obecné:
+
+   .books-series-page > * {
+     position: relative;
+   }
+
+   protože by přepsalo position: fixed u .paper-texture.
+*/
+
+.books-series-page .paper-texture {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 0;
+
+  pointer-events: none;
+}
+
+.books-series-page .background-atmosphere {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+.books-series-page .series-header {
+  position: relative;
+  z-index: 15;
+}
+
+.books-series-page .series-panels {
+  position: relative;
+  z-index: 8;
+}
+
+.books-series-page .series-footer {
+  position: absolute;
+  z-index: 15;
+}
+
+.books-series-page .series-sparkles {
+  position: fixed;
+  z-index: 20;
+}
+
+
+/* =========================================================
+   TŘPYTKY
+   ========================================================= */
+
+.series-sparkles {
+  position: fixed;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+
+  z-index: 20;
+
+  overflow: hidden;
+}
+
+.sparkle {
+  position: absolute;
+
+  display: block;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  transform: translate3d(0, 0, 0);
+
+  will-change:
+    transform,
+    opacity,
+    filter;
+
+  animation-name: sparkleFloat;
+
+  animation-timing-function: ease-in-out;
+
+  animation-iteration-count: infinite;
+}
+
+
+/* =========================================================
+   TŘPYTKY — VELIKOST
+   ========================================================= */
+
+.sparkle.tiny {
+  width: 2px;
+  height: 2px;
+}
+
+.sparkle.medium {
+  width: 4px;
+  height: 4px;
+}
+
+.sparkle.large {
+  width: 7px;
+  height: 7px;
+}
+
+
+/* =========================================================
+   TŘPYTKY — BARVY
+   ========================================================= */
+
+.sparkle.c-summer {
+  background: rgba(113, 235, 154, 0.95);
+
+  box-shadow:
+    0 0 4px rgba(205, 238, 216, 0.95),
+    0 0 10px rgba(205, 238, 216, 0.52);
+}
+
+.sparkle.c-message {
+  background: rgba(239, 131, 185, 0.95);
+
+  box-shadow:
+    0 0 4px rgba(244, 183, 214, 0.95),
+    0 0 11px rgba(244, 183, 214, 0.52);
+}
+
+.sparkle.c-dream {
+  background: rgba(168, 130, 239, 0.95);
+
+  box-shadow:
+    0 0 4px rgba(205, 184, 244, 0.95),
+    0 0 11px rgba(205, 184, 244, 0.52);
+}
+
+.sparkle.c-story {
+  background: rgba(241, 206, 143, 0.95);
+
+  box-shadow:
+    0 0 4px rgba(235, 222, 198, 0.95),
+    0 0 10px rgba(235, 222, 198, 0.48);
+}
+
+.sparkle.c-blue {
+  background: rgba(96, 158, 228, 0.95);
+
+  box-shadow:
+    0 0 4px rgba(178, 210, 247, 0.95),
+    0 0 11px rgba(178, 210, 247, 0.52);
+}
+
+
+/* =========================================================
+   POZICE MALÝCH TŘPYTEK
+   ========================================================= */
+
+.s1  { left: 8%;  top: 14%; animation-duration: 8s;  animation-delay: -2s; }
+.s2  { left: 17%; top: 31%; animation-duration: 11s; animation-delay: -7s; }
+.s3  { left: 29%; top: 10%; animation-duration: 9s;  animation-delay: -4s; }
+.s4  { left: 42%; top: 24%; animation-duration: 13s; animation-delay: -9s; }
+.s5  { left: 55%; top: 12%; animation-duration: 10s; animation-delay: -5s; }
+
+.s6  { left: 67%; top: 28%; animation-duration: 12s; animation-delay: -8s; }
+.s7  { left: 79%; top: 15%; animation-duration: 9s;  animation-delay: -3s; }
+.s8  { left: 91%; top: 36%; animation-duration: 14s; animation-delay: -10s; }
+.s9  { left: 12%; top: 57%; animation-duration: 10s; animation-delay: -6s; }
+.s10 { left: 24%; top: 72%; animation-duration: 12s; animation-delay: -1s; }
+
+.s11 { left: 38%; top: 54%; animation-duration: 9s;  animation-delay: -5s; }
+.s12 { left: 51%; top: 68%; animation-duration: 14s; animation-delay: -11s; }
+.s13 { left: 63%; top: 51%; animation-duration: 11s; animation-delay: -4s; }
+.s14 { left: 76%; top: 74%; animation-duration: 10s; animation-delay: -7s; }
+.s15 { left: 88%; top: 61%; animation-duration: 13s; animation-delay: -9s; }
+
+.s16 { left: 6%;  top: 84%; animation-duration: 12s; animation-delay: -3s; }
+.s17 { left: 20%; top: 91%; animation-duration: 9s;  animation-delay: -6s; }
+.s18 { left: 45%; top: 87%; animation-duration: 14s; animation-delay: -10s; }
+.s19 { left: 69%; top: 92%; animation-duration: 11s; animation-delay: -5s; }
+.s20 { left: 94%; top: 82%; animation-duration: 13s; animation-delay: -8s; }
+
+
+/* =========================================================
+   POZICE STŘEDNÍCH TŘPYTEK
+   ========================================================= */
+
+.s21 { left: 14%; top: 18%; animation-duration: 15s; animation-delay: -6s; }
+.s22 { left: 34%; top: 38%; animation-duration: 12s; animation-delay: -3s; }
+.s23 { left: 58%; top: 20%; animation-duration: 17s; animation-delay: -11s; }
+.s24 { left: 82%; top: 43%; animation-duration: 14s; animation-delay: -7s; }
+.s25 { left: 7%;  top: 48%; animation-duration: 16s; animation-delay: -10s; }
+
+.s26 { left: 27%; top: 61%; animation-duration: 13s; animation-delay: -5s; }
+.s27 { left: 47%; top: 45%; animation-duration: 18s; animation-delay: -13s; }
+.s28 { left: 71%; top: 63%; animation-duration: 15s; animation-delay: -8s; }
+.s29 { left: 93%; top: 55%; animation-duration: 17s; animation-delay: -4s; }
+.s30 { left: 16%; top: 79%; animation-duration: 14s; animation-delay: -9s; }
+
+.s31 { left: 39%; top: 76%; animation-duration: 19s; animation-delay: -12s; }
+.s32 { left: 61%; top: 84%; animation-duration: 13s; animation-delay: -6s; }
+.s33 { left: 80%; top: 88%; animation-duration: 16s; animation-delay: -11s; }
+.s34 { left: 52%; top: 34%; animation-duration: 15s; animation-delay: -7s; }
+.s35 { left: 87%; top: 25%; animation-duration: 18s; animation-delay: -14s; }
+
+
+/* =========================================================
+   VELKÉ TŘPYTKY
+   ========================================================= */
+
+.s36 {
+  left: 22%;
+  top: 19%;
+  animation-duration: 18s;
+  animation-delay: -9s;
+}
+
+.s37 {
+  left: 74%;
+  top: 35%;
+  animation-duration: 21s;
+  animation-delay: -13s;
+}
+
+.s38 {
+  left: 32%;
+  top: 67%;
+  animation-duration: 20s;
+  animation-delay: -6s;
+}
+
+.s39 {
+  left: 64%;
+  top: 77%;
+  animation-duration: 23s;
+  animation-delay: -16s;
+}
+
+.s40 {
+  left: 90%;
+  top: 70%;
+  animation-duration: 19s;
+  animation-delay: -11s;
+}
+
+
+/* =========================================================
+   POHYB TŘPYTEK
+   ========================================================= */
+
+@keyframes sparkleFloat {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate3d(-15px, 12px, 0)
+      scale(0.65);
+
+    filter: blur(0.4px);
+  }
+
+  12% {
+    opacity: 0.45;
+  }
+
+  25% {
+    opacity: 0.12;
+
+    transform:
+      translate3d(20px, -18px, 0)
+      scale(0.85);
+  }
+
+  42% {
+    opacity: 0.65;
+  }
+
+  58% {
+    opacity: 0.18;
+
+    transform:
+      translate3d(-24px, -38px, 0)
+      scale(1);
+  }
+
+  73% {
+    opacity: 0.5;
+  }
+
+  86% {
+    opacity: 0.08;
+
+    transform:
+      translate3d(28px, -55px, 0)
+      scale(0.7);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate3d(-18px, -75px, 0)
+      scale(0.55);
+
+    filter: blur(0.6px);
+  }
+}
+
+
+/* =========================================================
+   HLAVIČKA
+   ========================================================= */
+
+.series-header {
+  position: relative;
+
+  z-index: 15;
+
+  width: 100%;
+
+  padding:
+    18px
+    4.5%
+    0;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HORNÍ ŘÁDEK
+   ========================================================= */
+
+.series-top-row {
+  position: relative;
+
+  width: 100%;
+
+  min-height: 44px;
+
+  display: flex;
+
+  align-items: center;
+
+  border: none;
+}
+
+
+/* =========================================================
+   ZPĚT — VLEVO
+   ========================================================= */
+
+.series-top-row .back-button,
+.series-top-row a {
+
+  position: absolute;
+
+  left: 0;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: 24px;
+
+  font-weight: 400;
+
+  letter-spacing: 0.04em;
+
+  color: #cdb385b8;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.series-top-row .back-button:hover,
+.series-top-row a:hover {
+  color: rgba(224, 182, 108, 0.95);
+}
+
+
+/* =========================================================
+   INEVERYUNIVERS.BOOKS — VPRAVO
+   ========================================================= */
+
+.series-site-name {
+
+  position: absolute;
+
+  right: 0;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: 25px;
+
+  font-weight: 300;
+
+  letter-spacing: 0.12em;
+
+  color: #cdb385b8;
+
+  white-space: nowrap;
+
+  text-align: right;
+
+  text-shadow:
+    0 1px 1px rgba(255, 240, 215, 0.08),
+    0 -1px 1px rgba(25, 15, 5, 0.22);
+}
+
+
+/* =========================================================
+   LOGO S VÁŽKOU
+   ========================================================= */
+
+.series-logo-wrap {
+
+  position: absolute;
+
+  z-index: 16;
+
+  left: 50%;
+
+  top: 20px;
+
+  transform: translateX(-50%);
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  width: 180px;
+  height: 180px;
+
+  pointer-events: none;
+}
+
+.series-logo {
+
+  width: 170px;
+  height: 170px;
+
+  object-fit: contain;
+
+  opacity: 0.58;
+
+  filter:
+    drop-shadow(
+      0 1px 2px rgba(255, 239, 202, 0.12)
+    )
+    drop-shadow(
+      0 -2px 4px rgba(20, 10, 0, 0.30)
+    );
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+/* =========================================================
+   PANELY
+   ========================================================= */
+
+.series-panels {
+  position: relative;
+  z-index: 8;
+
+  width: min(72vw, 1050px);
+
+  height: calc(100vh - 205px);
+
+  margin:
+    58px
+    auto
+    0;
+
+  display: grid;
+
+  grid-template-columns: 1fr;
+
+  grid-template-rows:
+    repeat(5, minmax(0, 1fr));
+
+  gap: clamp(2px, 0.5vh, 7px);
+
+  align-content: center;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   JEDNOTLIVÝ PANEL
+   ========================================================= */
+
+.series-panel {
+
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  min-height: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  background: transparent;
+
+  border-radius: 0;
+
+  box-shadow: none;
+
+  overflow: visible;
+
+  cursor: pointer;
+
+  isolation: isolate;
+
+  --neon-color: #f5f5eb;
+
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.45s ease;
+}
+
+
+/* =========================================================
+   PANEL — STÍN
+   ========================================================= */
+
+.series-panel::before {
+
+  content: "";
+
+  position: absolute;
+
+  z-index: -2;
+
+  left: 8%;
+  right: 8%;
+
+  top: 25%;
+  bottom: 15%;
+
+  background:
+    rgba(18, 12, 8, 0.78);
+
+  border-radius: 50%;
+
+  filter: blur(22px);
+
+  opacity: 0.82;
+
+  transform:
+    translateY(13px)
+    scale(0.95);
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease,
+    filter 0.45s ease;
+}
+
+
+.series-panel::after {
+
+  content: "";
+
+  position: absolute;
+
+  z-index: -3;
+
+  left: 12%;
+  right: 12%;
+
+  bottom: 8%;
+
+  height: 28%;
+
+  background:
+    rgba(14, 9, 6, 0.60);
+
+  border-radius: 50%;
+
+  filter: blur(28px);
+
+  opacity: 0.68;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   PNG ŠTĚTEC
+   ========================================================= */
+
+.brush-panel {
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 100%;
+  height: 100%;
+
+  transform:
+    translate(-50%, -50%);
+
+  object-fit: fill;
+
+  pointer-events: none;
+
+  z-index: 1;
+
+  filter:
+  drop-shadow(0 10px 24px rgba(20, 12, 8, 0.22))
+  drop-shadow(0 3px 10px rgba(20, 12, 8, 0.12));
+
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.45s ease,
+    opacity 0.45s ease;
+}
+
+
+/* =========================================================
+   TEXT V PANELECH
+   ========================================================= */
+
+.series-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* oba texty jsou přesně na stejném místě */
+
+.series-panel .panel-text {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  /* TADY SE ŘÍDÍ POZICE TEXTU */
+  padding-left: 170px;
+
+  transform: rotate(-1deg) translateY(-5px);
+
+  z-index: 2;
+
+  font-family: "Biro Script Plus", cursive;
+  font-weight: 300;
+  font-style: normal;
+
+  text-align: left;
+  white-space: nowrap;
+
+  /* původní velikost */
+  font-size: clamp(42px, 3.5vw, 64px);
+  line-height: 1;
+
+  letter-spacing: 0.02em;
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+
+/* =========================================================
+   NORMÁLNÍ TEXT
+   ========================================================= */
+
+.panel-text-normal {
+  opacity: 1;
+  transform: translateY(-5px);
+}
+
+
+/* =========================================================
+   TEXT PO NAJETÍ
+   ========================================================= */
+
+.panel-text-hover {
+  opacity: 0;
+  transform: translateY(5px);
+}
+
+
+/* =========================================================
+   HOVER – PROHOZENÍ TEXTŮ
+   ========================================================= */
+
+.series-panel:hover .panel-text-normal {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.series-panel:hover .panel-text-hover {
+  opacity: 1;
+  transform: translateY(-5px);
+}
+/* =========================================
+   NEON TEXT – JEDNOTLIVÉ PANELY
+   ========================================= */
+
+.panel-summer span {
+  color: #f19aec;
+
+  text-shadow:
+    0 0 4px rgba(232, 45, 123, 0.95),
+    0 0 10px rgba(255, 143, 200, 0.85),
+    0 0 22px rgba(255, 143, 200, 0.65),
+    0 0 70px rgba(255, 143, 200, 0.40);
+}
+
+
+.panel-message span {
+  color: hsl(231, 75%, 57%);
+
+  text-shadow:
+    0 0 4px rgba(143, 168, 255, 0.95),
+    0 0 10px rgba(143, 168, 255, 0.85),
+    0 0 22px rgba(143, 168, 255, 0.65),
+    0 0 38px rgba(143, 168, 255, 0.40);
+}
+
+
+.panel-dream span {
+  color: #76f5d0;
+
+  text-shadow:
+    0 0 4px rgba(118, 245, 208, 0.95),
+    0 0 10px rgba(118, 245, 208, 0.85),
+    0 0 22px rgba(118, 245, 208, 0.65),
+    0 0 38px rgba(118, 245, 208, 0.40);
+}
+
+
+.panel-story span {
+  color: #6250d4;
+
+  text-shadow:
+    0 0 4px rgba(156, 140, 255, 0.95),
+    0 0 10px rgba(156, 140, 255, 0.85),
+    0 0 22px rgba(156, 140, 255, 0.65),
+    0 0 38px rgba(156, 140, 255, 0.40);
+}
+
+
+.panel-story-blue span {
+  color: #bfd5f1;
+
+  text-shadow:
+    0 0 4px rgba(164, 198, 240, 0.95),
+    0 0 10px rgba(156, 199, 251, 0.85),
+    0 0 22px rgba(161, 193, 232, 0.65),
+    0 0 38px rgba(184, 216, 255, 0.40);
+}
+
+
+/* =========================================================
+   HOVER PANEL
+   ========================================================= */
+
+.series-panel:hover {
+
+  transform:
+    scale(1.018);
+
+  filter:
+    brightness(1.04)
+    saturate(1.05);
+}
+
+
+
+
+
+.series-panel:hover .brush-panel {
+  transform:
+    translate(-50%, -50%)
+    scale(1.018);
+
+  filter:
+    drop-shadow(0 10px 24px rgba(20, 12, 8, 0.22))
+    drop-shadow(0 3px 10px rgba(20, 12, 8, 0.12));
+}
+
+
+.series-panel:hover span {
+
+  transform: scale(1.025);
+
+  text-shadow:
+
+    -1px -1px 0 rgba(55, 35, 20, 0.92),
+     1px -1px 0 rgba(55, 35, 20, 0.92),
+    -1px  1px 0 rgba(55, 35, 20, 0.92),
+     1px  1px 0 rgba(55, 35, 20, 0.92),
+
+    0 0 5px var(--neon-color),
+    0 0 13px var(--neon-color),
+    0 0 28px var(--neon-color);
+}
+
+
+/* =========================================================
+   SPODNÍ ČÁST
+   ========================================================= */
+
+.series-footer {
+
+  position: absolute;
+
+  z-index: 15;
+
+  left: 4.5%;
+  right: 4.5%;
+
+  bottom: 20px;
+
+  width: auto;
+
+  margin: 0;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   SPODNÍ LINKA
+   ========================================================= */
+
+.series-footer-line {
+
+  width: 100%;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(184, 139, 70, 0.48) 12%,
+      rgba(184, 139, 70, 0.58) 88%,
+      transparent 100%
+    );
+
+  margin-bottom: 12px;
+}
+
+
+/* =========================================================
+   VYBER, KDE ZAČÍT
+   ========================================================= */
+
+.series-footer-content {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  align-items: center;
+
+  gap: 9px;
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: 17px;
+
+  font-weight: 300;
+
+  letter-spacing: 0.18em;
+
+  color: #cdb385b8;
+
+  text-shadow:
+    0 1px 1px rgba(255, 226, 174, 0.05),
+    0 -1px 1px rgba(20, 10, 0, 0.18);
+}
+
+
+/* =========================================================
+   MALÉ BÍLÉ NEONOVÉ SRDÍČKO
+   ========================================================= */
+
+.series-heart {
+
+  display: inline-block;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size: 15px;
+
+  line-height: 1;
+
+  letter-spacing: 0;
+
+  color: #ffffff;
+
+  transform:
+    translateY(-1px);
+
+  text-shadow:
+    0 0 3px #ffffff,
+    0 0 7px rgba(255, 255, 255, 0.95),
+    0 0 14px rgba(255, 255, 255, 0.65),
+    0 0 22px rgba(255, 255, 255, 0.35);
+
+  animation:
+    heartGlow 3.4s ease-in-out infinite;
+}
+
+
+@keyframes heartGlow {
+
+  0%,
+  100% {
+
+    opacity: 0.65;
+
+    text-shadow:
+      0 0 3px #ffffff,
+      0 0 7px rgba(255, 255, 255, 0.65),
+      0 0 14px rgba(255, 255, 255, 0.35);
+  }
+
+  50% {
+
+    opacity: 1;
+
+    text-shadow:
+      0 0 4px #ffffff,
+      0 0 9px #ffffff,
+      0 0 18px rgba(255, 255, 255, 0.75),
+      0 0 28px rgba(255, 255, 255, 0.35);
+  }
+}
+
+
+/* =========================================================
+   RESPONZIVITA
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+  .series-panels {
+    width: 78vw;
+  }
+
+  .series-panel span {
+    font-size: clamp(23px, 2.7vw, 34px);
+  }
+
+  .series-logo {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+
+@media (max-width: 700px) {
+
+  .series-header {
+
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .series-site-name {
+    font-size: 18px;
+  }
+
+  .series-top-row .back-button,
+  .series-top-row a {
+    font-size: 20px;
+  }
+
+  .series-logo-wrap {
+
+    top: 16px;
+
+    width: 110px;
+    height: 110px;
+  }
+
+  .series-logo {
+
+    width: 100px;
+    height: 100px;
+  }
+
+  .series-panels {
+
+    width: 88vw;
+
+    height: calc(100vh - 175px);
+
+    margin-top: 42px;
+
+    gap: 1px;
+  }
+
+  .series-panel span {
+    font-size: clamp(18px, 4vw, 27px);
+  }
+
+  .series-footer {
+
+    left: 25px;
+    right: 25px;
+  }
+}
+
+
+@media (max-height: 750px) {
+
+  .series-header {
+    padding-top: 10px;
+  }
+
+  .series-panels {
+
+    height: calc(100vh - 165px);
+
+    margin-top: 40px;
+
+    gap: 0;
+  }
+
+  .series-logo-wrap {
+
+    top: 8px;
+
+    width: 110px;
+    height: 110px;
+  }
+
+  .series-logo {
+
+    width: 100px;
+    height: 100px;
+  }
+
+  .series-panel span {
+    font-size: clamp(21px, 2vw, 32px);
+  }
+
+  .series-footer {
+    bottom: 10px;
+  }
+}
+
+
+/* =========================================================
+   OMEZENÍ ANIMACÍ
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .series-panel,
+  .series-panel span,
+  .brush-panel,
+  .series-heart {
+
+    transition: none;
+    animation: none;
+  }
+
+  .series-panel:hover::before,
+  .series-panel:hover::after {
+    animation: none;
+  }
+}
+/* =========================================
+   NÁKRES DOMU
+   ========================================= */
+
+.series-panels {
+  position: relative;
+}
+
+.series-house {
+  position: absolute;
+
+  left: -7%;
+  top: 43%;
+
+  width: 80%;
+  max-width: 620px;
+  height: auto;
+
+  transform: rotate(-5deg);
+
+  z-index: 2;
+
+  filter: none;
+  pointer-events: none;
+}
+
+.series-panel {
+  position: relative;
+  z-index: 3;
+}
+/* =========================================
+   HVĚZDIČKY
+   ========================================= */
+
+.series-stars {
+  position: absolute;
+
+  left: 5%;
+  top: 10%;
+
+  width: 40%;
+  max-width: 420px;
+  height: auto;
+
+opacity: 0.65;
+
+  z-index: 4;
+
+  pointer-events: none;
+}
+/* =========================================
+   MOTTO – jemně vnořené do papíru
+   ========================================= */
+
+.series-motto {
+  position: absolute;
+
+  right: -25%;
+  top: 25%;
+
+  width: 80%;
+  max-width: 760px;
+  height: auto;
+
+  /* jemné splynutí s papírem */
+  opacity: 0.88;
+
+  /* lehké změkčení okrajů */
+  filter: blur(0.25px);
+
+  /* trochu méně "nalepené" */
+  mix-blend-mode: multiply;
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+/* =========================================================
+   ODLESK PANELŮ
+   ========================================================= */
+
+.series-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* tři jemné světelné proužky */
+
+.series-panel::before,
+.series-panel::after {
+  content: "";
+  position: absolute;
+
+  top: 20%;
+  left: -70%;
+
+  width: 18%;
+  height: 45%;
+
+  background: rgba(255, 255, 255, 0.16);
+
+  filter: blur(12px);
+
+  transform: rotate(18deg);
+
+  pointer-events: none;
+
+  z-index: 3;
+
+  transition: none;
+}
+
+
+/* prostřední proužek */
+
+.series-panel::after {
+  left: -70%;
+
+  width: 10%;
+
+  background: rgba(255, 255, 255, 0.11);
+
+  filter: blur(13px);
+  -webkit-mask-image: linear-gradient(
+  to bottom,
+  transparent 0%,
+  black 25%,
+  black 75%,
+  transparent 100%
+);
+
+mask-image: linear-gradient(
+  to bottom,
+  transparent 0%,
+  black 25%,
+  black 75%,
+  transparent 100%
+);
+}
+
+
+/* třetí proužek vytvoříme přes obrázek */
+
+.series-panel .brush-panel {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* při najetí přejedou proužky přes panel */
+
+.series-panel:hover::before {
+  animation: panelShine 0.6s ease-out;
+}
+
+.series-panel:hover::after {
+  animation: panelShineSecond 0.6s ease-out 0.08s;
+}
+
+
+/* =========================================================
+   POHYB ODLESKU
+   ========================================================= */
+
+@keyframes panelShine {
+
+  0% {
+    left: 10%;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0.75;
+  }
+
+  100% {
+    left: 60%;
+    opacity: 0;
+  }
+
+}
+
+
+@keyframes panelShineSecond {
+
+  0% {
+    left: 10%;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.8;
+  }
+
+  70% {
+    opacity: 0.5;
+  }
+
+  100% {
+    left: 60%;
+    opacity: 0;
+  }
+
+}

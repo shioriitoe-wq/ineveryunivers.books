@@ -1,0 +1,473 @@
+@font-face {
+    font-family: "Biro Script Plus";
+    src: url("../assets/fonts/biro-script-plus.woff2") format("woff2"),
+         url("../assets/fonts/biro-script-plus.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap");
+
+
+/* =========================================
+   SPOLEČNÝ ZÁKLAD
+   ========================================= */
+
+.chapter-page {
+    min-height: 100vh;
+    height: 100vh;
+
+    position: relative;
+
+    overflow: hidden;
+
+    font-family: "Cormorant Garamond", serif;
+}
+
+
+/* =========================================
+   LETNÍ VERZE
+   ========================================= */
+
+.chapter-summer {
+    background-image: url("../assets/images/chapter-summer.png");
+
+    background-size: 100% auto;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+
+/* =========================================
+   VOZÍČEK – LÉTO
+   ========================================= */
+
+.chapter-summer .chapter-hotdog {
+    position: fixed;
+
+    left: 0;
+    bottom: 0;
+
+    width: 160px;
+    height: auto;
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   PODZIMNÍ VERZE
+   ========================================= */
+
+.chapter-autumn {
+    background-image: url("../assets/images/chapter-autumn.png");
+
+    background-size: 100% auto;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+
+/* =========================================
+   DÝNĚ – PODZIM
+   ========================================= */
+
+.chapter-autumn .chapter-hotdog {
+    position: fixed;
+
+    right: 0;
+    bottom: 0;
+
+    width: 160px;
+    height: auto;
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   HLAVIČKA
+   ========================================= */
+
+.chapter-header {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    min-height: 190px;
+
+    z-index: 20;
+
+    text-align: center;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   LOGO VÁŽKY
+   ========================================= */
+
+.chapter-library-logo {
+    position: absolute;
+
+    top: 25px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 125px;
+    height: auto;
+
+    opacity: 0.72;
+
+    mix-blend-mode: multiply;
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+
+/* =========================================
+   ZPĚT KE KAPITOLÁM
+   ========================================= */
+
+.chapter-back {
+    position: absolute;
+
+    top: 23px;
+    left: 10%;
+
+    transform: translateX(-50%);
+
+    font-family: inherit;
+
+    z-index: 5;
+
+    font-size: 18px;
+
+    background: transparent;
+
+    border: none;
+
+    cursor: pointer;
+
+    color: #4c208a;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================
+   OBSAH KAPITOLY
+   ========================================= */
+
+.chapter-content {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    z-index: 4;
+
+    text-align: center;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   NADPIS
+   ========================================= */
+
+.chapter-content h1 {
+    margin-top: 110px;
+    margin-bottom: 20px;
+
+    font-size: 25px;
+
+    font-weight: 200;
+
+    font-family: "Biro Script Plus";
+
+    color: #be7cb3;
+}
+
+
+/* =========================================
+   TEXT KAPITOLY – SAMOSTATNÝ SCROLL
+   ========================================= */
+
+.chapter-text {
+    position: absolute;
+
+    /*
+    TADY nastavuješ, kde začne text.
+    150px = současná pozice pod světýlky.
+    */
+
+    top: 150px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    /*
+    TADY nastavuješ ŠÍŘKU TEXTOVÉHO POLE.
+    Teď je 1100 px / maximálně 80 % obrazovky.
+    */
+
+    width: min(1100px, 80%);
+
+    /*
+    Text může sahat až nad spodní navigaci,
+    ale navigace zůstává stále viditelná.
+    */
+
+    bottom: 110px;
+
+    height: auto;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    box-sizing: border-box;
+
+    padding-right: 18px;
+
+    text-align: left;
+
+    font-family: inherit;
+
+    font-size: 16px;
+
+    line-height: 1.8;
+
+    color: #040708;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================
+   ODSTAVCE
+   ========================================= */
+
+.chapter-text p {
+    margin: 0 0 25px 0;
+}
+
+
+/* =========================================
+   SCROLLBAR
+   ========================================= */
+
+.chapter-text::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chapter-text::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chapter-text::-webkit-scrollbar-thumb {
+    background: rgba(22, 79, 107, 0.3);
+    border-radius: 10px;
+}
+
+
+/* =========================================
+   NAVIGACE
+   ========================================= */
+
+.chapter-navigation {
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 20px;
+
+    transform: translateX(-50%);
+
+    z-index: 20;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    width: min(1500px, 83%);
+
+    margin: 0;
+
+    pointer-events: auto;
+}
+
+
+.chapter-navigation button {
+    background: transparent;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-family: "Biro Script Plus";
+
+    font-size: 16px;
+
+    letter-spacing: 2px;
+
+    color: #5f2bc1;
+
+    padding: 0;
+}
+
+
+/* =========================================
+   NÁSTROJE
+   ========================================= */
+
+.chapter-tools {
+    position: fixed;
+
+    left: 50%;
+    bottom: 28px;
+
+    transform: translateX(-50%);
+
+    z-index: 20;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 20px;
+
+    padding-bottom: 0;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================
+   PANELY – LETNÍ PNG RÁMEČEK
+   ========================================= */
+
+.chapter-summer .chapter-tools button {
+    width: 180px;
+    height: 80px;
+
+    padding: 0;
+    margin: 0;
+
+    background-color: transparent;
+
+    background-image: url("../assets/frames/frame-nezacalo-to-letem-summer.png");
+    background-size: 100% 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    border: none;
+    border-radius: 0;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    cursor: pointer;
+
+    font-family: inherit;
+    font-size: 15px;
+    letter-spacing: 1px;
+
+    color: #164f6b;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 0 0 10px 0;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   PANELY – PODZIMNÍ PNG RÁMEČEK
+   ========================================= */
+
+.chapter-autumn .chapter-tools button {
+    width: 180px;
+    height: 80px;
+
+    padding: 0;
+    margin: 0;
+
+    background-color: transparent;
+
+    background-image: url("../assets/frames/frame-nezacalo-to-letem-autumn.png");
+    background-size: 100% 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    border: none;
+    border-radius: 0;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    cursor: pointer;
+
+    font-family: inherit;
+    font-size: 15px;
+    letter-spacing: 1px;
+
+    color: #164f6b;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 0 0 10px 0;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   HOVER EFEKT PANELŮ
+   ========================================= */
+
+.chapter-tools button {
+    transition:
+        transform 0.25s ease,
+        filter 0.25s ease,
+        text-shadow 0.25s ease;
+}
+
+
+.chapter-tools button:hover {
+    transform: scale(1.06);
+
+    filter:
+        drop-shadow(0 0 5px rgba(190, 124, 179, 0.55))
+        drop-shadow(0 0 14px rgba(190, 80, 170, 0.35));
+
+    text-shadow:
+        0 0 5px rgba(190, 124, 179, 0.45);
+}

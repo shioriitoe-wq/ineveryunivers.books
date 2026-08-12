@@ -1,63 +1,351 @@
-export async function getBooks() {
-  const response = await fetch("http://127.0.0.1:5000/api/books");
+const API = "http://127.0.0.1:5000/api";
+
+
+/* =========================================================
+   OBECNÝ REQUEST
+   ========================================================= */
+
+async function request(
+  url,
+  options = {},
+  errorMessage = "Nastala chyba."
+) {
+  const response = await fetch(url, options);
 
   if (!response.ok) {
-    throw new Error("Nepodařilo se načíst projekty.");
+    let message = errorMessage;
+
+    try {
+      const data = await response.json();
+
+      message = data.message || message;
+    } catch {
+      // Použijeme výchozí zprávu.
+    }
+
+    throw new Error(message);
   }
 
-  return await response.json();
+  return response.json();
 }
 
-export async function getBook(id) {
-  const response = await fetch(`http://127.0.0.1:5000/api/books/${id}`);
 
-  if (!response.ok) {
-    throw new Error("Nepodařilo se načíst projekt.");
+/* =========================================================
+   KNIHY
+   ========================================================= */
+
+export function getBooks() {
+  return request(
+    `${API}/books`,
+    {},
+    "Nepodařilo se načíst knihy."
+  );
+}
+
+
+export function getBook(id) {
+  if (
+    id === undefined ||
+    id === null ||
+    id === ""
+  ) {
+    return Promise.reject(
+      new Error("Nelze načíst knihu: chybí ID knihy.")
+    );
   }
 
-  return await response.json();
+  return request(
+    `${API}/books/${id}`,
+    {},
+    "Nepodařilo se načíst knihu."
+  );
 }
 
-export async function addBook(book) {
-  const response = await fetch("http://127.0.0.1:5000/api/books", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+
+export function addBook(book) {
+  return request(
+    `${API}/books`,
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(book),
     },
-    body: JSON.stringify(book),
-  });
 
-  if (!response.ok) {
-    throw new Error("Nepodařilo se přidat projekt.");
-  }
-
-  return await response.json();
+    "Nepodařilo se přidat knihu."
+  );
 }
 
-export async function updateBook(id, book) {
-  const response = await fetch(`http://127.0.0.1:5000/api/books/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
+
+export function updateBook(id, book) {
+
+  /*
+   * Ochrana proti:
+   *
+   * /api/books/undefined
+   * /api/books/null
+   * /api/books/
+   */
+
+  if (
+    id === undefined ||
+    id === null ||
+    id === ""
+  ) {
+    return Promise.reject(
+      new Error(
+        "Nelze upravit knihu: chybí ID knihy."
+      )
+    );
+  }
+
+  return request(
+    `${API}/books/${id}`,
+    {
+      method: "PUT",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(book),
     },
-    body: JSON.stringify(book),
-  });
 
-  if (!response.ok) {
-    throw new Error("Nepodařilo se upravit projekt.");
-  }
-
-  return await response.json();
+    "Nepodařilo se upravit knihu."
+  );
 }
 
-export async function deleteBook(id) {
-  const response = await fetch(`http://127.0.0.1:5000/api/books/${id}`, {
-    method: "DELETE",
-  });
 
-  if (!response.ok) {
-    throw new Error("Nepodařilo se smazat projekt.");
+export function deleteBook(id) {
+
+  if (
+    id === undefined ||
+    id === null ||
+    id === ""
+  ) {
+    return Promise.reject(
+      new Error(
+        "Nelze smazat knihu: chybí ID knihy."
+      )
+    );
   }
 
-  return await response.json();
+  return request(
+    `${API}/books/${id}`,
+    {
+      method: "DELETE",
+    },
+
+    "Nepodařilo se smazat knihu."
+  );
+}
+
+
+/* =========================================================
+   DÍLY
+   ========================================================= */
+
+export function getVolumes(bookId) {
+  return request(
+    `${API}/books/${bookId}/volumes`,
+    {},
+    "Nepodařilo se načíst díly."
+  );
+}
+
+
+export function addVolume(bookId, volume) {
+  return request(
+    `${API}/books/${bookId}/volumes`,
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(volume),
+    },
+
+    "Nepodařilo se přidat díl."
+  );
+}
+
+
+export function updateVolume(
+  bookId,
+  volumeId,
+  volume
+) {
+  return request(
+    `${API}/books/${bookId}/volumes/${volumeId}`,
+    {
+      method: "PUT",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(volume),
+    },
+
+    "Nepodařilo se upravit díl."
+  );
+}
+
+
+export function deleteVolume(
+  bookId,
+  volumeId
+) {
+  return request(
+    `${API}/books/${bookId}/volumes/${volumeId}`,
+    {
+      method: "DELETE",
+    },
+
+    "Nepodařilo se smazat díl."
+  );
+}
+
+
+/* =========================================================
+   ČÁSTI
+   ========================================================= */
+
+export function getParts(bookId) {
+  return request(
+    `${API}/books/${bookId}/parts`,
+    {},
+    "Nepodařilo se načíst části."
+  );
+}
+
+
+export function addPart(bookId, part) {
+  return request(
+    `${API}/books/${bookId}/parts`,
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(part),
+    },
+
+    "Nepodařilo se přidat část."
+  );
+}
+
+
+export function updatePart(
+  bookId,
+  partId,
+  part
+) {
+  return request(
+    `${API}/books/${bookId}/parts/${partId}`,
+    {
+      method: "PUT",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(part),
+    },
+
+    "Nepodařilo se upravit část."
+  );
+}
+
+
+export function deletePart(
+  bookId,
+  partId
+) {
+  return request(
+    `${API}/books/${bookId}/parts/${partId}`,
+    {
+      method: "DELETE",
+    },
+
+    "Nepodařilo se smazat část."
+  );
+}
+
+
+/* =========================================================
+   KAPITOLY
+   ========================================================= */
+
+export function getChapters(bookId) {
+  return request(
+    `${API}/books/${bookId}/chapters`,
+    {},
+    "Nepodařilo se načíst kapitoly."
+  );
+}
+
+
+export function addChapter(
+  bookId,
+  chapter
+) {
+  return request(
+    `${API}/books/${bookId}/chapters`,
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(chapter),
+    },
+
+    "Nepodařilo se přidat kapitolu."
+  );
+}
+
+
+export function updateChapter(
+  bookId,
+  chapterId,
+  chapter
+) {
+  return request(
+    `${API}/books/${bookId}/chapters/${chapterId}`,
+    {
+      method: "PUT",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(chapter),
+    },
+
+    "Nepodařilo se upravit kapitolu."
+  );
+}
+
+
+export function deleteChapter(
+  bookId,
+  chapterId
+) {
+  return request(
+    `${API}/books/${bookId}/chapters/${chapterId}`,
+    {
+      method: "DELETE",
+    },
+
+    "Nepodařilo se smazat kapitolu."
+  );
 }

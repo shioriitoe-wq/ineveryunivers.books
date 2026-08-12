@@ -1,7 +1,7 @@
 function Logo() {
   return (
     <header className="logo">
-      INEVERYUNIVERS.BOOKS
+      INEVERYUNIVERSE.BOOKS
     </header>
   );
 }

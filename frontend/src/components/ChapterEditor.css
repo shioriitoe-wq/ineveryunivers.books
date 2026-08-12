@@ -1,0 +1,82 @@
+.chapter-editor {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #394237;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #0a0d0a;
+  color: #f1f3ee;
+}
+
+.chapter-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 9px;
+  border-bottom: 1px solid #30372f;
+  background: #111511;
+}
+
+.chapter-editor-toolbar button,
+.chapter-editor-toolbar select {
+  min-height: 32px;
+  padding: 5px 9px;
+  border: 1px solid #3e493b;
+  border-radius: 4px;
+  background: #1a1f19;
+  color: #dfe4dc;
+  font: inherit;
+  cursor: pointer;
+}
+
+.chapter-editor-toolbar button:hover,
+.chapter-editor-toolbar select:hover {
+  background: #283126;
+  border-color: #687761;
+}
+
+.chapter-editor-toolbar option {
+  background: #101310;
+  color: #f1f3ee;
+}
+
+.chapter-editor-content {
+  min-height: 430px;
+  padding: 22px 24px;
+  outline: none;
+  line-height: 1.7;
+  text-align: left;
+  background: #0a0d0a;
+  color: #f4f5f1;
+  caret-color: #c2d2b8;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+}
+
+.chapter-editor-content:empty::before {
+  content: attr(data-placeholder);
+  color: #626b60;
+}
+
+.chapter-editor-content h2,
+.chapter-editor-content h3,
+.chapter-editor-content p,
+.chapter-editor-content blockquote {
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+}
+
+.chapter-editor-content h2,
+.chapter-editor-content h3 {
+  color: #d5dfce;
+}
+
+.chapter-editor-content a {
+  color: #aabd9d;
+}
+
+.chapter-editor-content blockquote {
+  padding-left: 16px;
+  border-left: 3px solid #687761;
+  color: #b4bcb0;
+}

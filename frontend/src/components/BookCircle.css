@@ -23,6 +23,7 @@
 
 }
 
+
 /* ------------------------------------------------ */
 /* OBRÁZKY */
 /* ------------------------------------------------ */
@@ -48,6 +49,7 @@
 
 }
 
+
 /* Barevná vrstva */
 
 .book-image-color{
@@ -57,6 +59,7 @@
     opacity:1;
 
 }
+
 
 /* Vybledlá vrstva */
 
@@ -74,11 +77,13 @@
 
 }
 
+
 .book-circle:hover .book-image-color{
 
     transform:scale(1.03);
 
 }
+
 
 .book-circle:hover .book-image-faded{
 
@@ -87,6 +92,7 @@
     transform:scale(1.03);
 
 }
+
 
 /* ------------------------------------------------ */
 /* WATERCOLOR */
@@ -128,6 +134,8 @@
         filter .18s ease;
 
 }
+
+
 /* ------------------------------------------------ */
 /* SPLATTERS */
 /* ------------------------------------------------ */
@@ -154,6 +162,7 @@
 
 }
 
+
 .splatter-a{
 
     width:128%;
@@ -171,6 +180,7 @@
         saturate(1.05);
 
 }
+
 
 /* ------------------------------------------------ */
 /* FRAME */
@@ -195,6 +205,7 @@
         transform .15s ease-out;
 
 }
+
 
 /* ------------------------------------------------ */
 /* TITLE */
@@ -237,17 +248,99 @@
 
 }
 
+
+/* ------------------------------------------------ */
+/* TEXT – NORMÁLNÍ / HOVER */
+/* ------------------------------------------------ */
+
+.book-title-normal,
+.book-title-hover{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    width:100%;
+
+    transform:translate(-50%,-50%);
+
+    transition:
+        opacity .3s ease,
+        transform .3s ease;
+
+}
+
+
+/* Normální text */
+
+.book-title-normal{
+
+    opacity:1;
+
+}
+
+
+/* Text po najetí */
+
+.book-title-hover{
+
+    opacity:0;
+
+    transform:
+        translate(-50%,-50%)
+        translateY(8px);
+
+}
+
+
+/* ------------------------------------------------ */
+/* PŘECHOD TEXTU PO NAJETÍ */
+/* ------------------------------------------------ */
+
+.book-circle:hover .book-title-normal{
+
+    opacity:0;
+
+    transform:
+        translate(-50%,-50%)
+        translateY(-8px);
+
+}
+
+
+.book-circle:hover .book-title-hover{
+
+    opacity:1;
+
+    transform:
+        translate(-50%,-50%)
+        translateY(0);
+
+}
+
+
+/* ------------------------------------------------ */
+/* VELIKOST TEXTU */
+/* ------------------------------------------------ */
+
 .book-title.large{
 
     font-size:2.35rem;
 
 }
 
+
 .book-title.small{
 
     font-size:1.85rem;
 
 }
+.book-title-hover {
+    font-size: 0.65em;
+    font-family: "Biro Script Plus", cursive;
+}
+
 
 /* ------------------------------------------------ */
 /* HOVER */
@@ -269,6 +362,7 @@
 
 }
 
+
 .book-circle:hover .splatter-a{
 
     opacity:.65;
@@ -280,11 +374,14 @@
 
 }
 
+
 .book-circle:hover .book-frame{
 
     transform:scale(1.015);
 
 }
+
+
 /* ------------------------------------------------ */
 /* HOVER OUT */
 /* ------------------------------------------------ */
@@ -294,6 +391,7 @@
     animation:none;
 
 }
+
 
 /* ------------------------------------------------ */
 /* WATERCOLOR BREATH */
@@ -314,6 +412,7 @@
 
     }
 
+
     25%{
 
         transform:
@@ -326,6 +425,7 @@
             saturate(1.06);
 
     }
+
 
     50%{
 
@@ -340,6 +440,7 @@
 
     }
 
+
     75%{
 
         transform:
@@ -352,6 +453,7 @@
             saturate(1.05);
 
     }
+
 
     100%{
 

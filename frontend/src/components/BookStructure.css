@@ -1,0 +1,1525 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+/* =========================================================
+   BOOK STRUCTURE
+   5 SLOUPCŮ
+   ========================================================= */
+
+.book-structure {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 0 20px;
+  background: #0b0e0b;
+  color: #d8ddd5;
+}
+
+.book-structure-columns {
+  width: 100%;
+  display: grid;
+  grid-template-columns:
+    165px
+    165px
+    165px
+    minmax(0, 1fr)
+    165px;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PANELY
+   ========================================================= */
+
+.structure-panel {
+  min-width: 0;
+  min-height: 680px;
+  box-sizing: border-box;
+
+  border: 1px solid #30372f;
+  border-radius: 6px;
+
+  background: #0d110e;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   HLAVIČKY
+   ========================================================= */
+
+.structure-panel-header {
+  min-height: 92px;
+  box-sizing: border-box;
+
+  padding: 18px 14px 14px;
+
+  border-bottom: 1px solid #30372f;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.structure-panel-header span {
+  color: #778272;
+  font-size: 8px;
+  letter-spacing: 1.4px;
+}
+
+.structure-panel-header h2 {
+  margin: 7px 0 0;
+
+  color: #c5d3bb;
+
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.structure-panel-header b {
+  min-width: 24px;
+  height: 24px;
+
+  box-sizing: border-box;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #3d493a;
+  border-radius: 50%;
+
+  color: #aabd9d;
+  font-size: 9px;
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   OBSAH PANELŮ
+   ========================================================= */
+
+.structure-panel-body {
+  padding: 9px;
+}
+
+.structure-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+/* =========================================================
+   KARTY DÍLŮ / ČÁSTÍ / KAPITOL
+   ========================================================= */
+
+.structure-card {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 10px;
+
+  border: 1px solid #30372f;
+  border-radius: 5px;
+
+  background: #0a0e0b;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.structure-card:hover {
+  border-color: #586751;
+}
+
+.structure-card.is-selected {
+  border-color: #73836a;
+  background: #1a2119;
+  box-shadow: inset 3px 0 0 #839678;
+}
+
+.structure-card-title {
+  color: #d2d8ce;
+
+  font-size: 11px;
+  line-height: 1.4;
+
+  padding-right: 2px;
+}
+
+
+/* =========================================================
+   TLAČÍTKA U DÍLŮ A ČÁSTÍ
+   ========================================================= */
+
+.structure-card-actions {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.structure-card-actions button {
+  width: 100%;
+
+  border: 1px solid #485344;
+  border-radius: 4px;
+
+  background: #111611;
+  color: #bfcab9;
+
+  padding: 5px 6px;
+
+  font-size: 9px;
+
+  cursor: pointer;
+}
+
+.structure-card-actions button:hover {
+  background: #283126;
+}
+
+.structure-card-actions .danger {
+  border-color: #593d3d;
+  color: #c7a8a8;
+}
+
+.structure-card-actions .danger:hover {
+  background: #321d1d;
+}
+
+
+/* =========================================================
+   PŘIDAT
+   ========================================================= */
+
+.structure-add-button {
+  width: 100%;
+
+  margin-top: 9px;
+  padding: 8px 9px;
+
+  border: 1px solid #52604b;
+  border-radius: 4px;
+
+  background: #111611;
+  color: #aabd9d;
+
+  font-size: 10px;
+
+  cursor: pointer;
+}
+
+.structure-add-button:hover {
+  background: #283126;
+}
+
+.structure-add-button.primary {
+  background: #697861;
+  border-color: #7d8e73;
+  color: #fff;
+}
+
+
+/* =========================================================
+   FORMULÁŘE DÍLŮ / ČÁSTÍ
+   ========================================================= */
+
+.structure-form {
+  margin-top: 9px;
+  padding: 9px;
+
+  border: 1px solid #30372f;
+  border-radius: 5px;
+
+  background: #0a0e0b;
+}
+
+.structure-form label {
+  display: block;
+
+  margin: 8px 0 4px;
+
+  color: #818b7d;
+
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.structure-form input,
+.structure-form select {
+  width: 100%;
+  box-sizing: border-box;
+
+  min-height: 30px;
+  padding: 6px 7px;
+
+  border: 1px solid #394237;
+  border-radius: 4px;
+
+  background: #080b08;
+  color: #e2e7df;
+
+  font-size: 10px;
+
+  outline: none;
+}
+
+.structure-form input:focus,
+.structure-form select:focus {
+  border-color: #718267;
+}
+
+.structure-form-actions {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+  margin-top: 9px;
+}
+
+.structure-form-actions button {
+  width: 100%;
+
+  border: 1px solid #485344;
+  border-radius: 4px;
+
+  background: #111611;
+  color: #bfcab9;
+
+  padding: 6px;
+
+  font-size: 9px;
+
+  cursor: pointer;
+}
+
+.structure-form-actions button:first-child {
+  background: #697861;
+  color: white;
+}
+
+
+/* =========================================================
+   KONTEXT / NÁPOVĚDY
+   ========================================================= */
+
+.structure-context {
+  margin: 0 0 8px;
+  padding: 5px 6px;
+
+  color: #778272;
+
+  font-size: 8px;
+  line-height: 1.4;
+}
+
+.structure-hint,
+.structure-muted {
+  margin: 12px 2px;
+
+  color: #656d63;
+
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   ZAMČENÉ PANELY
+   ========================================================= */
+
+.structure-locked {
+  min-height: 480px;
+
+  padding: 25px 12px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  color: #646d63;
+}
+
+.structure-locked span {
+  width: 28px;
+  height: 28px;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 10px;
+
+  border: 1px solid #30372f;
+  border-radius: 50%;
+
+  color: #677262;
+
+  font-size: 9px;
+}
+
+.structure-locked p {
+  max-width: 130px;
+  margin: 0;
+
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   KAPITOLY
+   ========================================================= */
+
+.chapter-list {
+  margin-top: 9px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  width: 100%;
+
+  visibility: visible;
+  opacity: 1;
+}
+
+.chapter-list-visible {
+  display: flex !important;
+  flex-direction: column !important;
+
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.chapter-list-visible .chapter-card {
+  display: block !important;
+
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+
+/*
+   Kapitoly jsou teď pouze klikací karty.
+   Žádná tlačítka uvnitř.
+*/
+
+.chapter-card {
+  min-height: 62px;
+
+  padding: 11px 10px;
+}
+
+.chapter-card .structure-card-title {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.chapter-card small {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #71816b;
+
+  font-size: 8px;
+}
+
+
+/* =========================================================
+   VELKÝ EDITOR
+   ========================================================= */
+
+.editor-panel {
+  min-width: 0;
+}
+
+.chapter-workspace {
+  min-height: 680px;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #000100;
+}
+
+.chapter-workspace-header {
+  min-height: 92px;
+
+  box-sizing: border-box;
+
+  padding: 18px 20px 14px;
+
+  border-bottom: 1px solid #30372f;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 15px;
+}
+
+.chapter-workspace-header > div > span {
+  color: #778272;
+
+  font-size: 8px;
+  letter-spacing: 1.4px;
+}
+
+.chapter-workspace-header h2 {
+  margin: 7px 0 0;
+
+  color: #c7d4be;
+
+  font-family: Georgia, serif;
+
+  font-size: 22px;
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   FORMULÁŘ KAPITOLY
+   ========================================================= */
+
+.chapter-form-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(75px, 0.55fr)
+    minmax(130px, 2fr);
+
+  gap: 10px;
+
+  padding: 12px 20px 0;
+}
+
+.chapter-form-grid label {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+
+  color: #7c8778;
+
+  font-size: 8px;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.chapter-form-grid input,
+.chapter-form-grid select {
+  width: 100%;
+  box-sizing: border-box;
+
+  min-height: 34px;
+
+  padding: 7px 8px;
+
+  border: 1px solid #394237;
+  border-radius: 4px;
+
+  background: #080b08;
+
+  color: #f0f2ed;
+
+  font-size: 10px;
+
+  outline: none;
+}
+
+.chapter-form-grid input:focus,
+.chapter-form-grid select:focus {
+  border-color: #718267;
+}
+
+
+/* =========================================================
+   TEXT EDITOR
+   ========================================================= */
+
+.editor-label {
+  padding: 14px 20px 7px;
+
+  color: #a0a59e;
+
+  font-size: 8px;
+  letter-spacing: 1.2px;
+}
+
+.chapter-workspace .chapter-editor {
+  width: auto;
+
+  margin: 0 20px;
+
+  flex: 1;
+
+  min-height: 0;
+}
+
+
+/* =========================================================
+   SPODNÍ OVLÁDÁNÍ EDITORU
+   ========================================================= */
+
+.chapter-workspace-footer {
+  padding: 12px 20px 16px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+.chapter-workspace-footer label {
+  min-width: 100px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+
+  color: #7c8778;
+
+  font-size: 8px;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.chapter-workspace-footer select {
+  min-height: 32px;
+
+  padding: 6px 8px;
+
+  border: 1px solid #394237;
+  border-radius: 4px;
+
+  background: #080b08;
+  color: #f0f2ed;
+
+  font-size: 10px;
+}
+
+.chapter-workspace-footer > div {
+  display: flex;
+  gap: 6px;
+}
+
+.structure-save-button,
+.structure-cancel-button,
+.chapter-delete-bottom {
+  min-height: 34px;
+
+  padding: 7px 12px;
+
+  border-radius: 4px;
+
+  font-size: 9px;
+
+  cursor: pointer;
+}
+
+.structure-save-button {
+  border: 1px solid #7e9074;
+
+  background: #697861;
+  color: white;
+}
+
+.structure-save-button:hover {
+  background: #788870;
+}
+
+.structure-cancel-button {
+  border: 1px solid #485344;
+
+  background: transparent;
+  color: #aeb8a8;
+}
+
+.structure-cancel-button:hover {
+  background: #283126;
+}
+
+
+/* NOVÉ: SMAZAT KAPITOLU DOLE */
+
+.chapter-delete-bottom {
+  border: 1px solid #593d3d;
+
+  background: transparent;
+  color: #c7a8a8;
+}
+
+.chapter-delete-bottom:hover {
+  background: #321d1d;
+}
+
+
+/* =========================================================
+   PRÁZDNÝ EDITOR
+   ========================================================= */
+
+.editor-empty {
+  min-height: 680px;
+}
+
+
+/* =========================================================
+   INFORMACE
+   ========================================================= */
+
+.info-panel {
+  min-width: 0;
+}
+
+.chapter-info {
+  padding: 13px;
+}
+
+.chapter-info-title {
+  margin-bottom: 14px;
+
+  color: #c9d5c1;
+
+  font-family: Georgia, serif;
+
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.info-row {
+  padding: 9px 0;
+
+  border-bottom: 1px solid #252b25;
+}
+
+.info-row span {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #737d70;
+
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.info-row strong {
+  color: #cbd2c7;
+
+  font-size: 9px;
+  font-weight: 400;
+
+  line-height: 1.4;
+
+  overflow-wrap: anywhere;
+}
+
+.info-publish {
+  padding: 12px 0;
+}
+
+.info-publish > span:first-child {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #737d70;
+
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  color: #a7b39f;
+
+  font-size: 9px;
+}
+
+.status-pill::before {
+  content: "";
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #687463;
+}
+
+.status-pill.published {
+  color: #b8c9aa;
+}
+
+.status-pill.published::before {
+  background: #91a97d;
+}
+
+
+/* =========================================================
+   ZPRÁVA
+   ========================================================= */
+
+.structure-message {
+  margin-top: 8px;
+
+  padding: 8px 11px;
+
+  border: 1px solid #394237;
+  border-radius: 4px;
+
+  background: #101510;
+
+  color: #aabd9d;
+
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1400px) {
+  .book-structure-columns {
+    grid-template-columns:
+      130px
+      150px
+      165px
+      minmax(0, 1fr)
+      165px;
+  }
+
+  .structure-panel-header {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .chapter-workspace-header,
+  .chapter-form-grid,
+  .editor-label,
+  .chapter-workspace-footer {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .chapter-workspace .chapter-editor {
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+}
+
+
+/* =========================================================
+   MENŠÍ OBRAZOVKA
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .book-structure {
+    overflow-x: auto;
+  }
+
+  .book-structure-columns {
+    min-width: 1050px;
+
+    grid-template-columns:
+      130px
+      150px
+      160px
+      minmax(430px, 1fr)
+      170px;
+  }
+}
+
+
+/* =========================================================
+   MOBIL
+   ========================================================= */
+
+@media (max-width: 750px) {
+  .book-structure {
+    padding: 8px;
+  }
+
+  .book-structure-columns {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .structure-panel {
+    min-height: auto;
+  }
+
+  .chapter-workspace,
+  .editor-empty,
+  .structure-locked {
+    min-height: 450px;
+  }
+}
+/* =========================================================
+   FINÁLNÍ ROZLOŽENÍ ADMINISTRACE KNIHY
+   ========================================================= */
+
+.book-structure-layout {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 12px 30px;
+  box-sizing: border-box;
+
+  display: grid;
+
+  /* 1 = díly
+     2 = části
+     3 = kapitoly
+     4 = EDITOR
+     5 = informace */
+  grid-template-columns:
+    190px
+    205px
+    210px
+    minmax(600px, 1fr)
+    210px;
+
+  gap: 10px;
+
+  align-items: start;
+}
+
+
+/* VŠECHNY SLOUPCE */
+
+.book-structure-layout > * {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   SLOUPCE 1–3
+   ========================================================= */
+
+.structure-column {
+  min-width: 0;
+  font-size: 12px;
+}
+
+.structure-column h2,
+.structure-column h3 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.structure-column p,
+.structure-column small,
+.structure-column span {
+  font-size: 11px;
+}
+
+
+/* menší hlavičky sloupců */
+
+.structure-column-header {
+  padding: 14px 12px;
+}
+
+.structure-column-header h2 {
+  font-size: 20px;
+}
+
+
+/* =========================================================
+   KARTY DÍLŮ A ČÁSTÍ
+   ========================================================= */
+
+.structure-item,
+.part-item,
+.chapter-card {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 10px;
+
+  margin-bottom: 7px;
+
+  border-radius: 6px;
+}
+
+
+/* text v kartách */
+
+.structure-item-title,
+.part-item-title,
+.chapter-card-title {
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+
+/* tlačítka DÍLŮ + ČÁSTÍ */
+
+.structure-item button,
+.part-item button {
+  width: 100%;
+
+  padding: 6px 8px;
+
+  font-size: 11px;
+  line-height: 1.2;
+
+  margin-top: 5px;
+}
+
+
+/* =========================================================
+   KAPITOLY
+   ========================================================= */
+
+.chapter-card {
+  width: 100%;
+  min-height: 95px;
+
+  padding: 12px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  cursor: pointer;
+}
+
+.chapter-card-title {
+  font-size: 14px;
+}
+
+.chapter-card-status {
+  font-size: 10px;
+}
+
+
+/* Karty kapitol už NEMAJÍ tlačítka */
+
+.chapter-card .chapter-actions,
+.chapter-card .chapter-buttons,
+.chapter-card .actions {
+  display: none !important;
+}
+
+
+/* =========================================================
+   EDITOR – NEJDŮLEŽITĚJŠÍ SLOUPEC
+   ========================================================= */
+
+.chapter-editor-column,
+.chapter-editor-panel {
+  width: 100%;
+  min-width: 0;
+}
+
+
+/* editor nesmí být zbytečně stísněný */
+
+.chapter-editor {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+
+/* tmavý editor */
+
+.chapter-editor textarea,
+.chapter-editor [contenteditable="true"] {
+  background: #0b0e0b !important;
+  color: #f0f2ed !important;
+
+  caret-color: #b8c9ad;
+
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+
+/* placeholder */
+
+.chapter-editor textarea::placeholder,
+.chapter-editor [contenteditable="true"]::placeholder {
+  color: #747b73;
+}
+
+
+/* =========================================================
+   EDITOR – FORMULÁŘ
+   ========================================================= */
+
+.chapter-editor input,
+.chapter-editor select,
+.chapter-editor textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+
+/* menší popisky */
+
+.chapter-editor label {
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   SPODNÍ AKCE EDITORU
+   ========================================================= */
+
+.chapter-editor-footer {
+  width: 100%;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 12px;
+  padding-top: 12px;
+
+  border-top: 1px solid #30372f;
+}
+
+
+/* Uložit */
+
+.chapter-editor-footer button {
+  padding: 9px 14px;
+
+  font-size: 12px;
+}
+
+
+/* SMAZAT KAPITOLU */
+
+.chapter-delete-button {
+  padding: 9px 14px;
+
+  border: 1px solid #704c4c !important;
+  background: transparent !important;
+
+  color: #d39b9b !important;
+
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.chapter-delete-button:hover {
+  background: #351d1d !important;
+  border-color: #986262 !important;
+}
+
+
+/* =========================================================
+   INFO O KAPITOLE
+   ========================================================= */
+
+.chapter-info-column,
+.chapter-info-panel {
+  min-width: 0;
+
+  font-size: 11px;
+}
+
+.chapter-info-column h2,
+.chapter-info-panel h2 {
+  font-size: 20px;
+}
+
+.chapter-info-column label,
+.chapter-info-panel label {
+  font-size: 10px;
+}
+
+.chapter-info-column input,
+.chapter-info-panel input,
+.chapter-info-column select,
+.chapter-info-panel select {
+  font-size: 11px;
+  padding: 8px;
+}
+
+
+/* =========================================================
+   JEŠTĚ MENŠÍ PÍSMO V CELÉ ADMINISTRACI
+   ========================================================= */
+
+.book-structure-layout button {
+  font-size: 11px;
+}
+
+.book-structure-layout input,
+.book-structure-layout select {
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   MENŠÍ OBRAZOVKY
+   ========================================================= */
+
+@media (max-width: 1500px) {
+
+  .book-structure-layout {
+    grid-template-columns:
+      165px
+      180px
+      185px
+      minmax(520px, 1fr)
+      180px;
+
+    gap: 8px;
+
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+
+@media (max-width: 1200px) {
+
+  .book-structure-layout {
+    grid-template-columns:
+      150px
+      165px
+      170px
+      minmax(450px, 1fr)
+      165px;
+  }
+}
+
+/* =========================================================
+   FINÁLNÍ ROZLOŽENÍ – 165 / 165 / 165 / EDITOR / 165
+   ========================================================= */
+
+.book-structure-columns {
+  width: 100%;
+  grid-template-columns:
+    165px
+    165px
+    165px
+    minmax(0, 1fr)
+    165px;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+.book-structure-columns > * {
+  min-width: 0;
+}
+
+/* Kapitoly jsou stejně široké jako celý 3. sloupec. */
+.chapter-list,
+.chapter-list-visible,
+.chapter-card {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.chapter-card {
+  min-height: 62px;
+  padding: 10px;
+}
+
+.chapter-card .structure-card-title {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.chapter-card small {
+  font-size: 8px;
+  margin-top: 5px;
+}
+
+/* Kapitoly už nemají Upravit/Smazat uvnitř karty. */
+.chapter-card .structure-card-actions {
+  display: none !important;
+}
+
+/* Smazat kapitolu je pouze dole pod editorem. */
+.chapter-delete-top {
+  display: none !important;
+}
+
+.chapter-workspace-footer > div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.chapter-delete-bottom {
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid #593d3d;
+  border-radius: 4px;
+  background: transparent;
+  color: #c7a8a8;
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.chapter-delete-bottom:hover {
+  background: #321d1d;
+}
+
+/* Na běžných menších desktopech necháváme stejné proporce.
+   Pokud se nevejdou, stránka se posune vodorovně místo
+   mačkání editoru. */
+@media (max-width: 1200px) and (min-width: 751px) {
+  .book-structure {
+    overflow-x: auto;
+  }
+
+  .book-structure-columns {
+  width: 100%;
+  display: grid;
+  grid-template-columns:
+    165px
+    165px
+    165px
+    minmax(0, 1fr)
+    165px;
+  gap: 8px;
+  box-sizing: border-box;
+}
+}
+/* =========================================================
+   KAPITOLY – JEDNODUCHÝ SEZNAM
+   ========================================================= */
+
+.chapter-card {
+  width: 100%;
+  height: 26px;
+  min-height: 26px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 14px;
+
+  margin: 0 0 8px;
+
+  border: 1px solid #303a30;
+  border-radius: 5px;
+
+  background: #0d110d;
+  color: #d9ddd4;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.chapter-card:hover {
+  background: #171d17;
+  border-color: #65745f;
+}
+
+.chapter-card.active {
+  background: #1a231a;
+  border-color: #879b7c;
+}
+
+
+/* číslo + název kapitoly */
+
+.chapter-card-title {
+  display: block;
+
+  margin: 0;
+
+  font-size: 12px !important;
+  line-height: 1;
+
+  color: #d9ddd4;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* stav úplně schovat */
+
+.chapter-card-status {
+  display: none !important;
+}
+
+
+/* schovat případné staré prvky uvnitř */
+
+.chapter-card small,
+.chapter-card .chapter-actions,
+.chapter-card .chapter-buttons,
+.chapter-card .actions {
+  display: none !important;
+}
+/* TEXT V EDITORU – VLEVO */
+.admin-editor-content,
+.chapter-editor-content,
+.editor-content,
+[contenteditable="true"] {
+  text-align: left !important;
+}
+.admin-page,
+.admin-page *,
+.admin-page button,
+.admin-page input,
+.admin-page select,
+.admin-page textarea {
+  font-family: "Cormorant Garamond", serif !important;
+}
+
+/* =========================================================
+   ZVĚTŠENÉ PÍSMO – SLOUPCE 1, 2, 3 A 5
+   Pouze velikost písma – struktura, barvy a funkce zůstávají stejné.
+   Editor (4. sloupec) se tímto blokem nemění.
+   ========================================================= */
+
+.structure-column {
+  font-size: 14px;
+}
+
+.structure-column h2,
+.structure-column h3 {
+  font-size: 22px;
+}
+
+.structure-column p,
+.structure-column small,
+.structure-column span {
+  font-size: 13px;
+}
+
+.structure-column-header h2,
+.structure-column-header h3 {
+  font-size: 22px;
+}
+
+.structure-label {
+  font-size: 10px !important;
+}
+
+.structure-count {
+  font-size: 11px !important;
+}
+
+.structure-card-title,
+.structure-item-title,
+.part-item-title,
+.chapter-card-title {
+  font-size: 14px !important;
+}
+
+.structure-card-actions button,
+.structure-item button,
+.part-item button {
+  font-size: 12px !important;
+}
+
+.structure-add-button {
+  font-size: 12px !important;
+}
+
+.structure-form label {
+  font-size: 10px !important;
+}
+
+.structure-form input,
+.structure-form select {
+  font-size: 12px !important;
+}
+
+.structure-form-actions button {
+  font-size: 11px !important;
+}
+
+.structure-context,
+.structure-hint,
+.structure-muted {
+  font-size: 11px !important;
+}
+
+.structure-locked p {
+  font-size: 11px !important;
+}
+
+.chapter-card-title {
+  font-size: 14px !important;
+}
+
+.info-panel,
+.chapter-info-column,
+.chapter-info-panel {
+  font-size: 13px;
+}
+
+.chapter-info-title {
+  font-size: 17px;
+}
+
+.info-row span,
+.info-publish > span:first-child {
+  font-size: 9px !important;
+}
+
+.info-row strong {
+  font-size: 11px !important;
+}
+
+.status-pill {
+  font-size: 11px !important;
+}
+
+.chapter-info-column label,
+.chapter-info-panel label {
+  font-size: 11px !important;
+}
+
+.chapter-info-column input,
+.chapter-info-panel input,
+.chapter-info-column select,
+.chapter-info-panel select {
+  font-size: 12px !important;
+}
+
+.structure-message {
+  font-size: 11px !important;
+}
