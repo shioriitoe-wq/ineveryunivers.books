@@ -1,0 +1,13 @@
+.nezacalo-volume-5-page {
+    min-height: 100vh;
+    padding: 40px;
+}
+
+.nezacalo-volume-5-page a {
+    text-decoration: none;
+}
+
+.nezacalo-volume-5-page section {
+    max-width: 1000px;
+    margin: 100px auto;
+}

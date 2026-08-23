@@ -151,7 +151,9 @@ export default function BooksSeriesPage() {
         />
 
 
-        {/* 1. LÉTO */}
+        {/* =========================================
+            1. DÍL — LÉTO
+            ========================================= */}
 
         <Link
           to="/books/nezacalo"
@@ -175,9 +177,14 @@ export default function BooksSeriesPage() {
         </Link>
 
 
-        {/* 2. SPRÁVNĚ */}
+        {/* =========================================
+            2. DÍL — SPRÁVNĚ
+            ========================================= */}
 
-        <div className="series-panel panel-message">
+        <Link
+          to="/books/nezacalo/volume/2"
+          className="series-panel panel-message"
+        >
 
           <img
             src={panelSpravne}
@@ -193,12 +200,17 @@ export default function BooksSeriesPage() {
             Odvážná volba.
           </span>
 
-        </div>
+        </Link>
 
 
-        {/* 3. V TEMNOTĚ */}
+        {/* =========================================
+            3. DÍL — V TEMNOTĚ
+            ========================================= */}
 
-        <div className="series-panel panel-dream">
+        <Link
+          to="/books/nezacalo/volume/3"
+          className="series-panel panel-dream"
+        >
 
           <img
             src={panelTemnotou}
@@ -214,12 +226,17 @@ export default function BooksSeriesPage() {
             Nebojíš se tmy?
           </span>
 
-        </div>
+        </Link>
 
 
-        {/* 4. TADY */}
+        {/* =========================================
+            4. DÍL — TADY
+            ========================================= */}
 
-        <div className="series-panel panel-story">
+        <Link
+          to="/books/nezacalo/volume/4"
+          className="series-panel panel-story"
+        >
 
           <img
             src={panelTady}
@@ -235,12 +252,17 @@ export default function BooksSeriesPage() {
             Co by se mohlo pokazit?
           </span>
 
-        </div>
+        </Link>
 
 
-        {/* 5. NAŠÍM PŘÍBĚHEM */}
+        {/* =========================================
+            5. DÍL — NAŠÍM PŘÍBĚHEM
+            ========================================= */}
 
-        <div className="series-panel panel-story-blue">
+        <Link
+          to="/books/nezacalo/volume/5"
+          className="series-panel panel-story-blue"
+        >
 
           <img
             src={panelNami}
@@ -256,7 +278,7 @@ export default function BooksSeriesPage() {
             Dobrá volba. Asi.
           </span>
 
-        </div>
+        </Link>
 
       </section>
 

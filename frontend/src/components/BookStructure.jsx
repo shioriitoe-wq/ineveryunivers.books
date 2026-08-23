@@ -33,6 +33,7 @@ function BookStructure({ book }) {
   const [partTitle, setPartTitle] = useState("");
   const [partNumber, setPartNumber] = useState("");
   const [partVolumeId, setPartVolumeId] = useState("");
+  const [partTheme, setPartTheme] = useState("summer");
   const [editingPartId, setEditingPartId] = useState(null);
   const [showPartForm, setShowPartForm] = useState(false);
 
@@ -149,6 +150,7 @@ function BookStructure({ book }) {
     setPartTitle("");
     setPartNumber("");
     setPartVolumeId(selectedVolumeId || "");
+    setPartTheme("summer");
     setShowPartForm(false);
   }
 
@@ -208,6 +210,7 @@ function BookStructure({ book }) {
         title: partTitle,
         number: partNumber === "" ? null : Number(partNumber),
         volume_id: partVolumeId === "" ? null : Number(partVolumeId),
+        theme: partTheme,
       };
 
       if (editingPartId) {
@@ -237,6 +240,7 @@ function BookStructure({ book }) {
     setPartTitle(part.title || "");
     setPartNumber(part.number ?? "");
     setPartVolumeId(part.volume_id ?? selectedVolumeId ?? "");
+    setPartTheme(part.theme || "summer");
     setShowPartForm(true);
   }
 
@@ -611,6 +615,7 @@ function BookStructure({ book }) {
                   setPartTitle("");
                   setPartNumber("");
                   setPartVolumeId(selectedVolumeId || "");
+                  setPartTheme("summer");
                   setShowPartForm((value) => !value);
                 }}
               >
@@ -634,6 +639,16 @@ function BookStructure({ book }) {
                     onChange={(e) => setPartTitle(e.target.value)}
                     required
                   />
+                  <label>Design části</label>
+<select
+  value={partTheme}
+  onChange={(e) => setPartTheme(e.target.value)}
+>
+  <option value="summer">Léto</option>
+  <option value="autumn">Podzim</option>
+  <option value="winter">Zima</option>
+  <option value="spring">Jaro</option>
+</select>
 
                   <div className="structure-form-actions">
                     <button type="submit">

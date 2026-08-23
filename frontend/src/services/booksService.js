@@ -349,3 +349,84 @@ export function deleteChapter(
     "Nepodařilo se smazat kapitolu."
   );
 }
+/* =========================================================
+   POSTAVY
+   ========================================================= */
+
+export function getCharacters(bookId) {
+  return request(
+    `${API}/books/${bookId}/characters`,
+    {},
+    "Nepodařilo se načíst postavy."
+  );
+}
+
+
+export function getCharacter(
+  bookId,
+  characterId
+) {
+  return request(
+    `${API}/books/${bookId}/characters/${characterId}`,
+    {},
+    "Nepodařilo se načíst postavu."
+  );
+}
+
+
+export function addCharacter(
+  bookId,
+  character
+) {
+  return request(
+    `${API}/books/${bookId}/characters`,
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(character),
+    },
+
+    "Nepodařilo se přidat postavu."
+  );
+}
+
+
+export function updateCharacter(
+  bookId,
+  characterId,
+  character
+) {
+  return request(
+    `${API}/books/${bookId}/characters/${characterId}`,
+    {
+      method: "PUT",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(character),
+    },
+
+    "Nepodařilo se upravit postavu."
+  );
+}
+
+
+export function deleteCharacter(
+  bookId,
+  characterId
+) {
+  return request(
+    `${API}/books/${bookId}/characters/${characterId}`,
+    {
+      method: "DELETE",
+    },
+
+    "Nepodařilo se smazat postavu."
+  );
+}

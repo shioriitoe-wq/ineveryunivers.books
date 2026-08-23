@@ -12,7 +12,9 @@
 }
 
 
-/* HEADER */
+/* =========================================================
+   HEADER
+========================================================= */
 
 .admin-header {
   display: flex;
@@ -60,7 +62,9 @@
 }
 
 
-/* BOOK SELECTOR */
+/* =========================================================
+   BOOK SELECTOR
+========================================================= */
 
 .admin-book-selector {
   position: relative;
@@ -148,8 +152,14 @@
   cursor: pointer;
 }
 
+.admin-add-book:hover {
+  background: #7a896f;
+}
 
-/* BOOK FORM */
+
+/* =========================================================
+   BOOK FORM
+========================================================= */
 
 .admin-book-form {
   max-width: 1500px;
@@ -178,7 +188,9 @@
 }
 
 
-/* WORKSPACE */
+/* =========================================================
+   WORKSPACE
+========================================================= */
 
 .admin-workspace {
   max-width: 1500px;
@@ -226,14 +238,550 @@
 }
 
 
-/* STRUCTURE */
+/* =========================================================
+   STRUCTURE
+========================================================= */
 
 .admin-structure {
   padding: 25px;
 }
 
 
-/* EMPTY */
+/* =========================================================
+   CHARACTERS
+========================================================= */
+
+.admin-characters {
+  border-top: 1px solid #30372f;
+
+  padding: 30px 25px 35px;
+
+  background: #0c0f0c;
+}
+
+.admin-characters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 24px;
+}
+
+.admin-characters-header h2 {
+  margin: 6px 0;
+
+  color: #c2d1b8;
+
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+
+.admin-characters-header p {
+  margin: 0;
+
+  color: #777d75;
+  font-size: 14px;
+}
+
+.admin-add-character {
+  flex-shrink: 0;
+
+  padding: 11px 17px;
+
+  border: 1px solid #718366;
+  border-radius: 5px;
+
+  background: #697861;
+  color: white;
+
+  cursor: pointer;
+}
+
+.admin-add-character:hover {
+  background: #7a896f;
+}
+
+
+/* =========================================================
+   CHARACTER LIST
+========================================================= */
+
+.admin-character-list {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fill,
+      minmax(320px, 1fr)
+    );
+
+  gap: 16px;
+}
+
+.admin-character-card {
+  display: flex;
+
+  min-height: 180px;
+
+  overflow: hidden;
+
+  border: 1px solid #30372f;
+  border-radius: 7px;
+
+  background: #101310;
+}
+
+.admin-character-card-image {
+  width: 125px;
+
+  flex-shrink: 0;
+
+  background: #080a08;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #626a60;
+  font-size: 12px;
+
+  overflow: hidden;
+}
+
+.admin-character-card-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.admin-character-card-content {
+  flex: 1;
+
+  min-width: 0;
+
+  padding: 18px;
+}
+
+.admin-character-card-content h3 {
+  margin: 5px 0 10px;
+
+  color: #c7d4bf;
+
+  font-size: 21px;
+}
+
+.admin-character-quote {
+  margin: 0 0 13px;
+
+  color: #9ca797;
+
+  font-size: 13px;
+  line-height: 1.5;
+
+  font-style: italic;
+}
+
+.admin-character-volumes {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  margin-bottom: 15px;
+}
+
+.admin-character-volumes span {
+  padding: 5px 8px;
+
+  border: 1px solid #394237;
+  border-radius: 4px;
+
+  background: #0a0d0a;
+
+  color: #879381;
+
+  font-size: 11px;
+}
+
+.admin-character-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-character-actions button {
+  padding: 7px 10px;
+
+  border: 1px solid #465041;
+  border-radius: 4px;
+
+  background: transparent;
+
+  color: #aeb9a7;
+
+  cursor: pointer;
+}
+
+.admin-character-actions button:hover {
+  background: #283126;
+}
+
+
+/* =========================================================
+   EMPTY CHARACTERS
+========================================================= */
+
+.admin-characters-empty {
+  padding: 55px 20px;
+
+  text-align: center;
+
+  border: 1px dashed #30372f;
+  border-radius: 7px;
+
+  color: #777d75;
+}
+
+.admin-characters-empty > div {
+  margin-bottom: 12px;
+
+  color: #697861;
+
+  font-size: 30px;
+}
+
+.admin-characters-empty h3 {
+  margin: 0 0 8px;
+
+  color: #aebba6;
+}
+
+.admin-characters-empty p {
+  margin: 0 0 18px;
+}
+
+.admin-characters-empty button {
+  padding: 9px 14px;
+
+  border: 1px solid #596751;
+  border-radius: 5px;
+
+  background: transparent;
+
+  color: #b9c9ad;
+
+  cursor: pointer;
+}
+
+.admin-characters-empty button:hover {
+  background: #283126;
+}
+
+
+/* =========================================================
+   CHARACTER FORM
+========================================================= */
+
+.admin-character-form {
+  margin-bottom: 25px;
+
+  padding: 25px;
+
+  border: 1px solid #30372f;
+  border-radius: 7px;
+
+  background: #101310;
+}
+
+.character-form {
+  max-width: 1000px;
+}
+
+.character-form-header {
+  margin-bottom: 28px;
+}
+
+.character-form-header span {
+  color: #778272;
+
+  font-size: 11px;
+  letter-spacing: 1.5px;
+}
+
+.character-form-header h2 {
+  margin: 7px 0 5px;
+
+  color: #c7d4bf;
+}
+
+.character-form-header p {
+  margin: 0;
+
+  color: #777d75;
+}
+
+
+/* =========================================================
+   FORM SECTIONS
+========================================================= */
+
+.character-form-section {
+  margin-bottom: 28px;
+
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid #30372f;
+}
+
+.character-form-section h3 {
+  margin: 0 0 15px;
+
+  color: #b9c9ad;
+
+  font-size: 17px;
+}
+
+.character-form-section label {
+  display: block;
+
+  margin: 14px 0 7px;
+
+  color: #9ba594;
+
+  font-size: 13px;
+}
+
+.character-form-section input[type="text"],
+.character-form-section textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px 12px;
+
+  border: 1px solid #394237;
+  border-radius: 5px;
+
+  outline: none;
+
+  background: #080a08;
+
+  color: #d9ddd4;
+
+  font-family: Arial, sans-serif;
+}
+
+.character-form-section input[type="text"]:focus,
+.character-form-section textarea:focus {
+  border-color: #697861;
+}
+
+.character-form-section textarea {
+  resize: vertical;
+
+  line-height: 1.6;
+}
+
+.character-content-editor {
+  min-height: 280px;
+}
+
+.character-form-help {
+  margin: -5px 0 15px;
+
+  color: #6f776c;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   VOLUMES
+========================================================= */
+
+.character-volume-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.character-volume {
+  display: flex !important;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 0 !important;
+
+  padding: 11px 13px;
+
+  border: 1px solid #343c32;
+  border-radius: 5px;
+
+  background: #0a0d0a;
+
+  color: #aeb9a7 !important;
+
+  cursor: pointer;
+}
+
+.character-volume.active {
+  border-color: #68775f;
+
+  background: #182016;
+}
+
+.character-volume input {
+  accent-color: #798a70;
+}
+
+
+/* =========================================================
+   DETAILS
+========================================================= */
+
+.character-section-title-row {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.character-section-title-row button {
+  padding: 8px 12px;
+
+  border: 1px solid #4d5949;
+  border-radius: 5px;
+
+  background: transparent;
+
+  color: #b9c9ad;
+
+  cursor: pointer;
+}
+
+.character-section-title-row button:hover {
+  background: #283126;
+}
+
+.character-details-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+.character-detail-row {
+  display: grid;
+
+  grid-template-columns:
+    1fr 2fr auto;
+
+  gap: 8px;
+
+  align-items: center;
+}
+
+.character-detail-row input {
+  min-width: 0;
+}
+
+.character-detail-row button {
+  width: 35px;
+  height: 35px;
+
+  border: 1px solid #4d403d;
+  border-radius: 4px;
+
+  background: transparent;
+
+  color: #a58d87;
+
+  font-size: 18px;
+
+  cursor: pointer;
+}
+
+.character-detail-row button:hover {
+  background: #2a1f1c;
+}
+
+
+/* =========================================================
+   FORM EMPTY
+========================================================= */
+
+.character-form-empty {
+  padding: 15px;
+
+  border: 1px dashed #30372f;
+  border-radius: 5px;
+
+  color: #6f776c;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.character-form-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+}
+
+.character-form-actions button {
+  padding: 10px 16px;
+
+  border-radius: 5px;
+
+  cursor: pointer;
+}
+
+.character-form-actions button[type="button"] {
+  border: 1px solid #465041;
+
+  background: transparent;
+
+  color: #aeb9a7;
+}
+
+.character-form-actions button[type="submit"] {
+  border: 1px solid #718366;
+
+  background: #697861;
+
+  color: white;
+}
+
+.character-form-actions button:hover {
+  filter: brightness(1.1);
+}
+
+.character-form-actions button:disabled {
+  opacity: 0.55;
+
+  cursor: default;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
 
 .admin-empty {
   max-width: 1500px;
@@ -261,7 +809,9 @@
 }
 
 
-/* STATES */
+/* =========================================================
+   STATES
+========================================================= */
 
 .admin-loading,
 .admin-error {
@@ -290,7 +840,9 @@
 }
 
 
-/* MOBILE */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 900px) {
 
@@ -313,6 +865,23 @@
     align-items: flex-start;
     flex-direction: column;
     gap: 18px;
+  }
+
+  .admin-characters-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-character-list {
+    grid-template-columns: 1fr;
+  }
+
+  .character-detail-row {
+    grid-template-columns: 1fr;
+  }
+
+  .character-section-title-row {
+    flex-direction: column;
   }
 
 }

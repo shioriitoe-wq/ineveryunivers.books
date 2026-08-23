@@ -1,0 +1,780 @@
+/* =========================================================
+   CELÁ STRÁNKA
+========================================================= */
+
+.characters-page {
+
+  position: relative;
+
+  width: 100%;
+
+  height: 100vh;
+
+  min-height: 100vh;
+
+  overflow-x: hidden;
+
+  overflow-y: auto;
+
+  background: #f7f7f4;
+
+  box-sizing: border-box;
+
+}
+
+
+/* =========================================================
+   POZADÍ
+========================================================= */
+
+.characters-background {
+
+  position: fixed;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background-image:
+    url("../assets/images/characterall.png");
+
+  background-size: cover;
+
+  background-position: center;
+
+  background-repeat: no-repeat;
+
+  z-index: 0;
+
+  pointer-events: none;
+
+}
+
+
+/* =========================================================
+   ZPĚT
+========================================================= */
+
+.characters-page-back {
+
+  position: absolute;
+
+  top: 42px;
+
+  left: 50px;
+
+  z-index: 50;
+
+}
+
+
+/* =========================================================
+   LOGO S VÁŽKOU
+========================================================= */
+
+.characters-page-logo {
+
+  position: absolute;
+
+  top: 28px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  z-index: 40;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  pointer-events: none;
+
+}
+
+
+.characters-page-logo img {
+
+  display: block;
+
+  width: 92px;
+
+  height: auto;
+
+  object-fit: contain;
+
+}
+
+
+/* =========================================================
+   OBSAH
+========================================================= */
+
+.characters-content {
+
+  position: relative;
+
+  z-index: 10;
+
+  width: min(
+    1400px,
+    calc(100% - 100px)
+  );
+
+  margin: 0 auto;
+
+  padding:
+    105px
+    0
+    150px;
+
+  box-sizing: border-box;
+
+}
+
+
+/* =========================================================
+   HLAVIČKA
+========================================================= */
+
+.characters-header {
+
+  position: relative;
+
+  z-index: 10;
+
+  text-align: center;
+
+  margin-bottom: 45px;
+
+}
+
+
+/* =========================================================
+   HLAVNÍ NADPIS
+========================================================= */
+
+.characters-header h1 {
+
+  margin: 0;
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: clamp(
+    48px,
+    5vw,
+    76px
+  );
+
+  font-weight: 500;
+
+  line-height: 1.05;
+
+  background:
+    linear-gradient(
+      90deg,
+      #06ddfe 0%,
+      #02c8f9 35%,
+      #d6a619 60%,
+      #f97500 100%
+    );
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+  color: transparent;
+
+}
+
+
+/* =========================================================
+   GRID POSTAV
+========================================================= */
+
+.characters-grid {
+
+  position: relative;
+
+  z-index: 10;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(
+        0,
+        1fr
+      )
+    );
+
+  column-gap: 45px;
+
+  row-gap: 65px;
+
+  width: 100%;
+
+  align-items: start;
+
+}
+
+
+/* =========================================================
+   KARTA
+========================================================= */
+
+.character-card {
+
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+
+  text-decoration: none;
+
+  color: inherit;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+
+}
+
+
+.character-card:hover {
+
+  transform:
+    translateY(-7px);
+
+  filter:
+    drop-shadow(
+      0 10px 20px
+      rgba(
+        31,
+        44,
+        36,
+        0.16
+      )
+    );
+
+}
+
+
+/* =========================================================
+   KOLEČKO
+========================================================= */
+
+.character-card-circle {
+
+  position: relative;
+
+  width: min(
+    220px,
+    100%
+  );
+
+  aspect-ratio: 1 / 1;
+
+  margin: 0 auto;
+
+}
+
+
+/* =========================================================
+   FOTOGRAFIE
+========================================================= */
+
+.character-card-photo {
+
+  position: absolute;
+
+  left: 10%;
+
+  top: 10%;
+
+  width: 80%;
+
+  height: 80%;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.25
+    );
+
+  z-index: 1;
+
+}
+
+
+/* =========================================================
+   FOTOGRAFIE UVNITŘ
+========================================================= */
+
+.character-card-photo img {
+
+  display: block;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  /*
+   * Posunutí výřezu nahoru,
+   * aby byly vidět obličeje.
+   */
+
+  object-position:
+    center
+    18%;
+
+}
+
+
+/* =========================================================
+   RÁMEČEK
+========================================================= */
+
+.character-card-frame {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: contain;
+
+  z-index: 3;
+
+  pointer-events: none;
+
+  transform:
+    rotate(0deg);
+
+  transition:
+    transform 1.2s ease,
+    filter 0.8s ease;
+
+}
+
+
+/* =========================================================
+   OTÁČENÍ RÁMEČKU
+========================================================= */
+
+.character-card:hover
+.character-card-frame {
+
+  transform:
+    rotate(180deg);
+
+  filter:
+
+    drop-shadow(
+      0 0 7px
+      rgba(
+        43,
+        202,
+        221,
+        0.35
+      )
+    )
+
+    drop-shadow(
+      0 0 12px
+      rgba(
+        243,
+        154,
+        75,
+        0.25
+      )
+    );
+
+}
+
+
+/* =========================================================
+   JEMNÁ ZÁŘE FOTOGRAFIE
+========================================================= */
+
+.character-card:hover
+.character-card-photo {
+
+  box-shadow:
+
+    0 0 18px
+    rgba(
+      72,
+      194,
+      210,
+      0.14
+    );
+
+}
+
+
+/* =========================================================
+   BEZ OBRÁZKU
+========================================================= */
+
+.character-card-no-image {
+
+  width: 100%;
+
+  height: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 25px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: 23px;
+
+  color: #596653;
+
+}
+
+
+/* =========================================================
+   JMÉNO
+========================================================= */
+
+.character-card-info {
+
+  position: relative;
+
+  z-index: 5;
+
+  margin-top: 15px;
+
+  padding:
+    0
+    5px;
+
+  text-align: center;
+
+}
+
+
+/* =========================================================
+   JMÉNO – BIRO
+========================================================= */
+
+.character-card-info h2 {
+
+  margin: 0;
+
+  font-family:
+    "Biro Script Plus",
+    cursive;
+
+  font-size: 30px;
+
+  font-weight: 400;
+
+  line-height: 1.15;
+
+  color: #03c9ec;
+
+}
+
+
+/* =========================================================
+   ŽÁDNÉ POSTAVY
+========================================================= */
+
+.characters-empty {
+
+  position: relative;
+
+  z-index: 10;
+
+  width: min(
+    650px,
+    100%
+  );
+
+  margin:
+    80px
+    auto;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: 22px;
+
+  color: #687565;
+
+  border-top:
+    1px solid
+    rgba(
+      65,
+      78,
+      67,
+      0.3
+    );
+
+  border-bottom:
+    1px solid
+    rgba(
+      65,
+      78,
+      67,
+      0.3
+    );
+
+}
+
+
+/* =========================================================
+   NAČÍTÁNÍ / CHYBA
+========================================================= */
+
+.characters-page-state {
+
+  position: relative;
+
+  z-index: 30;
+
+  min-height: 100vh;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 40px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size: 22px;
+
+  color: #596653;
+
+}
+
+
+.characters-page-error {
+
+  color: #9b5555;
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .characters-grid {
+
+    grid-template-columns:
+      repeat(
+        3,
+        minmax(
+          0,
+          1fr
+        )
+      );
+
+    column-gap: 35px;
+
+    row-gap: 60px;
+
+  }
+
+
+  .character-card-circle {
+
+    width: 210px;
+
+  }
+
+}
+
+
+/* =========================================================
+   MENŠÍ TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+  .characters-content {
+
+    width:
+      calc(100% - 50px);
+
+    padding:
+      100px
+      0
+      100px;
+
+  }
+
+
+  .characters-grid {
+
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(
+          0,
+          1fr
+        )
+      );
+
+    column-gap: 30px;
+
+    row-gap: 50px;
+
+  }
+
+
+  .character-card-circle {
+
+    width: 205px;
+
+  }
+
+
+  .characters-page-back {
+
+    top: 30px;
+
+    left: 25px;
+
+  }
+
+
+  .characters-page-logo {
+
+    top: 20px;
+
+  }
+
+
+  .characters-page-logo img {
+
+    width: 75px;
+
+  }
+
+}
+
+
+/* =========================================================
+   MOBIL
+========================================================= */
+
+@media (max-width: 500px) {
+
+  .characters-content {
+
+    width:
+      calc(100% - 35px);
+
+    padding:
+      85px
+      0
+      70px;
+
+  }
+
+
+  .characters-header {
+
+    margin-bottom: 40px;
+
+  }
+
+
+  .characters-header h1 {
+
+    font-size: 46px;
+
+  }
+
+
+  .characters-grid {
+
+    grid-template-columns:
+      1fr;
+
+    row-gap: 45px;
+
+  }
+
+
+  .character-card-circle {
+
+    width: 220px;
+
+  }
+
+
+  .character-card-info h2 {
+
+    font-size: 29px;
+
+  }
+
+
+  .characters-page-back {
+
+    left: 20px;
+
+  }
+
+}

@@ -1,18 +1,37 @@
 from .database import get_connection
 
 
-def _add_column_if_missing(cursor, table_name, column_name, column_definition):
+def _add_column_if_missing(
+    cursor,
+    table_name,
+    column_name,
+    column_definition
+):
     cursor.execute(f"PRAGMA table_info({table_name})")
-    columns = {row[1] for row in cursor.fetchall()}
+
+    columns = {
+        row[1]
+        for row in cursor.fetchall()
+    }
+
     if column_name not in columns:
         cursor.execute(
-            f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_definition}"
+            f"""
+            ALTER TABLE {table_name}
+            ADD COLUMN {column_name} {column_definition}
+            """
         )
 
 
 def initialize_database():
+
     connection = get_connection()
     cursor = connection.cursor()
+
+
+    # =====================================================
+    # KNIHY
+    # =====================================================
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS books (
@@ -24,8 +43,24 @@ def initialize_database():
         )
     """)
 
-    _add_column_if_missing(cursor, "books", "uses_volumes", "INTEGER NOT NULL DEFAULT 0")
-    _add_column_if_missing(cursor, "books", "uses_parts", "INTEGER NOT NULL DEFAULT 0")
+    _add_column_if_missing(
+        cursor,
+        "books",
+        "uses_volumes",
+        "INTEGER NOT NULL DEFAULT 0"
+    )
+
+    _add_column_if_missing(
+        cursor,
+        "books",
+        "uses_parts",
+        "INTEGER NOT NULL DEFAULT 0"
+    )
+
+
+    # =====================================================
+    # DÍLY
+    # =====================================================
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS volumes (
@@ -33,52 +68,244 @@ def initialize_database():
             book_id INTEGER NOT NULL,
             number INTEGER,
             title TEXT NOT NULL,
-            FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
+
+            FOREIGN KEY (book_id)
+                REFERENCES books(id)
+                ON DELETE CASCADE
         )
     """)
+
+
+    # =====================================================
+    # ČÁSTI
+    #
+    # Každá část má vlastní design/theme.
+    #
+    # summer
+    # autumn
+    # winter
+    # spring
+    #
+    # volume_id může být NULL:
+    #
+    # Kniha
+    # └── Část
+    #
+    # nebo:
+    #
+    # Kniha
+    # └── Díl
+    #     └── Část
+    # =====================================================
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS parts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+
             book_id INTEGER NOT NULL,
+
             volume_id INTEGER,
+
             number INTEGER,
+
             title TEXT NOT NULL,
-            FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE,
-            FOREIGN KEY (volume_id) REFERENCES volumes(id) ON DELETE CASCADE
+
+            theme TEXT NOT NULL DEFAULT 'summer',
+
+            FOREIGN KEY (book_id)
+                REFERENCES books(id)
+                ON DELETE CASCADE,
+
+            FOREIGN KEY (volume_id)
+                REFERENCES volumes(id)
+                ON DELETE CASCADE
         )
     """)
 
-    # Kapitoly ukládáme jako HTML z vizuálního editoru.
-    # Uživatel nikdy nemusí HTML psát ručně.
+
+    # -----------------------------------------------------
+    # DŮLEŽITÉ:
+    #
+    # Pokud už tabulka parts existovala ze starší verze,
+    # pouze do ní přidáme theme.
+    #
+    # Stávající části se nesmažou.
+    # Dostanou automaticky theme = summer.
+    # -----------------------------------------------------
+
+    _add_column_if_missing(
+        cursor,
+        "parts",
+        "theme",
+        "TEXT NOT NULL DEFAULT 'summer'"
+    )
+
+
+    # =====================================================
+    # VIDEO POSTAVY
+    # =====================================================
+
+    # Tabulka characters je v projektu vytvořená starší migrací.
+    # Pokud už existuje, bezpečně do ní přidáme main_video.
+    cursor.execute("""
+        SELECT name
+        FROM sqlite_master
+        WHERE type = 'table'
+          AND name = 'characters'
+    """)
+
+    if cursor.fetchone() is not None:
+        _add_column_if_missing(
+            cursor,
+            "characters",
+            "main_video",
+            "TEXT"
+        )
+
+
+    # =====================================================
+    # KAPITOLY
+    # =====================================================
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS chapters (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+
             book_id INTEGER NOT NULL,
+
             volume_id INTEGER,
+
             part_id INTEGER,
+
             number INTEGER NOT NULL,
+
             title TEXT NOT NULL,
+
             content_html TEXT NOT NULL DEFAULT '',
+
             status TEXT NOT NULL DEFAULT 'concept',
-            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE,
-            FOREIGN KEY (volume_id) REFERENCES volumes(id) ON DELETE SET NULL,
-            FOREIGN KEY (part_id) REFERENCES parts(id) ON DELETE SET NULL
+
+            created_at TEXT NOT NULL
+                DEFAULT CURRENT_TIMESTAMP,
+
+            updated_at TEXT NOT NULL
+                DEFAULT CURRENT_TIMESTAMP,
+
+            FOREIGN KEY (book_id)
+                REFERENCES books(id)
+                ON DELETE CASCADE,
+
+            FOREIGN KEY (volume_id)
+                REFERENCES volumes(id)
+                ON DELETE SET NULL,
+
+            FOREIGN KEY (part_id)
+                REFERENCES parts(id)
+                ON DELETE SET NULL
         )
     """)
 
+
+    # =====================================================
+    # CITÁTY POSTAV
+    # =====================================================
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS character_quotes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            character_id INTEGER NOT NULL,
+
+            quote TEXT NOT NULL,
+
+            author TEXT NOT NULL DEFAULT '',
+
+            volume_id INTEGER,
+
+            sort_order INTEGER NOT NULL DEFAULT 0,
+
+            FOREIGN KEY (character_id)
+                REFERENCES characters(id)
+                ON DELETE CASCADE,
+
+            FOREIGN KEY (volume_id)
+                REFERENCES volumes(id)
+                ON DELETE SET NULL
+        )
+    """)
+
+
+    # =====================================================
+    # VZTAHY POSTAV
+    # =====================================================
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS character_relationships (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            character_id INTEGER NOT NULL,
+
+            related_character_id INTEGER NOT NULL,
+
+            relationship_type TEXT NOT NULL,
+
+            FOREIGN KEY (character_id)
+                REFERENCES characters(id)
+                ON DELETE CASCADE,
+
+            FOREIGN KEY (related_character_id)
+                REFERENCES characters(id)
+                ON DELETE CASCADE,
+
+            UNIQUE (
+                character_id,
+                related_character_id
+            )
+        )
+    """)
+
+
+    # =====================================================
+    # ZÁKLADNÍ KNIHY
+    # =====================================================
+
     cursor.execute("""
         INSERT OR IGNORE INTO books
-            (id, title, status, type, parent_id, uses_volumes, uses_parts)
+            (
+                id,
+                title,
+                status,
+                type,
+                parent_id,
+                uses_volumes,
+                uses_parts
+            )
         VALUES
-            (1, '(Ne)začalo to létem', 'Rozpracováno', 'series', NULL, 1, 1),
-            (2, 'AEIL', 'Rozpracováno', 'standalone', NULL, 0, 0)
+            (
+                1,
+                '(Ne)začalo to létem',
+                'Rozpracováno',
+                'series',
+                NULL,
+                1,
+                1
+            ),
+
+            (
+                2,
+                'AEIL',
+                'Rozpracováno',
+                'standalone',
+                NULL,
+                0,
+                0
+            )
     """)
+
 
     connection.commit()
     connection.close()
+
 
     print("Databáze byla připravena.")
 

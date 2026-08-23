@@ -61,7 +61,9 @@ export default function NezacaloToLetemPage() {
             ===================================================== */}
 
             <div className="summer-back">
+
                 <BackButton to="/books/nezacalo-series" />
+
             </div>
 
 
@@ -70,6 +72,7 @@ export default function NezacaloToLetemPage() {
             ===================================================== */}
 
             <section className="summer-hero">
+
 
                 {/* =================================================
                     LEVÁ ČÁST – OBAL KNIHY
@@ -88,6 +91,7 @@ export default function NezacaloToLetemPage() {
                             />
 
                         </div>
+
 
                         <img
                             src={frameBlueOrange}
@@ -160,11 +164,15 @@ export default function NezacaloToLetemPage() {
 
             <section className="summer-panels">
 
+
                 {/* =================================================
                     POSTAVY
                 ================================================= */}
 
-                <div className="summer-panel-wrapper">
+                <Link
+                    to="/project/1/volume/1/characters"
+                    className="summer-panel-wrapper"
+                >
 
                     <div className="summer-panel">
 
@@ -176,6 +184,7 @@ export default function NezacaloToLetemPage() {
 
                     </div>
 
+
                     <img
                         src={frameBlueOrange}
                         alt=""
@@ -183,11 +192,12 @@ export default function NezacaloToLetemPage() {
                         aria-hidden="true"
                     />
 
+
                     <span className="summer-panel-label">
                         POSTAVY
                     </span>
 
-                </div>
+                </Link>
 
 
                 {/* =================================================
@@ -209,12 +219,14 @@ export default function NezacaloToLetemPage() {
 
                     </div>
 
+
                     <img
                         src={frameBlueOrange}
                         alt=""
                         className="summer-panel-frame"
                         aria-hidden="true"
                     />
+
 
                     <span className="summer-panel-label">
                         KAPITOLY
@@ -239,12 +251,14 @@ export default function NezacaloToLetemPage() {
 
                     </div>
 
+
                     <img
                         src={frameBlueOrange}
                         alt=""
                         className="summer-panel-frame"
                         aria-hidden="true"
                     />
+
 
                     <span className="summer-panel-label">
                         VIDEA
@@ -269,12 +283,14 @@ export default function NezacaloToLetemPage() {
 
                     </div>
 
+
                     <img
                         src={frameBlueOrange}
                         alt=""
                         className="summer-panel-frame"
                         aria-hidden="true"
                     />
+
 
                     <span className="summer-panel-label">
                         SOUNDTRACK

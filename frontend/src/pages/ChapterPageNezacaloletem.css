@@ -12,7 +12,7 @@
 
 /* =========================================
    SPOLEČNÝ ZÁKLAD
-   ========================================= */
+========================================= */
 
 .chapter-page {
     min-height: 100vh;
@@ -28,7 +28,7 @@
 
 /* =========================================
    LETNÍ VERZE
-   ========================================= */
+========================================= */
 
 .chapter-summer {
     background-image: url("../assets/images/chapter-summer.png");
@@ -40,10 +40,11 @@
 
 
 /* =========================================
-   VOZÍČEK – LÉTO
-   ========================================= */
+   DEKORACE – LÉTO
+   VOZÍČEK VLEVO DOLE
+========================================= */
 
-.chapter-summer .chapter-hotdog {
+.chapter-decoration-summer {
     position: fixed;
 
     left: 0;
@@ -60,7 +61,7 @@
 
 /* =========================================
    PODZIMNÍ VERZE
-   ========================================= */
+========================================= */
 
 .chapter-autumn {
     background-image: url("../assets/images/chapter-autumn.png");
@@ -72,10 +73,117 @@
 
 
 /* =========================================
-   DÝNĚ – PODZIM
-   ========================================= */
+   DEKORACE – PODZIM
+   DÝNĚ VPRAVO DOLE
+========================================= */
 
-.chapter-autumn .chapter-hotdog {
+.chapter-decoration-autumn {
+    position: fixed;
+
+    right: 0;
+    bottom: 0;
+
+    width: 160px;
+    height: auto;
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   ZIMNÍ VERZE
+========================================= */
+
+.chapter-winter {
+    background-image: url("../assets/images/chapter-winter.png");
+
+    background-size: 100% auto;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+
+/* =========================================
+   DEKORACE – ZIMA
+   ICE VPRAVO DOLE
+========================================= */
+
+.chapter-decoration-winter {
+    position: fixed;
+
+    right: 0;
+    bottom: 0;
+
+    width: 160px;
+    height: auto;
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   DEKORACE – ZIMA
+   MATCHA VLEVO DOLE
+========================================= */
+
+.chapter-decoration-winter-matcha {
+    position: fixed;
+
+    left: 0;
+    bottom: 0;
+
+    width: 160px;
+    height: auto;
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   JARNÍ VERZE
+========================================= */
+
+.chapter-spring {
+    background-image: url("../assets/images/chapter-spring.png");
+
+    background-size: 100% auto;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+
+/* =========================================
+   DEKORACE – JARO
+   MOTORKA VLEVO DOLE
+========================================= */
+
+.chapter-decoration-spring-moto {
+    position: fixed;
+
+    left: 0;
+    bottom: 0;
+
+    width: 160px;
+    height: auto;
+
+    z-index: 10;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   DEKORACE – JARO
+   PILULKY VPRAVO DOLE
+========================================= */
+
+.chapter-decoration-spring-pills {
     position: fixed;
 
     right: 0;
@@ -92,7 +200,7 @@
 
 /* =========================================
    HLAVIČKA
-   ========================================= */
+========================================= */
 
 .chapter-header {
     position: fixed;
@@ -113,7 +221,7 @@
 
 /* =========================================
    LOGO VÁŽKY
-   ========================================= */
+========================================= */
 
 .chapter-library-logo {
     position: absolute;
@@ -138,7 +246,7 @@
 
 /* =========================================
    ZPĚT KE KAPITOLÁM
-   ========================================= */
+========================================= */
 
 .chapter-back {
     position: absolute;
@@ -168,7 +276,7 @@
 
 /* =========================================
    OBSAH KAPITOLY
-   ========================================= */
+========================================= */
 
 .chapter-content {
     position: fixed;
@@ -189,7 +297,7 @@
 
 /* =========================================
    NADPIS
-   ========================================= */
+========================================= */
 
 .chapter-content h1 {
     margin-top: 110px;
@@ -207,15 +315,10 @@
 
 /* =========================================
    TEXT KAPITOLY – SAMOSTATNÝ SCROLL
-   ========================================= */
+========================================= */
 
 .chapter-text {
     position: absolute;
-
-    /*
-    TADY nastavuješ, kde začne text.
-    150px = současná pozice pod světýlky.
-    */
 
     top: 150px;
 
@@ -223,17 +326,7 @@
 
     transform: translateX(-50%);
 
-    /*
-    TADY nastavuješ ŠÍŘKU TEXTOVÉHO POLE.
-    Teď je 1100 px / maximálně 80 % obrazovky.
-    */
-
     width: min(1100px, 80%);
-
-    /*
-    Text může sahat až nad spodní navigaci,
-    ale navigace zůstává stále viditelná.
-    */
 
     bottom: 110px;
 
@@ -262,7 +355,7 @@
 
 /* =========================================
    ODSTAVCE
-   ========================================= */
+========================================= */
 
 .chapter-text p {
     margin: 0 0 25px 0;
@@ -271,7 +364,7 @@
 
 /* =========================================
    SCROLLBAR
-   ========================================= */
+========================================= */
 
 .chapter-text::-webkit-scrollbar {
     width: 6px;
@@ -289,7 +382,7 @@
 
 /* =========================================
    NAVIGACE
-   ========================================= */
+========================================= */
 
 .chapter-navigation {
     position: fixed;
@@ -335,7 +428,7 @@
 
 /* =========================================
    NÁSTROJE
-   ========================================= */
+========================================= */
 
 .chapter-tools {
     position: fixed;
@@ -361,7 +454,7 @@
 
 /* =========================================
    PANELY – LETNÍ PNG RÁMEČEK
-   ========================================= */
+========================================= */
 
 .chapter-summer .chapter-tools button {
     width: 180px;
@@ -406,7 +499,7 @@
 
 /* =========================================
    PANELY – PODZIMNÍ PNG RÁMEČEK
-   ========================================= */
+========================================= */
 
 .chapter-autumn .chapter-tools button {
     width: 180px;
@@ -450,8 +543,98 @@
 
 
 /* =========================================
+   PANELY – ZIMNÍ PNG RÁMEČEK
+========================================= */
+
+.chapter-winter .chapter-tools button {
+    width: 180px;
+    height: 80px;
+
+    padding: 0;
+    margin: 0;
+
+    background-color: transparent;
+
+    background-image: url("../assets/frames/frame-nezacalo-to-letem-winter.png");
+    background-size: 100% 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    border: none;
+    border-radius: 0;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    cursor: pointer;
+
+    font-family: inherit;
+    font-size: 15px;
+    letter-spacing: 1px;
+
+    color: #164f6b;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 0 0 10px 0;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   PANELY – JARNÍ PNG RÁMEČEK
+========================================= */
+
+.chapter-spring .chapter-tools button {
+    width: 180px;
+    height: 80px;
+
+    padding: 0;
+    margin: 0;
+
+    background-color: transparent;
+
+    background-image: url("../assets/frames/frame-nezacalo-to-letem-spring.png");
+    background-size: 100% 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    border: none;
+    border-radius: 0;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    cursor: pointer;
+
+    font-family: inherit;
+    font-size: 15px;
+    letter-spacing: 1px;
+
+    color: #164f6b;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 0 0 10px 0;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
    HOVER EFEKT PANELŮ
-   ========================================= */
+========================================= */
 
 .chapter-tools button {
     transition:
@@ -470,4 +653,77 @@
 
     text-shadow:
         0 0 5px rgba(190, 124, 179, 0.45);
+}
+
+
+/* =========================================
+   BARVY TEXTŮ PODLE MOTIVU
+========================================= */
+
+
+/* =========================================
+   LÉTO
+========================================= */
+
+.chapter-summer .chapter-back {
+    color: #4c208a;
+}
+
+.chapter-summer .chapter-content h1 {
+    color: #be7cb3;
+}
+
+.chapter-summer .chapter-navigation button {
+    color: #5f2bc1;
+}
+
+
+/* =========================================
+   PODZIM
+========================================= */
+
+.chapter-autumn .chapter-back {
+    color: #8a3f32;
+}
+
+.chapter-autumn .chapter-content h1 {
+    color: #cf6131;
+}
+
+.chapter-autumn .chapter-navigation button {
+    color: #ef6f26;
+}
+
+
+/* =========================================
+   ZIMA
+========================================= */
+
+.chapter-winter .chapter-back {
+    color: #4f839a;
+}
+
+.chapter-winter .chapter-content h1 {
+    color: #539ecc;
+}
+
+.chapter-winter .chapter-navigation button {
+    color: #799ee8;
+}
+
+
+/* =========================================
+   JARO
+========================================= */
+
+.chapter-spring .chapter-back {
+    color: #fbfcfa;
+}
+
+.chapter-spring .chapter-content h1 {
+    color: #925c88;
+}
+
+.chapter-spring .chapter-navigation button {
+    color: #ffffff;
 }
