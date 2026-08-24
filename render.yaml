@@ -3,6 +3,5 @@ services:
     name: ineveryunivers-books-api
     runtime: python
     rootDir: Backend
-    buildCommand: pip install -r requirements.txt
-    preDeployCommand: python -m database.init_database
+    buildCommand: pip install -r requirements.txt && python -m database.init_database
     startCommand: gunicorn app:app
