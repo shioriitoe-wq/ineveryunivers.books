@@ -142,25 +142,125 @@ def initialize_database():
 
 
     # =====================================================
-    # VIDEO POSTAVY
+    # POSTAVY
     # =====================================================
 
-    # Tabulka characters je v projektu vytvořená starší migrací.
-    # Pokud už existuje, bezpečně do ní přidáme main_video.
     cursor.execute("""
-        SELECT name
-        FROM sqlite_master
-        WHERE type = 'table'
-          AND name = 'characters'
+        CREATE TABLE IF NOT EXISTS characters (
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            book_id INTEGER NOT NULL,
+
+            name TEXT NOT NULL,
+
+            quote TEXT NOT NULL DEFAULT '',
+
+            content_html TEXT NOT NULL DEFAULT '',
+
+            main_image TEXT,
+
+            header_image TEXT,
+
+            sort_order INTEGER NOT NULL DEFAULT 0,
+
+            published INTEGER NOT NULL DEFAULT 1,
+
+            created_at TEXT NOT NULL
+                DEFAULT CURRENT_TIMESTAMP,
+
+            updated_at TEXT NOT NULL
+                DEFAULT CURRENT_TIMESTAMP,
+
+            main_video TEXT,
+
+            FOREIGN KEY (book_id)
+                REFERENCES books(id)
+                ON DELETE CASCADE
+        )
     """)
 
-    if cursor.fetchone() is not None:
-        _add_column_if_missing(
-            cursor,
-            "characters",
-            "main_video",
-            "TEXT"
+    _add_column_if_missing(
+        cursor,
+        "characters",
+        "main_video",
+        "TEXT"
+    )
+
+
+    # =====================================================
+    # POSTAVY × DÍLY
+    # =====================================================
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS character_volumes (
+
+            character_id INTEGER NOT NULL,
+
+            volume_id INTEGER NOT NULL,
+
+            PRIMARY KEY (
+                character_id,
+                volume_id
+            ),
+
+            FOREIGN KEY (character_id)
+                REFERENCES characters(id)
+                ON DELETE CASCADE,
+
+            FOREIGN KEY (volume_id)
+                REFERENCES volumes(id)
+                ON DELETE CASCADE
         )
+    """)
+
+
+    # =====================================================
+    # DETAILY POSTAV
+    # =====================================================
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS character_details (
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            character_id INTEGER NOT NULL,
+
+            label TEXT NOT NULL,
+
+            value TEXT NOT NULL DEFAULT '',
+
+            sort_order INTEGER NOT NULL DEFAULT 0,
+
+            FOREIGN KEY (character_id)
+                REFERENCES characters(id)
+                ON DELETE CASCADE
+        )
+    """)
+
+
+    # =====================================================
+    # OBRÁZKY POSTAV
+    # =====================================================
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS character_images (
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            character_id INTEGER NOT NULL,
+
+            image TEXT NOT NULL,
+
+            caption TEXT NOT NULL DEFAULT '',
+
+            sort_order INTEGER NOT NULL DEFAULT 0,
+
+            FOREIGN KEY (character_id)
+                REFERENCES characters(id)
+                ON DELETE CASCADE
+        )
+    """)
 
 
     # =====================================================
