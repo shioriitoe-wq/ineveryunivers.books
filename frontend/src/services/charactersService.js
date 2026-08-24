@@ -1,4 +1,6 @@
-const API = "http://127.0.0.1:5000/api";
+const API =
+  import.meta.env.VITE_API_URL ||
+  "http://127.0.0.1:5000/api";
 
 
 /* =========================================================
@@ -100,7 +102,7 @@ export function getCharacter(
 
 
 /* =========================================================
-   VYTVOŘENÍ POSTAVY
+   VYTVOŘIT POSTAVU
    ========================================================= */
 
 export function addCharacter(
@@ -114,12 +116,10 @@ export function addCharacter(
       method: "POST",
 
       headers: {
-        "Content-Type":
-          "application/json",
+        "Content-Type": "application/json",
       },
 
-      body:
-        JSON.stringify(character),
+      body: JSON.stringify(character),
     },
 
     "Nepodařilo se přidat postavu."
@@ -143,12 +143,10 @@ export function updateCharacter(
       method: "PUT",
 
       headers: {
-        "Content-Type":
-          "application/json",
+        "Content-Type": "application/json",
       },
 
-      body:
-        JSON.stringify(character),
+      body: JSON.stringify(character),
     },
 
     "Nepodařilo se upravit postavu."
@@ -157,7 +155,7 @@ export function updateCharacter(
 
 
 /* =========================================================
-   SMAZÁNÍ POSTAVY
+   SMAZAT POSTAVU
    ========================================================= */
 
 export function deleteCharacter(
