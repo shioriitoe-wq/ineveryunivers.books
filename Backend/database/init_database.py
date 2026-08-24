@@ -1,5 +1,4 @@
 from pathlib import Path
-import sqlite3
 
 from .database import get_connection
 
@@ -44,49 +43,160 @@ def _database_is_empty(cursor):
     return cursor.fetchone() is None
 
 
-def _load_seed(cursor):
+def _table_exists(cursor, table_name):
+    cursor.execute(
+        """
+        SELECT 1
+        FROM sqlite_master
+        WHERE type = 'table'
+          AND name = ?
+        """,
+        (table_name,)
+    )
+
+    return cursor.fetchone() is not None
+
+
+def _count(cursor, table_name):
+    if not _table_exists(cursor, table_name):
+        return 0
+
+    cursor.execute(
+        f"SELECT COUNT(*) FROM {table_name}"
+    )
+
+    return cursor.fetchone()[0]
+
+
+def _is_old_empty_database(cursor):
+    """
+    Rozpozná databázi vytvořenou našimi předchozími
+    inicializacemi.
+
+    Taková databáze už má:
+        books
+        volumes
+        parts
+        chapters
+        characters
+
+    ale obsahuje pouze základní knihy a žádná skutečná data.
+    """
+
+    if not _table_exists(cursor, "books"):
+        return False
+
+    books_count = _count(cursor, "books")
+    volumes_count = _count(cursor, "volumes")
+    parts_count = _count(cursor, "parts")
+    chapters_count = _count(cursor, "chapters")
+    characters_count = _count(cursor, "characters")
+
+    return (
+        books_count <= 2
+        and volumes_count == 0
+        and parts_count == 0
+        and chapters_count == 0
+        and characters_count == 0
+    )
+
+
+def _load_seed_into_connection(connection):
+    """
+    Načte kompletní seed.sql do aktuální SQLite databáze.
+
+    Seed obsahuje vlastní CREATE TABLE a INSERT příkazy,
+    proto je určený pro čistou databázi.
+    """
+
     if not SEED_PATH.exists():
         print(f"SEED SOUBOR NENALEZEN: {SEED_PATH}")
         return False
 
     print(f"Načítám seed databáze: {SEED_PATH}")
 
-    seed_sql = SEED_PATH.read_text(encoding="utf-8")
+    seed_sql = SEED_PATH.read_text(
+        encoding="utf-8"
+    )
 
-    # seed.sql obsahuje vlastní BEGIN/COMMIT,
-    # proto ho spouštíme přes executescript.
+    cursor = connection.cursor()
+
     cursor.executescript(seed_sql)
 
+    connection.commit()
+
     print("Seed databáze byl načten.")
+
     return True
+
+
+def _replace_database_with_seed(connection):
+    """
+    Použije se pouze pro naši starou, poloprázdnou databázi.
+
+    Databáze se zavře, smaže a vytvoří znovu ze seed.sql.
+    """
+
+    connection.close()
+
+    if DATABASE_PATH.exists():
+        DATABASE_PATH.unlink()
+
+    new_connection = get_connection()
+
+    try:
+        if _load_seed_into_connection(new_connection):
+            print("Databáze byla obnovena ze seed.sql.")
+            return new_connection
+
+        return new_connection
+
+    except Exception:
+        new_connection.close()
+        raise
 
 
 def initialize_database():
 
     connection = get_connection()
-    cursor = connection.cursor()
 
     try:
+
+        cursor = connection.cursor()
 
         # =====================================================
         # NOVÁ / PRÁZDNÁ DATABÁZE
         # =====================================================
 
-        database_was_empty = _database_is_empty(cursor)
+        if _database_is_empty(cursor):
 
-        if database_was_empty:
             print("Databáze je prázdná.")
 
-            # Seed obsahuje kompletní strukturu i data.
-            if _load_seed(cursor):
-                connection.commit()
-
+            if _load_seed_into_connection(connection):
                 print("Databáze byla vytvořena ze seed.sql.")
                 return
 
         # =====================================================
+        # STARÁ POLOPRÁZDNÁ DATABÁZE
+        # =====================================================
+
+        if _is_old_empty_database(cursor):
+
+            print(
+                "Byla nalezena stará prázdná databáze "
+                "z předchozí inicializace."
+            )
+
+            connection = _replace_database_with_seed(connection)
+
+            print("Databáze byla vytvořena ze seed.sql.")
+            return
+
+        # =====================================================
         # KNIHY
         # =====================================================
+
+        cursor = connection.cursor()
 
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS books (
