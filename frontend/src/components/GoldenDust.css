@@ -22,19 +22,19 @@
 
 .dust-layer.far{
 
-    z-index:42;
+    z-index:70;
 
 }
 
 .dust-layer.mid{
 
-    z-index:43;
+    z-index:71;
 
 }
 
 .dust-layer.near{
 
-    z-index:44;
+    z-index:72;
 
 }
 

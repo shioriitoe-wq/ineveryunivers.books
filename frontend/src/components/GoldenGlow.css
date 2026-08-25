@@ -71,6 +71,18 @@
     z-index:49;
 
 }
+  
+.glow-layer{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    z-index:18;
+
+}
 
 /* ===========================================
    ANIMACE

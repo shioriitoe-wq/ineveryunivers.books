@@ -1,0 +1,1282 @@
+/* =========================================================
+   ZÁKLAD STRÁNKY
+========================================================= */
+
+.aeil-page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #120506;
+    color: #d8b36a;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+}
+
+
+/* =========================================================
+   KRAJKA – CELÝ OBRÁZEK
+========================================================= */
+
+.aeil-lace {
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    object-fit: fill;
+    object-position: center;
+
+    display: block;
+
+    pointer-events: none;
+    user-select: none;
+
+    z-index: 0;
+    opacity: 1;
+}
+
+
+/* =========================================================
+   JISKRY
+========================================================= */
+
+.aeil-sparks {
+    position: fixed;
+    inset: 0;
+
+    pointer-events: none;
+    z-index: 2;
+
+    opacity: 0;
+
+    background-image:
+        radial-gradient(
+            circle,
+            rgba(255, 211, 105, 0.95) 0,
+            rgba(255, 211, 105, 0.95) 1px,
+            transparent 2px
+        ),
+        radial-gradient(
+            circle,
+            rgba(214, 159, 49, 0.8) 0,
+            rgba(214, 159, 49, 0.8) 1px,
+            transparent 2px
+        );
+
+    background-size:
+        180px 180px,
+        260px 260px;
+
+    background-position:
+        20px 30px,
+        80px 110px;
+
+    animation:
+        aeilSparkFloat 18s linear infinite,
+        aeilSparkAppear 5s ease-out forwards;
+}
+
+.aeil-sparks-two {
+    background-size:
+        230px 230px,
+        340px 340px;
+
+    background-position:
+        100px 20px,
+        30px 160px;
+
+    animation-duration:
+        23s,
+        7s;
+
+    animation-delay:
+        -7s,
+        1s;
+}
+
+.aeil-sparks-three {
+    background-size:
+        310px 310px,
+        420px 420px;
+
+    background-position:
+        40px 100px,
+        170px 40px;
+
+    animation-duration:
+        29s,
+        9s;
+
+    animation-delay:
+        -14s,
+        2s;
+}
+
+@keyframes aeilSparkFloat {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    50% {
+        transform: translate3d(-15px, -25px, 0);
+    }
+
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes aeilSparkAppear {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0.45;
+    }
+}
+
+
+/* =========================================================
+   ZPĚT
+========================================================= */
+
+.aeil-back {
+    position: absolute;
+
+    top: 28px;
+    left: 5.2%;
+
+    z-index: 30;
+}
+
+.aeil-back button {
+    background: none;
+    border: none;
+    padding: 0;
+
+    color: #d7ae60;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    transition:
+        color 0.3s ease,
+        text-shadow 0.3s ease;
+}
+
+.aeil-back button:hover {
+    color: #f2d18a;
+
+    text-shadow:
+        0 0 8px rgba(224, 174, 73, 0.55);
+}
+
+
+/* =========================================================
+   HLAVNÍ HERO
+========================================================= */
+
+.aeil-hero {
+    position: relative;
+    z-index: 5;
+
+    width: 100%;
+    height: 62vh;
+    min-height: 440px;
+
+    box-sizing: border-box;
+
+    display: grid;
+
+    grid-template-columns:
+        43% 57%;
+
+    align-items: center;
+
+    padding:
+        48px
+        5%
+        0;
+}
+
+
+/* =========================================================
+   LEVÁ ČÁST
+========================================================= */
+
+.aeil-cover-area {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HLAVNÍ KRUH
+========================================================= */
+
+.aeil-cover-wrapper {
+    position: relative;
+
+    width: min(365px, 27vw);
+
+    aspect-ratio: 1 / 1;
+
+    flex-shrink: 0;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   KRUH
+========================================================= */
+
+.aeil-cover-circle {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+    overflow: hidden;
+
+    background: #100303;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   AEIL.PNG – STÁLÝ OBRÁZEK
+========================================================= */
+
+.aeil-cover-base {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    display: block;
+
+    border-radius: 50%;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   GIF – OBJEVÍ SE PŘI HOVERU
+========================================================= */
+
+.aeil-cover-gif {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    display: block;
+
+    border-radius: 50%;
+
+    z-index: 2;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.35s ease;
+}
+
+
+/* GIF se objeví až po najetí */
+
+.aeil-cover-wrapper:hover .aeil-cover-gif {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   HLAVNÍ RÁMEČEK
+========================================================= */
+
+.aeil-cover-frame {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 119%;
+    height: 119%;
+
+    object-fit: contain;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(0deg);
+
+    transform-origin: center center;
+
+    pointer-events: none;
+
+    z-index: 5;
+
+    will-change: transform;
+
+    transition:
+        filter 0.4s ease;
+}
+
+
+/* =========================================================
+   HLAVNÍ RÁMEČEK – OTÁČENÍ PŘI HOVERU
+========================================================= */
+
+.aeil-cover-wrapper:hover .aeil-cover-frame {
+    animation:
+        aeilMainFrameRotate
+        8s
+        linear
+        infinite;
+
+    filter:
+        drop-shadow(
+            0 0 8px
+            rgba(238, 188, 76, 0.7)
+        )
+        drop-shadow(
+            0 0 18px
+            rgba(182, 101, 25, 0.4)
+        );
+}
+
+@keyframes aeilMainFrameRotate {
+    from {
+        transform:
+            translate(-50%, -50%)
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            translate(-50%, -50%)
+            rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   PRAVÁ ČÁST
+========================================================= */
+
+.aeil-intro {
+    width: 100%;
+    max-width: 720px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        0
+        7%
+        0
+        0;
+}
+
+
+/* =========================================================
+   AEIL – OBRÁZEK NADPISU
+========================================================= */
+
+.aeil-title {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    /*
+       TADY OVLÁDÁŠ POZICI AEIL.
+
+       kladné číslo = níž
+       záporné číslo = výš
+
+       Například:
+       top: 20px;
+       top: 30px;
+       top: 40px;
+    */
+
+    position: relative;
+    top: 25px;
+
+    margin: 0;
+
+    z-index: 10;
+}
+
+
+/* =========================================================
+   OBRÁZEK AEIL
+========================================================= */
+
+.aeil-title-image {
+    width: min(700px, 95%);
+    max-width: 100%;
+    height: auto;
+    max-height: 220px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   LINKA
+========================================================= */
+
+.aeil-line-wrapper {
+    width: 100%;
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: visible;
+
+    margin:
+        0
+        0
+        8px;
+}
+
+.aeil-line {
+    display: block;
+
+    width: auto;
+    height: auto;
+
+    max-width: 72%;
+    max-height: 50px;
+
+    object-fit: contain;
+
+    margin: 0 auto;
+
+    flex-shrink: 1;
+
+    filter:
+        drop-shadow(
+            0 0 4px
+            rgba(221, 166, 61, 0.25)
+        );
+}
+
+
+/* =========================================================
+   POPIS
+========================================================= */
+
+.aeil-description {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 0;
+
+    text-align: left;
+
+    color: #d9bd83;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(18px, 1.3vw, 24px);
+
+    line-height: 1.45;
+}
+
+.aeil-description p {
+    margin:
+        0 0 2px 0;
+
+    padding: 0;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   ZAČÍT ČÍST
+========================================================= */
+
+.aeil-read-button {
+    position: relative;
+
+    display: block;
+ top: -20px;
+    width: 255px;
+    height: auto;
+
+    margin-top: 14px;
+
+    align-self: center;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+}
+
+.aeil-start-read {
+    display: block;
+
+    width: 255px;
+    height: auto;
+
+    margin: 0;
+    padding: 0;
+
+    object-fit: contain;
+}
+
+.aeil-start-read-text {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    color: #f5d88d;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 22px;
+    font-weight: 500;
+
+    letter-spacing: 2px;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+
+    text-shadow:
+        0 1px 3px #2b0905;
+}
+
+.aeil-read-button:hover {
+    transform:
+        scale(1.045);
+
+    filter:
+        drop-shadow(
+            0 0 10px
+            rgba(227, 171, 62, 0.55)
+        )
+        drop-shadow(
+            0 0 20px
+            rgba(227, 171, 62, 0.25)
+        );
+}
+
+
+/* =========================================================
+   SPODNÍCH ŠEST PANELŮ
+========================================================= */
+
+.aeil-panels {
+    position: relative;
+
+    z-index: 8;
+
+    width: 100%;
+
+    height: 32vh;
+    min-height: 190px;
+
+    box-sizing: border-box;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    align-items: start;
+
+    gap:
+        clamp(8px, 1.3vw, 24px);
+
+    padding:
+        4px
+        6%
+        45px;
+}
+
+
+/* =========================================================
+   PANEL WRAPPER
+========================================================= */
+
+.aeil-panel-wrapper {
+    position: relative;
+
+    width: min(128px, 100%);
+
+    aspect-ratio: 1 / 1;
+
+    justify-self: center;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    flex-shrink: 0;
+
+    transition:
+        transform 0.35s ease,
+        filter 0.35s ease;
+}
+
+
+/* =========================================================
+   ZLATÁ ZÁŘE KOLEM PANELU
+========================================================= */
+
+.aeil-panel-wrapper::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 92%;
+    height: 92%;
+
+    transform:
+        translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    z-index: 0;
+
+    box-shadow:
+        0 0 10px
+        rgba(255, 210, 95, 0.8),
+        0 0 22px
+        rgba(237, 177, 47, 0.65),
+        0 0 38px
+        rgba(220, 151, 30, 0.42);
+
+    transition:
+        opacity 0.35s ease;
+}
+
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.aeil-panel {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   OBRÁZEK PANELU
+========================================================= */
+
+.aeil-panel-image {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    display: block;
+
+    transition:
+        transform 0.4s ease,
+        filter 0.4s ease;
+}
+
+
+/* =========================================================
+   RÁMEČEK PANELU
+========================================================= */
+
+.aeil-panel-frame {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 120%;
+    height: 120%;
+
+    object-fit: contain;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(0deg);
+
+    transform-origin:
+        center center;
+
+    pointer-events: none;
+
+    z-index: 5;
+
+    will-change: transform;
+
+    transition:
+        filter 0.35s ease;
+}
+
+
+/* =========================================================
+   HOVER – CELÝ PANEL
+========================================================= */
+
+.aeil-panel-wrapper:hover {
+    transform:
+        scale(1.06);
+}
+
+
+/* =========================================================
+   HOVER – ZLATÁ ZÁŘE
+========================================================= */
+
+.aeil-panel-wrapper:hover::after {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   HOVER – OBRÁZEK
+========================================================= */
+
+.aeil-panel-wrapper:hover .aeil-panel-image {
+    transform:
+        scale(1.045);
+
+    filter:
+        brightness(1.1)
+        drop-shadow(
+            0 0 7px
+            rgba(255, 213, 91, 0.5)
+        );
+}
+
+
+/* =========================================================
+   HOVER – RÁMEČEK SE OTÁČÍ
+========================================================= */
+
+.aeil-panel-wrapper:hover .aeil-panel-frame {
+    animation:
+        aeilFrameRotate
+        4s
+        linear
+        infinite;
+
+    filter:
+        drop-shadow(
+            0 0 8px
+            rgba(255, 215, 95, 0.85)
+        )
+        drop-shadow(
+            0 0 18px
+            rgba(230, 169, 48, 0.65)
+        )
+        drop-shadow(
+            0 0 32px
+            rgba(205, 133, 22, 0.35)
+        );
+}
+
+
+/* =========================================================
+   OTÁČENÍ PANELŮ
+========================================================= */
+
+@keyframes aeilFrameRotate {
+
+    from {
+        transform:
+            translate(-50%, -50%)
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            translate(-50%, -50%)
+            rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   NÁZVY PANELŮ
+========================================================= */
+
+.aeil-panel-label {
+    position: absolute;
+
+    left: 50%;
+
+    top:
+        calc(100% + 10px);
+
+    transform:
+        translateX(-50%);
+
+    width: 180%;
+
+    text-align: center;
+
+    color: #d9b66b;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 15px;
+
+    line-height: 1;
+
+    letter-spacing: 2.5px;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+
+    z-index: 20;
+
+    text-shadow:
+        0 1px 4px #160403;
+
+    transition:
+        color 0.3s ease,
+        text-shadow 0.3s ease;
+}
+
+.aeil-panel-wrapper:hover .aeil-panel-label {
+    color: #f0cf83;
+
+    text-shadow:
+        0 0 7px
+        rgba(255, 215, 95, 0.7),
+
+        0 0 14px
+        rgba(235, 181, 69, 0.45),
+
+        0 1px 4px
+        #160403;
+}
+
+
+/* =========================================================
+   1400 PX
+========================================================= */
+
+@media (max-width: 1400px) {
+
+    .aeil-cover-wrapper {
+        width:
+            min(345px, 27vw);
+    }
+
+    .aeil-panel-wrapper {
+        width:
+            min(120px, 100%);
+    }
+
+    .aeil-panels {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+}
+
+
+/* =========================================================
+   1150 PX
+========================================================= */
+
+@media (max-width: 1150px) {
+
+    .aeil-hero {
+        grid-template-columns:
+            42% 58%;
+
+        padding-left: 4%;
+        padding-right: 4%;
+    }
+
+    .aeil-cover-wrapper {
+        width:
+            min(320px, 28vw);
+    }
+
+    .aeil-title-image {
+        width:
+            min(500px, 88%);
+    }
+
+    .aeil-description {
+        font-size: 18px;
+    }
+
+    .aeil-read-button,
+    .aeil-start-read {
+        width: 225px;
+    }
+
+    .aeil-panel-wrapper {
+        width:
+            min(105px, 100%);
+    }
+
+    .aeil-panel-label {
+        font-size: 13px;
+        letter-spacing: 1.8px;
+    }
+
+}
+
+
+/* =========================================================
+   MENŠÍ VÝŠKA
+========================================================= */
+
+@media (max-height: 780px) and (min-width: 951px) {
+
+    .aeil-hero {
+        height: 59vh;
+        min-height: 410px;
+        padding-top: 38px;
+    }
+
+    .aeil-cover-wrapper {
+        width:
+            min(325px, 26vw);
+    }
+
+    /*
+       TADY JE DRUHÉ MÍSTO,
+       KTERÉ OVLÁDÁ VÝŠKU AEIL
+    */
+
+    .aeil-title {
+        top: 25px;
+    }
+
+    .aeil-title-image {
+        width:
+            min(500px, 88%);
+
+        max-height: 145px;
+    }
+
+    .aeil-line-wrapper {
+        height: 40px;
+        margin-bottom: 5px;
+    }
+
+    .aeil-line {
+        max-height: 40px;
+    }
+
+    .aeil-description {
+        font-size: 17px;
+        line-height: 1.3;
+    }
+
+    .aeil-read-button,
+    .aeil-start-read {
+        width: 215px;
+    }
+
+    .aeil-read-button {
+        margin-top: 8px;
+    }
+
+    .aeil-panels {
+        height: 35vh;
+        min-height: 175px;
+        padding-top: 3px;
+    }
+
+    .aeil-panel-wrapper {
+        width:
+            min(100px, 100%);
+    }
+
+    .aeil-panel-label {
+        top:
+            calc(100% + 7px);
+
+        font-size: 13px;
+    }
+
+}
+
+
+/* =========================================================
+   950 PX
+========================================================= */
+
+@media (max-width: 950px) {
+
+    .aeil-page {
+        overflow-y: auto;
+    }
+
+    .aeil-hero {
+        height: auto;
+        min-height: 0;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        padding-top: 75px;
+        padding-bottom: 30px;
+    }
+
+    .aeil-cover-wrapper {
+        width:
+            min(310px, 38vw);
+    }
+
+    .aeil-panels {
+        height: auto;
+        min-height: 0;
+
+        padding-bottom: 55px;
+    }
+
+    .aeil-panel-wrapper {
+        width:
+            min(100px, 100%);
+    }
+
+}
+
+
+/* =========================================================
+   700 PX
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .aeil-page {
+        overflow-y: auto;
+    }
+
+    .aeil-lace {
+        object-fit: fill;
+    }
+
+    .aeil-hero {
+        display: flex;
+        flex-direction: column;
+
+        gap: 30px;
+
+        padding:
+            80px
+            25px
+            30px;
+    }
+
+    .aeil-cover-wrapper {
+        width:
+            min(330px, 72vw);
+    }
+
+    .aeil-intro {
+        width: 100%;
+        max-width: 600px;
+
+        align-items: center;
+
+        padding: 0;
+    }
+
+    .aeil-title {
+        top: 0;
+    }
+
+    .aeil-title-image {
+        width:
+            min(500px, 90%);
+    }
+
+    .aeil-description {
+        text-align: center;
+    }
+
+    .aeil-description p {
+        text-align: center;
+    }
+
+    .aeil-read-button {
+        align-self: center;
+    }
+
+    .aeil-panels {
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        row-gap: 55px;
+
+        padding:
+            20px
+            8%
+            70px;
+    }
+
+    .aeil-panel-wrapper {
+        width:
+            min(120px, 100%);
+    }
+
+}
+
+
+/* =========================================================
+   450 PX
+========================================================= */
+
+@media (max-width: 450px) {
+
+    .aeil-back {
+        left: 22px;
+        top: 20px;
+    }
+
+    .aeil-back button {
+        font-size: 19px;
+    }
+
+    .aeil-hero {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .aeil-cover-wrapper {
+        width: 72vw;
+    }
+
+    .aeil-title-image {
+        width: 90%;
+    }
+
+    .aeil-line {
+        max-width: 90%;
+    }
+
+    .aeil-description {
+        font-size: 17px;
+    }
+
+    .aeil-read-button,
+    .aeil-start-read {
+        width: 205px;
+    }
+
+    .aeil-panels {
+        padding-left: 10%;
+        padding-right: 10%;
+
+        column-gap: 10px;
+    }
+
+    .aeil-panel-wrapper {
+        width:
+            min(95px, 100%);
+    }
+
+    .aeil-panel-label {
+        font-size: 12px;
+        letter-spacing: 1.4px;
+    }
+
+}

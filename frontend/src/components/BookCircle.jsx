@@ -10,50 +10,33 @@ function BookCircle({
   splatter,
   link
 }) {
-
   return (
-
     <Link to={link} className="book-link">
 
       <article className="book-circle">
 
-        {/* =========================================
-            3. VRSTVA – CÁKANEC
-            ========================================= */}
-
+        {/* CÁKANEC */}
         <img
           src={splatter}
           className="book-splatter splatter-a"
           alt=""
         />
 
-
-        {/* =========================================
-            2. VRSTVA – AKVAREL
-            ========================================= */}
-
+        {/* AKVAREL */}
         <img
           src={watercolor}
           className="book-watercolor"
           alt=""
         />
 
-
-        {/* =========================================
-            OBRÁZEK KNIHY – BAREVNÝ
-            ========================================= */}
-
+        {/* OBRÁZEK */}
         <img
           src={image}
           className="book-image book-image-color"
           alt={title}
         />
 
-
-        {/* =========================================
-            OBRÁZEK KNIHY – VYBLEDLÁ KOPIE
-            ========================================= */}
-
+        {/* VYBLEDLÁ KOPIE */}
         <img
           src={image}
           className="book-image book-image-faded"
@@ -61,44 +44,29 @@ function BookCircle({
           aria-hidden="true"
         />
 
-
-        {/* =========================================
-            RÁMEČEK
-            ========================================= */}
-
+        {/* RÁMEČEK */}
         <img
           src={frame}
           className="book-frame"
           alt=""
         />
 
-
-        {/* =========================================
-            TEXT
-            ========================================= */}
-
+        {/* TEXT */}
         <h2 className="book-title">
-
-          {/* TEXT NORMÁLNĚ */}
 
           <span className="book-title-normal">
             {title}
           </span>
 
-
-          {/* TEXT PO NAJETÍ */}
-
           <span className="book-title-hover">
-            {hoverTitle || "Máš odvahu?"}
+            {hoverTitle}
           </span>
 
         </h2>
 
-
       </article>
 
     </Link>
-
   );
 }
 
