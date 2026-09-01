@@ -20,6 +20,8 @@ def get_character_payload(
     character_id
 ):
 
+    ensure_character_columns(cursor)
+
     cursor.execute(
         """
         SELECT *
@@ -307,11 +309,20 @@ def get_character_payload(
         "main_image":
             character["main_image"],
 
+        "hover_image":
+            character["hover_image"],
+
         "header_image":
             character["header_image"],
 
         "main_video":
             character["main_video"],
+
+        "soundtrack":
+            character["soundtrack"],
+
+        "race":
+            character["race"],
 
         "sort_order":
             character["sort_order"],
@@ -395,6 +406,45 @@ def get_character_payload(
         "relationships":
             relationships,
     }
+
+
+# =========================================================
+# KONTROLA / MIGRACE SLOUPCŮ POSTAV
+# =========================================================
+
+def ensure_character_columns(cursor):
+    """
+    Zajistí starším SQLite databázím chybějící sloupce.
+
+    PostgreSQL/Neon má schéma vytvořené pomocí seed_postgres.sql,
+    takže tam tuto SQLite migraci nespouštíme.
+    """
+    # Náš PostgresCursor obaluje skutečný psycopg2 cursor v atributu _cursor.
+    if hasattr(cursor, "_cursor"):
+        return
+
+    cursor.execute("PRAGMA table_info(characters)")
+    rows = cursor.fetchall()
+
+    existing_columns = set()
+    for row in rows:
+        try:
+            existing_columns.add(row["name"])
+        except (TypeError, KeyError, IndexError):
+            existing_columns.add(row[1])
+
+    required_columns = {
+        "main_video": "TEXT",
+        "hover_image": "TEXT",
+        "soundtrack": "TEXT",
+        "race": "TEXT",
+    }
+
+    for column_name, column_definition in required_columns.items():
+        if column_name not in existing_columns:
+            cursor.execute(
+                f"ALTER TABLE characters ADD COLUMN {column_name} {column_definition}"
+            )
 
 
 # =========================================================
@@ -654,6 +704,11 @@ def add_character(book_id):
     )
 
 
+    hover_image = (
+        data.get("hover_image") or None
+    )
+
+
     header_image = (
         data.get("header_image") or None
     )
@@ -665,6 +720,16 @@ def add_character(book_id):
 
     main_video = (
         data.get("main_video") or None
+    )
+
+
+    soundtrack = (
+        data.get("soundtrack") or None
+    )
+
+
+    race = (
+        data.get("race") or ""
     )
 
 
@@ -711,6 +776,8 @@ def add_character(book_id):
     connection = get_connection()
     cursor = connection.cursor()
 
+    ensure_character_columns(cursor)
+
 
     if not book_exists(
         cursor,
@@ -748,13 +815,16 @@ def add_character(book_id):
             quote,
             content_html,
             main_image,
+            hover_image,
             header_image,
             main_video,
+            soundtrack,
+            race,
             sort_order,
             published
         )
 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             book_id,
@@ -762,8 +832,11 @@ def add_character(book_id):
             quote,
             content_html,
             main_image,
+            hover_image,
             header_image,
             main_video,
+            soundtrack,
+            race,
             sort_order,
             1 if published else 0
         )
@@ -1102,26 +1175,50 @@ def add_character(book_id):
         )
 
 
-        cursor.execute(
-            """
-            INSERT OR REPLACE INTO character_relationships
-            (
-                character_id,
-                related_character_id,
-                relationship_type
-            )
+        relationship_json = json.dumps(
+            relationship_types,
+            ensure_ascii=False
+        )
 
-            VALUES (?, ?, ?)
-            """,
-            (
-                left_id,
-                right_id,
-                json.dumps(
-                    relationship_types,
-                    ensure_ascii=False
+        if hasattr(cursor, "_cursor"):
+            # PostgreSQL / Neon
+            cursor.execute(
+                """
+                INSERT INTO character_relationships
+                (
+                    character_id,
+                    related_character_id,
+                    relationship_type
+                )
+                VALUES (?, ?, ?)
+                ON CONFLICT (character_id, related_character_id)
+                DO UPDATE SET
+                    relationship_type = EXCLUDED.relationship_type
+                """,
+                (
+                    left_id,
+                    right_id,
+                    relationship_json
                 )
             )
-        )
+        else:
+            # SQLite
+            cursor.execute(
+                """
+                INSERT OR REPLACE INTO character_relationships
+                (
+                    character_id,
+                    related_character_id,
+                    relationship_type
+                )
+                VALUES (?, ?, ?)
+                """,
+                (
+                    left_id,
+                    right_id,
+                    relationship_json
+                )
+            )
 
 
     connection.commit()
@@ -1183,6 +1280,11 @@ def update_character(
     )
 
 
+    hover_image = (
+        data.get("hover_image") or None
+    )
+
+
     header_image = (
         data.get("header_image") or None
     )
@@ -1194,6 +1296,16 @@ def update_character(
 
     main_video = (
         data.get("main_video") or None
+    )
+
+
+    soundtrack = (
+        data.get("soundtrack") or None
+    )
+
+
+    race = (
+        data.get("race") or ""
     )
 
 
@@ -1239,6 +1351,8 @@ def update_character(
 
     connection = get_connection()
     cursor = connection.cursor()
+
+    ensure_character_columns(cursor)
 
 
     # =====================================================
@@ -1301,8 +1415,11 @@ def update_character(
             quote = ?,
             content_html = ?,
             main_image = ?,
+            hover_image = ?,
             header_image = ?,
             main_video = ?,
+            soundtrack = ?,
+            race = ?,
             sort_order = ?,
             published = ?,
             updated_at = CURRENT_TIMESTAMP
@@ -1316,8 +1433,11 @@ def update_character(
             quote,
             content_html,
             main_image,
+            hover_image,
             header_image,
             main_video,
+            soundtrack,
+            race,
             sort_order,
             1 if published else 0,
             character_id,
@@ -1724,26 +1844,50 @@ def update_character(
         )
 
 
-        cursor.execute(
-            """
-            INSERT OR REPLACE INTO character_relationships
-            (
-                character_id,
-                related_character_id,
-                relationship_type
-            )
+        relationship_json = json.dumps(
+            relationship_types,
+            ensure_ascii=False
+        )
 
-            VALUES (?, ?, ?)
-            """,
-            (
-                left_id,
-                right_id,
-                json.dumps(
-                    relationship_types,
-                    ensure_ascii=False
+        if hasattr(cursor, "_cursor"):
+            # PostgreSQL / Neon
+            cursor.execute(
+                """
+                INSERT INTO character_relationships
+                (
+                    character_id,
+                    related_character_id,
+                    relationship_type
+                )
+                VALUES (?, ?, ?)
+                ON CONFLICT (character_id, related_character_id)
+                DO UPDATE SET
+                    relationship_type = EXCLUDED.relationship_type
+                """,
+                (
+                    left_id,
+                    right_id,
+                    relationship_json
                 )
             )
-        )
+        else:
+            # SQLite
+            cursor.execute(
+                """
+                INSERT OR REPLACE INTO character_relationships
+                (
+                    character_id,
+                    related_character_id,
+                    relationship_type
+                )
+                VALUES (?, ?, ?)
+                """,
+                (
+                    left_id,
+                    right_id,
+                    relationship_json
+                )
+            )
 
 
     # =====================================================

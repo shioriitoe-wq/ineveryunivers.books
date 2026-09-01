@@ -3,6 +3,15 @@ import re
 import sqlite3
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+# Load local environment files automatically.
+# Existing environment variables always win.
+_DATABASE_DIR = Path(__file__).resolve().parent
+_PROJECT_DIR = _DATABASE_DIR.parent
+load_dotenv(_DATABASE_DIR / ".env", override=False)
+load_dotenv(_PROJECT_DIR / ".env", override=False)
+
 DATABASE_PATH = Path(__file__).parent / "database.db"
 
 
