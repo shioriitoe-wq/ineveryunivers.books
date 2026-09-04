@@ -16,6 +16,11 @@
 
    ========================================================= */
 
+
+/* =========================================================
+   KNIHA → SLOŽKA
+   ========================================================= */
+
 export const BOOK_CHARACTER_ASSET_FOLDERS = {
   1: "Nezacalo-to",
   2: "AEIL",
@@ -24,7 +29,7 @@ export const BOOK_CHARACTER_ASSET_FOLDERS = {
 
 
 /* =========================================================
-   KNIHA → SLOŽKA
+   KNIHA → NÁZEV SLOŽKY
    ========================================================= */
 
 export function getBookCharacterAssetFolder(bookId) {
@@ -70,7 +75,9 @@ export function toCharacterDatabaseAssetPath(sourcePath) {
     .trim();
 
   const marker = "/assets/images/characters/";
-  const markerIndex = normalized.indexOf(marker);
+
+  const markerIndex =
+    normalized.indexOf(marker);
 
   if (markerIndex >= 0) {
     return `/src/assets/images/characters/${normalized.slice(
@@ -104,11 +111,92 @@ export function getCharacterAssetFileName(value) {
 
 
 /* =========================================================
+   ODSTRANĚNÍ VITE HASHU Z NÁZVU
+
+   Například:
+
+   Návrh bez názvu-2vKY2pAi.png
+                    ↓
+   Návrh bez názvu.png
+
+   ChatGPT Image 25. 8. 2026 19_41_32-CRT-YDKg.png
+   → ChatGPT Image 25. 8. 2026 19_41_32.png
+
+   Vite přidává hash na konec názvu souboru
+   při produkčním buildu.
+
+   ========================================================= */
+
+function removeViteHash(fileName) {
+  const decoded = decodePath(fileName);
+
+  const lastDot =
+    decoded.lastIndexOf(".");
+
+  if (lastDot <= 0) {
+    return decoded;
+  }
+
+  const name =
+    decoded.slice(0, lastDot);
+
+  const extension =
+    decoded.slice(lastDot);
+
+  /*
+   * Vite hash bývá krátký alfanumerický řetězec
+   * oddělený pomlčkou.
+   *
+   * Například:
+   *
+   * obrazek-ABC12345.png
+   *
+   * Pokud takový konec najdeme, odstraníme ho.
+   */
+  const withoutHash =
+    name.replace(
+      /-[A-Za-z0-9]{8,}$/i,
+      ""
+    );
+
+  return `${withoutHash}${extension}`;
+}
+
+
+/* =========================================================
+   NORMALIZOVANÝ NÁZEV PRO POROVNÁVÁNÍ
+
+   Umožní porovnat:
+
+   /assets/obrazek-ABC12345.png
+
+   s:
+
+   src/assets/images/characters/Nezacalo-to/obrazek.png
+
+   ========================================================= */
+
+function getComparableFileName(value) {
+  const fileName =
+    getCharacterAssetFileName(value);
+
+  if (!fileName) {
+    return "";
+  }
+
+  return normalize(
+    removeViteHash(fileName)
+  );
+}
+
+
+/* =========================================================
    VYTAŽENÍ SLOŽKY KNIHY Z CESTY
    ========================================================= */
 
 function getCharacterAssetBookFolder(sourcePath) {
-  const normalized = normalize(sourcePath);
+  const normalized =
+    normalize(sourcePath);
 
   const marker =
     "/assets/images/characters/";
@@ -145,6 +233,7 @@ function getCharacterAssetBookFolder(sourcePath) {
 
    Výsledek MUSÍ být skutečná Vite URL z globMap,
    nikoliv /src/assets/...
+
    ========================================================= */
 
 export function resolveCharacterAsset(
@@ -182,7 +271,9 @@ export function resolveCharacterAsset(
           )
         );
 
-      return databasePath === target;
+      return (
+        databasePath === target
+      );
     });
 
   if (exact) {
@@ -193,19 +284,23 @@ export function resolveCharacterAsset(
   /* =======================================================
      2. SHODA PODLE NÁZVU SOUBORU V AKTUÁLNÍ KNIZE
 
-     Tohle je důležité pro starší záznamy v databázi,
-     které mohou mít jinou cestu.
+     Tohle řeší starší záznamy, například:
+
+     DB:
+     /assets/Návrh bez názvu-2vKY2pAi.png
+
+     skutečný soubor:
+     src/assets/images/characters/
+     Nezacalo-to/Návrh bez názvu.png
+
      ======================================================= */
 
-  const fileName =
-    getCharacterAssetFileName(value);
+  const fileNameTarget =
+    getComparableFileName(value);
 
-  if (!fileName) {
+  if (!fileNameTarget) {
     return "";
   }
-
-  const fileNameTarget =
-    normalize(fileName);
 
   const folder =
     normalize(
@@ -215,26 +310,30 @@ export function resolveCharacterAsset(
 
   const inBook =
     entries.find(([sourcePath]) => {
-      const source =
-        normalize(sourcePath);
-
       const sourceFolder =
-        getCharacterAssetBookFolder(
-          sourcePath
-        );
-
-      const sourceFileName =
         normalize(
-          getCharacterAssetFileName(
+          getCharacterAssetBookFolder(
             sourcePath
           )
         );
 
+      if (
+        sourceFolder !== folder
+      ) {
+        return false;
+      }
+
+      const sourceFileName =
+        getComparableFileName(
+          sourcePath
+        );
+
       return (
-        sourceFolder === folder &&
-        sourceFileName === fileNameTarget
+        sourceFileName ===
+        fileNameTarget
       );
     });
+
 
   if (inBook) {
     return inBook[1];
@@ -242,33 +341,14 @@ export function resolveCharacterAsset(
 
 
   /* =======================================================
-     3. SHODA PODLE NÁZVU SOUBORU
+     3. NIC SE NENAŠLO
 
-     Použije se pouze tehdy, když je název souboru
-     v celém globu unikátní.
-     ======================================================= */
+     DŮLEŽITÉ:
+     Už nehledáme globálně podle názvu.
 
-  const sameName =
-    entries.filter(([sourcePath]) => {
-      const sourceFileName =
-        normalize(
-          getCharacterAssetFileName(
-            sourcePath
-          )
-        );
+     Jinak by se mohl vzít obrázek stejného názvu
+     z jiné knihy.
 
-      return (
-        sourceFileName === fileNameTarget
-      );
-    });
-
-  if (sameName.length === 1) {
-    return sameName[0][1];
-  }
-
-
-  /* =======================================================
-     4. NIC SE NENAŠLO
      ======================================================= */
 
   return "";
@@ -277,6 +357,9 @@ export function resolveCharacterAsset(
 
 /* =========================================================
    OVĚŘENÍ EXISTENCE ASSETU
+
+   Tato funkce kontroluje přesnou stabilní DB cestu.
+
    ========================================================= */
 
 export function characterAssetExists(
@@ -299,7 +382,9 @@ export function characterAssetExists(
   ).some((path) => {
     return (
       normalize(
-        toCharacterDatabaseAssetPath(path)
+        toCharacterDatabaseAssetPath(
+          path
+        )
       ) === target
     );
   });

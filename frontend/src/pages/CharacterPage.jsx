@@ -8,7 +8,49 @@ import frameMain from "../assets/frames/frame-character-main.png";
 import frameHeader from "../assets/frames/frame-character.png";
 import frameButton from "../assets/frames/frame-character-button.png";
 
+import { resolveCharacterAsset } from "../utils/characterAssetPaths";
+
 import "./CharacterPage.css";
+import characterAllBackground from "../assets/images/characterall.png";
+import aeilCharacterBackground from "../assets/images/aeil-character-back.png";
+
+function getCharacterBackground(bookId) {
+  switch (Number(bookId)) {
+    case 1:
+      // (Ne)začalo to.. – světlé pozadí s vlnou
+      return characterAllBackground;
+
+    case 2:
+      // AEIL – tmavé vínové krajkové pozadí
+      return aeilCharacterBackground;
+
+    case 3:
+      // Vespera zatím používá základní pozadí.
+      return characterAllBackground;
+
+    default:
+      return characterAllBackground;
+  }
+}
+
+
+const characterImages = import.meta.glob(
+  "../assets/images/characters/**/*",
+  {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }
+);
+
+const characterVideos = import.meta.glob(
+  "../assets/images/characters/**/*.{mp4,webm,mov,m4v}",
+  {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }
+);
 
 
 function getBookHomePath(bookId) {
@@ -471,7 +513,17 @@ function CharacterPage() {
           POZADÍ
       ===================================================== */}
 
-      <div className="character-background" />
+      <div
+        key={`character-background-${bookId}`}
+        className={`character-background character-background-book-${Number(bookId)}`}
+        style={{
+          backgroundImage: `url(${getCharacterBackground(bookId)})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+        aria-hidden="true"
+      />
 
 
       {/* =====================================================
@@ -494,7 +546,13 @@ function CharacterPage() {
           <div className="character-main-photo">
 
             <img
-              src={character.main_image}
+              src={
+                resolveCharacterAsset(
+                  character.main_image,
+                  characterImages,
+                  bookId
+                )
+              }
               alt={character.name}
             />
 
@@ -514,7 +572,13 @@ function CharacterPage() {
 
             <video
               key={mainVideoKey}
-              src={character.main_video}
+              src={
+                resolveCharacterAsset(
+                  character.main_video,
+                  characterVideos,
+                  bookId
+                )
+              }
               autoPlay
               muted
               playsInline
@@ -556,7 +620,13 @@ function CharacterPage() {
             <div className="character-header-photo">
 
               <img
-                src={character.header_image}
+                src={
+                  resolveCharacterAsset(
+                    character.header_image,
+                    characterImages,
+                    bookId
+                  )
+                }
                 alt=""
               />
 
@@ -1050,7 +1120,13 @@ function CharacterPage() {
               <div className="character-video-panel">
 
                 <video
-                  src={character.main_video}
+                  src={
+                    resolveCharacterAsset(
+                      character.main_video,
+                      characterVideos,
+                      bookId
+                    )
+                  }
                   controls
                   playsInline
                   preload="metadata"
@@ -1088,7 +1164,13 @@ function CharacterPage() {
               <div className="character-soundtrack">
 
                 <audio
-                  src={character.soundtrack}
+                  src={
+                    resolveCharacterAsset(
+                      character.soundtrack,
+                      characterImages,
+                      bookId
+                    )
+                  }
                   controls
                 />
 

@@ -25,7 +25,7 @@ position: absolute;
 
 inset: 0;
 
-background-image: url("../assets/images/characterall.png");
+
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
@@ -534,20 +534,42 @@ border-radius: 10px;
 /* =========================================================
 DALŠÍ INFORMACE
 ========================================================= */
-
 .character-section {
-position: relative;
+  position: relative;
 
-margin-top: 12px;
+  flex: 0 0 31vh;
 
-padding-top: 15px;
+  width: 100%;
 
-border-top: 1px solid rgba(241, 145, 11, 0.35);
+  max-height: 40vh;
 
-z-index: 5;
+  overflow-y: auto;
+
+  margin-top: 12px;
+
+  padding: 15px 20px;
+
+  box-sizing: border-box;
+
+  border-top: 1px solid rgba(241, 145, 11, 0.35);
+
+  z-index: 5;
+}
+.character-section::-webkit-scrollbar {
+  width: 7px;
 }
 
+.character-section::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.character-section::-webkit-scrollbar-thumb {
+  background: rgba(105, 119, 103, 0.75);
+
+  border-radius: 10px;
+}
 .character-section h2 {
+
 margin: 0 0 2px;
 
 text-align: center;
@@ -635,7 +657,7 @@ margin-bottom: 3px;
 
 font-family: "Cormorant Garamond", Georgia, serif;
 
-font-size: 15px;
+font-size: 20px;
 
 letter-spacing: 2px;
 
@@ -645,9 +667,9 @@ color: #ed771d;
 .character-detail strong {
 font-family: "Cormorant Garamond", Georgia, serif;
 
-font-size: 16px;
+font-size: 20px;
 
-color: #ed771d;
+color: #1dcaed;
 }
 
 /* =========================================================
@@ -797,8 +819,8 @@ padding: 8px 18px;
 text-decoration: none;
 font-family: "Cormorant Garamond", serif;
 font-size: 18px;
-color: #687866;
-border: 1px solid rgba(100, 130, 120, 0.45);
+color: #eea804;
+border: 1px solid rgba(253, 161, 2, 0.45);
 border-radius: 30px;
 transition:
 transform 0.25s ease,
@@ -916,7 +938,7 @@ object-position: center;
   font-size: 22px;
   line-height: 1.5;
 
-  color: #e47b24;
+  color: #24bae4;
 
   text-align: left;
 }
@@ -938,8 +960,16 @@ object-position: center;
 
 /* Autor */
 
-.character-admin-quote-source strong {
-  display: block;
+.character-admin-quote-source {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-end;
+
+  text-align: right;
+
+  padding-left: 25px;
 
   font-family:
     "Cormorant Garamond",
@@ -947,27 +977,8 @@ object-position: center;
     serif;
 
   font-size: 19px;
+
   font-weight: 600;
-
-  line-height: 1.3;
-
-  color: #e47b24;
-}
-
-
-/* Název knihy */
-
-.character-admin-quote-source span {
-  display: block;
-
-  margin-top: 5px;
-
-  font-family:
-    "Cormorant Garamond",
-    Georgia,
-    serif;
-
-  font-size: 16px;
 
   line-height: 1.3;
 

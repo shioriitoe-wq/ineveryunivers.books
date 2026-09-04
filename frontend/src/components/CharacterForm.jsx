@@ -6,10 +6,15 @@ import {
 } from "../services/booksService";
 
 import {
+  getBookCharacterAssetFolder,
+  toCharacterDatabaseAssetPath,
+  resolveCharacterAsset,
+} from "../utils/characterAssetPaths";
+
+import {
   getCharacters,
   addCharacter,
 } from "../services/charactersService";
-
 
 /* =========================================================
    OBRÁZKY POSTAV
@@ -42,6 +47,7 @@ function ImagePicker({
   label,
   value,
   onChange,
+  bookId,
 }) {
 
   const [
@@ -50,23 +56,50 @@ function ImagePicker({
   ] = useState(false);
 
 
-  const images =
-    Object.entries(
-      characterImages
-    ).map(
-      ([path, url]) => ({
+  const bookFolder =
+    getBookCharacterAssetFolder(bookId);
 
-        path,
+  const allImages =
+    Object.entries(characterImages)
+      .filter(([path]) => {
+        const extension =
+          path.split(".").pop()?.toLowerCase();
 
-        url,
-
-        name:
-          path
-            .split("/")
-            .pop(),
-
+        return [
+          "png",
+          "jpg",
+          "jpeg",
+          "webp",
+          "gif",
+          "avif",
+        ].includes(extension);
       })
-    );
+      .map(([path, url]) => ({
+        path,
+        url,
+        databasePath:
+          toCharacterDatabaseAssetPath(path),
+        name:
+          path.split("/").pop(),
+      }));
+
+  const bookImages = allImages.filter((image) =>
+    image.databasePath.toLowerCase().includes(
+      `/src/assets/images/characters/${bookFolder.toLowerCase()}/`
+    )
+  );
+
+  // Dokud nejsou staré soubory roztříděné, ponecháme
+  // v pickeru i staré soubory přímo v kořeni characters.
+  const images =
+    bookImages.length > 0
+      ? bookImages
+      : allImages.filter((image) => {
+          const relative =
+            image.databasePath
+              .split("/characters/")[1] || "";
+          return !relative.includes("/");
+        });
 
 
   return (
@@ -92,7 +125,13 @@ function ImagePicker({
         {value ? (
 
           <img
-            src={value}
+            src={
+              resolveCharacterAsset(
+                value,
+                characterImages,
+                bookId
+              ) || value
+            }
             alt=""
             style={{
               width: "140px",
@@ -210,7 +249,7 @@ function ImagePicker({
                     );
 
                     onChange(
-                      image.url
+                      image.databasePath
                     );
 
                     setOpen(false);
@@ -219,7 +258,7 @@ function ImagePicker({
                   style={{
                     padding: "6px",
                     border:
-                      value === image.url
+                      value === image.databasePath
                         ? "2px solid #9caf8d"
                         : "1px solid #30372f",
                     borderRadius: "6px",
@@ -257,6 +296,10 @@ function ImagePicker({
                   >
 
                     {image.name}
+                    <br />
+                    <small style={{ opacity: 0.65 }}>
+                      {bookFolder}
+                    </small>
 
                   </span>
 
@@ -286,6 +329,7 @@ function VideoPicker({
   label,
   value,
   onChange,
+  bookId,
 }) {
 
   const [
@@ -293,24 +337,28 @@ function VideoPicker({
     setOpen,
   ] = useState(false);
 
+  const bookFolder =
+    getBookCharacterAssetFolder(bookId);
+
 
   const videos =
-    Object.entries(
-      characterVideos
-    ).map(
-      ([path, url]) => ({
+    Object.entries(characterVideos)
+      .filter(([path]) => {
+        const source =
+          toCharacterDatabaseAssetPath(path).toLowerCase();
 
-        path,
-
-        url,
-
-        name:
-          path
-            .split("/")
-            .pop(),
-
+        return source.includes(
+          `/src/assets/images/characters/${bookFolder.toLowerCase()}/`
+        );
       })
-    );
+      .map(([path, url]) => ({
+        path,
+        url,
+        databasePath:
+          toCharacterDatabaseAssetPath(path),
+        name:
+          path.split("/").pop(),
+      }));
 
 
   return (
@@ -334,7 +382,13 @@ function VideoPicker({
         {value ? (
 
           <video
-            src={value}
+            src={
+              resolveCharacterAsset(
+                value,
+                characterVideos,
+                bookId
+              ) || value
+            }
             muted
             playsInline
             controls
@@ -451,7 +505,7 @@ function VideoPicker({
                   onClick={() => {
 
                     onChange(
-                      video.url
+                      video.databasePath
                     );
 
                     setOpen(false);
@@ -460,7 +514,7 @@ function VideoPicker({
                   style={{
                     padding: "6px",
                     border:
-                      value === video.url
+                      value === video.databasePath
                         ? "2px solid #9caf8d"
                         : "1px solid #30372f",
                     borderRadius: "6px",
@@ -674,9 +728,7 @@ function RichTextEditor({
             executeCommand("bold")
           }
         >
-
           B
-
         </button>
 
 
@@ -696,9 +748,7 @@ function RichTextEditor({
             executeCommand("italic")
           }
         >
-
           I
-
         </button>
 
 
@@ -718,9 +768,7 @@ function RichTextEditor({
             executeCommand("underline")
           }
         >
-
           U
-
         </button>
 
 
@@ -742,9 +790,7 @@ function RichTextEditor({
             formatBlock("p")
           }
         >
-
           ¶
-
         </button>
 
 
@@ -761,9 +807,7 @@ function RichTextEditor({
             formatBlock("h2")
           }
         >
-
           H2
-
         </button>
 
 
@@ -780,9 +824,7 @@ function RichTextEditor({
             formatBlock("h3")
           }
         >
-
           H3
-
         </button>
 
 
@@ -806,9 +848,7 @@ function RichTextEditor({
             )
           }
         >
-
           ≡←
-
         </button>
 
 
@@ -827,9 +867,7 @@ function RichTextEditor({
             )
           }
         >
-
           ≡
-
         </button>
 
 
@@ -848,9 +886,7 @@ function RichTextEditor({
             )
           }
         >
-
           →≡
-
         </button>
 
 
@@ -874,9 +910,7 @@ function RichTextEditor({
             )
           }
         >
-
           •☰
-
         </button>
 
 
@@ -895,9 +929,7 @@ function RichTextEditor({
             )
           }
         >
-
           1.
-
         </button>
 
 
@@ -917,9 +949,7 @@ function RichTextEditor({
           }
           onClick={createLink}
         >
-
           🔗
-
         </button>
 
 
@@ -938,9 +968,7 @@ function RichTextEditor({
             )
           }
         >
-
           ―
-
         </button>
 
 
@@ -962,9 +990,7 @@ function RichTextEditor({
             executeCommand("undo")
           }
         >
-
           ↶
-
         </button>
 
 
@@ -981,9 +1007,7 @@ function RichTextEditor({
             executeCommand("redo")
           }
         >
-
           ↷
-
         </button>
 
       </div>
@@ -1070,6 +1094,7 @@ function CharacterForm({
     character?.header_image || ""
   );
 
+
   const [
     mainVideo,
     setMainVideo,
@@ -1094,11 +1119,19 @@ function CharacterForm({
   );
 
 
+  /*
+   * DŮLEŽITÉ:
+   * ID dílů držíme vždy jako čísla.
+   * Backend/Neon tak dostane například [1, 2, 4]
+   * místo kombinace ["1", 2, "4"].
+   */
   const [
     selectedVolumes,
     setSelectedVolumes,
   ] = useState(
-    character?.volume_ids || []
+    (character?.volume_ids || [])
+      .map(Number)
+      .filter(Number.isFinite)
   );
 
 
@@ -1198,8 +1231,14 @@ function CharacterForm({
       character?.sort_order ?? 0
     );
 
+    /*
+     * Při načtení existující postavy znovu
+     * sjednotíme všechna ID dílů na čísla.
+     */
     setSelectedVolumes(
-      character?.volume_ids || []
+      (character?.volume_ids || [])
+        .map(Number)
+        .filter(Number.isFinite)
     );
 
     setDetails(
@@ -1351,29 +1390,43 @@ function CharacterForm({
      DÍLY
   ======================================================= */
 
-  function toggleVolume(
-    volumeId
-  ) {
+  function toggleVolume(volumeId) {
+
+    const numericVolumeId =
+      Number(volumeId);
+
+    if (!Number.isFinite(numericVolumeId)) {
+      return;
+    }
 
     setSelectedVolumes(
       (current) => {
 
+        /*
+         * Pojistka: i kdyby se do state nějak dostal
+         * string, okamžitě ho převedeme na číslo.
+         */
+        const normalizedCurrent =
+          current
+            .map(Number)
+            .filter(Number.isFinite);
+
         if (
-          current.includes(
-            volumeId
+          normalizedCurrent.includes(
+            numericVolumeId
           )
         ) {
 
-          return current.filter(
+          return normalizedCurrent.filter(
             (id) =>
-              id !== volumeId
+              id !== numericVolumeId
           );
 
         }
 
         return [
-          ...current,
-          volumeId,
+          ...normalizedCurrent,
+          numericVolumeId,
         ];
 
       }
@@ -1424,12 +1477,21 @@ function CharacterForm({
 
       if (created?.id) {
 
-        setSelectedVolumes(
-          (current) => [
-            ...current,
-            created.id,
-          ]
-        );
+        const numericCreatedId =
+          Number(created.id);
+
+        if (Number.isFinite(numericCreatedId)) {
+
+          setSelectedVolumes(
+            (current) => [
+              ...current
+                .map(Number)
+                .filter(Number.isFinite),
+              numericCreatedId,
+            ]
+          );
+
+        }
 
       }
 
@@ -1789,7 +1851,6 @@ function CharacterForm({
   }
 
 
-
   /* =======================================================
      DALŠÍ INFORMACE
   ======================================================= */
@@ -1871,6 +1932,21 @@ function CharacterForm({
     }
 
 
+    /*
+     * Poslední pojistka před odesláním:
+     * volume_ids budou vždy pouze čísla,
+     * bez duplicit a bez neplatných hodnot.
+     */
+    const normalizedVolumeIds =
+      [
+        ...new Set(
+          selectedVolumes
+            .map(Number)
+            .filter(Number.isFinite)
+        ),
+      ];
+
+
     const characterData = {
 
       name:
@@ -1902,7 +1978,7 @@ function CharacterForm({
         ) || 0,
 
       volume_ids:
-        selectedVolumes,
+        normalizedVolumeIds,
 
       details:
         details
@@ -1999,6 +2075,18 @@ function CharacterForm({
 
     console.log(
       characterData
+    );
+
+    console.log(
+      "volume_ids:",
+      characterData.volume_ids
+    );
+
+    console.log(
+      "volume_ids types:",
+      characterData.volume_ids.map(
+        (id) => typeof id
+      )
     );
 
     console.log(
@@ -2172,6 +2260,7 @@ function CharacterForm({
           <ImagePicker
             label="Hlavní obrázek"
             value={mainImage}
+            bookId={bookId}
             onChange={
               setMainImage
             }
@@ -2181,6 +2270,7 @@ function CharacterForm({
           <ImagePicker
             label="Horní obrázek"
             value={headerImage}
+            bookId={bookId}
             onChange={
               setHeaderImage
             }
@@ -2189,6 +2279,7 @@ function CharacterForm({
           <VideoPicker
             label="Video postavy"
             value={mainVideo}
+            bookId={bookId}
             onChange={setMainVideo}
           />
 
@@ -2248,7 +2339,7 @@ function CharacterForm({
                     type="checkbox"
                     checked={
                       selectedVolumes.includes(
-                        volume.id
+                        Number(volume.id)
                       )
                     }
                     onChange={() =>
@@ -2367,6 +2458,7 @@ function CharacterForm({
                     value={
                       image.image || ""
                     }
+                    bookId={bookId}
                     onChange={(value) =>
                       updateGalleryImage(
                         index,
@@ -2511,6 +2603,7 @@ function CharacterForm({
 
                   </div>
 
+
                   <div>
 
                     <label>
@@ -2536,6 +2629,7 @@ function CharacterForm({
                     />
 
                   </div>
+
 
                   <div>
 
@@ -2582,6 +2676,7 @@ function CharacterForm({
                     </select>
 
                   </div>
+
 
                   <button
                     type="button"
@@ -2819,6 +2914,7 @@ function CharacterForm({
 
                       </div>
 
+
                       {selectedTypes.length === 0 && (
 
                         <div
@@ -2971,9 +3067,7 @@ function CharacterForm({
                       )
                     }
                   >
-
                     ×
-
                   </button>
 
                 </div>
@@ -3082,9 +3176,7 @@ function CharacterForm({
             saving
           }
         >
-
           Zrušit
-
         </button>
 
 
