@@ -409,6 +409,320 @@ def get_character_payload(
 
 
 # =========================================================
+# HROMADNÉ NAČTENÍ POSTAV
+# =========================================================
+
+def get_character_payloads_bulk(
+    cursor,
+    character_rows
+):
+    """
+    Načte celý seznam postav hromadně.
+
+    Původní get_characters() volal get_character_payload()
+    pro každou postavu zvlášť. To znamenalo několik SQL dotazů
+    na každou postavu + další dotazy pro jednotlivé vztahy.
+
+    Tato verze načte všechny navazující údaje v dávkách:
+      - díly
+      - detaily
+      - galerii
+      - citáty
+      - vztahy
+
+    Výsledná JSON struktura zůstává stejná.
+    """
+    if not character_rows:
+        return []
+
+    ensure_character_columns(cursor)
+
+    character_ids = [
+        row["id"]
+        for row in character_rows
+    ]
+
+    placeholders = ",".join(
+        ["?"] * len(character_ids)
+    )
+
+    # =====================================================
+    # ZÁKLADNÍ OBJEKTY POSTAV
+    # =====================================================
+
+    result_by_id = {}
+
+    for character in character_rows:
+        character_id = character["id"]
+
+        result_by_id[character_id] = {
+            "id": character["id"],
+            "book_id": character["book_id"],
+            "name": character["name"],
+            "quote": character["quote"],
+            "content_html": character["content_html"],
+            "main_image": character["main_image"],
+            "hover_image": character["hover_image"],
+            "header_image": character["header_image"],
+            "main_video": character["main_video"],
+            "soundtrack": character["soundtrack"],
+            "race": character["race"],
+            "sort_order": character["sort_order"],
+            "published": bool(character["published"]),
+            "volume_ids": [],
+            "details": [],
+            "images": [],
+            "quotes": [],
+            "relationships": [],
+        }
+
+    # =====================================================
+    # DÍLY
+    # =====================================================
+
+    cursor.execute(
+        f"""
+        SELECT
+            character_id,
+            volume_id
+        FROM character_volumes
+        WHERE character_id IN ({placeholders})
+        ORDER BY
+            character_id,
+            volume_id
+        """,
+        tuple(character_ids)
+    )
+
+    for row in cursor.fetchall():
+        character_id = row["character_id"]
+
+        if character_id in result_by_id:
+            result_by_id[character_id]["volume_ids"].append(
+                row["volume_id"]
+            )
+
+    # =====================================================
+    # DETAILY
+    # =====================================================
+
+    cursor.execute(
+        f"""
+        SELECT
+            character_id,
+            id,
+            label,
+            value,
+            sort_order
+        FROM character_details
+        WHERE character_id IN ({placeholders})
+        ORDER BY
+            character_id,
+            sort_order,
+            id
+        """,
+        tuple(character_ids)
+    )
+
+    for row in cursor.fetchall():
+        character_id = row["character_id"]
+
+        if character_id in result_by_id:
+            result_by_id[character_id]["details"].append({
+                "id": row["id"],
+                "label": row["label"],
+                "value": row["value"],
+                "sort_order": row["sort_order"],
+            })
+
+    # =====================================================
+    # GALERIE
+    # =====================================================
+
+    cursor.execute(
+        f"""
+        SELECT
+            character_id,
+            id,
+            image,
+            caption,
+            sort_order
+        FROM character_images
+        WHERE character_id IN ({placeholders})
+        ORDER BY
+            character_id,
+            sort_order,
+            id
+        """,
+        tuple(character_ids)
+    )
+
+    for row in cursor.fetchall():
+        character_id = row["character_id"]
+
+        if character_id in result_by_id:
+            result_by_id[character_id]["images"].append({
+                "id": row["id"],
+                "image": row["image"],
+                "caption": row["caption"],
+                "sort_order": row["sort_order"],
+            })
+
+    # =====================================================
+    # CITÁTY
+    # =====================================================
+
+    cursor.execute(
+        f"""
+        SELECT
+            q.character_id,
+            q.id,
+            q.quote,
+            q.author,
+            q.volume_id,
+            q.sort_order,
+            v.title AS volume_title
+        FROM character_quotes q
+        LEFT JOIN volumes v
+            ON v.id = q.volume_id
+        WHERE q.character_id IN ({placeholders})
+        ORDER BY
+            q.character_id,
+            q.sort_order,
+            q.id
+        """,
+        tuple(character_ids)
+    )
+
+    for row in cursor.fetchall():
+        character_id = row["character_id"]
+
+        if character_id in result_by_id:
+            result_by_id[character_id]["quotes"].append({
+                "id": row["id"],
+                "quote": row["quote"],
+                "author": row["author"],
+                "volume_id": row["volume_id"],
+                "volume_title": row["volume_title"],
+                "sort_order": row["sort_order"],
+            })
+
+    # =====================================================
+    # VZTAHY
+    # =====================================================
+
+    cursor.execute(
+        f"""
+        SELECT
+            r.id,
+            r.character_id,
+            r.related_character_id,
+            r.relationship_type,
+            c1.name AS character_name,
+            c2.name AS related_name
+        FROM character_relationships r
+        LEFT JOIN characters c1
+            ON c1.id = r.character_id
+        LEFT JOIN characters c2
+            ON c2.id = r.related_character_id
+        WHERE
+            r.character_id IN ({placeholders})
+            OR r.related_character_id IN ({placeholders})
+        ORDER BY
+            r.id
+        """,
+        tuple(character_ids)
+        + tuple(character_ids)
+    )
+
+    relationship_indexes = {
+        character_id: {}
+        for character_id in character_ids
+    }
+
+    for row in cursor.fetchall():
+        left_id = row["character_id"]
+        right_id = row["related_character_id"]
+
+        # Každý vztah patří do payloadu obou postav.
+        if left_id in result_by_id:
+            owner_id = left_id
+            related_id = right_id
+            related_name = row["related_name"]
+            self_id = left_id
+        elif right_id in result_by_id:
+            owner_id = right_id
+            related_id = left_id
+            related_name = row["character_name"]
+            self_id = right_id
+        else:
+            continue
+
+        try:
+            parsed_types = json.loads(
+                row["relationship_type"] or "[]"
+            )
+        except (
+            TypeError,
+            ValueError,
+            json.JSONDecodeError
+        ):
+            parsed_types = [
+                row["relationship_type"]
+            ] if row["relationship_type"] else []
+
+        if not isinstance(parsed_types, list):
+            parsed_types = [parsed_types]
+
+        parsed_types = [
+            str(item)
+            for item in parsed_types
+            if item
+        ]
+
+        index = relationship_indexes[owner_id]
+
+        if related_id in index:
+            existing = result_by_id[owner_id]["relationships"][
+                index[related_id]
+            ]
+
+            for type_value in parsed_types:
+                if type_value not in existing["relationship_types"]:
+                    existing["relationship_types"].append(
+                        type_value
+                    )
+            continue
+
+        index[related_id] = len(
+            result_by_id[owner_id]["relationships"]
+        )
+
+        result_by_id[owner_id]["relationships"].append({
+            "id": row["id"],
+            "character_id": self_id,
+            "related_character_id": related_id,
+            "related_character_name": related_name,
+            "relationship_types": parsed_types,
+            "relationship_type": (
+                parsed_types[0]
+                if parsed_types
+                else ""
+            ),
+        })
+
+    # =====================================================
+    # ZACHOVÁNÍ PŮVODNÍHO POŘADÍ
+    # =====================================================
+
+    return [
+        result_by_id[row["id"]]
+        for row in character_rows
+        if row["id"] in result_by_id
+    ]
+
+
+# =========================================================
 # KONTROLA / MIGRACE SLOUPCŮ POSTAV
 # =========================================================
 
@@ -588,17 +902,22 @@ def get_characters(book_id):
     rows = cursor.fetchall()
 
 
-    result = []
+    # =====================================================
+    # HROMADNÉ NAČTENÍ
+    # =====================================================
+    #
+    # Dříve se zde volal get_character_payload()
+    # pro každou postavu zvlášť. To vytvářelo mnoho
+    # SQL dotazů a při větším počtu postav výrazně
+    # zpomalovalo stránku.
+    #
+    # Nyní se navazující data načtou dávkově.
+    #
 
-
-    for row in rows:
-
-        payload = get_character_payload(
-            cursor,
-            row["id"]
-        )
-
-        result.append(payload)
+    result = get_character_payloads_bulk(
+        cursor,
+        rows
+    )
 
 
     connection.close()
@@ -1421,7 +1740,7 @@ def update_character(
             soundtrack = ?,
             race = ?,
             sort_order = ?,
-            published = ?,
+            published = CAST(? AS INTEGER),
             updated_at = CURRENT_TIMESTAMP
 
         WHERE

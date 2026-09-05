@@ -1,6 +1,6 @@
 import "./BooksPage.css";
 
-import background from "../assets/images/paper-background.png";
+import background from "../assets/images/Nezacalo-to/paper-background.png";
 
 import windowShadow from "../assets/overlays/window-shadow.png";
 import watercolorCorners from "../assets/overlays/watercolor-corners.png";

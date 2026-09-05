@@ -1,36 +1,8 @@
-/* =========================================================
-   SPOLEČNÉ CESTY K OBRÁZKŮM A VIDEÍM POSTAV
-
-   Soubory zůstávají ve Vite assets:
-
-   src/assets/images/characters/<KNIHA>/...
-
-   Do databáze ukládáme stabilní logickou cestu:
-
-   /src/assets/images/characters/<KNIHA>/soubor.png
-
-   Při zobrazení resolver najde skutečnou Vite URL,
-   např.:
-
-   /assets/soubor-ABC123.png
-
-   ========================================================= */
-
-
-/* =========================================================
-   KNIHA → SLOŽKA
-   ========================================================= */
-
 export const BOOK_CHARACTER_ASSET_FOLDERS = {
   1: "Nezacalo-to",
   2: "AEIL",
   3: "Vespera",
 };
-
-
-/* =========================================================
-   KNIHA → NÁZEV SLOŽKY
-   ========================================================= */
 
 export function getBookCharacterAssetFolder(bookId) {
   return (
@@ -39,353 +11,193 @@ export function getBookCharacterAssetFolder(bookId) {
   );
 }
 
-
-/* =========================================================
-   NORMALIZACE CEST
-   ========================================================= */
-
-function decodePath(value) {
-  const text = String(value || "")
-    .replace(/\\/g, "/")
-    .trim();
-
-  try {
-    return decodeURIComponent(text);
-  } catch {
-    return text;
-  }
+function normalizeSlashes(value) {
+  return String(value || "").replace(/\\/g, "/");
 }
 
-
-function normalize(value) {
-  return decodePath(value)
+function normalizePath(value) {
+  return normalizeSlashes(value)
     .replace(/\/+/g, "/")
-    .replace(/^\.\//, "")
-    .toLowerCase();
+    .replace(/^\.?\//, "")
+    .trim();
 }
 
+function getCharacterAssetFileName(value) {
+  const normalized = normalizePath(value);
+  return normalized.split("/").pop() || "";
+}
 
-/* =========================================================
-   VITE CESTA → STABILNÍ DB CESTA
-   ========================================================= */
+function removeViteHash(fileName) {
+  return fileName.replace(
+    /-([a-f0-9]{8,})(?=\.[^.]+$)/i,
+    ""
+  );
+}
 
 export function toCharacterDatabaseAssetPath(sourcePath) {
-  const normalized = String(sourcePath || "")
-    .replace(/\\/g, "/")
-    .trim();
+  const normalized = normalizePath(sourcePath);
 
-  const marker = "/assets/images/characters/";
-
-  const markerIndex =
-    normalized.indexOf(marker);
-
-  if (markerIndex >= 0) {
-    return `/src/assets/images/characters/${normalized.slice(
-      markerIndex + marker.length
-    )}`;
+  if (!normalized) {
+    return "";
   }
 
-  if (
-    normalized.startsWith(
-      "/src/assets/images/characters/"
-    )
-  ) {
-    return normalized;
+  const databaseMarker = "/src/assets/images/characters/";
+  const viteMarker = "/assets/images/characters/";
+  const publicMarker = "/characters/";
+
+  const databaseIndex = normalized.indexOf(databaseMarker);
+
+  if (databaseIndex !== -1) {
+    return `/src/assets/images/characters/${normalized
+      .slice(databaseIndex + databaseMarker.length)
+      .replace(/^\/+/, "")}`;
+  }
+
+  const viteIndex = normalized.indexOf(viteMarker);
+
+  if (viteIndex !== -1) {
+    return `/src/assets/images/characters/${normalized
+      .slice(viteIndex + viteMarker.length)
+      .replace(/^\/+/, "")}`;
+  }
+
+  const publicIndex = normalized.indexOf(publicMarker);
+
+  if (publicIndex !== -1) {
+    return `/src/assets/images/characters/${normalized
+      .slice(publicIndex + publicMarker.length)
+      .replace(/^\/+/, "")}`;
   }
 
   return normalized;
 }
 
-
-/* =========================================================
-   NÁZEV SOUBORU
-   ========================================================= */
-
-export function getCharacterAssetFileName(value) {
-  const normalized = decodePath(value);
-
-  return (
-    normalized.split("/").pop() || ""
+function getCharacterRelativePath(sourcePath) {
+  const normalized = normalizePath(
+    toCharacterDatabaseAssetPath(sourcePath)
   );
-}
 
+  const marker = "/src/assets/images/characters/";
+  const index = normalized.indexOf(marker);
 
-/* =========================================================
-   ODSTRANĚNÍ VITE HASHU Z NÁZVU
-
-   Například:
-
-   Návrh bez názvu-2vKY2pAi.png
-                    ↓
-   Návrh bez názvu.png
-
-   ChatGPT Image 25. 8. 2026 19_41_32-CRT-YDKg.png
-   → ChatGPT Image 25. 8. 2026 19_41_32.png
-
-   Vite přidává hash na konec názvu souboru
-   při produkčním buildu.
-
-   ========================================================= */
-
-function removeViteHash(fileName) {
-  const decoded = decodePath(fileName);
-
-  const lastDot =
-    decoded.lastIndexOf(".");
-
-  if (lastDot <= 0) {
-    return decoded;
-  }
-
-  const name =
-    decoded.slice(0, lastDot);
-
-  const extension =
-    decoded.slice(lastDot);
-
-  /*
-   * Vite hash bývá krátký alfanumerický řetězec
-   * oddělený pomlčkou.
-   *
-   * Například:
-   *
-   * obrazek-ABC12345.png
-   *
-   * Pokud takový konec najdeme, odstraníme ho.
-   */
-  const withoutHash =
-    name.replace(
-      /-[A-Za-z0-9]{8,}$/i,
-      ""
-    );
-
-  return `${withoutHash}${extension}`;
-}
-
-
-/* =========================================================
-   NORMALIZOVANÝ NÁZEV PRO POROVNÁVÁNÍ
-
-   Umožní porovnat:
-
-   /assets/obrazek-ABC12345.png
-
-   s:
-
-   src/assets/images/characters/Nezacalo-to/obrazek.png
-
-   ========================================================= */
-
-function getComparableFileName(value) {
-  const fileName =
-    getCharacterAssetFileName(value);
-
-  if (!fileName) {
+  if (index === -1) {
     return "";
   }
 
-  return normalize(
-    removeViteHash(fileName)
-  );
+  return normalized
+    .slice(index + marker.length)
+    .replace(/^\/+/, "");
 }
 
-
-/* =========================================================
-   VYTAŽENÍ SLOŽKY KNIHY Z CESTY
-   ========================================================= */
-
-function getCharacterAssetBookFolder(sourcePath) {
-  const normalized =
-    normalize(sourcePath);
-
-  const marker =
-    "/assets/images/characters/";
-
-  const index =
-    normalized.indexOf(marker);
-
-  if (index < 0) {
-    return "";
-  }
-
-  const rest =
-    normalized.slice(
-      index + marker.length
-    );
-
-  return (
-    rest.split("/")[0] || ""
-  );
-}
-
-
-/* =========================================================
-   RESOLVER
-
-   value:
-     hodnota uložená v databázi
-
-   globMap:
-     import.meta.glob(...)
-
-   bookId:
-     aktuální kniha
-
-   Výsledek MUSÍ být skutečná Vite URL z globMap,
-   nikoliv /src/assets/...
-
-   ========================================================= */
-
-export function resolveCharacterAsset(
-  value,
-  globMap,
-  bookId
-) {
+export function resolveCharacterAsset(value, globMap, bookId) {
   if (!value) {
     return "";
   }
 
-  const entries =
-    Object.entries(globMap || {});
+  const entries = Object.entries(globMap || {});
 
-  if (entries.length === 0) {
-    return "";
-  }
+  /*
+   * Starší Vite způsob – ponecháváme kvůli kompatibilitě.
+   */
+  if (entries.length > 0) {
+    const normalizedValue = normalizePath(value);
+    const databasePath = toCharacterDatabaseAssetPath(value);
 
-
-  /* =======================================================
-     1. PŘESNÁ SHODA CELÉ DB CESTY
-     ======================================================= */
-
-  const target =
-    normalize(
-      toCharacterDatabaseAssetPath(value)
-    );
-
-  const exact =
-    entries.find(([sourcePath]) => {
-      const databasePath =
-        normalize(
-          toCharacterDatabaseAssetPath(
-            sourcePath
-          )
-        );
-
-      return (
-        databasePath === target
-      );
-    });
-
-  if (exact) {
-    return exact[1];
-  }
-
-
-  /* =======================================================
-     2. SHODA PODLE NÁZVU SOUBORU V AKTUÁLNÍ KNIZE
-
-     Tohle řeší starší záznamy, například:
-
-     DB:
-     /assets/Návrh bez názvu-2vKY2pAi.png
-
-     skutečný soubor:
-     src/assets/images/characters/
-     Nezacalo-to/Návrh bez názvu.png
-
-     ======================================================= */
-
-  const fileNameTarget =
-    getComparableFileName(value);
-
-  if (!fileNameTarget) {
-    return "";
-  }
-
-  const folder =
-    normalize(
-      getBookCharacterAssetFolder(bookId)
-    );
-
-
-  const inBook =
-    entries.find(([sourcePath]) => {
-      const sourceFolder =
-        normalize(
-          getCharacterAssetBookFolder(
-            sourcePath
-          )
-        );
+    // 1. Přesná shoda.
+    for (const [sourcePath, resolvedUrl] of entries) {
+      const normalizedSource = normalizePath(sourcePath);
 
       if (
-        sourceFolder !== folder
+        normalizedSource === normalizedValue ||
+        toCharacterDatabaseAssetPath(normalizedSource) === databasePath
       ) {
-        return false;
+        return resolvedUrl;
       }
+    }
 
-      const sourceFileName =
-        getComparableFileName(
-          sourcePath
+    // 2. Záložní hledání podle názvu souboru v aktuální knize.
+    const fileName = getCharacterAssetFileName(value);
+    const cleanFileName = removeViteHash(fileName);
+    const bookFolder = getBookCharacterAssetFolder(bookId).toLowerCase();
+
+    if (cleanFileName) {
+      for (const [sourcePath, resolvedUrl] of entries) {
+        const normalizedSource = normalizePath(sourcePath);
+
+        const sourceFileName = removeViteHash(
+          getCharacterAssetFileName(normalizedSource)
         );
 
-      return (
-        sourceFileName ===
-        fileNameTarget
-      );
-    });
-
-
-  if (inBook) {
-    return inBook[1];
+        if (
+          sourceFileName.toLowerCase() ===
+            cleanFileName.toLowerCase() &&
+          normalizedSource
+            .toLowerCase()
+            .includes(`/characters/${bookFolder}/`)
+        ) {
+          return resolvedUrl;
+        }
+      }
+    }
   }
 
+  /*
+   * Nový způsob:
+   *
+   * DB:
+   * /src/assets/images/characters/AEIL/postava.png
+   *
+   * Public:
+   * /characters/AEIL/postava.png
+   */
+  const relativePath = getCharacterRelativePath(value);
 
-  /* =======================================================
-     3. NIC SE NENAŠLO
+  if (relativePath) {
+    return `/characters/${relativePath}`;
+  }
 
-     DŮLEŽITÉ:
-     Už nehledáme globálně podle názvu.
+  /*
+   * Kompatibilita se staršími hodnotami, kde je uložený
+   * pouze název souboru nebo Vite název s hashem.
+   */
+  const fileName = getCharacterAssetFileName(value);
 
-     Jinak by se mohl vzít obrázek stejného názvu
-     z jiné knihy.
+  if (fileName) {
+    const cleanFileName = removeViteHash(fileName);
+    const bookFolder = getBookCharacterAssetFolder(bookId);
 
-     ======================================================= */
+    return `/characters/${bookFolder}/${cleanFileName}`;
+  }
 
   return "";
 }
 
-
-/* =========================================================
-   OVĚŘENÍ EXISTENCE ASSETU
-
-   Tato funkce kontroluje přesnou stabilní DB cestu.
-
-   ========================================================= */
-
-export function characterAssetExists(
-  sourcePath,
-  globMap
-) {
+export function characterAssetExists(sourcePath, globMap) {
   if (!sourcePath) {
     return false;
   }
 
-  const target =
-    normalize(
-      toCharacterDatabaseAssetPath(
-        sourcePath
-      )
-    );
+  const entries = Object.entries(globMap || {});
 
-  return Object.keys(
-    globMap || {}
-  ).some((path) => {
-    return (
-      normalize(
-        toCharacterDatabaseAssetPath(
-          path
-        )
-      ) === target
-    );
-  });
+  /*
+   * Starší Vite glob.
+   */
+  if (entries.length > 0) {
+    const databasePath = toCharacterDatabaseAssetPath(sourcePath);
+
+    return entries.some(([sourcePathInMap]) => {
+      return (
+        normalizePath(sourcePathInMap) ===
+          normalizePath(sourcePath) ||
+        toCharacterDatabaseAssetPath(sourcePathInMap) ===
+          databasePath
+      );
+    });
+  }
+
+  /*
+   * U public/characters ověřujeme alespoň správný
+   * stabilní formát cesty.
+   */
+  return Boolean(getCharacterRelativePath(sourcePath));
 }

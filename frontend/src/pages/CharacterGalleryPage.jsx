@@ -2,8 +2,53 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { getCharacter } from "../services/charactersService";
+import { resolveCharacterAsset } from "../utils/characterAssetPaths";
 
 import "./CharacterGalleryPage.css";
+
+
+/* =========================================================
+   POMOCNÉ FUNKCE PRO MEDIA
+   ========================================================= */
+
+function isVideoFile(path) {
+  if (!path) {
+    return false;
+  }
+
+  const cleanPath = String(path)
+    .split("?")[0]
+    .split("#")[0]
+    .toLowerCase();
+
+  return /\.(mp4|webm|mov|m4v)$/.test(cleanPath);
+}
+
+
+function getVideoType(path) {
+  if (!path) {
+    return "";
+  }
+
+  const cleanPath = String(path)
+    .split("?")[0]
+    .split("#")[0]
+    .toLowerCase();
+
+  if (cleanPath.endsWith(".webm")) {
+    return "video/webm";
+  }
+
+  if (cleanPath.endsWith(".mp4") || cleanPath.endsWith(".m4v")) {
+    return "video/mp4";
+  }
+
+  if (cleanPath.endsWith(".mov")) {
+    return "video/quicktime";
+  }
+
+  return "";
+}
 
 
 function CharacterGalleryPage() {
@@ -17,6 +62,7 @@ function CharacterGalleryPage() {
 
 
   useEffect(() => {
+    let cancelled = false;
 
     async function loadCharacter() {
 
@@ -25,20 +71,35 @@ function CharacterGalleryPage() {
 
       try {
         const data = await getCharacter(bookId, characterId);
+
+        if (cancelled) {
+          return;
+        }
+
         setCharacter(data);
       } catch (err) {
+        if (cancelled) {
+          return;
+        }
+
         console.error(err);
         setError(
           err.message ||
           "Nepodařilo se načíst galerii."
         );
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
 
     }
 
     loadCharacter();
+
+    return () => {
+      cancelled = true;
+    };
 
   }, [bookId, characterId]);
 
@@ -104,30 +165,63 @@ function CharacterGalleryPage() {
 
         <section className="character-gallery-grid">
 
-          {images.map((image, index) => (
+          {images.map((image, index) => {
 
-            <figure
-              key={image.id || index}
-              className="character-gallery-item"
-            >
+            const source = resolveCharacterAsset(
+              image.image,
+              null,
+              bookId
+            );
 
-              <div className="character-gallery-image-wrap">
-                <img
-                  src={image.image}
-                  alt={image.caption || `${character.name} – obrázek ${index + 1}`}
-                  loading="lazy"
-                />
-              </div>
+            const video = isVideoFile(image.image);
 
-              {image.caption && (
-                <figcaption>
-                  {image.caption}
-                </figcaption>
-              )}
+            return (
+              <figure
+                key={image.id || index}
+                className="character-gallery-item"
+              >
 
-            </figure>
+                <div className="character-gallery-image-wrap">
 
-          ))}
+                  {video ? (
+                    <video
+                      controls
+                      playsInline
+                      preload="none"
+                      aria-label={
+                        image.caption ||
+                        `${character.name} – video ${index + 1}`
+                      }
+                    >
+                      <source
+                        src={source}
+                        type={getVideoType(image.image)}
+                      />
+                    </video>
+                  ) : (
+                    <img
+                      src={source}
+                      alt={
+                        image.caption ||
+                        `${character.name} – obrázek ${index + 1}`
+                      }
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
+
+                </div>
+
+                {image.caption && (
+                  <figcaption>
+                    {image.caption}
+                  </figcaption>
+                )}
+
+              </figure>
+            );
+
+          })}
 
         </section>
 

@@ -5,8 +5,8 @@ import BookCircle from "./BookCircle";
 /* ---------- knihy ---------- */
 
 import nezacalo from "../assets/images/nezacalo-to.png";
-import vespera from "../assets/images/vespera.png";
-import aeil from "../assets/images/aeil.png";
+import vespera from "../assets/images/Vespera/vespera.png";
+import aeil from "../assets/images/AEIL/aeil.png";
 
 /* ---------- hlavní štětcové rámečky ---------- */
 

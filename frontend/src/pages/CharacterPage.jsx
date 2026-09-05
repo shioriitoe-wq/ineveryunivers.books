@@ -11,8 +11,9 @@ import frameButton from "../assets/frames/frame-character-button.png";
 import { resolveCharacterAsset } from "../utils/characterAssetPaths";
 
 import "./CharacterPage.css";
-import characterAllBackground from "../assets/images/characterall.png";
-import aeilCharacterBackground from "../assets/images/aeil-character-back.png";
+import characterAllBackground from "../assets/images/Nezacalo-to/characterall.png";
+import aeilCharacterBackground from "../assets/images/AEIL/aeil-character-back.png";
+
 
 function getCharacterBackground(bookId) {
   switch (Number(bookId)) {
@@ -34,27 +35,7 @@ function getCharacterBackground(bookId) {
 }
 
 
-const characterImages = import.meta.glob(
-  "../assets/images/characters/**/*",
-  {
-    eager: true,
-    query: "?url",
-    import: "default",
-  }
-);
-
-const characterVideos = import.meta.glob(
-  "../assets/images/characters/**/*.{mp4,webm,mov,m4v}",
-  {
-    eager: true,
-    query: "?url",
-    import: "default",
-  }
-);
-
-
 function getBookHomePath(bookId) {
-
   if (Number(bookId) === 1) {
     return "/books/nezacalo";
   }
@@ -64,14 +45,12 @@ function getBookHomePath(bookId) {
 
 
 function CharacterPage() {
-
   const {
     bookId,
     characterId,
   } = useParams();
 
   const navigate = useNavigate();
-
 
   const [character, setCharacter] = useState(null);
   const [book, setBook] = useState(null);
@@ -81,7 +60,6 @@ function CharacterPage() {
   const [error, setError] = useState("");
 
   const [activePanel, setActivePanel] = useState("");
-
 
   /* =========================================================
      HLAVNÍ VIDEO POSTAVY
@@ -96,24 +74,17 @@ function CharacterPage() {
   ========================================================= */
 
   useEffect(() => {
-
     let cancelled = false;
 
-
     async function loadCharacter() {
-
       setLoading(true);
       setError("");
 
-
       try {
-
         const [
           data,
           loadedBook,
-          loadedVolumes,
         ] = await Promise.all([
-
           getCharacter(
             bookId,
             characterId
@@ -122,64 +93,60 @@ function CharacterPage() {
           getBook(
             bookId
           ),
-
-          getVolumes(
-            bookId
-          ),
-
         ]);
 
-
         if (cancelled) {
           return;
         }
-
 
         setCharacter(data);
-
         setBook(loadedBook);
+        setLoading(false);
 
-        setVolumes(
-          Array.isArray(loadedVolumes)
-            ? loadedVolumes
-            : []
-        );
+        /*
+         * Díly načítáme až po prvním vykreslení stránky,
+         * aby neblokovaly zobrazení postavy.
+         */
+        try {
+          const loadedVolumes = await getVolumes(bookId);
 
+          if (cancelled) {
+            return;
+          }
 
+          setVolumes(
+            Array.isArray(loadedVolumes)
+              ? loadedVolumes
+              : []
+          );
+        } catch (volumeError) {
+          if (!cancelled) {
+            console.error(
+              "Nepodařilo se načíst díly:",
+              volumeError
+            );
+          }
+        }
       } catch (err) {
-
         if (cancelled) {
           return;
         }
 
-
         console.error(err);
-
 
         setError(
           err?.message ||
           "Nepodařilo se načíst postavu."
         );
-
-
-      } finally {
-
-        if (!cancelled) {
-          setLoading(false);
-        }
-
+        setLoading(false);
       }
-
     }
 
-
     loadCharacter();
-
 
     return () => {
       cancelled = true;
     };
-
   }, [
     bookId,
     characterId,
@@ -191,84 +158,49 @@ function CharacterPage() {
   ========================================================= */
 
   useEffect(() => {
-
     let mainHideTimer;
     let mainInterval;
     let mainRestartTimer;
 
-
     if (!character?.main_video) {
-
       setShowMainVideo(false);
-
       return undefined;
     }
 
-
     function startMainVideo() {
-
       setMainVideoKey(
         (key) => key + 1
       );
 
       setShowMainVideo(true);
 
-
       mainHideTimer =
         setTimeout(() => {
-
           setShowMainVideo(false);
-
         }, 3400);
-
     }
-
 
     const mainStartTimer =
       setTimeout(() => {
-
         startMainVideo();
-
 
         mainInterval =
           setInterval(() => {
-
             setShowMainVideo(false);
-
 
             mainRestartTimer =
               setTimeout(() => {
-
                 startMainVideo();
-
               }, 22000);
-
           }, 30000);
-
-
       }, 3000);
 
-
     return () => {
-
-      clearTimeout(
-        mainStartTimer
-      );
-
-      clearTimeout(
-        mainHideTimer
-      );
-
-      clearTimeout(
-        mainRestartTimer
-      );
-
-      clearInterval(
-        mainInterval
-      );
-
+      clearTimeout(mainStartTimer);
+      clearTimeout(mainHideTimer);
+      clearTimeout(mainRestartTimer);
+      clearInterval(mainInterval);
     };
-
   }, [
     character?.main_video,
   ]);
@@ -280,40 +212,30 @@ function CharacterPage() {
 
   const uniqueRelationships =
     useMemo(() => {
-
       if (
         !Array.isArray(
           character?.relationships
         )
       ) {
-
         return [];
-
       }
-
 
       const grouped = new Map();
 
-
       character.relationships.forEach(
         (relationship) => {
-
           const relatedId =
             Number(
               relationship.related_character_id
             );
-
 
           if (
             !Number.isFinite(
               relatedId
             )
           ) {
-
             return;
-
           }
-
 
           let relationshipTypes =
             Array.isArray(
@@ -321,7 +243,6 @@ function CharacterPage() {
             )
               ? relationship.relationship_types
               : [];
-
 
           /*
            * Starší data mohou mít
@@ -332,14 +253,11 @@ function CharacterPage() {
             relationshipTypes.length === 0 &&
             relationship.relationship_type
           ) {
-
             try {
-
               const parsed =
                 JSON.parse(
                   relationship.relationship_type
                 );
-
 
               relationshipTypes =
                 Array.isArray(parsed)
@@ -347,21 +265,14 @@ function CharacterPage() {
                   : [
                       relationship.relationship_type,
                     ];
-
-
             } catch {
-
               relationshipTypes = [
                 relationship.relationship_type,
               ];
-
             }
-
           }
 
-
           if (!grouped.has(relatedId)) {
-
             grouped.set(
               relatedId,
               {
@@ -369,42 +280,32 @@ function CharacterPage() {
                 relationship_types: [],
               }
             );
-
           }
-
 
           const current =
             grouped.get(
               relatedId
             );
 
-
           relationshipTypes.forEach(
             (type) => {
-
               if (
                 !current.relationship_types.includes(
                   type
                 )
               ) {
-
                 current.relationship_types.push(
                   type
                 );
-
               }
-
             }
           );
-
         }
       );
-
 
       return Array.from(
         grouped.values()
       );
-
     }, [
       character,
     ]);
@@ -415,19 +316,13 @@ function CharacterPage() {
   ========================================================= */
 
   if (loading) {
-
     return (
-
       <main className="character-page">
-
         <div className="character-page-state">
           Načítám postavu...
         </div>
-
       </main>
-
     );
-
   }
 
 
@@ -436,26 +331,18 @@ function CharacterPage() {
   ========================================================= */
 
   if (error) {
-
     return (
-
       <main className="character-page">
-
         <div
           className="
             character-page-state
             character-page-error
           "
         >
-
           {error}
-
         </div>
-
       </main>
-
     );
-
   }
 
 
@@ -464,21 +351,13 @@ function CharacterPage() {
   ========================================================= */
 
   if (!character) {
-
     return (
-
       <main className="character-page">
-
         <div className="character-page-state">
-
           Postava nebyla nalezena.
-
         </div>
-
       </main>
-
     );
-
   }
 
 
@@ -493,21 +372,17 @@ function CharacterPage() {
   ========================================================= */
 
   function togglePanel(panel) {
-
     setActivePanel(
       (current) =>
         current === panel
           ? ""
           : panel
     );
-
   }
 
 
   return (
-
     <main className="character-page">
-
 
       {/* =====================================================
           POZADÍ
@@ -540,24 +415,19 @@ function CharacterPage() {
           }}
         />
 
-
         {character.main_image && (
-
           <div className="character-main-photo">
-
             <img
               src={
                 resolveCharacterAsset(
                   character.main_image,
-                  characterImages,
+                  null,
                   bookId
                 )
               }
               alt={character.name}
             />
-
           </div>
-
         )}
 
 
@@ -567,28 +437,24 @@ function CharacterPage() {
 
         {showMainVideo &&
           character.main_video && (
-
-          <div className="character-main-gif">
-
-            <video
-              key={mainVideoKey}
-              src={
-                resolveCharacterAsset(
-                  character.main_video,
-                  characterVideos,
-                  bookId
-                )
-              }
-              autoPlay
-              muted
-              playsInline
-              preload="auto"
-              aria-hidden="true"
-            />
-
-          </div>
-
-        )}
+            <div className="character-main-gif">
+              <video
+                key={mainVideoKey}
+                src={
+                  resolveCharacterAsset(
+                    character.main_video,
+                    null,
+                    bookId
+                  )
+                }
+                autoPlay
+                muted
+                playsInline
+                preload="auto"
+                aria-hidden="true"
+              />
+            </div>
+          )}
 
       </div>
 
@@ -614,44 +480,33 @@ function CharacterPage() {
             }}
           />
 
-
           {character.header_image && (
-
             <div className="character-header-photo">
-
               <img
                 src={
                   resolveCharacterAsset(
                     character.header_image,
-                    characterImages,
+                    null,
                     bookId
                   )
                 }
                 alt=""
+                loading="lazy"
+                decoding="async"
               />
-
             </div>
-
           )}
 
-
           <div className="character-header-text">
-
             <h1>
               {character.name}
             </h1>
 
-
             {character.quote && (
-
               <div className="character-quote">
-
                 {character.quote}
-
               </div>
-
             )}
-
           </div>
 
         </div>
@@ -662,7 +517,6 @@ function CharacterPage() {
         ================================================= */}
 
         <nav className="character-panels">
-
 
           {/* =================================================
               1. KNIHA
@@ -679,9 +533,7 @@ function CharacterPage() {
               togglePanel("book")
             }
           >
-
             Kniha
-
           </button>
 
 
@@ -700,9 +552,7 @@ function CharacterPage() {
               togglePanel("quotes")
             }
           >
-
             Citáty
-
           </button>
 
 
@@ -721,9 +571,7 @@ function CharacterPage() {
               togglePanel("relationships")
             }
           >
-
             Vztahy
-
           </button>
 
 
@@ -744,9 +592,7 @@ function CharacterPage() {
               )
             }
           >
-
             Galerie
-
           </button>
 
 
@@ -765,9 +611,7 @@ function CharacterPage() {
               togglePanel("videos")
             }
           >
-
             Videa
-
           </button>
 
 
@@ -786,11 +630,8 @@ function CharacterPage() {
               togglePanel("soundtrack")
             }
           >
-
             Soundtrack
-
           </button>
-
 
         </nav>
 
@@ -800,9 +641,7 @@ function CharacterPage() {
         ===================================================== */}
 
         {activePanel === "book" && (
-
           <section className="character-section">
-
 
             <div
               className="
@@ -810,10 +649,8 @@ function CharacterPage() {
                 character-volume-links
               "
             >
-
               {(character.volume_ids || [])
                 .map((volumeId) => {
-
                   const volume =
                     volumes.find(
                       (item) =>
@@ -821,50 +658,33 @@ function CharacterPage() {
                         Number(volumeId)
                     );
 
-
                   if (!volume) {
                     return null;
                   }
 
-
                   let volumePath = "";
 
-
                   if (Number(volume.id) === 1) {
-
                     volumePath =
                       "/books/nezacalo";
-
                   } else if (Number(volume.id) === 2) {
-
                     volumePath =
                       "/books/nezacalo/volume/2";
-
                   } else if (Number(volume.id) === 3) {
-
                     volumePath =
                       "/books/nezacalo/volume/3";
-
                   } else if (Number(volume.id) === 4) {
-
                     volumePath =
                       "/books/nezacalo/volume/4";
-
                   } else if (Number(volume.id) === 5) {
-
                     volumePath =
                       "/books/nezacalo/volume/5";
-
                   } else {
-
                     volumePath =
                       bookHomePath;
-
                   }
 
-
                   return (
-
                     <Link
                       key={volume.id}
                       to={volumePath}
@@ -873,32 +693,21 @@ function CharacterPage() {
                         character-volume-link
                       "
                     >
-
                       <span>
-
                         {volume.number
                           ? `Díl ${volume.number}`
                           : "Díl"}
-
                       </span>
 
-
                       <strong>
-
                         {volume.title}
-
                       </strong>
-
                     </Link>
-
                   );
-
                 })}
-
             </div>
 
           </section>
-
         )}
 
 
@@ -907,18 +716,14 @@ function CharacterPage() {
         ===================================================== */}
 
         {activePanel === "quotes" && (
-
           <section className="character-section">
 
-
             {character.quotes &&
-              character.quotes.length > 0 ? (
-
+            character.quotes.length > 0 ? (
               <div className="character-admin-quotes">
 
                 {character.quotes.map(
                   (item, index) => {
-
                     const volume =
                       volumes.find(
                         (volumeItem) =>
@@ -930,9 +735,7 @@ function CharacterPage() {
                           )
                       );
 
-
                     return (
-
                       <div
                         key={
                           item.id ||
@@ -940,47 +743,32 @@ function CharacterPage() {
                         }
                         className="character-admin-quote"
                       >
-
                         <span className="character-admin-quote-text">
-
                           „{item.quote}“
-
                         </span>
 
-
                         <strong className="character-admin-quote-source">
-
                           {item.author ||
                             character.name}
 
                           {volume
                             ? `, ${volume.title}`
                             : ""}
-
                         </strong>
-
                       </div>
-
                     );
-
                   }
                 )}
 
               </div>
-
             ) : (
-
               <p>
-
                 Zatím zde nejsou
                 žádné citáty.
-
               </p>
-
             )}
 
           </section>
-
         )}
 
 
@@ -989,39 +777,21 @@ function CharacterPage() {
         ===================================================== */}
 
         {activePanel === "relationships" && (
-
           <section className="character-section">
 
-
             {uniqueRelationships.length > 0 ? (
-
               <div className="character-relationships">
 
                 {uniqueRelationships.map(
                   (relationship) => {
-
                     const icons = {
-
-                      love:
-                        "❤️",
-
-                      family:
-                        "👨‍👩‍👧",
-
-                      friend:
-                        "🤝",
-
-                      enemy:
-                        "⚔️",
-
-                      ex:
-                        "💔",
-
-                      acquaintance:
-                        "👤",
-
+                      love: "❤️",
+                      family: "👨‍👩‍👧",
+                      friend: "🤝",
+                      enemy: "⚔️",
+                      ex: "💔",
+                      acquaintance: "👤",
                     };
-
 
                     const relationshipTypes =
                       Array.isArray(
@@ -1030,9 +800,7 @@ function CharacterPage() {
                         ? relationship.relationship_types
                         : [];
 
-
                     return (
-
                       <Link
                         key={
                           relationship.related_character_id
@@ -1044,65 +812,46 @@ function CharacterPage() {
                           character-relationship-link
                         "
                       >
-
                         <span
                           className="
                             character-relationship-icons
                           "
                           aria-hidden="true"
                         >
-
                           {relationshipTypes.map(
                             (type) => (
-
                               <span
                                 key={type}
                                 className="
                                   character-relationship-icon
                                 "
                               >
-
                                 {icons[type] || "👤"}
-
                               </span>
-
                             )
                           )}
-
                         </span>
 
-
                         <span>
-
                           {
                             relationship
                               .related_character_name
                           }
-
                         </span>
-
                       </Link>
-
                     );
-
                   }
                 )}
 
               </div>
-
             ) : (
-
               <p>
-
                 Zatím zde nejsou
                 žádné vztahy.
-
               </p>
-
             )}
 
           </section>
-
         )}
 
 
@@ -1111,19 +860,15 @@ function CharacterPage() {
         ===================================================== */}
 
         {activePanel === "videos" && (
-
           <section className="character-section">
 
-
             {character.main_video ? (
-
               <div className="character-video-panel">
-
                 <video
                   src={
                     resolveCharacterAsset(
                       character.main_video,
-                      characterVideos,
+                      null,
                       bookId
                     )
                   }
@@ -1131,22 +876,15 @@ function CharacterPage() {
                   playsInline
                   preload="metadata"
                 />
-
               </div>
-
             ) : (
-
               <p>
-
                 Zatím zde nejsou
                 žádná videa.
-
               </p>
-
             )}
 
           </section>
-
         )}
 
 
@@ -1155,40 +893,29 @@ function CharacterPage() {
         ===================================================== */}
 
         {activePanel === "soundtrack" && (
-
           <section className="character-section">
 
-
             {character.soundtrack ? (
-
               <div className="character-soundtrack">
-
                 <audio
                   src={
                     resolveCharacterAsset(
                       character.soundtrack,
-                      characterImages,
+                      null,
                       bookId
                     )
                   }
                   controls
                 />
-
               </div>
-
             ) : (
-
               <p>
-
                 Zatím zde není
                 žádný soundtrack.
-
               </p>
-
             )}
 
           </section>
-
         )}
 
 
@@ -1197,18 +924,14 @@ function CharacterPage() {
         ===================================================== */}
 
         {character.content_html && (
-
           <section className="character-description">
-
             <div
               dangerouslySetInnerHTML={{
                 __html:
                   character.content_html,
               }}
             />
-
           </section>
-
         )}
 
 
@@ -1218,52 +941,38 @@ function CharacterPage() {
 
         {character.details &&
           character.details.length > 0 && (
+            <section className="character-section">
 
-          <section className="character-section">
+              <div className="character-details">
 
-            <div className="character-details">
+                {character.details.map(
+                  (detail, index) => (
+                    <div
+                      key={
+                        detail.id ||
+                        index
+                      }
+                      className="character-detail"
+                    >
+                      <span>
+                        {detail.label}
+                      </span>
 
-              {character.details.map(
-                (detail, index) => (
+                      <strong>
+                        {detail.value}
+                      </strong>
+                    </div>
+                  )
+                )}
 
-                  <div
-                    key={
-                      detail.id ||
-                      index
-                    }
-                    className="character-detail"
-                  >
+              </div>
 
-                    <span>
-                      {detail.label}
-                    </span>
-
-
-                    <strong>
-                      {detail.value}
-                    </strong>
-
-                  </div>
-
-                )
-              )}
-
-            </div>
-
-          </section>
-
-        )}
-
-
-        
-
+            </section>
+          )}
 
       </section>
-
     </main>
-
   );
-
 }
 
 

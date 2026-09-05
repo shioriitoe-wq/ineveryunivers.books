@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap");
+
 @font-face {
     font-family: "Biro Script Plus";
     src: url("../assets/fonts/biro-script-plus.woff2") format("woff2"),
@@ -7,11 +9,10 @@
     font-display: swap;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap");
 
 
 /* =========================================
-   SPOLEČNÝ ZÁKLAD
+   SPOLEÄŚNĂť ZĂKLAD
 ========================================= */
 
 .chapter-page {
@@ -27,11 +28,11 @@
 
 
 /* =========================================
-   LETNÍ VERZE
+   LETNĂŤ VERZE
 ========================================= */
 
 .chapter-summer {
-    background-image: url("../assets/images/chapter-summer.png");
+    background-image: url("../assets/images/Nezacalo-to/chapter-summer.png");
 
     background-size: 100% auto;
     background-position: top center;
@@ -40,8 +41,8 @@
 
 
 /* =========================================
-   DEKORACE – LÉTO
-   VOZÍČEK VLEVO DOLE
+   DEKORACE â€“ LĂ‰TO
+   VOZĂŤÄŚEK VLEVO DOLE
 ========================================= */
 
 .chapter-decoration-summer {
@@ -60,11 +61,11 @@
 
 
 /* =========================================
-   PODZIMNÍ VERZE
+   PODZIMNĂŤ VERZE
 ========================================= */
 
 .chapter-autumn {
-    background-image: url("../assets/images/chapter-autumn.png");
+    background-image: url("../assets/images/Nezacalo-to/chapter-autumn.png");
 
     background-size: 100% auto;
     background-position: top center;
@@ -73,8 +74,8 @@
 
 
 /* =========================================
-   DEKORACE – PODZIM
-   DÝNĚ VPRAVO DOLE
+   DEKORACE â€“ PODZIM
+   DĂťNÄš VPRAVO DOLE
 ========================================= */
 
 .chapter-decoration-autumn {
@@ -93,11 +94,11 @@
 
 
 /* =========================================
-   ZIMNÍ VERZE
+   ZIMNĂŤ VERZE
 ========================================= */
 
 .chapter-winter {
-    background-image: url("../assets/images/chapter-winter.png");
+    background-image: url("../assets/images/Nezacalo-to/chapter-winter.png");
 
     background-size: 100% auto;
     background-position: top center;
@@ -106,7 +107,7 @@
 
 
 /* =========================================
-   DEKORACE – ZIMA
+   DEKORACE â€“ ZIMA
    ICE VPRAVO DOLE
 ========================================= */
 
@@ -126,7 +127,7 @@
 
 
 /* =========================================
-   DEKORACE – ZIMA
+   DEKORACE â€“ ZIMA
    MATCHA VLEVO DOLE
 ========================================= */
 
@@ -146,11 +147,11 @@
 
 
 /* =========================================
-   JARNÍ VERZE
+   JARNĂŤ VERZE
 ========================================= */
 
 .chapter-spring {
-    background-image: url("../assets/images/chapter-spring.png");
+    background-image: url("../assets/images/Nezacalo-to/chapter-spring.png");
 
     background-size: 100% auto;
     background-position: top center;
@@ -159,7 +160,7 @@
 
 
 /* =========================================
-   DEKORACE – JARO
+   DEKORACE â€“ JARO
    MOTORKA VLEVO DOLE
 ========================================= */
 
@@ -179,7 +180,7 @@
 
 
 /* =========================================
-   DEKORACE – JARO
+   DEKORACE â€“ JARO
    PILULKY VPRAVO DOLE
 ========================================= */
 
@@ -199,7 +200,7 @@
 
 
 /* =========================================
-   HLAVIČKA
+   HLAVIÄŚKA
 ========================================= */
 
 .chapter-header {
@@ -220,7 +221,7 @@
 
 
 /* =========================================
-   LOGO VÁŽKY
+   LOGO VĂĹ˝KY
 ========================================= */
 
 .chapter-library-logo {
@@ -245,7 +246,7 @@
 
 
 /* =========================================
-   ZPĚT KE KAPITOLÁM
+   ZPÄšT KE KAPITOLĂM
 ========================================= */
 
 .chapter-back {
@@ -314,7 +315,7 @@
 
 
 /* =========================================
-   TEXT KAPITOLY – SAMOSTATNÝ SCROLL
+   TEXT KAPITOLY â€“ SAMOSTATNĂť SCROLL
 ========================================= */
 
 .chapter-text {
@@ -427,7 +428,7 @@
 
 
 /* =========================================
-   NÁSTROJE
+   NĂSTROJE
 ========================================= */
 
 .chapter-tools {
@@ -453,7 +454,7 @@
 
 
 /* =========================================
-   PANELY – LETNÍ PNG RÁMEČEK
+   PANELY â€“ LETNĂŤ PNG RĂMEÄŚEK
 ========================================= */
 
 .chapter-summer .chapter-tools button {
@@ -498,7 +499,7 @@
 
 
 /* =========================================
-   PANELY – PODZIMNÍ PNG RÁMEČEK
+   PANELY â€“ PODZIMNĂŤ PNG RĂMEÄŚEK
 ========================================= */
 
 .chapter-autumn .chapter-tools button {
@@ -543,7 +544,7 @@
 
 
 /* =========================================
-   PANELY – ZIMNÍ PNG RÁMEČEK
+   PANELY â€“ ZIMNĂŤ PNG RĂMEÄŚEK
 ========================================= */
 
 .chapter-winter .chapter-tools button {
@@ -588,7 +589,7 @@
 
 
 /* =========================================
-   PANELY – JARNÍ PNG RÁMEČEK
+   PANELY â€“ JARNĂŤ PNG RĂMEÄŚEK
 ========================================= */
 
 .chapter-spring .chapter-tools button {
@@ -633,7 +634,7 @@
 
 
 /* =========================================
-   HOVER EFEKT PANELŮ
+   HOVER EFEKT PANELĹ®
 ========================================= */
 
 .chapter-tools button {
@@ -657,12 +658,12 @@
 
 
 /* =========================================
-   BARVY TEXTŮ PODLE MOTIVU
+   BARVY TEXTĹ® PODLE MOTIVU
 ========================================= */
 
 
 /* =========================================
-   LÉTO
+   LĂ‰TO
 ========================================= */
 
 .chapter-summer .chapter-back {

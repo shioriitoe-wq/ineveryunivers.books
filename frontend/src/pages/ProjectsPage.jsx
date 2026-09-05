@@ -15,6 +15,7 @@ import {
 import ProjectForm from "../components/ProjectForm";
 import BookStructure from "../components/BookStructure";
 import CharacterForm from "../components/CharacterForm";
+import AEILCharacterForm from "../components/AEILCharacterForm";
 
 import "./ProjectsPage.css";
 
@@ -57,7 +58,6 @@ function ProjectsPage() {
     }
   }
 
-
   async function loadCharacters(bookId) {
     if (!bookId) {
       setCharacters([]);
@@ -80,7 +80,6 @@ function ProjectsPage() {
     }
   }
 
-
   useEffect(() => {
     document.documentElement.style.overflowY = "auto";
     document.body.style.overflowY = "auto";
@@ -92,7 +91,6 @@ function ProjectsPage() {
       document.body.style.overflowY = "";
     };
   }, []);
-
 
   async function handleSaveProject(project) {
     try {
@@ -108,18 +106,15 @@ function ProjectsPage() {
       setSelectedProject(null);
 
       await loadProjects();
-
     } catch (error) {
       console.error(error);
       alert(error.message);
     }
   }
 
-
   function handleEditProject(project) {
     setSelectedProject(project);
   }
-
 
   function handleManageStructure(project) {
     setSelectedProject(null);
@@ -130,7 +125,6 @@ function ProjectsPage() {
 
     loadCharacters(project.id);
   }
-
 
   async function handleDeleteProject(id) {
     try {
@@ -148,58 +142,100 @@ function ProjectsPage() {
       setVolumes([]);
 
       await loadProjects();
-
     } catch (error) {
       console.error(error);
       alert(error.message);
     }
   }
 
-
   function handleAddCharacter() {
     setSelectedCharacter(null);
     setShowCharacterForm(true);
   }
-
 
   function handleEditCharacter(character) {
     setSelectedCharacter(character);
     setShowCharacterForm(true);
   }
 
-
   async function handleSaveCharacter(characterData) {
+    console.log(
+      "=== PROJECTS PAGE: HANDLE SAVE CHARACTER ==="
+    );
+
+    console.log(
+      "structureBook:",
+      structureBook
+    );
+
+    console.log(
+      "structureBook.id:",
+      structureBook?.id
+    );
+
+    console.log(
+      "selectedCharacter:",
+      selectedCharacter
+    );
+
+    console.log(
+      "characterData:",
+      characterData
+    );
+
     if (!structureBook?.id) {
+      console.error(
+        "!!! CHYBÍ structureBook.id – UKLÁDÁNÍ SE ZASTAVILO !!!"
+      );
       return;
     }
 
     try {
       if (selectedCharacter?.id) {
+        console.log(
+          "=== POSÍLÁM UPDATE ===",
+          structureBook.id,
+          selectedCharacter.id
+        );
+
         await updateCharacter(
           structureBook.id,
           selectedCharacter.id,
           characterData
         );
       } else {
+        console.log(
+          "=== POSÍLÁM ADD ===",
+          structureBook.id,
+          characterData
+        );
+
         await addCharacter(
           structureBook.id,
           characterData
         );
       }
 
-      setSelectedCharacter(null);
-      setShowCharacterForm(false);
+      console.log(
+        "=== API VOLÁNÍ PROBĚHLO ÚSPĚŠNĚ ==="
+      );
 
       await loadCharacters(
         structureBook.id
       );
 
+      setSelectedCharacter(null);
+      setShowCharacterForm(false);
+
     } catch (error) {
-      console.error(error);
+      console.error(
+        "=== CHYBA PŘI UKLÁDÁNÍ POSTAVY ===",
+        error
+      );
+
       throw error;
     }
   }
-
 
   async function handleDeleteCharacter(
     characterId
@@ -240,12 +276,10 @@ function ProjectsPage() {
     }
   }
 
-
   function handleCancelCharacter() {
     setSelectedCharacter(null);
     setShowCharacterForm(false);
   }
-
 
   if (loading) {
     return (
@@ -256,7 +290,6 @@ function ProjectsPage() {
       </main>
     );
   }
-
 
   if (error) {
     return (
@@ -279,7 +312,6 @@ function ProjectsPage() {
     );
   }
 
-
   return (
     <main className="admin-page">
 
@@ -300,7 +332,6 @@ function ProjectsPage() {
           </div>
 
         </div>
-
 
         <div className="admin-header-actions">
 
@@ -454,6 +485,7 @@ function ProjectsPage() {
               </h1>
 
               <p>
+
                 {structureBook.type ===
                 "series"
                   ? "Série"
@@ -462,6 +494,7 @@ function ProjectsPage() {
                 {" · "}
 
                 {structureBook.status}
+
               </p>
 
             </div>
@@ -555,13 +588,27 @@ function ProjectsPage() {
 
               <div className="admin-character-form">
 
-                <CharacterForm
-  bookId={structureBook?.id}
-  character={selectedCharacter}
-  volumes={volumes}
-  onSave={handleSaveCharacter}
-  onCancel={handleCancelCharacter}
-/>
+                {structureBook?.title === "AEIL" ? (
+
+                  <AEILCharacterForm
+                    bookId={structureBook?.id}
+                    character={selectedCharacter}
+                    volumes={volumes}
+                    onSave={handleSaveCharacter}
+                    onCancel={handleCancelCharacter}
+                  />
+
+                ) : (
+
+                  <CharacterForm
+                    bookId={structureBook?.id}
+                    character={selectedCharacter}
+                    volumes={volumes}
+                    onSave={handleSaveCharacter}
+                    onCancel={handleCancelCharacter}
+                  />
+
+                )}
 
               </div>
 
@@ -649,6 +696,7 @@ function ProjectsPage() {
                               {character.name}
                             </h3>
 
+
                             {character.quote && (
 
                               <p className="admin-character-quote">
@@ -680,6 +728,7 @@ function ProjectsPage() {
                                     }
 
                                     return (
+
                                       <span
                                         key={
                                           volumeId
@@ -689,7 +738,9 @@ function ProjectsPage() {
                                           ? `Díl ${volume.number}`
                                           : volume.title}
                                       </span>
+
                                     );
+
                                   }
                                 )}
 

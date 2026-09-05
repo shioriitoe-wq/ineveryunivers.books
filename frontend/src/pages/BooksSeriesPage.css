@@ -1,4 +1,4 @@
-﻿@font-face {
+@font-face {
   font-family: "Biro Script Plus";
   src: url("../assets/fonts/biro-script-plus.woff2") format("woff2"),
        url("../assets/fonts/biro-script-plus.woff") format("woff");
@@ -6,7 +6,6 @@
   font-style: normal;
   font-display: swap;
 }
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cormorant+Garamond:wght@300;400;500&display=swap');
 
 
 /* =========================================================
@@ -18,7 +17,7 @@
     min-height: 100vh;
     overflow: hidden;
 
-    background-image: url("../assets/images/texture.png");
+    background-image: url("../assets/images/Nezacalo-to/texture.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

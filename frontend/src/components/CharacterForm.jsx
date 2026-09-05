@@ -16,27 +16,89 @@ import {
   addCharacter,
 } from "../services/charactersService";
 
+
 /* =========================================================
-   OBRÁZKY POSTAV
+   POSTAVY – PUBLIC ASSETS
+   =========================================================
+
+   Postavy jsou v:
+
+   public/characters/<KNIHA>/...
+
+   Browser neumí z public složky automaticky vypsat soubory,
+   proto picker používá lehký manifest:
+
+   /characters/manifest.json
+
+   Manifest obsahuje pouze seznam cest k souborům – samotné
+   obrázky a videa se při otevření pickeru automaticky
+   nestahují.
+
+   Manifest vytvoříme po přesunu characters do public.
    ========================================================= */
 
-const characterImages = import.meta.glob(
-  "../assets/images/characters/**/*",
-  {
-    eager: true,
-    query: "?url",
-    import: "default",
-  }
-);
+let characterManifestPromise = null;
 
-const characterVideos = import.meta.glob(
-  "../assets/images/characters/**/*.{mp4,webm,mov,m4v}",
-  {
-    eager: true,
-    query: "?url",
-    import: "default",
+function loadCharacterManifest() {
+  if (!characterManifestPromise) {
+    characterManifestPromise = fetch(
+      "/characters/manifest.json",
+      { cache: "no-cache" }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Manifest characters se nepodařilo načíst (${response.status}).`
+          );
+        }
+
+        return response.json();
+      })
+      .then((data) =>
+        Array.isArray(data) ? data : []
+      )
+      .catch((error) => {
+        console.error(
+          "Nepodařilo se načíst manifest characters:",
+          error
+        );
+
+        return [];
+      });
   }
-);
+
+  return characterManifestPromise;
+}
+
+
+function getManifestFileName(path) {
+  return path.split("/").pop() || "";
+}
+
+
+function getManifestDatabasePath(path) {
+  const normalized = String(path || "")
+    .replace(/\\/g, "/")
+    .replace(/^\/+/, "")
+    .replace(/^characters\//i, "");
+
+  return toCharacterDatabaseAssetPath(
+    `/characters/${normalized}`
+  );
+}
+
+function normalizeManifestPath(path) {
+  return String(path || "")
+    .replace(/\\/g, "/")
+    .replace(/^\/+/, "")
+    .replace(/^characters\//i, "");
+}
+
+function isVideoFile(path) {
+  return /\.(mp4|webm|mov|m4v)$/i.test(
+    String(path || "")
+  );
+}
 
 
 /* =========================================================
@@ -48,70 +110,63 @@ function ImagePicker({
   value,
   onChange,
   bookId,
+  allowVideo = false,
 }) {
-
-  const [
-    open,
-    setOpen,
-  ] = useState(false);
-
+  const [open, setOpen] = useState(false);
+  const [manifest, setManifest] = useState([]);
+  const [loadingManifest, setLoadingManifest] = useState(false);
 
   const bookFolder =
     getBookCharacterAssetFolder(bookId);
 
-  const allImages =
-    Object.entries(characterImages)
-      .filter(([path]) => {
-        const extension =
-          path.split(".").pop()?.toLowerCase();
+  useEffect(() => {
+    if (!open || manifest.length > 0) {
+      return;
+    }
 
-        return [
-          "png",
-          "jpg",
-          "jpeg",
-          "webp",
-          "gif",
-          "avif",
-        ].includes(extension);
+    let cancelled = false;
+    setLoadingManifest(true);
+
+    loadCharacterManifest()
+      .then((data) => {
+        if (!cancelled) setManifest(data);
       })
-      .map(([path, url]) => ({
-        path,
-        url,
-        databasePath:
-          toCharacterDatabaseAssetPath(path),
-        name:
-          path.split("/").pop(),
-      }));
+      .finally(() => {
+        if (!cancelled) setLoadingManifest(false);
+      });
 
-  const bookImages = allImages.filter((image) =>
-    image.databasePath.toLowerCase().includes(
-      `/src/assets/images/characters/${bookFolder.toLowerCase()}/`
-    )
-  );
+    return () => { cancelled = true; };
+  }, [open, manifest.length]);
 
-  // Dokud nejsou staré soubory roztříděné, ponecháme
-  // v pickeru i staré soubory přímo v kořeni characters.
-  const images =
-    bookImages.length > 0
-      ? bookImages
-      : allImages.filter((image) => {
-          const relative =
-            image.databasePath
-              .split("/characters/")[1] || "";
-          return !relative.includes("/");
-        });
+  const images = manifest
+    .map(normalizeManifestPath)
+    .filter(Boolean)
+    .filter((path) => {
+      const parts = path.split("/");
+      const folder = parts[0] || "";
+      const extension = path.split(".").pop()?.toLowerCase();
+      const isImage = [
+        "png", "jpg", "jpeg", "webp", "gif", "avif",
+      ].includes(extension);
 
+      return (
+        folder.toLowerCase() === bookFolder.toLowerCase() &&
+        (isImage || (allowVideo && isVideoFile(path)))
+      );
+    })
+    .map((path) => ({
+      path,
+      url: `/characters/${path}`,
+      databasePath: getManifestDatabasePath(path),
+      name: getManifestFileName(path),
+      isVideo: isVideoFile(path),
+    }));
+
+  const valueIsVideo = isVideoFile(value);
 
   return (
-
     <div>
-
-      <label>
-
-        {label}
-
-      </label>
-
+      <label>{label}</label>
 
       <div
         style={{
@@ -121,29 +176,40 @@ function ImagePicker({
           marginTop: "8px",
         }}
       >
-
         {value ? (
-
-          <img
-            src={
-              resolveCharacterAsset(
-                value,
-                characterImages,
-                bookId
-              ) || value
-            }
-            alt=""
-            style={{
-              width: "140px",
-              height: "90px",
-              objectFit: "cover",
-              borderRadius: "6px",
-              border: "1px solid #4d5949",
-            }}
-          />
-
+          valueIsVideo ? (
+            <video
+              src={
+                resolveCharacterAsset(value, null, bookId) || value
+              }
+              muted
+              playsInline
+              preload="metadata"
+              controls
+              style={{
+                width: "140px",
+                height: "90px",
+                objectFit: "cover",
+                borderRadius: "6px",
+                border: "1px solid #4d5949",
+              }}
+            />
+          ) : (
+            <img
+              src={
+                resolveCharacterAsset(value, null, bookId) || value
+              }
+              alt=""
+              style={{
+                width: "140px",
+                height: "90px",
+                objectFit: "cover",
+                borderRadius: "6px",
+                border: "1px solid #4d5949",
+              }}
+            />
+          )
         ) : (
-
           <div
             style={{
               width: "140px",
@@ -157,120 +223,73 @@ function ImagePicker({
               fontSize: "13px",
             }}
           >
-
             Bez obrázku
-
           </div>
-
         )}
-
 
         <button
           type="button"
-          onClick={() =>
-            setOpen(!open)
-          }
+          onClick={() => setOpen(!open)}
         >
-
-          Vybrat obrázek
-
+          {allowVideo ? "Vybrat obrázek nebo video" : "Vybrat obrázek"}
         </button>
 
-
         {value && (
-
-          <button
-            type="button"
-            onClick={() =>
-              onChange("")
-            }
-          >
-
+          <button type="button" onClick={() => onChange("")}>
             Odebrat
-
           </button>
-
         )}
-
       </div>
 
-
       {open && (
-
         <div
           style={{
             marginTop: "12px",
             display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fill, minmax(150px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
             gap: "10px",
             padding: "12px",
-            border:
-              "1px solid #30372f",
+            border: "1px solid #30372f",
             borderRadius: "6px",
             background: "#0c0f0c",
           }}
         >
-
-          {images.length === 0 ? (
-
-            <p
-              style={{
-                color: "#777d75",
-              }}
-            >
-
-              Ve složce characters nejsou žádné obrázky.
-
+          {loadingManifest ? (
+            <p style={{ color: "#777d75" }}>
+              {allowVideo ? "Načítám obrázky a videa..." : "Načítám obrázky..."}
             </p>
-
+          ) : images.length === 0 ? (
+            <p style={{ color: "#777d75" }}>
+              {allowVideo
+                ? "Ve složce characters nejsou žádné obrázky ani videa."
+                : "Ve složce characters nejsou žádné obrázky."}
+            </p>
           ) : (
-
-            images.map(
-              (image) => (
-
-                <button
-                  key={image.path}
-                  type="button"
-                  onClick={() => {
-
-                    console.log(
-                      "=== VYBRÁN OBRÁZEK ==="
-                    );
-
-                    console.log(
-                      "image:",
-                      image
-                    );
-
-                    console.log(
-                      "image.url:",
-                      image.url
-                    );
-
-                    onChange(
-                      image.databasePath
-                    );
-
-                    setOpen(false);
-
-                  }}
-                  style={{
-                    padding: "6px",
-                    border:
-                      value === image.databasePath
-                        ? "2px solid #9caf8d"
-                        : "1px solid #30372f",
-                    borderRadius: "6px",
-                    background:
-                      "#101310",
-                    cursor: "pointer",
-                  }}
-                >
-
-                  <img
+            images.map((image) => (
+              <button
+                key={image.path}
+                type="button"
+                onClick={() => {
+                  onChange(image.databasePath);
+                  setOpen(false);
+                }}
+                style={{
+                  padding: "6px",
+                  border:
+                    value === image.databasePath
+                      ? "2px solid #9caf8d"
+                      : "1px solid #30372f",
+                  borderRadius: "6px",
+                  background: "#101310",
+                  cursor: "pointer",
+                }}
+              >
+                {image.isVideo ? (
+                  <video
                     src={image.url}
-                    alt={image.name}
+                    muted
+                    playsInline
+                    preload="metadata"
                     style={{
                       width: "100%",
                       height: "100px",
@@ -279,45 +298,44 @@ function ImagePicker({
                       borderRadius: "4px",
                     }}
                   />
-
-
-                  <span
+                ) : (
+                  <img
+                    src={image.url}
+                    alt={image.name}
+                    loading="lazy"
+                    decoding="async"
                     style={{
+                      width: "100%",
+                      height: "100px",
+                      objectFit: "cover",
                       display: "block",
-                      marginTop: "6px",
-                      color: "#cbd6c3",
-                      fontSize: "12px",
-                      overflow: "hidden",
-                      textOverflow:
-                        "ellipsis",
-                      whiteSpace:
-                        "nowrap",
+                      borderRadius: "4px",
                     }}
-                  >
+                  />
+                )}
 
-                    {image.name}
-                    <br />
-                    <small style={{ opacity: 0.65 }}>
-                      {bookFolder}
-                    </small>
-
-                  </span>
-
-                </button>
-
-              )
-            )
-
+                <span
+                  style={{
+                    display: "block",
+                    marginTop: "6px",
+                    color: "#cbd6c3",
+                    fontSize: "12px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {image.name}
+                  <br />
+                  <small style={{ opacity: 0.65 }}>{bookFolder}</small>
+                </span>
+              </button>
+            ))
           )}
-
         </div>
-
       )}
-
     </div>
-
   );
-
 }
 
 
@@ -331,44 +349,81 @@ function VideoPicker({
   onChange,
   bookId,
 }) {
-
-  const [
-    open,
-    setOpen,
-  ] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [manifest, setManifest] = useState([]);
+  const [loadingManifest, setLoadingManifest] = useState(false);
 
   const bookFolder =
     getBookCharacterAssetFolder(bookId);
 
+  useEffect(() => {
+    if (!open || manifest.length > 0) {
+      return;
+    }
 
-  const videos =
-    Object.entries(characterVideos)
-      .filter(([path]) => {
-        const source =
-          toCharacterDatabaseAssetPath(path).toLowerCase();
+    let cancelled = false;
 
-        return source.includes(
-          `/src/assets/images/characters/${bookFolder.toLowerCase()}/`
-        );
+    setLoadingManifest(true);
+
+    loadCharacterManifest()
+      .then((data) => {
+        if (!cancelled) {
+          setManifest(data);
+        }
       })
-      .map(([path, url]) => ({
-        path,
-        url,
-        databasePath:
-          toCharacterDatabaseAssetPath(path),
-        name:
-          path.split("/").pop(),
-      }));
+      .finally(() => {
+        if (!cancelled) {
+          setLoadingManifest(false);
+        }
+      });
 
+    return () => {
+      cancelled = true;
+    };
+  }, [open, manifest.length]);
+
+  const videos = manifest
+    .filter((path) => {
+      const normalized = path
+        .replace(/\\/g, "/")
+        .replace(/^\/+/, "");
+
+      const parts = normalized.split("/");
+      const folder = parts[0] || "";
+      const extension =
+        normalized.split(".").pop()?.toLowerCase();
+
+      return (
+        folder.toLowerCase() ===
+          bookFolder.toLowerCase() &&
+        [
+          "mp4",
+          "webm",
+          "mov",
+          "m4v",
+        ].includes(extension)
+      );
+    })
+    .map((path) => {
+      const normalized = path
+        .replace(/\\/g, "/")
+        .replace(/^\/+/, "");
+
+      return {
+        path: normalized,
+        url: `/characters/${normalized}`,
+        databasePath:
+          getManifestDatabasePath(normalized),
+        name:
+          getManifestFileName(normalized),
+      };
+    });
 
   return (
-
     <div>
-
       <label>
         {label}
       </label>
-
 
       <div
         style={{
@@ -378,14 +433,12 @@ function VideoPicker({
           marginTop: "8px",
         }}
       >
-
         {value ? (
-
           <video
             src={
               resolveCharacterAsset(
                 value,
-                characterVideos,
+                null,
                 bookId
               ) || value
             }
@@ -402,9 +455,7 @@ function VideoPicker({
               background: "#000",
             }}
           />
-
         ) : (
-
           <div
             style={{
               width: "180px",
@@ -421,13 +472,9 @@ function VideoPicker({
               boxSizing: "border-box",
             }}
           >
-
             Bez videa
-
           </div>
-
         )}
-
 
         <div
           style={{
@@ -436,7 +483,6 @@ function VideoPicker({
             gap: "7px",
           }}
         >
-
           <button
             type="button"
             onClick={() =>
@@ -446,9 +492,7 @@ function VideoPicker({
             Vybrat video
           </button>
 
-
           {value && (
-
             <button
               type="button"
               onClick={() =>
@@ -457,16 +501,11 @@ function VideoPicker({
             >
               Odebrat
             </button>
-
           )}
-
         </div>
-
       </div>
 
-
       {open && (
-
         <div
           style={{
             marginTop: "12px",
@@ -475,98 +514,76 @@ function VideoPicker({
               "repeat(auto-fill, minmax(190px, 1fr))",
             gap: "10px",
             padding: "12px",
-            border:
-              "1px solid #30372f",
+            border: "1px solid #30372f",
             borderRadius: "6px",
             background: "#0c0f0c",
           }}
         >
-
-          {videos.length === 0 ? (
-
-            <p
-              style={{
-                color: "#777d75",
-              }}
-            >
+          {loadingManifest ? (
+            <p style={{ color: "#777d75" }}>
+              Načítám videa...
+            </p>
+          ) : videos.length === 0 ? (
+            <p style={{ color: "#777d75" }}>
               Ve složce characters nejsou žádná videa.
               <br />
               Podporováno: MP4, WebM, MOV, M4V.
             </p>
-
           ) : (
-
-            videos.map(
-              (video) => (
-
-                <button
-                  key={video.path}
-                  type="button"
-                  onClick={() => {
-
-                    onChange(
-                      video.databasePath
-                    );
-
-                    setOpen(false);
-
-                  }}
+            videos.map((video) => (
+              <button
+                key={video.path}
+                type="button"
+                onClick={() => {
+                  onChange(video.databasePath);
+                  setOpen(false);
+                }}
+                style={{
+                  padding: "6px",
+                  border:
+                    value === video.databasePath
+                      ? "2px solid #9caf8d"
+                      : "1px solid #30372f",
+                  borderRadius: "6px",
+                  background: "#101310",
+                  cursor: "pointer",
+                  textAlign: "left",
+                }}
+              >
+                <video
+                  src={video.url}
+                  muted
+                  playsInline
+                  preload="metadata"
                   style={{
-                    padding: "6px",
-                    border:
-                      value === video.databasePath
-                        ? "2px solid #9caf8d"
-                        : "1px solid #30372f",
-                    borderRadius: "6px",
-                    background: "#101310",
-                    cursor: "pointer",
-                    textAlign: "left",
+                    width: "100%",
+                    height: "110px",
+                    objectFit: "cover",
+                    display: "block",
+                    borderRadius: "4px",
+                  }}
+                />
+
+                <span
+                  style={{
+                    display: "block",
+                    marginTop: "6px",
+                    color: "#cbd6c3",
+                    fontSize: "12px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
                   }}
                 >
-
-                  <video
-                    src={video.url}
-                    muted
-                    playsInline
-                    preload="metadata"
-                    style={{
-                      width: "100%",
-                      height: "110px",
-                      objectFit: "cover",
-                      display: "block",
-                      borderRadius: "4px",
-                    }}
-                  />
-
-                  <span
-                    style={{
-                      display: "block",
-                      marginTop: "6px",
-                      color: "#cbd6c3",
-                      fontSize: "12px",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {video.name}
-                  </span>
-
-                </button>
-
-              )
-            )
-
+                  {video.name}
+                </span>
+              </button>
+            ))
           )}
-
         </div>
-
       )}
-
     </div>
-
   );
-
 }
 
 
@@ -2459,6 +2476,7 @@ function CharacterForm({
                       image.image || ""
                     }
                     bookId={bookId}
+                    allowVideo
                     onChange={(value) =>
                       updateGalleryImage(
                         index,

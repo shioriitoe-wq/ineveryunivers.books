@@ -3,21 +3,21 @@ import BackButton from "../components/BackButton";
 import { Link } from "react-router-dom";
 import "./aeil-page.css";
 
-import aeilGif from "../assets/images/AEIL-gif.gif";
-import aeilBase from "../assets/images/aeil.png";
+import aeilGif from "../assets/images/AEIL/aeil-gif.mp4";
+import aeilBase from "../assets/images/AEIL/aeil.png";
 
-import aeilLace from "../assets/images/aeil-lace.png";
-import aeilText from "../assets/images/aeil-text.png";
-import aeilLine from "../assets/images/aeil-line.png";
+import aeilLace from "../assets/images/AEIL/aeil-lace.png";
+import aeilText from "../assets/images/AEIL/aeil-text.png";
+import aeilLine from "../assets/images/AEIL/aeil-line.png";
 
-import charactersImage from "../assets/images/aeil-characters.png";
-import chaptersImage from "../assets/images/aeil-chapters.png";
-import videoImage from "../assets/images/aeil-video.png";
-import soundtrackImage from "../assets/images/aeil-soundtrack.png";
-import mapsImage from "../assets/images/aeil-maps.png";
-import wordsImage from "../assets/images/aeil-words.png";
+import charactersImage from "../assets/images/AEIL/aeil-characters.png";
+import chaptersImage from "../assets/images/AEIL/aeil-chapters.png";
+import videoImage from "../assets/images/AEIL/aeil-video.png";
+import soundtrackImage from "../assets/images/AEIL/aeil-soundtrack.png";
+import mapsImage from "../assets/images/AEIL/aeil-maps.png";
+import wordsImage from "../assets/images/AEIL/aeil-words.png";
 
-import startRead from "../assets/images/aeil-start-read.png";
+import startRead from "../assets/images/AEIL/aeil-start-read.png";
 
 import frameGold from "../assets/frames/frame-gold.png";
 import frameSixPanels from "../assets/frames/frame-sixpanels.png";
@@ -87,7 +87,7 @@ export default function AeilPage() {
 
             <div className="aeil-back">
 
-                <BackButton to="/books/aeil-series" />
+                <BackButton to="/books" />
 
             </div>
 
@@ -131,11 +131,15 @@ export default function AeilPage() {
 
                             {gifActive && (
 
-                                <img
+                                <video
                                     key={gifKey}
                                     src={aeilGif}
-                                    alt=""
                                     className="aeil-cover-gif"
+                                    autoPlay
+                                    muted
+                                    playsInline
+                                    preload="metadata"
+                                    aria-hidden="true"
                                 />
 
                             )}
@@ -261,7 +265,7 @@ export default function AeilPage() {
                 ================================================= */}
 
                 <Link
-                    to="/project/1/volume/1/characters"
+                    to="/books/aeil/characters"
                     className="aeil-panel-wrapper"
                 >
 
@@ -447,3 +451,4 @@ export default function AeilPage() {
         </main>
     );
 }
+

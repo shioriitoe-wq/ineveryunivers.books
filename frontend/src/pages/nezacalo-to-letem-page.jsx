@@ -2,17 +2,17 @@ import BackButton from "../components/BackButton";
 import { Link } from "react-router-dom";
 import "./nezacalo-to-letem-page.css";
 
-import beachTexture from "../assets/images/beach-texture.png";
-import blueOrange from "../assets/images/blue-orange.png";
-import aquarel from "../assets/images/aquarel.png";
-import waves from "../assets/images/waves.png";
+import beachTexture from "../assets/images/Nezacalo-to/beach-texture.png";
+import blueOrange from "../assets/images/Nezacalo-to/blue-orange.png";
+import aquarel from "../assets/images/Nezacalo-to/aquarel.png";
+import waves from "../assets/images/Nezacalo-to/waves.png";
 import frameBlueOrange from "../assets/frames/frame-blue-orange.png";
-import startRead from "../assets/images/start-read.png";
-import fourSeasons from "../assets/images/four-seasons.png";
-import charactersImage from "../assets/images/charakters.png";
-import chaptersImage from "../assets/images/chapters.png";
-import photoImage from "../assets/images/photo.png";
-import musicImage from "../assets/images/music.png";
+import startRead from "../assets/images/Nezacalo-to/start-read.png";
+import fourSeasons from "../assets/images/Nezacalo-to/four-seasons.png";
+import charactersImage from "../assets/images/Nezacalo-to/charakters.png";
+import chaptersImage from "../assets/images/Nezacalo-to/chapters.png";
+import photoImage from "../assets/images/Nezacalo-to/photo.png";
+import musicImage from "../assets/images/Nezacalo-to/music.png";
 
 export default function NezacaloToLetemPage() {
     return (
@@ -303,3 +303,4 @@ export default function NezacaloToLetemPage() {
         </main>
     );
 }
+

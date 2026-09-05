@@ -1,5 +1,5 @@
 /* =========================================================
-   SAMOSTATNÁ GALERIE POSTAVY
+   SAMOSTATNĂ GALERIE POSTAVY
 ========================================================= */
 
 .character-gallery-page {
@@ -16,7 +16,7 @@
 .character-gallery-background {
   position: fixed;
   inset: 0;
-  background-image: url("../assets/images/characterall.png");
+  background-image: url("../assets/images/Nezacalo-to/characterall.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

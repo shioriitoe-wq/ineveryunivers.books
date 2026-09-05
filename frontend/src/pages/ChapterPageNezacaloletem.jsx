@@ -10,12 +10,12 @@ import "./ChapterPageNezacaloletem.css";
 
 import libraryLogo from "../assets/images/library-logo.png";
 
-import hotdog from "../assets/images/hotdog.png";
-import pumpkin from "../assets/images/pumpkin.png";
-import ice from "../assets/images/ice.png";
-import pills from "../assets/images/pills.png";
-import moto from "../assets/images/moto.png";
-import matcha from "../assets/images/matcha.png";
+import hotdog from "../assets/images/Nezacalo-to/hotdog.png";
+import pumpkin from "../assets/images/Nezacalo-to/pumpkin.png";
+import ice from "../assets/images/Nezacalo-to/ice.png";
+import pills from "../assets/images/Nezacalo-to/pills.png";
+import moto from "../assets/images/Nezacalo-to/moto.png";
+import matcha from "../assets/images/Nezacalo-to/matcha.png";
 
 const BOOK_ID = 1;
 
@@ -386,7 +386,7 @@ export default function ChapterPageNezacaloletem() {
                     type="button"
                     onClick={() =>
                         navigate(
-                            "/books/nezacalo/characters"
+                            "/project/1/volume/1/characters"
                         )
                     }
                 >

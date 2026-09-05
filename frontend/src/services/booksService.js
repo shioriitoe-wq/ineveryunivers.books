@@ -1,4 +1,8 @@
-const API = "https://ineveryunivers-books-api.onrender.com/api";
+const API =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1"
+    ? "http://localhost:5000/api"
+    : "https://ineveryunivers-books-api.onrender.com/api";
 
 
 /* =========================================================
@@ -349,6 +353,8 @@ export function deleteChapter(
     "Nepodařilo se smazat kapitolu."
   );
 }
+
+
 /* =========================================================
    POSTAVY
    ========================================================= */

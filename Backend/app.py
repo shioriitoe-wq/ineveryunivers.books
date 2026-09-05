@@ -7,10 +7,23 @@ from routes.characters import characters_bp
 
 app = Flask(__name__)
 
-CORS(app)
+# Povolení komunikace frontend ↔ backend
+# Funguje pro localhost i Vercel.
+CORS(
+    app,
+    resources={
+        r"/api/*": {
+            "origins": "*"
+        }
+    },
+    methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
+)
+
 
 app.register_blueprint(books_bp)
 app.register_blueprint(characters_bp)
+
 
 @app.route("/")
 def home():
@@ -22,4 +35,3 @@ def home():
 
 if __name__ == "__main__":
     app.run(debug=True)
-

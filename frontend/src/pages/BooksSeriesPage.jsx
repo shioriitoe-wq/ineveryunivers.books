@@ -10,10 +10,10 @@ import panelSpravne from "../assets/images/panels/panel-nezacalo-spravne.png";
 import panelTady from "../assets/images/panels/panel-nezacalo-tady.png";
 import panelTemnotou from "../assets/images/panels/panel-nezacalo-v-temnote.png";
 
-import texture from "../assets/images/texture.png";
-import house from "../assets/images/house.png";
-import threeStars from "../assets/images/threestars.png";
-import motto from "../assets/images/motto.png";
+import texture from "../assets/images/Nezacalo-to/texture.png";
+import house from "../assets/images/Nezacalo-to/house.png";
+import threeStars from "../assets/images/Nezacalo-to/threestars.png";
+import motto from "../assets/images/Nezacalo-to/motto.png";
 
 export default function BooksSeriesPage() {
   return (
