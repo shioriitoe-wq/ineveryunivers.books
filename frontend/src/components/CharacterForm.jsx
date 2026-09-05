@@ -37,37 +37,30 @@ import {
    Manifest vytvoříme po přesunu characters do public.
    ========================================================= */
 
-let characterManifestPromise = null;
-
-function loadCharacterManifest() {
-  if (!characterManifestPromise) {
-    characterManifestPromise = fetch(
+async function loadCharacterManifest() {
+  try {
+    const response = await fetch(
       "/characters/manifest.json",
       { cache: "no-cache" }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Manifest characters se nepodařilo načíst (${response.status}).`
-          );
-        }
+    );
 
-        return response.json();
-      })
-      .then((data) =>
-        Array.isArray(data) ? data : []
-      )
-      .catch((error) => {
-        console.error(
-          "Nepodařilo se načíst manifest characters:",
-          error
-        );
+    if (!response.ok) {
+      throw new Error(
+        `Manifest characters se nepodařilo načíst (${response.status}).`
+      );
+    }
 
-        return [];
-      });
+    const data = await response.json();
+
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error(
+      "Nepodařilo se načíst manifest characters:",
+      error
+    );
+
+    return [];
   }
-
-  return characterManifestPromise;
 }
 
 
