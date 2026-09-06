@@ -29,8 +29,15 @@ function getCharacterAssetFileName(value) {
 
 function removeViteHash(fileName) {
   return fileName.replace(
-    /-([a-f0-9]{8,})(?=\.[^.]+$)/i,
-    ""
+    /-([a-f0-9]{8,20})(?=\.[^.]+$)/i,
+    (match, hash) => {
+      // UUID části nesmíme považovat za Vite hash.
+      if (hash.length === 12) {
+        return match;
+      }
+
+      return "";
+    }
   );
 }
 
@@ -99,11 +106,13 @@ export function resolveCharacterAsset(value, globMap, bookId) {
   /*
    * Starší Vite způsob – ponecháváme kvůli kompatibilitě.
    */
+
   if (entries.length > 0) {
     const normalizedValue = normalizePath(value);
     const databasePath = toCharacterDatabaseAssetPath(value);
 
     // 1. Přesná shoda.
+
     for (const [sourcePath, resolvedUrl] of entries) {
       const normalizedSource = normalizePath(sourcePath);
 
@@ -116,9 +125,11 @@ export function resolveCharacterAsset(value, globMap, bookId) {
     }
 
     // 2. Záložní hledání podle názvu souboru v aktuální knize.
+
     const fileName = getCharacterAssetFileName(value);
     const cleanFileName = removeViteHash(fileName);
-    const bookFolder = getBookCharacterAssetFolder(bookId).toLowerCase();
+    const bookFolder =
+      getBookCharacterAssetFolder(bookId).toLowerCase();
 
     if (cleanFileName) {
       for (const [sourcePath, resolvedUrl] of entries) {
@@ -150,6 +161,7 @@ export function resolveCharacterAsset(value, globMap, bookId) {
    * Public:
    * /characters/AEIL/postava.png
    */
+
   const relativePath = getCharacterRelativePath(value);
 
   if (relativePath) {
@@ -160,6 +172,7 @@ export function resolveCharacterAsset(value, globMap, bookId) {
    * Kompatibilita se staršími hodnotami, kde je uložený
    * pouze název souboru nebo Vite název s hashem.
    */
+
   const fileName = getCharacterAssetFileName(value);
 
   if (fileName) {
@@ -182,8 +195,10 @@ export function characterAssetExists(sourcePath, globMap) {
   /*
    * Starší Vite glob.
    */
+
   if (entries.length > 0) {
-    const databasePath = toCharacterDatabaseAssetPath(sourcePath);
+    const databasePath =
+      toCharacterDatabaseAssetPath(sourcePath);
 
     return entries.some(([sourcePathInMap]) => {
       return (
@@ -199,5 +214,6 @@ export function characterAssetExists(sourcePath, globMap) {
    * U public/characters ověřujeme alespoň správný
    * stabilní formát cesty.
    */
+
   return Boolean(getCharacterRelativePath(sourcePath));
 }
