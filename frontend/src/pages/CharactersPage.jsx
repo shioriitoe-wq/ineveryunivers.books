@@ -15,6 +15,8 @@ import BackButton from "../components/BackButton";
 import frameBlueOrange from "../assets/frames/frame-blue-orange.png";
 import libraryLogo from "../assets/images/library-logo.png";
 
+import { resolveCharacterAsset } from "../utils/characterAssetPaths";
+
 import "./CharactersPage.css";
 
 
@@ -408,7 +410,13 @@ function CharactersPage() {
                       {character.main_image ? (
 
                         <img
-                          src={character.main_image}
+                          src={
+                            resolveCharacterAsset(
+                              character.main_image,
+                              null,
+                              bookId
+                            ) || character.main_image
+                          }
                           alt={character.name}
                         />
 
