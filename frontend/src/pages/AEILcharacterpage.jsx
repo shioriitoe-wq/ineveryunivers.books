@@ -4,18 +4,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getCharacter } from "../services/charactersService";
 import { getBook, getVolumes } from "../services/booksService";
 
-import characterBackground from "../assets/images/aeil/aeil-character-back.png";
+import characterBackground from "../assets/images/AEIL/aeil-character-back.png";
 
 import characterFrame from "../assets/frames/aeil-character.png";
 import infoFrame from "../assets/frames/aeil-character-info.png";
-import aeilLine from "../assets/images/aeil/aeil-line.png";
-import chaptersImage from "../assets/images/aeil/aeil-character-chapters.png";
-import raceImage from "../assets/images/aeil/aeil-character-entita.png";
-import relationshipsImage from "../assets/images/aeil/aeil-character-ships.png";
-import quotesImage from "../assets/images/aeil/aeil-character-motto.png";
-import galleryImage from "../assets/images/aeil/aeil-character-galery.png";
-import videosImage from "../assets/images/aeil/aeil-character-video.png";
-import soundtrackImage from "../assets/images/aeil/aeil-character-soundtrack.png";
+import aeilLine from "../assets/images/AEIL/aeil-line.png";
+import chaptersImage from "../assets/images/AEIL/aeil-character-chapters.png";
+import raceImage from "../assets/images/AEIL/aeil-character-entita.png";
+import relationshipsImage from "../assets/images/AEIL/aeil-character-ships.png";
+import quotesImage from "../assets/images/AEIL/aeil-character-motto.png";
+import galleryImage from "../assets/images/AEIL/aeil-character-galery.png";
+import videosImage from "../assets/images/AEIL/aeil-character-video.png";
+import soundtrackImage from "../assets/images/AEIL/aeil-character-soundtrack.png";
 
 import "./AEILcharacterpage.css";
 

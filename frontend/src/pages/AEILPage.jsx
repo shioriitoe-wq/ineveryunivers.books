@@ -16,7 +16,7 @@ import videoImage from "../assets/images/AEIL/aeil-video.png";
 import soundtrackImage from "../assets/images/AEIL/aeil-soundtrack.png";
 import mapsImage from "../assets/images/AEIL/aeil-maps.png";
 import wordsImage from "../assets/images/AEIL/aeil-words.png";
-import aeilEntityImage from "../assets/images/aeil/aeil-entita.png";
+import aeilEntityImage from "../assets/images/AEIL/aeil-entita.png";
 
 import startRead from "../assets/images/AEIL/aeil-start-read.png";
 
