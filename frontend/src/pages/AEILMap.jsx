@@ -12,7 +12,7 @@ import Corven from "../assets/images/AEIL/Map/Corven.png";
 import Karagor from "../assets/images/AEIL/Map/Karagor.png";
 import Ignisheim from "../assets/images/AEIL/Map/Ignisheim.png";
 import Valmor from "../assets/images/AEIL/Map/Valmor.png";
-import Arena from "../assets/images/AEIL/Map/arena.png";
+import Arena from "../assets/images/AEIL/Map/Arena.png";
 
 
 const locations = [
