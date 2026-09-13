@@ -1,0 +1,474 @@
+/* =========================================================
+   AEIL – SEZNAM KAPITOL
+   ========================================================= */
+
+.aeil-chapters-page {
+    position: relative;
+
+    height: 100vh;
+    min-height: 100vh;
+
+    box-sizing: border-box;
+
+    padding: 28px 45px 70px;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    background: #090b09;
+    color: #d8d5ca;
+
+    scrollbar-width: auto;
+    scrollbar-color: #7f7258 rgba(9, 11, 9, 0.55);
+}
+
+
+/* =========================================================
+   POZADÍ – STEJNÉ JAKO STRÁNKA POSTAV
+   ========================================================= */
+
+.aeil-chapters-page::before {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    z-index: 0;
+
+    background-image: var(--aeil-chapters-background);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    opacity: 1;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SCROLLER
+   ========================================================= */
+
+.aeil-chapters-page::-webkit-scrollbar {
+    width: 12px;
+}
+
+.aeil-chapters-page::-webkit-scrollbar-track {
+    background: rgba(9, 11, 9, 0.55);
+}
+
+.aeil-chapters-page::-webkit-scrollbar-thumb {
+    background: #7f7258;
+    border: 3px solid rgba(9, 11, 9, 0.55);
+    border-radius: 10px;
+}
+
+.aeil-chapters-page::-webkit-scrollbar-thumb:hover {
+    background: #a18e68;
+}
+
+
+/* =========================================================
+   OBSAH NAD POZADÍM
+   ========================================================= */
+
+.aeil-chapters-header,
+.aeil-chapters-list,
+.aeil-chapters-error,
+.aeil-chapters-empty,
+.aeil-chapters-loading {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =========================================================
+   HLAVIČKA
+   ========================================================= */
+
+.aeil-chapters-header {
+    position: relative;
+
+    width: min(1500px, 100%);
+    margin: 0 auto 28px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   ZPĚT KE KNIZE
+   ========================================================= */
+
+.aeil-chapters-back {
+    position: absolute;
+
+    top: 2px;
+    left: 0;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+
+    background: transparent;
+    color: #d7d0c0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 13px;
+    font-weight: 400;
+
+    letter-spacing: 0.8px;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.aeil-chapters-back:hover {
+    opacity: 0.7;
+    transform: translateX(-3px);
+}
+
+
+/* =========================================================
+   LOGO VÁŽKY
+   ========================================================= */
+
+.aeil-chapters-library-logo {
+    width: 72px;
+    height: 72px;
+
+    margin: 0 auto 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.aeil-chapters-library-logo img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   NADPIS
+   ========================================================= */
+
+.aeil-chapters-header h1 {
+    margin: 0;
+
+    color: #d4cdbb;
+
+    font-family:
+        "Italianno",
+        cursive;
+
+    font-size: 40px;
+    font-weight: 400;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   SEZNAM – 2 SLOUPCE
+   ========================================================= */
+
+.aeil-chapters-list {
+    width: min(1250px, 100%);
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    column-gap: 45px;
+    row-gap: 18px;
+
+    align-items: start;
+
+    padding: 10px 10px 45px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   JEDNOTLIVÁ KAPITOLA
+   ========================================================= */
+
+.aeil-chapter-list-item {
+    width: 100%;
+
+    min-height: 105px;
+
+    display: grid;
+
+    grid-template-columns:
+        58px minmax(0, 1fr) 32px;
+
+    align-items: center;
+
+    gap: 14px;
+
+    box-sizing: border-box;
+
+    padding: 18px 20px;
+
+    /* ŽÁDNÝ RÁMEČEK */
+    border: none;
+    border-radius: 0;
+
+    /* ŽÁDNÉ TMAVÉ POZADÍ */
+    background: transparent;
+
+    color: #d8d5ca;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.22s ease;
+}
+
+.aeil-chapter-list-item:hover {
+    /* pouze jemný pohyb textu, bez rámečku a bez pozadí */
+    transform: scale(1.015);
+}
+
+
+/* =========================================================
+   ČÍSLO
+   ========================================================= */
+
+.aeil-chapter-list-number {
+    color: #c5ad7a;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 17px;
+    font-weight: 400;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   TEXT KAPITOLY
+   ========================================================= */
+
+.aeil-chapter-list-main {
+    min-width: 0;
+}
+
+.aeil-chapter-list-main strong {
+    display: block;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    color: #eee5d3;
+
+    font-family:
+        "Italianno",
+        cursive;
+
+    font-size: 30px;
+    font-weight: 400;
+
+    line-height: 1.05;
+}
+
+
+/* =========================================================
+   VYPRÁVÍ
+   ========================================================= */
+
+.aeil-chapter-list-main small {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #d2c5ae;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 14px;
+    font-weight: 400;
+
+    letter-spacing: 0.3px;
+}
+
+
+/* =========================================================
+   ŠIPKA
+   ========================================================= */
+
+.aeil-chapter-list-arrow {
+    color: #c5ad7a;
+
+    text-align: right;
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-size: 21px;
+}
+
+
+/* =========================================================
+   PRÁZDNÝ SEZNAM / CHYBA / NAČÍTÁNÍ
+   ========================================================= */
+
+.aeil-chapters-empty,
+.aeil-chapters-error,
+.aeil-chapters-loading {
+    width: min(650px, 100%);
+
+    margin: 80px auto 0;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    border: 1px solid rgba(178, 148, 89, 0.5);
+    border-radius: 5px;
+
+    background: rgba(9, 12, 9, 0.55);
+
+    text-align: center;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 16px;
+}
+
+.aeil-chapters-error {
+    color: #c9aaa5;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .aeil-chapters-page {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .aeil-chapters-list {
+        column-gap: 25px;
+    }
+
+    .aeil-chapter-list-item {
+        grid-template-columns:
+            48px minmax(0, 1fr) 26px;
+
+        padding: 16px;
+    }
+
+    .aeil-chapter-list-main strong {
+        font-size: 26px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBIL
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .aeil-chapters-page {
+        padding:
+            20px 14px 50px;
+    }
+
+    .aeil-chapters-back {
+        position: relative;
+
+        top: auto;
+        left: auto;
+
+        align-self: flex-start;
+
+        margin:
+            0 0 18px 4px;
+
+        font-size: 12px;
+    }
+
+    .aeil-chapters-library-logo {
+        width: 58px;
+        height: 58px;
+    }
+
+    .aeil-chapters-header h1 {
+        font-size: 35px;
+    }
+
+    .aeil-chapters-list {
+        grid-template-columns:
+            1fr;
+
+        gap: 14px;
+
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .aeil-chapter-list-item {
+        min-height: 92px;
+
+        grid-template-columns:
+            42px minmax(0, 1fr) 24px;
+
+        padding: 14px 12px;
+    }
+
+    .aeil-chapter-list-main strong {
+        font-size: 25px;
+    }
+
+    .aeil-chapter-list-main small {
+        font-size: 13px;
+    }
+
+}

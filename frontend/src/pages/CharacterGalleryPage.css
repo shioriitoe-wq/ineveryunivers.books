@@ -1,5 +1,13 @@
+@font-face {
+  font-family: "Italianno";
+  src: url("../assets/fonts/Italianno/Italianno-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* =========================================================
-   SAMOSTATNĂ GALERIE POSTAVY
+   SAMOSTATNÁ GALERIE POSTAVY
 ========================================================= */
 
 .character-gallery-page {
@@ -7,8 +15,8 @@
   min-height: 100vh;
   box-sizing: border-box;
   padding: 34px 4vw 70px;
-  background: #f7f7f4;
-  color: #1f4652;
+  background: #120608;
+  color: #eadcc8;
   font-family: "Cormorant Garamond", Georgia, serif;
   overflow-x: hidden;
 }
@@ -16,7 +24,7 @@
 .character-gallery-background {
   position: fixed;
   inset: 0;
-  background-image: url("../assets/images/Nezacalo-to/characterall.png");
+  background-image: url("../assets/images/characterall.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -24,13 +32,8 @@
   pointer-events: none;
 }
 
-.character-gallery-page::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(250, 250, 247, 0.12);
-  pointer-events: none;
-  z-index: 0;
+.character-gallery-page-aeil .character-gallery-background {
+  background-image: url("../assets/images/aeil/aeil-character-back.png");
 }
 
 .character-gallery-header {
@@ -46,7 +49,7 @@
 
 .character-gallery-back {
   justify-self: start;
-  color: #13b9d4;
+  color: #eadcc8;
   text-decoration: none;
   font-size: 17px;
   letter-spacing: 0.7px;
@@ -54,7 +57,7 @@
 }
 
 .character-gallery-back:hover {
-  color: #ed771d;
+  color: #e5c57b;
   transform: translateX(-3px);
 }
 
@@ -65,15 +68,15 @@
 .character-gallery-title span {
   display: block;
   margin-bottom: 2px;
-  color: #ed771d;
+  color: #eadcc8;
   font-size: 15px;
   letter-spacing: 3px;
 }
 
 .character-gallery-title h1 {
   margin: 0;
-  color: #13b9d4;
-  font-family: "Biro Script Plus", cursive;
+  color: #eadcc8;
+  font-family: "Italianno", "Cormorant Garamond", cursive;
   font-size: clamp(42px, 5vw, 70px);
   font-weight: 400;
   line-height: 1;
@@ -98,6 +101,7 @@
 
 .character-gallery-image-wrap {
   position: relative;
+  cursor: zoom-in;
   width: 100%;
   height: 360px;
   overflow: hidden;
@@ -106,16 +110,93 @@
   box-shadow: 0 8px 25px rgba(31, 70, 82, 0.08);
 }
 
-.character-gallery-image-wrap img {
+.character-gallery-image-wrap img,
+.character-gallery-image-wrap video {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: contain;
 }
 
+.character-gallery-image-wrap video {
+  background: #000;
+}
+
+.character-gallery-image-wrap:focus-visible {
+  outline: 2px solid #ed771d;
+  outline-offset: 3px;
+}
+
+.character-gallery-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh 5vw;
+  background: rgba(8, 3, 4, 0.82);
+  backdrop-filter: blur(4px);
+}
+
+.character-gallery-lightbox-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 92vw;
+  max-height: 90vh;
+}
+
+.character-gallery-lightbox-media {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 90vw;
+  max-height: 82vh;
+  object-fit: contain;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+}
+
+.character-gallery-lightbox video.character-gallery-lightbox-media {
+  background: #000;
+}
+
+.character-gallery-lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 26px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(237, 119, 29, 0.55);
+  border-radius: 50%;
+  background: rgba(12, 5, 6, 0.72);
+  color: #eadcc8;
+  font-family: Georgia, serif;
+  font-size: 32px;
+  line-height: 38px;
+  cursor: pointer;
+}
+
+.character-gallery-lightbox-close:hover {
+  color: #fff;
+  border-color: #ed771d;
+}
+
+.character-gallery-lightbox-caption {
+  margin-top: 12px;
+  max-width: 80vw;
+  color: #eadcc8;
+  font-size: 18px;
+  line-height: 1.3;
+  text-align: center;
+}
+
 .character-gallery-item figcaption {
   margin-top: 9px;
-  color: #1f4652;
+  color: #eadcc8;
   font-size: 17px;
   line-height: 1.25;
 }
@@ -130,13 +211,13 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #596653;
+  color: #eadcc8;
   font-size: 20px;
 }
 
 .character-gallery-error h1 {
   margin: 0 0 20px;
-  color: #9b5555;
+  color: #eadcc8;
   font-size: 24px;
   font-weight: 400;
 }
@@ -144,14 +225,14 @@
 .character-gallery-error button {
   border: none;
   background: transparent;
-  color: #13b9d4;
+  color: #eadcc8;
   font-family: inherit;
   font-size: 17px;
   cursor: pointer;
 }
 
 .character-gallery-error button:hover {
-  color: #ed771d;
+  color: #e5c57b;
 }
 
 @media (max-width: 800px) {

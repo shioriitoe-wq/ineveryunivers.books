@@ -66,6 +66,13 @@ function ProjectsPage() {
     }
 
     try {
+      if (Number(bookId) === 2) {
+        const characterData = await getCharacters(bookId);
+        setCharacters(characterData);
+        setVolumes([]);
+        return;
+      }
+
       const [characterData, volumeData] =
         await Promise.all([
           getCharacters(bookId),
@@ -563,9 +570,9 @@ function ProjectsPage() {
                 </h2>
 
                 <p>
-                  Postavy této knihy můžeš
-                  přiřadit k jednomu nebo více
-                  dílům.
+                  {structureBook?.id === 2
+                    ? "Postavy této knihy spravuješ samostatně pro AEIL."
+                    : "Postavy této knihy můžeš přiřadit k jednomu nebo více dílům."}
                 </p>
 
               </div>
@@ -708,8 +715,8 @@ function ProjectsPage() {
                             )}
 
 
-                            {character.volume_ids?.length >
-                              0 && (
+                            {structureBook?.id !== 2 &&
+                              character.volume_ids?.length > 0 && (
 
                               <div className="admin-character-volumes">
 

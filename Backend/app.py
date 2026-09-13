@@ -3,6 +3,7 @@ from flask_cors import CORS
 
 from routes.books import books_bp
 from routes.characters import characters_bp
+from routes.aeil import aeil_bp
 
 
 app = Flask(__name__)
@@ -23,6 +24,7 @@ CORS(
 
 app.register_blueprint(books_bp)
 app.register_blueprint(characters_bp)
+app.register_blueprint(aeil_bp)
 
 
 @app.route("/")

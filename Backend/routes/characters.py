@@ -315,6 +315,9 @@ def get_character_payload(
         "header_image":
             character["header_image"],
 
+        "chapter_background":
+            character.get("chapter_background"),
+
         "main_video":
             character["main_video"],
 
@@ -464,6 +467,7 @@ def get_character_payloads_bulk(
             "main_image": character["main_image"],
             "hover_image": character["hover_image"],
             "header_image": character["header_image"],
+            "chapter_background": character["chapter_background"],
             "main_video": character["main_video"],
             "soundtrack": character["soundtrack"],
             "race": character["race"],
@@ -644,17 +648,42 @@ def get_character_payloads_bulk(
         left_id = row["character_id"]
         right_id = row["related_character_id"]
 
-        # Každý vztah patří do payloadu obou postav.
-        if left_id in result_by_id:
-            owner_id = left_id
-            related_id = right_id
-            related_name = row["related_name"]
-            self_id = left_id
+        # Vztah musí být v payloadu obou postav.
+        owners = []
+
+        if left_id in result_by_id and right_id in result_by_id:
+            owners = [
+                (
+                    left_id,
+                    right_id,
+                    row["related_name"],
+                    left_id,
+                ),
+                (
+                    right_id,
+                    left_id,
+                    row["character_name"],
+                    right_id,
+                ),
+            ]
+        elif left_id in result_by_id:
+            owners = [
+                (
+                    left_id,
+                    right_id,
+                    row["related_name"],
+                    left_id,
+                )
+            ]
         elif right_id in result_by_id:
-            owner_id = right_id
-            related_id = left_id
-            related_name = row["character_name"]
-            self_id = right_id
+            owners = [
+                (
+                    right_id,
+                    left_id,
+                    row["character_name"],
+                    right_id,
+                )
+            ]
         else:
             continue
 
@@ -680,36 +709,37 @@ def get_character_payloads_bulk(
             if item
         ]
 
-        index = relationship_indexes[owner_id]
+        for owner_id, related_id, related_name, self_id in owners:
+            index = relationship_indexes[owner_id]
 
-        if related_id in index:
-            existing = result_by_id[owner_id]["relationships"][
-                index[related_id]
-            ]
+            if related_id in index:
+                existing = result_by_id[owner_id]["relationships"][
+                    index[related_id]
+                ]
 
-            for type_value in parsed_types:
-                if type_value not in existing["relationship_types"]:
-                    existing["relationship_types"].append(
-                        type_value
-                    )
-            continue
+                for type_value in parsed_types:
+                    if type_value not in existing["relationship_types"]:
+                        existing["relationship_types"].append(
+                            type_value
+                        )
+                continue
 
-        index[related_id] = len(
-            result_by_id[owner_id]["relationships"]
-        )
+            index[related_id] = len(
+                result_by_id[owner_id]["relationships"]
+            )
 
-        result_by_id[owner_id]["relationships"].append({
-            "id": row["id"],
-            "character_id": self_id,
-            "related_character_id": related_id,
-            "related_character_name": related_name,
-            "relationship_types": parsed_types,
-            "relationship_type": (
-                parsed_types[0]
-                if parsed_types
-                else ""
-            ),
-        })
+            result_by_id[owner_id]["relationships"].append({
+                "id": row["id"],
+                "character_id": self_id,
+                "related_character_id": related_id,
+                "related_character_name": related_name,
+                "relationship_types": list(parsed_types),
+                "relationship_type": (
+                    parsed_types[0]
+                    if parsed_types
+                    else ""
+                ),
+            })
 
     # =====================================================
     # ZACHOVÁNÍ PŮVODNÍHO POŘADÍ
@@ -734,6 +764,8 @@ def ensure_character_columns(cursor):
     takže tam tuto SQLite migraci nespouštíme.
     """
     # Náš PostgresCursor obaluje skutečný psycopg2 cursor v atributu _cursor.
+    # PostgreSQL schéma se spravuje přes seed_postgres.sql / jednorázovou migraci,
+    # takže ALTER TABLE nespouštíme při každém API požadavku.
     if hasattr(cursor, "_cursor"):
         return
 
@@ -752,6 +784,7 @@ def ensure_character_columns(cursor):
         "hover_image": "TEXT",
         "soundtrack": "TEXT",
         "race": "TEXT",
+        "chapter_background": "TEXT",
     }
 
     for column_name, column_definition in required_columns.items():
@@ -872,6 +905,12 @@ def get_characters(book_id):
 
     connection = get_connection()
     cursor = connection.cursor()
+
+    # U hromadného načtení se sloupec chapter_background
+    # musí zajistit ještě PŘED SELECT *. Jinak starší SQLite
+    # databáze vrátí řádky bez tohoto sloupce a payload skončí
+    # na KeyError.
+    ensure_character_columns(cursor)
 
 
     if not book_exists(
@@ -1033,6 +1072,11 @@ def add_character(book_id):
     )
 
 
+    chapter_background = (
+        data.get("chapter_background") or None
+    )
+
+
     # =====================================================
     # VIDEO POSTAVY
     # =====================================================
@@ -1136,6 +1180,7 @@ def add_character(book_id):
             main_image,
             hover_image,
             header_image,
+            chapter_background,
             main_video,
             soundtrack,
             race,
@@ -1143,7 +1188,7 @@ def add_character(book_id):
             published
         )
 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             book_id,
@@ -1153,6 +1198,7 @@ def add_character(book_id):
             main_image,
             hover_image,
             header_image,
+            chapter_background,
             main_video,
             soundtrack,
             race,
@@ -1609,6 +1655,11 @@ def update_character(
     )
 
 
+    chapter_background = (
+        data.get("chapter_background") or None
+    )
+
+
     # =====================================================
     # VIDEO POSTAVY
     # =====================================================
@@ -1736,6 +1787,7 @@ def update_character(
             main_image = ?,
             hover_image = ?,
             header_image = ?,
+            chapter_background = ?,
             main_video = ?,
             soundtrack = ?,
             race = ?,
@@ -1754,6 +1806,7 @@ def update_character(
             main_image,
             hover_image,
             header_image,
+            chapter_background,
             main_video,
             soundtrack,
             race,
@@ -2043,29 +2096,17 @@ def update_character(
     # ⚔️ Nepřítel
     # =====================================================
 
-    cursor.execute(
-        """
-        DELETE FROM character_relationships
-        WHERE
-            character_id = ?
-            OR related_character_id = ?
-        """,
-        (
-            character_id,
-            character_id
-        )
-    )
-
-
     relationships = data.get(
         "relationships",
         []
     )
 
-
     if relationships is None:
         relationships = []
 
+    # Nejdřív všechny vztahy zvalidujeme a sloučíme podle dvojice postav.
+    # Díky tomu se při více řádcích se stejnou postavou žádný typ nepřepíše.
+    normalized_relationships = {}
 
     for item in relationships:
 
@@ -2073,17 +2114,13 @@ def update_character(
             "related_character_id"
         )
 
-
         if related_character_id in (
             None,
             "",
         ):
-
             continue
 
-
         try:
-
             related_character_id = int(
                 related_character_id
             )
@@ -2100,7 +2137,6 @@ def update_character(
                     "Neplatná postava u vztahu."
             }), 400
 
-
         if not validate_relationship_character(
             cursor,
             book_id,
@@ -2115,16 +2151,10 @@ def update_character(
                     "Vybraná postava nepatří k této knize nebo je vybrána sama postava."
             }), 400
 
-
         relationship_types = item.get(
             "relationship_types",
             []
         )
-
-
-        # =================================================
-        # ZPĚTNÁ KOMPATIBILITA
-        # =================================================
 
         if not isinstance(
             relationship_types,
@@ -2135,33 +2165,57 @@ def update_character(
                 relationship_types
             ]
 
-
         relationship_types = [
             str(type_value)
             for type_value in relationship_types
             if type_value
         ]
 
-
         if not relationship_types:
             continue
-
-
-        # =================================================
-        # JEDNOTNÝ SMĚR DVOJICE
-        # =================================================
 
         left_id = min(
             character_id,
             related_character_id
         )
 
-
         right_id = max(
             character_id,
             related_character_id
         )
 
+        pair_key = (
+            left_id,
+            right_id
+        )
+
+        if pair_key not in normalized_relationships:
+            normalized_relationships[pair_key] = []
+
+        for type_value in relationship_types:
+            if type_value not in normalized_relationships[pair_key]:
+                normalized_relationships[pair_key].append(
+                    type_value
+                )
+
+    # Staré vztahy smažeme až poté, co je celý nový seznam validní.
+    cursor.execute(
+        """
+        DELETE FROM character_relationships
+        WHERE
+            character_id = ?
+            OR related_character_id = ?
+        """,
+        (
+            character_id,
+            character_id
+        )
+    )
+
+    for (
+        left_id,
+        right_id
+    ), relationship_types in normalized_relationships.items():
 
         relationship_json = json.dumps(
             relationship_types,

@@ -10,6 +10,8 @@ import characterFrame from "../assets/frames/aeil-character-info.png";
 import aeilLine from "../assets/images/AEIL/aeil-line.png";
 import aeilText from "../assets/images/AEIL/aeil-text.png";
 import aeilBackground from "../assets/images/AEIL/aeil-lace.png";
+import libraryLogo from "../assets/images/library-logo.png";
+import aeilCharactersBack from "../assets/images/AEIL/aeil-characters-back.png";
 
 
 function AEILcharactersPage() {
@@ -162,7 +164,7 @@ function AEILcharactersPage() {
         className="aeil-characters-page"
         style={{
           "--aeil-characters-background":
-            `url(${aeilBackground})`,
+            `url(${aeilCharactersBack})`,
         }}
       >
 
@@ -189,7 +191,7 @@ function AEILcharactersPage() {
         className="aeil-characters-page"
         style={{
           "--aeil-characters-background":
-            `url(${aeilBackground})`,
+            `url(${aeilCharactersBack})`,
         }}
       >
 
@@ -210,7 +212,7 @@ function AEILcharactersPage() {
       className="aeil-characters-page"
       style={{
         "--aeil-characters-background":
-          `url(${aeilBackground})`,
+          `url(${aeilCharactersBack})`,
       }}
     >
 
@@ -220,13 +222,31 @@ function AEILcharactersPage() {
 
       <header className="aeil-characters-header">
 
+        {/* ZPĚT KE KNIZE */}
+        <button
+          type="button"
+          className="aeil-characters-back"
+          onClick={() => navigate("/books/aeil")}
+        >
+          ← ZPĚT KE KNIZE
+        </button>
+
+        {/* LOGO VÁŽKY */}
+        <div className="aeil-characters-library-logo">
+          <img
+            src={libraryLogo}
+            alt=""
+          />
+        </div>
+
+        {/* NÁZEV AEIL */}
         <img
           src={aeilText}
           alt="AEIL"
           className="aeil-characters-logo"
         />
 
-
+        {/* DEKORAČNÍ LINKA */}
         <img
           src={aeilLine}
           alt=""

@@ -59,6 +59,24 @@ function CharacterGalleryPage() {
   const [character, setCharacter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedMedia, setSelectedMedia] = useState(null);
+
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setSelectedMedia(null);
+      }
+    }
+
+    if (selectedMedia) {
+      document.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedMedia]);
 
 
   useEffect(() => {
@@ -140,7 +158,9 @@ function CharacterGalleryPage() {
 
 
   return (
-    <main className="character-gallery-page">
+    <main
+      className={`character-gallery-page ${String(bookId) === "2" ? "character-gallery-page-aeil" : ""}`}
+    >
 
       <div className="character-gallery-background" />
 
@@ -181,13 +201,37 @@ function CharacterGalleryPage() {
                 className="character-gallery-item"
               >
 
-                <div className="character-gallery-image-wrap">
+                <div
+                  className="character-gallery-image-wrap"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() =>
+                    setSelectedMedia({
+                      source,
+                      video,
+                      caption: image.caption || "",
+                      index,
+                    })
+                  }
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setSelectedMedia({
+                        source,
+                        video,
+                        caption: image.caption || "",
+                        index,
+                      });
+                    }
+                  }}
+                >
 
                   {video ? (
                     <video
                       controls
                       playsInline
-                      preload="none"
+                      preload="metadata"
+                      onClick={(event) => event.stopPropagation()}
                       aria-label={
                         image.caption ||
                         `${character.name} – video ${index + 1}`
@@ -231,6 +275,59 @@ function CharacterGalleryPage() {
           Tato postava zatím nemá žádné obrázky v galerii.
         </div>
 
+      )}
+
+      {selectedMedia && (
+        <div
+          className="character-gallery-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={
+            selectedMedia.caption ||
+            `${character.name} – obrázek ${selectedMedia.index + 1}`
+          }
+          onClick={() => setSelectedMedia(null)}
+        >
+          <button
+            type="button"
+            className="character-gallery-lightbox-close"
+            onClick={() => setSelectedMedia(null)}
+            aria-label="Zavřít"
+          >
+            ×
+          </button>
+
+          <div
+            className="character-gallery-lightbox-content"
+            onClick={(event) => event.stopPropagation()}
+          >
+            {selectedMedia.video ? (
+              <video
+                src={selectedMedia.source}
+                controls
+                autoPlay
+                playsInline
+                preload="auto"
+                className="character-gallery-lightbox-media"
+              />
+            ) : (
+              <img
+                src={selectedMedia.source}
+                alt={
+                  selectedMedia.caption ||
+                  `${character.name} – obrázek ${selectedMedia.index + 1}`
+                }
+                className="character-gallery-lightbox-media"
+              />
+            )}
+
+            {selectedMedia.caption && (
+              <div className="character-gallery-lightbox-caption">
+                {selectedMedia.caption}
+              </div>
+            )}
+          </div>
+        </div>
       )}
 
     </main>

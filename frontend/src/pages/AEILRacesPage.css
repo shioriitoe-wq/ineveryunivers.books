@@ -1,0 +1,752 @@
+@font-face {
+    font-family: "Italianno";
+    src: url("../assets/fonts/Italianno/Italianno-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* =========================================================
+   CELÁ STRÁNKA
+========================================================= */
+
+.aeil-races-page {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+
+    box-sizing: border-box;
+
+    padding: 28px 45px 70px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background: #090b09;
+    color: #d8d5ca;
+}
+
+
+/* =========================================================
+   POZADÍ – STEJNÝ PRINCIP JAKO POSTAVY
+========================================================= */
+
+.aeil-races-page::before {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    z-index: 0;
+
+    background-image: var(--aeil-races-background);
+
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SCROLLER
+========================================================= */
+
+.aeil-races-page {
+    scrollbar-width: auto;
+    scrollbar-color: #7f7258 rgba(9, 11, 9, 0.55);
+}
+
+
+.aeil-races-page::-webkit-scrollbar {
+    width: 12px;
+}
+
+
+.aeil-races-page::-webkit-scrollbar-track {
+    background: rgba(9, 11, 9, 0.55);
+}
+
+
+.aeil-races-page::-webkit-scrollbar-thumb {
+    background: #7f7258;
+
+    border: 3px solid rgba(9, 11, 9, 0.55);
+
+    border-radius: 10px;
+}
+
+
+.aeil-races-page::-webkit-scrollbar-thumb:hover {
+    background: #a18e68;
+}
+
+
+/* =========================================================
+   HLAVIČKA
+========================================================= */
+
+.aeil-races-header {
+    position: relative;
+
+    z-index: 2;
+
+    width: min(1500px, 100%);
+
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   ZPĚT
+========================================================= */
+
+.aeil-races-back {
+    position: absolute;
+
+    top: 2px;
+    left: 0;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+
+    background: transparent;
+
+    color: #d7d0c0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 13px;
+
+    font-weight: 400;
+
+    letter-spacing: 0.8px;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.aeil-races-back:hover {
+    opacity: 0.7;
+
+    transform: translateX(-3px);
+}
+
+
+/* =========================================================
+   LOGO AEIL
+========================================================= */
+
+.aeil-races-logo {
+    display: block;
+
+    width: 155px;
+    height: auto;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   DEKORAČNÍ LINKA
+========================================================= */
+
+.aeil-races-line {
+    display: block;
+
+    width: min(260px, 35%);
+    height: auto;
+
+    margin: 7px auto 30px;
+
+    opacity: 0.8;
+}
+
+
+/* =========================================================
+   MŘÍŽKA RAS
+========================================================= */
+
+.aeil-races-grid {
+    position: relative;
+
+    z-index: 2;
+
+    width: min(1450px, 100%);
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    column-gap: 38px;
+    row-gap: 48px;
+
+    align-items: start;
+
+    padding: 10px 10px 35px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   KARTA RASY
+========================================================= */
+
+.aeil-race-card {
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+    color: inherit;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    cursor: pointer;
+
+    font: inherit;
+
+    transition:
+        transform 0.25s ease;
+}
+
+
+/* =========================================================
+   KRUH
+========================================================= */
+
+.aeil-race-card-circle {
+    position: relative;
+
+    width: min(100%, 300px);
+
+    aspect-ratio: 1 / 1;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    transform: scale(1);
+
+    transition:
+        transform 0.28s ease;
+}
+
+
+/* =========================================================
+   OBRÁZEK RASY
+========================================================= */
+
+.aeil-race-card-photo {
+    position: absolute;
+
+    inset: 5%;
+
+    width: 90%;
+    height: 90%;
+
+    max-width: 90%;
+    max-height: 90%;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    display: block;
+}
+
+
+/* =========================================================
+   RÁMEČEK
+========================================================= */
+
+.aeil-race-card-frame {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+
+    pointer-events: none;
+
+    transition:
+        transform 0.28s ease,
+        filter 0.28s ease;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.aeil-race-card:hover .aeil-race-card-circle {
+    transform: scale(1.08);
+}
+
+
+.aeil-race-card:hover .aeil-race-card-frame {
+    filter:
+        drop-shadow(
+            0 0 8px
+            rgba(255, 215, 95, 0.65)
+        );
+}
+
+
+/* =========================================================
+   JMÉNO RASY
+========================================================= */
+
+.aeil-race-card-name {
+    display: block;
+
+    margin-top: 13px;
+
+    max-width: 100%;
+
+    color: #d8d1c1;
+
+    font-family:
+        "Italianno",
+        cursive;
+
+    font-size: 24px;
+
+    font-weight: 400;
+
+    line-height: 1.2;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   PŘEKRYV
+========================================================= */
+
+.aeil-race-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    z-index: 100;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    /* ZMĚNA 1 – stránka pod svitkem zůstává vidět */
+    background: transparent;
+
+    backdrop-filter: none;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   KŘÍŽEK
+========================================================= */
+
+.aeil-race-close {
+    position: fixed;
+
+    top: 22px;
+    right: 30px;
+
+    z-index: 120;
+
+    width: 48px;
+    height: 48px;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #d8d1c1;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 42px;
+
+    font-weight: 300;
+
+    line-height: 44px;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        text-shadow 0.2s ease;
+}
+
+
+.aeil-race-close:hover {
+    opacity: 0.8;
+
+    transform: scale(1.08);
+
+    text-shadow:
+        0 0 10px
+        rgba(232, 190, 104, 0.7);
+}
+
+
+/* =========================================================
+   OBLAST SVITKU
+========================================================= */
+
+.aeil-race-scroll-area {
+    position: relative;
+
+    width: min(850px, 82vw);
+
+    height: min(94vh, 1250px);
+
+    flex: 0 0 auto;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   SVITEK
+========================================================= */
+
+.aeil-race-scroll-image {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: fill;
+
+    display: block;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+
+/* =========================================================
+   TEXT NA SVITKU
+========================================================= */
+
+.aeil-race-scroll-content {
+    position: absolute;
+
+    top: 13%;
+    right: 8%;
+    bottom: 13%;
+    left: 53%;
+
+    z-index: 2;
+
+    box-sizing: border-box;
+
+    padding: 8px 20px 20px 28px;
+
+    overflow-y: auto;
+
+    text-align: center;
+
+    color: #3d2411;
+}
+
+
+/* =========================================================
+   VNITŘNÍ SCROLL PRAVÉ STRÁNKY
+========================================================= */
+
+.aeil-race-scroll-content {
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        rgba(76, 45, 20, 0.55)
+        transparent;
+}
+
+
+.aeil-race-scroll-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+.aeil-race-scroll-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.aeil-race-scroll-content::-webkit-scrollbar-thumb {
+    background:
+        rgba(76, 45, 20, 0.55);
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   TEXT RASY
+========================================================= */
+
+.aeil-race-scroll-content p {
+    width: 100%;
+
+    max-width: 430px;
+
+    margin: 0 auto;
+
+    color: #3d2411;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            14px,
+            1.05vw,
+            18px
+        );
+
+    font-weight: 500;
+
+    line-height: 1.48;
+
+    white-space: pre-line;
+
+    /* ZMĚNA 2 – odstavce jsou zarovnané doleva */
+    text-align: left;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .aeil-races-page {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+
+    .aeil-races-grid {
+        column-gap: 24px;
+    }
+
+
+    .aeil-race-card-name {
+        font-size: 22px;
+    }
+
+}
+
+
+/* =========================================================
+   MENŠÍ TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .aeil-races-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        column-gap: 28px;
+        row-gap: 42px;
+    }
+
+
+    .aeil-race-scroll-area {
+        width: 90vw;
+        height: 91vh;
+    }
+
+
+    .aeil-race-scroll-content {
+        top: 27%;
+        right: 7%;
+        bottom: 13%;
+        left: 53%;
+
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBIL
+========================================================= */
+
+@media (max-width: 550px) {
+
+    .aeil-races-page {
+        padding:
+            20px
+            18px
+            60px;
+    }
+
+
+    .aeil-races-back {
+        top: 0;
+        left: 0;
+
+        font-size: 12px;
+    }
+
+
+    .aeil-races-logo {
+        width: 135px;
+    }
+
+
+    .aeil-races-line {
+        width: 55%;
+
+        margin-bottom: 25px;
+    }
+
+
+    .aeil-races-grid {
+        width: 100%;
+
+        column-gap: 14px;
+        row-gap: 38px;
+
+        padding:
+            5px
+            5px
+            50px;
+    }
+
+
+    .aeil-race-card-circle {
+        width: 100%;
+    }
+
+
+    .aeil-race-card-name {
+        margin-top: 10px;
+
+        font-size: 20px;
+    }
+
+
+    .aeil-race-close {
+        top: 10px;
+        right: 12px;
+    }
+
+
+    .aeil-race-scroll-area {
+        width: 96vw;
+        height: 88vh;
+    }
+
+
+    .aeil-race-scroll-content {
+        top: 27%;
+        right: 7%;
+        bottom: 14%;
+        left: 53%;
+
+        padding:
+            5px
+            8px
+            15px;
+    }
+
+
+    .aeil-race-scroll-content p {
+        font-size: 13px;
+        line-height: 1.38;
+    }
+
+}
+
+
+/* =========================================================
+   MALÝ MOBIL
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .aeil-races-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        column-gap: 8px;
+    }
+
+
+    .aeil-race-card-name {
+        font-size: 18px;
+    }
+
+}

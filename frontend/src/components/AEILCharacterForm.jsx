@@ -1,14 +1,60 @@
 import { useEffect, useRef, useState } from "react";
 
 import {
-  getVolumes,
-  addVolume,
-} from "../services/booksService";
-
-import {
   getCharacters,
   addCharacter,
 } from "../services/charactersService";
+
+/* =========================================================
+   AEIL – POZADÍ KAPITOL
+========================================================= */
+
+/*
+ * Všechna pozadí kapitol se automaticky načtou ze složky
+ * src/assets/images/AEIL/backchapters.
+ *
+ * Hodnota uložená v databázi zůstává stabilní zdrojová cesta,
+ * zatímco Vite při buildu vytvoří skutečnou URL obrázku.
+ * Díky import.meta.glob není potřeba při přidání nového obrázku
+ * upravovat tento soubor.
+ */
+const chapterBackgroundModules = import.meta.glob(
+  "../assets/images/AEIL/backchapters/*.{png,jpg,jpeg,webp,avif,gif}",
+  {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }
+);
+
+const chapterBackgroundOptions = Object.entries(
+  chapterBackgroundModules
+).map(([sourcePath, url]) => {
+  const fileName = sourcePath.split("/").pop() || sourcePath;
+  const databasePath =
+    `/src/assets/images/AEIL/backchapters/${fileName}`;
+
+  return {
+    sourcePath,
+    databasePath,
+    url,
+    name: fileName,
+  };
+});
+
+function resolveChapterBackground(value) {
+  if (!value) return "";
+
+  const normalizedValue = String(value)
+    .replace(/\\/g, "/")
+    .replace(/^\/+/, "");
+
+  const match = chapterBackgroundOptions.find((option) =>
+    option.databasePath.replace(/^\/+/, "") === normalizedValue
+  );
+
+  return match?.url || value;
+}
 
 /* =========================================================
    AEIL – OBRÁZKY A VIDEA
@@ -499,6 +545,182 @@ function VideoPicker({ label, value, onChange, bookId }) {
 }
 
 /* =========================================================
+   VÝBĚR POZADÍ KAPITOL
+========================================================= */
+
+function ChapterBackgroundPicker({ value, onChange }) {
+  const [open, setOpen] = useState(false);
+  const selectedUrl = resolveChapterBackground(value);
+
+  return (
+    <div>
+      <label>Pozadí kapitol</label>
+
+      <p
+        style={{
+          margin: "6px 0 12px",
+          color: "#777d75",
+          fontSize: "13px",
+          lineHeight: "1.5",
+        }}
+      >
+        Toto pozadí se použije automaticky u všech kapitol, které tato
+        postava vypráví.
+      </p>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "12px",
+          alignItems: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        {selectedUrl ? (
+          <img
+            src={selectedUrl}
+            alt="Vybrané pozadí kapitol"
+            loading="lazy"
+            decoding="async"
+            style={{
+              width: "220px",
+              height: "120px",
+              objectFit: "cover",
+              borderRadius: "7px",
+              border: "1px solid #4d5949",
+              display: "block",
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              width: "220px",
+              height: "120px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              border: "1px dashed #4d5949",
+              borderRadius: "7px",
+              color: "#777d75",
+              fontSize: "13px",
+              padding: "10px",
+              boxSizing: "border-box",
+            }}
+          >
+            Bez vybraného pozadí
+          </div>
+        )}
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
+          }}
+        >
+          <button
+            type="button"
+            style={smallButtonStyle}
+            onClick={() => setOpen((current) => !current)}
+          >
+            {open ? "Zavřít výběr" : "Vybrat pozadí"}
+          </button>
+
+          {value && (
+            <button
+              type="button"
+              style={smallButtonStyle}
+              onClick={() => onChange("")}
+            >
+              Odebrat
+            </button>
+          )}
+        </div>
+      </div>
+
+      {open && (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+            gap: "12px",
+            marginTop: "14px",
+            padding: "12px",
+            border: "1px solid #30372f",
+            borderRadius: "7px",
+            background: "#0b0d0b",
+            maxHeight: "500px",
+            overflowY: "auto",
+          }}
+        >
+          {chapterBackgroundOptions.length === 0 ? (
+            <span style={{ color: "#777d75" }}>
+              Ve složce backchapters nejsou žádná podporovaná pozadí.
+            </span>
+          ) : (
+            chapterBackgroundOptions.map((background) => {
+              const selected =
+                value === background.databasePath ||
+                resolveChapterBackground(value) === background.url;
+
+              return (
+                <button
+                  key={background.sourcePath}
+                  type="button"
+                  onClick={() => {
+                    onChange(background.databasePath);
+                    setOpen(false);
+                  }}
+                  style={{
+                    padding: "5px",
+                    border: selected
+                      ? "2px solid #d6a84c"
+                      : "1px solid #30372f",
+                    borderRadius: "6px",
+                    background: "#101310",
+                    cursor: "pointer",
+                    textAlign: "left",
+                  }}
+                  title={background.name}
+                >
+                  <img
+                    src={background.url}
+                    alt={background.name}
+                    loading="lazy"
+                    decoding="async"
+                    style={{
+                      width: "100%",
+                      aspectRatio: "16 / 9",
+                      objectFit: "cover",
+                      display: "block",
+                      borderRadius: "3px",
+                    }}
+                  />
+                  <div
+                    style={{
+                      padding: "7px 4px 3px",
+                      color: selected ? "#f0d18b" : "#d7dfd2",
+                      fontSize: "12px",
+                      lineHeight: "1.3",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {background.name}
+                  </div>
+                </button>
+              );
+            })
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* =========================================================
    RICH TEXT EDITOR
 ========================================================= */
 
@@ -677,7 +899,6 @@ function RichTextEditor({ value, onChange }) {
 function AEILCharacterForm({
   bookId,
   character,
-  volumes: passedVolumes = [],
   onSave,
   onCancel,
 }) {
@@ -692,6 +913,9 @@ function AEILCharacterForm({
   const [hoverImage, setHoverImage] = useState(
     character?.hover_image || ""
   );
+  const [chapterBackground, setChapterBackground] = useState(
+    character?.chapter_background || ""
+  );
   const [mainVideo, setMainVideo] = useState(
     character?.main_video || ""
   );
@@ -699,9 +923,6 @@ function AEILCharacterForm({
     character?.soundtrack || ""
   );
   const [race, setRace] = useState(character?.race || "");
-  const [selectedVolumes, setSelectedVolumes] = useState(
-    character?.volume_ids || []
-  );
   const [details, setDetails] = useState(
     character?.details || []
   );
@@ -735,9 +956,7 @@ function AEILCharacterForm({
     }))
   );
 
-  const [volumes, setVolumes] = useState(passedVolumes || []);
   const [characters, setCharacters] = useState([]);
-  const [loadingVolumes, setLoadingVolumes] = useState(false);
   const [loadingCharacters, setLoadingCharacters] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -747,10 +966,10 @@ function AEILCharacterForm({
     setContentHtml(character?.content_html || "");
     setMainImage(character?.main_image || "");
     setHoverImage(character?.hover_image || "");
+    setChapterBackground(character?.chapter_background || "");
     setMainVideo(character?.main_video || "");
     setSoundtrack(character?.soundtrack || "");
     setRace(character?.race || "");
-    setSelectedVolumes(character?.volume_ids || []);
     setDetails(character?.details || []);
     setImages(character?.images || []);
     setQuotes(character?.quotes || []);
@@ -780,27 +999,6 @@ function AEILCharacterForm({
   }, [character]);
 
   useEffect(() => {
-    setVolumes(passedVolumes || []);
-  }, [passedVolumes]);
-
-  useEffect(() => {
-    async function loadVolumes() {
-      if (!bookId) return;
-      setLoadingVolumes(true);
-      try {
-        const data = await getVolumes(bookId);
-        setVolumes(data || []);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoadingVolumes(false);
-      }
-    }
-
-    loadVolumes();
-  }, [bookId]);
-
-  useEffect(() => {
     async function loadCharacters() {
       if (!bookId) return;
       setLoadingCharacters(true);
@@ -816,47 +1014,6 @@ function AEILCharacterForm({
 
     loadCharacters();
   }, [bookId]);
-
-  function toggleVolume(volumeId) {
-    setSelectedVolumes((current) =>
-      current.includes(volumeId)
-        ? current.filter((id) => id !== volumeId)
-        : [...current, volumeId]
-    );
-  }
-
-  async function addNewVolume() {
-    const title = window.prompt("Název nového dílu:");
-    if (!title?.trim()) return;
-
-    const numberValue = window.prompt(
-      "Číslo dílu (volitelné):"
-    );
-
-    try {
-      const created = await addVolume(bookId, {
-        title: title.trim(),
-        number: numberValue?.trim()
-          ? Number(numberValue)
-          : null,
-      });
-
-      const data = await getVolumes(bookId);
-      setVolumes(data || []);
-
-      if (created?.id) {
-        setSelectedVolumes((current) => [
-          ...current,
-          created.id,
-        ]);
-      }
-    } catch (error) {
-      console.error(error);
-      alert(
-        error.message || "Nepodařilo se přidat díl."
-      );
-    }
-  }
 
   function addDetail() {
     setDetails((current) => [
@@ -914,7 +1071,6 @@ function AEILCharacterForm({
       {
         quote: "",
         author: "",
-        volume_id: selectedVolumes[0] || "",
         sort_order: current.length,
       },
     ]);
@@ -1004,12 +1160,12 @@ function AEILCharacterForm({
         main_image: null,
         hover_image: null,
         header_image: null,
+        chapter_background: null,
         main_video: null,
         soundtrack: null,
         race: "",
         published: true,
         sort_order: 0,
-        volume_ids: [],
         details: [],
         images: [],
         quotes: [],
@@ -1051,13 +1207,12 @@ function AEILCharacterForm({
       content_html: contentHtml,
       main_image: mainImage || null,
       hover_image: hoverImage || null,
+      chapter_background: chapterBackground || null,
       main_video: mainVideo || null,
       soundtrack: soundtrack.trim() || null,
       race: race.trim(),
       published: character?.published ?? true,
       sort_order: Number(character?.sort_order) || 0,
-      volume_ids: selectedVolumes,
-
       details: details
         .filter(
           (detail) =>
@@ -1081,9 +1236,6 @@ function AEILCharacterForm({
         .map((quoteItem, index) => ({
           quote: quoteItem.quote.trim(),
           author: quoteItem.author?.trim() || "",
-          volume_id: quoteItem.volume_id
-            ? Number(quoteItem.volume_id)
-            : null,
           sort_order: index,
         })),
 
@@ -1242,59 +1394,19 @@ function AEILCharacterForm({
       </section>
 
       {/* =====================================================
-          DÍLY
+          POZADÍ KAPITOL
       ===================================================== */}
 
       <section style={sectionStyle}>
-        <h3 style={sectionTitleStyle}>Kapitoly / díly</h3>
+        <h3 style={sectionTitleStyle}>Pozadí kapitol</h3>
 
-        {loadingVolumes ? (
-          <p>Načítám díly...</p>
-        ) : volumes.length === 0 ? (
-          <p>Tato kniha zatím nemá žádné díly.</p>
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "8px",
-            }}
-          >
-            {volumes.map((volume) => (
-              <label
-                key={volume.id}
-                style={{
-                  display: "flex",
-                  gap: "8px",
-                  alignItems: "center",
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={selectedVolumes.includes(volume.id)}
-                  onChange={() => toggleVolume(volume.id)}
-                />
-                <span>
-                  {volume.number
-                    ? `Díl ${volume.number} – `
-                    : ""}
-                  {volume.title}
-                </span>
-              </label>
-            ))}
-          </div>
-        )}
-
-        <button
-          type="button"
-          onClick={addNewVolume}
-          style={{ ...smallButtonStyle, marginTop: "12px" }}
-        >
-          + Přidat nový díl
-        </button>
+        <ChapterBackgroundPicker
+          value={chapterBackground}
+          onChange={setChapterBackground}
+        />
       </section>
 
-            {/* =====================================================
+      {/* =====================================================
           DALŠÍ INFORMACE
       ===================================================== */}
 
@@ -1509,7 +1621,7 @@ function AEILCharacterForm({
                 key={quoteItem.id || `quote-${index}`}
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "2fr 1fr 1fr auto",
+                  gridTemplateColumns: "2fr 1fr auto",
                   gap: "10px",
                   alignItems: "center",
                 }}
@@ -1533,24 +1645,6 @@ function AEILCharacterForm({
                   }
                   style={inputStyle}
                 />
-
-                <select
-                  value={quoteItem.volume_id || ""}
-                  onChange={(event) =>
-                    updateQuote(index, "volume_id", event.target.value)
-                  }
-                  style={inputStyle}
-                >
-                  <option value="">Bez dílu</option>
-                  {volumes.map((volume) => (
-                    <option key={volume.id} value={volume.id}>
-                      {volume.number
-                        ? `Díl ${volume.number} – `
-                        : ""}
-                      {volume.title}
-                    </option>
-                  ))}
-                </select>
 
                 <button
                   type="button"

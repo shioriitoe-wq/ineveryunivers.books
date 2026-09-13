@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS characters (
     content_html TEXT NOT NULL DEFAULT '',
     main_image TEXT,
     header_image TEXT,
+    chapter_background TEXT,
     sort_order INTEGER NOT NULL DEFAULT 0,
     published INTEGER NOT NULL DEFAULT 1,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,

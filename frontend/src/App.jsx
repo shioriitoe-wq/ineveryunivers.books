@@ -8,6 +8,12 @@ import CommunityPage from "./pages/CommunityPage";
 
 import AEILPage from "./pages/AEILPage";
 import AEILcharactersPage from "./pages/AEILcharactersPage";
+import AEILChaptersPage from "./pages/AEILChaptersPage";
+import AEILChapterPage from "./pages/AEILChapterPage";
+import AEILcharacterpage from "./pages/AEILcharacterpage";
+import AEILRacesPage from "./pages/AEILRacesPage";
+import AEILMap from "./pages/AEILMap";
+import AEILWord from "./pages/AEILWord";
 
 import VesperaPage from "./pages/VesperaPage";
 import NezacaloToLetemPage from "./pages/nezacalo-to-letem-page";
@@ -84,6 +90,52 @@ function App() {
 
 
       {/* =================================================
+          AEIL – RASY
+      ================================================= */}
+
+      <Route
+        path="/books/aeil/races"
+        element={<AEILRacesPage />}
+      />
+
+
+      {/* =================================================
+          AEIL – MAPA
+      ================================================= */}
+
+      <Route
+        path="/books/aeil/map"
+        element={<AEILMap />}
+      />
+
+
+      {/* =================================================
+          AEIL – SLOVNÍK
+      ================================================= */}
+
+      <Route
+        path="/books/aeil/word"
+        element={<AEILWord />}
+      />
+
+
+      {/* =================================================
+          AEIL – KAPITOLY
+      ================================================= */}
+
+      <Route
+        path="/books/aeil/chapters"
+        element={<AEILChaptersPage />}
+      />
+
+
+      <Route
+        path="/books/aeil/chapters/:chapterId"
+        element={<AEILChapterPage />}
+      />
+
+
+      {/* =================================================
           VESPERA
       ================================================= */}
 
@@ -94,7 +146,7 @@ function App() {
 
 
       {/* =================================================
-          (NE)ZAČALO TO..
+          (NE)ZAČÁLO TO..
       ================================================= */}
 
       <Route
@@ -166,16 +218,36 @@ function App() {
 
 
       {/* =================================================
+          AEIL – SEZNAM POSTAV
+      ================================================= */}
+
+      <Route
+        path="/project/2/characters"
+        element={<AEILcharactersPage />}
+      />
+
+
+      {/* =================================================
           DETAIL POSTAVY
-          
+
           VŠECHNY KNIHY POUŽÍVAJÍ STEJNOU STRÁNKU.
-          
+
           Pozadí se vybírá podle bookId:
-          
+
           1 → (Ne)začalo to.. → vlna
           2 → AEIL → krajka
           3 → Vespera
       ================================================= */}
+
+      {/* AEIL – vlastní stránka detailu postavy */}
+
+      <Route
+        path="/project/2/characters/:characterId"
+        element={<AEILcharacterpage />}
+      />
+
+
+      {/* Ostatní knihy – původní stránka postavy */}
 
       <Route
         path="/project/:bookId/characters/:characterId"

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Italianno&display=swap');
+
 /* =========================================================
    ZÁKLAD STRÁNKY
 ========================================================= */
@@ -465,6 +467,22 @@
     object-fit: contain;
     margin: 0 auto;
 }
+.aeil-subtitle {
+    position: absolute;
+    top: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    margin: 0;
+    text-align: center;
+    color: #d9bd83;
+    font-family: "Italianno", cursive;
+    font-size: clamp(20px, 1.5vw, 28px);
+    line-height: 1.2;
+
+    white-space: nowrap;
+    z-index: 20;
+}
 
 
 /* =========================================================
@@ -649,7 +667,7 @@
     display: grid;
 
     grid-template-columns:
-        repeat(6, minmax(0, 1fr));
+        repeat(7, minmax(0, 1fr));
 
     align-items: start;
 

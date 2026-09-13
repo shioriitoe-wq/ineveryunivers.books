@@ -1,0 +1,723 @@
+@import url('https://fonts.googleapis.com/css2?family=Italianno&display=swap');
+
+
+/* =========================================================
+   CELÁ STRÁNKA
+========================================================= */
+
+.aeil-word-page {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    box-sizing: border-box;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    padding:
+        35px
+        50px
+        80px;
+
+    background: #090b09;
+
+    color: #d8d1c1;
+}
+
+
+/* =========================================================
+   POZADÍ
+   STEJNÉ JAKO U RAS
+========================================================= */
+
+.aeil-word-page::before {
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 0;
+
+    background-image:
+        var(--aeil-word-background);
+
+    background-position: center center;
+
+    background-size: cover;
+
+    background-repeat: no-repeat;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   ZPĚT
+========================================================= */
+
+.aeil-word-back {
+    position: fixed;
+
+    top: 30px;
+    left: 45px;
+
+    z-index: 20;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #d7d0c0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.aeil-word-back:hover {
+
+    opacity: 0.7;
+
+    transform:
+        translateX(-3px);
+}
+
+
+/* =========================================================
+   NADPIS
+========================================================= */
+
+.aeil-word-header {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+
+    margin-top: 25px;
+
+    text-align: center;
+}
+
+
+.aeil-word-header h1 {
+
+    margin: 0;
+
+    color: #d9b66b;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(
+            32px,
+            3vw,
+            48px
+        );
+
+    font-weight: 500;
+
+    letter-spacing: 8px;
+
+    text-shadow:
+        0 1px 5px #160403;
+}
+
+
+/* =========================================================
+   PANELY
+========================================================= */
+
+.aeil-word-grid {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(1450px, 92%);
+
+    margin:
+        70px auto
+        0;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 55px;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+/* =========================================================
+   JEDEN PANEL
+========================================================= */
+
+.aeil-word-card {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 240px;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font: inherit;
+
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+}
+
+
+.aeil-word-card:hover {
+
+    transform:
+        scale(1.06);
+}
+
+
+/* =========================================================
+   OBRÁZEK PANELU
+========================================================= */
+
+.aeil-word-card-image {
+
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+.aeil-word-card-image img {
+
+    display: block;
+
+    width: min(100%, 380px);
+
+    height: auto;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 4px 8px
+            rgba(0, 0, 0, 0.5)
+        );
+
+    transition:
+        filter 0.3s ease;
+}
+
+
+.aeil-word-card:hover
+.aeil-word-card-image img {
+
+    filter:
+        drop-shadow(
+            0 0 10px
+            rgba(225, 187, 102, 0.65)
+        )
+        drop-shadow(
+            0 5px 10px
+            rgba(0, 0, 0, 0.55)
+        );
+}
+
+
+/* =========================================================
+   PŘEKRYV
+========================================================= */
+
+.aeil-word-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+
+    backdrop-filter: none;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   KŘÍŽEK
+========================================================= */
+
+.aeil-word-close {
+
+    position: fixed;
+
+    top: 20px;
+    right: 30px;
+
+    z-index: 120;
+
+    width: 48px;
+    height: 48px;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #e1d9c9;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 43px;
+
+    font-weight: 300;
+
+    line-height: 44px;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.aeil-word-close:hover {
+
+    opacity: 0.8;
+
+    transform:
+        scale(1.08);
+}
+
+
+/* =========================================================
+   SVITEK
+========================================================= */
+
+.aeil-word-scroll {
+
+    position: relative;
+
+    width: 94vw;
+
+    height: 90vh;
+
+    max-width: 1650px;
+
+    max-height: 90vh;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+
+    background: transparent;
+
+    border: none;
+
+    box-shadow: none;
+
+    border-radius: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   OBRÁZEK SVITKU
+========================================================= */
+
+.aeil-word-scroll-image {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    max-width: none;
+    max-height: none;
+
+    object-fit: contain;
+
+    object-position: center center;
+
+    filter:
+        sepia(0.05)
+        saturate(0.95);
+}
+
+
+/* =========================================================
+   TEXT NA SVITKU
+========================================================= */
+
+.aeil-word-scroll-text {
+
+    position: absolute;
+
+    top: 20%;
+
+    right: 18%;
+
+    bottom: 8%;
+
+    left: 48%;
+
+    z-index: 3;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    box-sizing: border-box;
+
+    padding:
+        20px
+        25px;
+
+    text-align: left;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   NADPIS POJMU
+========================================================= */
+
+.aeil-word-scroll-text h2 {
+
+    width: 100%;
+
+    margin:
+        0
+        0
+        14px;
+
+    color: #402914;
+
+    font-family:
+        "Italianno",
+        cursive;
+
+    font-size:
+        clamp(
+            32px,
+            3vw,
+            52px
+        );
+
+    font-weight: 400;
+
+    line-height: 1;
+
+    text-align: center;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   POPIS
+========================================================= */
+
+.aeil-word-scroll-text p {
+
+    width: 100%;
+
+    max-width: 520px;
+
+    max-height: 100%;
+
+    margin: 0;
+
+    padding-right: 8px;
+
+    box-sizing: border-box;
+
+    overflow-y: auto;
+
+    color: #402914;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            15px,
+            1.25vw,
+            21px
+        );
+
+    font-weight: 500;
+
+    line-height: 1.55;
+
+    white-space: pre-line;
+
+    text-align: left;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        rgba(76, 45, 20, 0.45)
+        transparent;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.aeil-word-scroll-text p::-webkit-scrollbar {
+
+    width: 5px;
+}
+
+
+.aeil-word-scroll-text p::-webkit-scrollbar-track {
+
+    background: transparent;
+}
+
+
+.aeil-word-scroll-text p::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(76, 45, 20, 0.45);
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .aeil-word-grid {
+
+        width: 94%;
+
+        gap: 30px;
+    }
+
+
+    .aeil-word-card {
+
+        min-height: 200px;
+    }
+
+
+    .aeil-word-scroll {
+
+        width: 96vw;
+
+        height: 88vh;
+    }
+
+
+    .aeil-word-scroll-text {
+
+        top: 10%;
+
+        right: 7%;
+
+        bottom: 8%;
+
+        left: 55%;
+
+        padding:
+            15px
+            18px;
+    }
+
+
+    .aeil-word-scroll-text p {
+
+        font-size: 16px;
+
+        line-height: 1.45;
+    }
+
+}
+
+
+/* =========================================================
+   MOBIL
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .aeil-word-page {
+
+        padding:
+            25px
+            18px
+            60px;
+    }
+
+
+    .aeil-word-back {
+
+        top: 20px;
+
+        left: 20px;
+
+        font-size: 13px;
+    }
+
+
+    .aeil-word-header {
+
+        margin-top: 45px;
+    }
+
+
+    .aeil-word-header h1 {
+
+        font-size: 30px;
+
+        letter-spacing: 5px;
+    }
+
+
+    .aeil-word-grid {
+
+        width: 94%;
+
+        grid-template-columns:
+            1fr;
+
+        gap: 30px;
+
+        margin-top: 45px;
+    }
+
+
+    .aeil-word-card {
+
+        min-height: 160px;
+    }
+
+
+    .aeil-word-card-image img {
+
+        width: min(90%, 330px);
+    }
+
+
+    .aeil-word-scroll {
+
+        width: 98vw;
+
+        height: 90vh;
+    }
+
+
+    .aeil-word-scroll-text {
+
+        top: 10%;
+
+        right: 4%;
+
+        bottom: 8%;
+
+        left: 51%;
+
+        padding:
+            10px
+            7px;
+    }
+
+
+    .aeil-word-scroll-text h2 {
+
+        font-size: 32px;
+    }
+
+
+    .aeil-word-scroll-text p {
+
+        font-size: 12px;
+
+        line-height: 1.35;
+    }
+
+
+    .aeil-word-close {
+
+        top: 8px;
+
+        right: 10px;
+    }
+
+}

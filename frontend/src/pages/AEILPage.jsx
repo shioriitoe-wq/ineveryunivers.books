@@ -16,6 +16,7 @@ import videoImage from "../assets/images/AEIL/aeil-video.png";
 import soundtrackImage from "../assets/images/AEIL/aeil-soundtrack.png";
 import mapsImage from "../assets/images/AEIL/aeil-maps.png";
 import wordsImage from "../assets/images/AEIL/aeil-words.png";
+import aeilEntityImage from "../assets/images/aeil/aeil-entita.png";
 
 import startRead from "../assets/images/AEIL/aeil-start-read.png";
 
@@ -46,6 +47,7 @@ export default function AeilPage() {
 
 
     return (
+
         <main className="aeil-page">
 
 
@@ -144,6 +146,7 @@ export default function AeilPage() {
 
                             )}
 
+
                         </div>
 
 
@@ -183,6 +186,11 @@ export default function AeilPage() {
                         />
 
                     </div>
+
+
+                    <p className="aeil-subtitle">
+                        Ael'sha va'ren, va'ren ael'sha.
+                    </p>
 
 
                     {/* =================================================
@@ -390,7 +398,10 @@ export default function AeilPage() {
                     MAPA
                 ================================================= */}
 
-                <div className="aeil-panel-wrapper">
+                <Link
+                    to="/books/aeil/map"
+                    className="aeil-panel-wrapper"
+                >
 
                     <div className="aeil-panel">
 
@@ -413,14 +424,17 @@ export default function AeilPage() {
                         MAPA
                     </span>
 
-                </div>
+                </Link>
 
 
                 {/* =================================================
                     SLOVNÍK
                 ================================================= */}
 
-                <div className="aeil-panel-wrapper">
+                <Link
+                    to="/books/aeil/word"
+                    className="aeil-panel-wrapper"
+                >
 
                     <div className="aeil-panel">
 
@@ -443,7 +457,40 @@ export default function AeilPage() {
                         SLOVNÍK
                     </span>
 
-                </div>
+                </Link>
+
+
+                {/* =================================================
+                    RASY
+                ================================================= */}
+
+                <Link
+                    to="/books/aeil/races"
+                    className="aeil-panel-wrapper"
+                >
+
+                    <div className="aeil-panel">
+
+                        <img
+                            src={aeilEntityImage}
+                            alt=""
+                            className="aeil-panel-image"
+                        />
+
+                    </div>
+
+                    <img
+                        src={frameSixPanels}
+                        alt=""
+                        className="aeil-panel-frame"
+                        aria-hidden="true"
+                    />
+
+                    <span className="aeil-panel-label">
+                        RASY
+                    </span>
+
+                </Link>
 
 
             </section>
@@ -451,4 +498,3 @@ export default function AeilPage() {
         </main>
     );
 }
-
