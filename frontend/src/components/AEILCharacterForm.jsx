@@ -526,7 +526,12 @@ function VideoPicker({ label, value, onChange, bookId }) {
                 }}
                 style={{
                   ...smallButtonStyle,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  width: "100%",
                   textAlign: "left",
+                  padding: "6px",
                   borderColor:
                     value === video.url ||
                     value === video.databasePath
@@ -534,7 +539,38 @@ function VideoPicker({ label, value, onChange, bookId }) {
                       : "#4d5949",
                 }}
               >
-                {video.name}
+                <video
+                  src={video.url}
+                  muted
+                  playsInline
+                  preload="metadata"
+                  onLoadedData={(event) => {
+                    try {
+                      event.currentTarget.currentTime = 0.1;
+                    } catch {
+                      // některé prohlížeče nemusí změnu času v náhledu dovolit
+                    }
+                  }}
+                  style={{
+                    width: "120px",
+                    height: "70px",
+                    flexShrink: 0,
+                    objectFit: "cover",
+                    display: "block",
+                    borderRadius: "4px",
+                    background: "#000",
+                  }}
+                />
+
+                <span
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {video.name}
+                </span>
               </button>
             ))
           )}
