@@ -1,0 +1,777 @@
+/* ============================================================
+   VESPERA DICTIONARY
+   ============================================================ */
+
+.vespera-dictionary-page {
+  width: 100%;
+  min-height: 100vh;
+
+  background: #111;
+
+  overflow: hidden;
+
+  color: #17120e;
+}
+
+
+/* ============================================================
+   SCROLL
+   ============================================================ */
+
+.dictionary-scroll {
+  width: 100%;
+  height: 100vh;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 70px 0 120px;
+
+  scroll-behavior: smooth;
+}
+
+
+/* ============================================================
+   JEDEN LIST
+   ============================================================ */
+
+.dictionary-paper {
+  position: relative;
+
+  width: min(1122px, 94vw);
+  aspect-ratio: 1122 / 1402;
+
+  margin: 0 auto 70px;
+
+  /*
+    DŮLEŽITÉ:
+    obrázek musí být umístěný v:
+    
+    public/images/vespera/words/back.png
+
+    nebo změň cestu níže.
+  */
+
+  
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  flex-shrink: 0;
+
+  overflow: hidden;
+
+  filter:
+    drop-shadow(0 20px 35px rgba(0, 0, 0, 0.65));
+}
+
+
+/* ============================================================
+   NADPIS
+   ============================================================ */
+
+.dictionary-title {
+  position: absolute;
+
+  left: 8.8%;
+  right: 8.8%;
+  top: 8.6%;
+
+  height: 4.2%;
+
+  display: flex;
+  align-items: center;
+
+  font-family: "Courier New", monospace;
+
+  font-size: clamp(12px, 1.55vw, 21px);
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   INFO ŘÁDEK
+   ============================================================ */
+
+.dictionary-info {
+  position: absolute;
+
+  left: 8.8%;
+  right: 8.8%;
+  top: 13.1%;
+
+  height: 3.1%;
+
+  display: grid;
+
+  grid-template-columns:
+    25%
+    28%
+    47%;
+
+  font-family: "Courier New", monospace;
+
+  font-size: clamp(7px, 0.9vw, 13px);
+  font-weight: 700;
+
+  letter-spacing: 0.02em;
+
+  align-items: center;
+}
+
+.dictionary-info > div {
+  padding-left: 1.5%;
+}
+
+
+/* ============================================================
+   TABULKA
+   ============================================================ */
+
+.dictionary-table {
+  position: absolute;
+
+  left: 8.65%;
+  right: 3.65%;
+  top: 22.65%;
+  bottom: 14.8%;
+
+  display: grid;
+
+  grid-template-rows:
+   
+    10%
+    10%
+    10%
+    10%
+    10%
+    10%
+    10%
+    11%
+    11%
+    11%
+    10%;
+
+  font-family: "Courier New", monospace;
+  font-size: clamp(12px, 1.15vw, 22px);
+
+  overflow: hidden;
+  
+}
+
+
+
+/* ============================================================
+   ŘÁDEK
+   ============================================================ */
+.dictionary-row {
+  display: grid;
+
+  grid-template-columns:
+    20.16%
+    15.46%
+    42%
+    22.38%;
+
+  min-height: 0;
+  align-items: start;
+}
+
+/* ============================================================
+   BUŇKY
+   ============================================================ */
+
+.dictionary-number,
+.dictionary-term,
+.dictionary-classification,
+.dictionary-definition,
+.dictionary-note {
+  min-width: 0;
+  min-height: 0;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   ČÍSLA
+   ============================================================ */
+
+.dictionary-number {
+  padding-left: 28%;
+
+  font-weight: 400;
+}
+
+
+/* ============================================================
+   POJEM
+   ============================================================ */
+
+.dictionary-term {
+  padding: 0 6%;
+
+  font-weight: 700;
+
+  line-height: 1.15;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ============================================================
+   KLASIFIKACE
+   ============================================================ */
+
+.dictionary-classification {
+  padding: 0 7%;
+
+  font-size: 1em;
+
+  line-height: 1.1;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ============================================================
+   DEFINICE
+   ============================================================ */
+
+.dictionary-definition {
+  padding: 0 4.5%;
+
+  font-family: "Courier New", monospace;
+
+  font-size: 1em;
+
+  line-height: 1.18;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* ============================================================
+   POZNÁMKA
+   ============================================================ */
+
+.dictionary-note {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 7%;
+}
+
+
+/* ============================================================
+   KLIKACÍ POZNÁMKA
+   ============================================================ */
+
+.dictionary-note-button {
+  appearance: none;
+
+  border: none;
+
+  background: transparent;
+
+  padding: 3px 5px;
+
+  color: #17120e;
+
+  font-family: "Courier New", monospace;
+
+  font-size: 0.78em;
+
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
+
+  text-decoration: underline;
+
+  text-decoration-thickness: 1px;
+
+  text-underline-offset: 3px;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.dictionary-note-button:hover {
+  opacity: 0.55;
+
+  transform: scale(1.04);
+}
+
+
+/* ============================================================
+   ČÍSLO DOKUMENTU DOLE
+   ============================================================ */
+
+.dictionary-page-number {
+  position: absolute;
+
+  right: 9%;
+  bottom: 7.1%;
+
+  font-family: "Courier New", monospace;
+
+  font-size: clamp(6px, 0.65vw, 10px);
+
+  letter-spacing: 0.08em;
+
+  opacity: 0.6;
+}
+
+
+/* ============================================================
+   ZPĚT
+   ============================================================ */
+
+.dictionary-back {
+  position: fixed;
+
+  z-index: 50;
+
+  top: 25px;
+  left: 25px;
+
+  width: 44px;
+  height: 44px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(220, 205, 180, 0.35);
+
+  background: rgba(15, 12, 9, 0.72);
+
+  color: #ddd0ba;
+
+  font-size: 25px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(4px);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.dictionary-back:hover {
+  background: rgba(45, 35, 25, 0.9);
+
+  transform: scale(1.06);
+}
+
+
+/* ============================================================
+   IMAGE MODAL
+   ============================================================ */
+
+.dictionary-image-overlay {
+  position: fixed;
+
+  z-index: 100;
+
+  inset: 0;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px;
+
+  background: rgba(5, 4, 3, 0.82);
+
+  backdrop-filter: blur(7px);
+
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   OKNO
+   ============================================================ */
+
+.dictionary-image-window {
+  position: relative;
+
+  max-width: min(900px, 90vw);
+  max-height: 90vh;
+
+  padding: 10px;
+
+  background: #17130f;
+
+  border: 1px solid rgba(218, 194, 159, 0.35);
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.75);
+
+  cursor: default;
+}
+
+
+/* ============================================================
+   OBRÁZEK
+   ============================================================ */
+
+.dictionary-image-window img {
+  display: block;
+
+  max-width: 100%;
+  max-height: calc(90vh - 20px);
+
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+}
+
+
+/* ============================================================
+   ZAVŘÍT
+   ============================================================ */
+
+.dictionary-image-close {
+  position: absolute;
+
+  z-index: 2;
+
+  top: -18px;
+  right: -18px;
+
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(220, 205, 180, 0.4);
+
+  background: #17130f;
+
+  color: #ddd0ba;
+
+  font-size: 25px;
+
+  line-height: 30px;
+
+  cursor: pointer;
+}
+
+.dictionary-image-close:hover {
+  background: #2a2119;
+}
+
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+.dictionary-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dictionary-scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.dictionary-scroll::-webkit-scrollbar-thumb {
+  background: rgba(150, 125, 95, 0.55);
+
+  border-radius: 10px;
+}
+
+.dictionary-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(180, 150, 110, 0.75);
+}
+
+
+/* ============================================================
+   MENŠÍ OBRAZOVKY
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+  .dictionary-scroll {
+    padding-top: 50px;
+  }
+
+  .dictionary-paper {
+    width: 98vw;
+
+    margin-bottom: 30px;
+  }
+
+  .dictionary-title {
+    font-size: 2vw;
+  }
+
+  .dictionary-info {
+    font-size: 1.4vw;
+  }
+
+  .dictionary-table {
+    font-size: 1.55vw;
+  }
+
+  .dictionary-definition {
+    font-size: 0.8em;
+  }
+
+  .dictionary-back {
+    top: 12px;
+    left: 12px;
+
+    width: 38px;
+    height: 38px;
+
+    font-size: 21px;
+  }
+}
+/* ============================================================
+   ATMOSFÉRA – PRACH + SVĚTLO
+   ============================================================ */
+
+.dictionary-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+
+/* ============================================================
+   SVĚTLO Z LEVÉHO HORNÍHO ROHU
+   ============================================================ */
+
+.dictionary-side-light {
+  position: absolute;
+
+  top: -25%;
+  left: -18%;
+
+  width: 75%;
+  height: 75%;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at 18% 18%,
+      rgba(255, 226, 170, 0.20) 0%,
+      rgba(255, 213, 150, 0.12) 18%,
+      rgba(255, 196, 130, 0.055) 38%,
+      rgba(255, 180, 110, 0.018) 58%,
+      transparent 74%
+    );
+
+  transform: rotate(-12deg);
+
+  filter: blur(8px);
+
+  opacity: 0.8;
+
+  animation:
+    dictionary-lamp-flicker 5.5s ease-in-out infinite;
+}
+
+
+/* jemný druhý kužel světla */
+
+.dictionary-side-light::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      125deg,
+      rgba(255, 220, 165, 0.12) 0%,
+      rgba(255, 205, 140, 0.045) 28%,
+      transparent 58%
+    );
+
+  opacity: 0.75;
+
+  animation:
+    dictionary-lamp-pulse 3.8s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   POBLIKÁVÁNÍ LAMPY
+   ============================================================ */
+
+@keyframes dictionary-lamp-flicker {
+
+  0% {
+    opacity: 0.72;
+    transform: rotate(-12deg) scale(1);
+  }
+
+  7% {
+    opacity: 0.78;
+  }
+
+  11% {
+    opacity: 0.62;
+  }
+
+  17% {
+    opacity: 0.82;
+  }
+
+  29% {
+    opacity: 0.76;
+  }
+
+  43% {
+    opacity: 0.84;
+  }
+
+  48% {
+    opacity: 0.66;
+  }
+
+  53% {
+    opacity: 0.79;
+  }
+
+  71% {
+    opacity: 0.73;
+  }
+
+  84% {
+    opacity: 0.87;
+  }
+
+  91% {
+    opacity: 0.68;
+  }
+
+  100% {
+    opacity: 0.72;
+    transform: rotate(-12deg) scale(1);
+  }
+}
+
+
+@keyframes dictionary-lamp-pulse {
+
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  45% {
+    opacity: 0.72;
+  }
+
+  52% {
+    opacity: 0.45;
+  }
+
+  75% {
+    opacity: 0.68;
+  }
+}
+
+
+/* ============================================================
+   PRACH
+   ============================================================ */
+
+.dictionary-dust {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+}
+
+
+.dictionary-dust-particle {
+  position: absolute;
+
+  left: var(--dust-x);
+  top: var(--dust-y);
+
+  width: var(--dust-size);
+  height: var(--dust-size);
+
+  border-radius: 50%;
+
+  background: rgba(235, 216, 180, 0.65);
+
+  box-shadow:
+    0 0 3px rgba(235, 216, 180, 0.35);
+
+  opacity: 0;
+
+  animation:
+    dictionary-dust-float
+    var(--dust-duration)
+    ease-in-out
+    var(--dust-delay)
+    infinite;
+}
+
+
+@keyframes dictionary-dust-float {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate3d(0, 25px, 0)
+      scale(0.65);
+  }
+
+  12% {
+    opacity: 0.35;
+  }
+
+  35% {
+    opacity: 0.65;
+  }
+
+  55% {
+    opacity: 0.3;
+  }
+
+  75% {
+    opacity: 0.58;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate3d(
+        var(--dust-drift),
+        -80px,
+        0
+      )
+      scale(1.15);
+  }
+}

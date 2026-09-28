@@ -1,0 +1,1446 @@
+/* =========================================================
+   VESPERA – DOCUMENTS
+========================================================= */
+
+.vespera-documents-page {
+    position: fixed !important;
+
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    min-width: 100vw !important;
+    min-height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    overflow: hidden !important;
+
+    background: #080706 !important;
+
+    isolation: isolate;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   POZADÍ STOLU
+========================================================= */
+
+.vespera-documents-background {
+    position: absolute !important;
+
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background-image: var(--documents-background) !important;
+
+    background-repeat: no-repeat !important;
+
+    background-size: 100% 100% !important;
+
+    background-position: center center !important;
+
+    pointer-events: none !important;
+
+    z-index: 0;
+}
+
+
+/* =========================================================
+   ATMOSFÉRA
+========================================================= */
+
+.vespera-documents-page::after {
+    content: "";
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    pointer-events: none !important;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(0, 0, 0, 0) 35%,
+            rgba(0, 0, 0, 0.20) 100%
+        );
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   ZPĚT
+========================================================= */
+
+.documents-back-button {
+    position: absolute !important;
+
+    top: 20px !important;
+    left: 20px !important;
+
+    width: 46px !important;
+    height: 46px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 1px solid rgba(220, 190, 145, 0.25) !important;
+
+    border-radius: 50% !important;
+
+    background: rgba(10, 8, 6, 0.60) !important;
+
+    color: rgba(230, 210, 180, 0.85) !important;
+
+    font-family: Georgia, serif !important;
+
+    font-size: 27px !important;
+
+    line-height: 46px !important;
+
+    text-align: center !important;
+
+    cursor: pointer !important;
+
+    z-index: 40 !important;
+
+    box-shadow: none !important;
+
+    appearance: none !important;
+    -webkit-appearance: none !important;
+}
+
+
+.documents-back-button:hover {
+    background: rgba(10, 8, 6, 0.85) !important;
+
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   HOTSPOT VRSTVA
+========================================================= */
+
+.documents-hotspots {
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    pointer-events: none !important;
+
+    z-index: 20 !important;
+}
+
+
+/* =========================================================
+   KLIKNACÍ KOLEČKO
+
+   DOČASNĚ ČERVENÉ, ABY BYLA VIDĚT POZICE
+========================================================= */
+
+.document-hotspot {
+    position: absolute !important;
+
+    width: 2cm !important;
+    height: 2cm !important;
+
+    min-width: 2cm !important;
+    min-height: 2cm !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    border: none !important;
+    
+
+    border-radius: 50% !important;
+background: transparent !important;
+
+    box-shadow: none !important;
+
+    color: transparent !important;
+
+    font-size: 0 !important;
+
+    line-height: 0 !important;
+
+    appearance: none !important;
+    -webkit-appearance: none !important;
+
+    cursor: pointer !important;
+
+    pointer-events: auto !important;
+
+    opacity: 1 !important;
+
+    transition: none !important;
+}
+
+
+/* =========================================================
+   HOVER – NIC SE NEMĚNÍ
+========================================================= */
+
+.document-hotspot:hover,
+.document-hotspot:focus,
+.document-hotspot:focus-visible,
+.document-hotspot:active {
+    border: none !important;
+
+    background: transparent(255, 0, 0, 0.35) !important;
+
+    box-shadow: none !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    outline: none !important;
+}
+
+
+/* =========================================================
+   POZICE 14 KLIKNACÍCH KOLEČEK
+
+   left = poloha středu vodorovně
+   top  = poloha středu svisle
+
+   Tyto hodnoty jsou zatím pracovní pro přesné umístění
+   podle obrázku stolu.
+========================================================= */
+
+.hotspot-recorder {
+    left: 8% !important;
+    top: 28% !important;
+}
+
+.hotspot-tablet {
+    left: 9% !important;
+    top: 50% !important;
+}
+
+.hotspot-paper {
+    left: 15% !important;
+    top: 5% !important;
+}
+
+.hotspot-letter {
+    left: 15% !important;
+    top: 88% !important;
+}
+
+.hotspot-phone {
+    left: 27% !important;
+    top: 75% !important;
+}
+
+.hotspot-recorder2 {
+    left: 55% !important;
+    top: 86% !important;
+}
+
+.hotspot-runa {
+    left: 45% !important;
+    top: 53% !important;
+}
+
+.hotspot-redford {
+    left: 65% !important;
+    top: 47% !important;
+}
+
+.hotspot-laboratory {
+    left: 90% !important;
+    top: 69% !important;
+}
+
+.hotspot-man {
+    left: 87% !important;
+    top: 44% !important;
+}
+
+.hotspot-powerplant {
+    left: 62% !important;
+    top: 17% !important;
+}
+
+.hotspot-newspaper {
+    left: 85% !important;
+    top: 18% !important;
+}
+
+.hotspot-walkie-talkie {
+    left: 41% !important;
+    top: 17% !important;
+}
+
+.hotspot-radio {
+    left: 83% !important;
+    top: 93% !important;
+
+    width: 1cm !important;
+    height: 1cm !important;
+    min-width: 1cm !important;
+    min-height: 1cm !important;
+}
+
+.hotspot-ring {
+    left: 33.5% !important;
+    top: 23.5% !important;
+
+}
+
+.hotspot-severov {
+    left: 68% !important;
+    top: 78% !important;
+}
+
+.hotspot-base {
+    left: 18% !important;
+    top: 71% !important;
+}
+
+.hotspot-nexcore {
+    left: 53% !important;
+    top: 20% !important;
+}
+
+/* =========================================================
+   KUŽEL SVĚTLA Z LAMPIČKY
+========================================================= */
+
+.vespera-documents-page::before {
+    content: "";
+
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    pointer-events: none !important;
+
+    z-index: 1 !important;
+
+    opacity: 0.55;
+
+    background:
+        radial-gradient(
+            ellipse 38% 70% at 7% 22%,
+            rgba(255, 197, 105, 0.26) 0%,
+            rgba(237, 170, 76, 0.18) 22%,
+            rgba(196, 132, 51, 0.09) 42%,
+            rgba(120, 75, 25, 0.035) 62%,
+            transparent 78%
+        );
+
+    clip-path: polygon(
+        0% 0%,
+        18% 0%,
+        68% 100%,
+        0% 100%
+    );
+
+    animation:
+        vesperaLampFlicker
+        7.3s
+        infinite;
+}
+
+
+/* =========================================================
+   NEPRAVIDELNÉ POBLIKÁVÁNÍ
+========================================================= */
+
+@keyframes vesperaLampFlicker {
+
+    0% {
+        opacity: 0.48;
+    }
+
+    7% {
+        opacity: 0.58;
+    }
+
+    9% {
+        opacity: 0.39;
+    }
+
+    15% {
+        opacity: 0.54;
+    }
+
+    28% {
+        opacity: 0.50;
+    }
+
+    29% {
+        opacity: 0.29;
+    }
+
+    34% {
+        opacity: 0.57;
+    }
+
+    48% {
+        opacity: 0.46;
+    }
+
+    53% {
+        opacity: 0.61;
+    }
+
+    55% {
+        opacity: 0.34;
+    }
+
+    67% {
+        opacity: 0.52;
+    }
+
+    79% {
+        opacity: 0.43;
+    }
+
+    81% {
+        opacity: 0.63;
+    }
+
+    86% {
+        opacity: 0.37;
+    }
+
+    94% {
+        opacity: 0.55;
+    }
+
+    100% {
+        opacity: 0.48;
+    }
+} 
+/* =========================================================
+   PRACH – HNĚDÉ A ŽLUTÉ ČÁSTEČKY
+========================================================= */
+
+.vespera-dust {
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    overflow: hidden !important;
+
+    pointer-events: none !important;
+
+    z-index: 5 !important;
+}
+
+
+/* ---------------------------------------------------------
+   ZÁKLADNÍ ČÁSTICE
+--------------------------------------------------------- */
+
+.dust {
+    position: absolute !important;
+
+    width: 3px;
+    height: 3px;
+
+    min-width: 1px;
+    min-height: 1px;
+
+    padding: 0;
+    margin: 0;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background: rgba(201, 157, 83, 0.75);
+
+    box-shadow:
+        0 0 5px rgba(232, 186, 102, 0.35);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    animation:
+        vesperaDustFloat
+        var(--dust-speed)
+        linear
+        var(--dust-delay)
+        infinite;
+}
+
+
+/* =========================================================
+   RŮZNÉ VELIKOSTI
+========================================================= */
+
+.dust:nth-child(3n) {
+    width: 1px;
+    height: 1px;
+
+    background: rgba(177, 129, 61, 0.72);
+}
+
+.dust:nth-child(4n) {
+    width: 2px;
+    height: 2px;
+
+    background: rgba(224, 181, 101, 0.80);
+}
+
+.dust:nth-child(5n) {
+    width: 4px;
+    height: 4px;
+
+    background: rgba(143, 98, 43, 0.65);
+
+    box-shadow:
+        0 0 7px rgba(191, 139, 64, 0.30);
+}
+
+.dust:nth-child(11n) {
+    width: 5px;
+    height: 5px;
+
+    background: rgba(218, 169, 83, 0.48);
+}
+
+
+/* =========================================================
+   RŮZNÉ RYCHLOSTI A TRAJEKTORIE
+========================================================= */
+
+.dust-1 {
+    left: 5%;
+    top: 75%;
+    --dust-speed: 17s;
+    --dust-delay: -4s;
+    --dust-x: 150px;
+    --dust-y: -180px;
+}
+
+.dust-2 {
+    left: 12%;
+    top: 43%;
+    --dust-speed: 29s;
+    --dust-delay: -17s;
+    --dust-x: 90px;
+    --dust-y: -240px;
+}
+
+.dust-3 {
+    left: 19%;
+    top: 82%;
+    --dust-speed: 23s;
+    --dust-delay: -8s;
+    --dust-x: 220px;
+    --dust-y: -120px;
+}
+
+.dust-4 {
+    left: 26%;
+    top: 55%;
+    --dust-speed: 34s;
+    --dust-delay: -25s;
+    --dust-x: -100px;
+    --dust-y: -260px;
+}
+
+.dust-5 {
+    left: 34%;
+    top: 25%;
+    --dust-speed: 20s;
+    --dust-delay: -10s;
+    --dust-x: 180px;
+    --dust-y: 180px;
+}
+
+.dust-6 {
+    left: 41%;
+    top: 68%;
+    --dust-speed: 27s;
+    --dust-delay: -20s;
+    --dust-x: -160px;
+    --dust-y: -210px;
+}
+
+.dust-7 {
+    left: 48%;
+    top: 38%;
+    --dust-speed: 31s;
+    --dust-delay: -6s;
+    --dust-x: 260px;
+    --dust-y: -100px;
+}
+
+.dust-8 {
+    left: 54%;
+    top: 77%;
+    --dust-speed: 19s;
+    --dust-delay: -14s;
+    --dust-x: -120px;
+    --dust-y: -190px;
+}
+
+.dust-9 {
+    left: 61%;
+    top: 47%;
+    --dust-speed: 37s;
+    --dust-delay: -29s;
+    --dust-x: 170px;
+    --dust-y: 160px;
+}
+
+.dust-10 {
+    left: 68%;
+    top: 18%;
+    --dust-speed: 24s;
+    --dust-delay: -12s;
+    --dust-x: -180px;
+    --dust-y: 230px;
+}
+
+.dust-11 {
+    left: 74%;
+    top: 62%;
+    --dust-speed: 28s;
+    --dust-delay: -22s;
+    --dust-x: 110px;
+    --dust-y: -170px;
+}
+
+.dust-12 {
+    left: 81%;
+    top: 35%;
+    --dust-speed: 33s;
+    --dust-delay: -7s;
+    --dust-x: -230px;
+    --dust-y: -130px;
+}
+
+.dust-13 {
+    left: 88%;
+    top: 74%;
+    --dust-speed: 21s;
+    --dust-delay: -16s;
+    --dust-x: -150px;
+    --dust-y: -220px;
+}
+
+.dust-14 {
+    left: 94%;
+    top: 49%;
+    --dust-speed: 39s;
+    --dust-delay: -31s;
+    --dust-x: -250px;
+    --dust-y: 100px;
+}
+
+.dust-15 {
+    left: 16%;
+    top: 16%;
+    --dust-speed: 26s;
+    --dust-delay: -3s;
+    --dust-x: 210px;
+    --dust-y: 250px;
+}
+
+.dust-16 {
+    left: 25%;
+    top: 91%;
+    --dust-speed: 32s;
+    --dust-delay: -18s;
+    --dust-x: 100px;
+    --dust-y: -280px;
+}
+
+.dust-17 {
+    left: 38%;
+    top: 14%;
+    --dust-speed: 22s;
+    --dust-delay: -9s;
+    --dust-x: -130px;
+    --dust-y: 230px;
+}
+
+.dust-18 {
+    left: 52%;
+    top: 92%;
+    --dust-speed: 35s;
+    --dust-delay: -27s;
+    --dust-x: -200px;
+    --dust-y: -180px;
+}
+
+.dust-19 {
+    left: 64%;
+    top: 10%;
+    --dust-speed: 30s;
+    --dust-delay: -15s;
+    --dust-x: 240px;
+    --dust-y: 210px;
+}
+
+.dust-20 {
+    left: 77%;
+    top: 88%;
+    --dust-speed: 25s;
+    --dust-delay: -21s;
+    --dust-x: -180px;
+    --dust-y: -250px;
+}
+
+
+/* =========================================================
+   DALŠÍ ČÁSTICE – JINÉ SMĚRY
+========================================================= */
+
+.dust:nth-child(21) {
+    left: 9%;
+    top: 30%;
+    --dust-speed: 18s;
+    --dust-delay: -5s;
+    --dust-x: 300px;
+    --dust-y: 80px;
+}
+
+.dust:nth-child(22) {
+    left: 18%;
+    top: 65%;
+    --dust-speed: 42s;
+    --dust-delay: -33s;
+    --dust-x: -80px;
+    --dust-y: -300px;
+}
+
+.dust:nth-child(23) {
+    left: 29%;
+    top: 35%;
+    --dust-speed: 24s;
+    --dust-delay: -11s;
+    --dust-x: 190px;
+    --dust-y: 150px;
+}
+
+.dust:nth-child(24) {
+    left: 36%;
+    top: 80%;
+    --dust-speed: 36s;
+    --dust-delay: -26s;
+    --dust-x: -260px;
+    --dust-y: -80px;
+}
+
+.dust:nth-child(25) {
+    left: 45%;
+    top: 21%;
+    --dust-speed: 28s;
+    --dust-delay: -19s;
+    --dust-x: 130px;
+    --dust-y: 290px;
+}
+
+.dust:nth-child(26) {
+    left: 57%;
+    top: 56%;
+    --dust-speed: 20s;
+    --dust-delay: -13s;
+    --dust-x: 280px;
+    --dust-y: -150px;
+}
+
+.dust:nth-child(27) {
+    left: 66%;
+    top: 31%;
+    --dust-speed: 40s;
+    --dust-delay: -30s;
+    --dust-x: -170px;
+    --dust-y: 220px;
+}
+
+.dust:nth-child(28) {
+    left: 72%;
+    top: 79%;
+    --dust-speed: 23s;
+    --dust-delay: -8s;
+    --dust-x: -280px;
+    --dust-y: -140px;
+}
+
+.dust:nth-child(29) {
+    left: 83%;
+    top: 23%;
+    --dust-speed: 32s;
+    --dust-delay: -24s;
+    --dust-x: 150px;
+    --dust-y: 260px;
+}
+
+.dust:nth-child(30) {
+    left: 91%;
+    top: 66%;
+    --dust-speed: 27s;
+    --dust-delay: -18s;
+    --dust-x: -220px;
+    --dust-y: 170px;
+}
+
+
+/* =========================================================
+   ANIMACE PRACHU
+========================================================= */
+
+@keyframes vesperaDustFloat {
+
+    0% {
+        transform:
+            translate3d(
+                0,
+                0,
+                0
+            )
+            scale(0.7);
+
+        opacity: 0;
+    }
+
+    12% {
+        opacity: 0.35;
+    }
+
+    30% {
+        transform:
+            translate3d(
+                calc(var(--dust-x) * 0.25),
+                calc(var(--dust-y) * 0.15),
+                0
+            )
+            scale(1);
+    }
+
+    52% {
+        opacity: 0.65;
+
+        transform:
+            translate3d(
+                calc(var(--dust-x) * 0.55),
+                calc(var(--dust-y) * 0.48),
+                0
+            )
+            scale(1.15);
+    }
+
+    75% {
+        opacity: 0.38;
+
+        transform:
+            translate3d(
+                calc(var(--dust-x) * 0.82),
+                calc(var(--dust-y) * 0.78),
+                0
+            )
+            scale(0.85);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate3d(
+                var(--dust-x),
+                var(--dust-y),
+                0
+            )
+            scale(0.6);
+    }
+}
+
+/* =========================================================
+   ZELENÁ DIODA RÁDIA
+
+   Pozici můžeš upravit přes left / top stejně jako hotspoty.
+========================================================= */
+
+.radio-led {
+    position: absolute !important;
+
+    left: 82.8% !important;
+    top: 88.5% !important;
+
+    width: 7px !important;
+    height: 7px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    border-radius: 50% !important;
+
+    background: #7dff55 !important;
+
+    box-shadow:
+        0 0 3px rgba(80, 255, 100, 0.45),
+        0 0 7px rgba(50, 220, 70, 0.18);
+
+
+    pointer-events: none !important;
+
+    z-index: 15 !important;
+
+    animation: radioLedBlink 0.95s steps(1, end) infinite;
+}
+
+
+@keyframes radioLedBlink {
+
+    0%,
+    28% {
+        opacity: 1;
+    }
+
+    29%,
+    43% {
+        opacity: 0.20;
+    }
+
+    44%,
+    72% {
+        opacity: 1;
+    }
+
+    73%,
+    82% {
+        opacity: 0.35;
+    }
+
+    83%,
+    100% {
+        opacity: 0.90;
+    }
+}
+
+
+/* =========================================================
+   VIEWER DOKUMENTŮ
+========================================================= */
+
+.document-viewer {
+    position: fixed !important;
+
+    inset: 0 !important;
+
+    width: 100vw !important;
+    height: 100vh !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: transparent !important;
+
+    backdrop-filter: none;
+
+    -webkit-backdrop-filter: none;
+
+    overflow: hidden !important;
+
+    z-index: 1000 !important;
+}
+
+
+/* =========================================================
+   HORNÍ ČÁST VIEWERU
+========================================================= */
+
+.document-viewer-top {
+    position: absolute !important;
+
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    height: 70px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    pointer-events: none !important;
+
+    z-index: 1010 !important;
+}
+
+
+/* =========================================================
+   KŘÍŽEK
+========================================================= */
+
+.document-close {
+    position: absolute !important;
+
+    top: 15px !important;
+    right: 20px !important;
+
+    width: 48px !important;
+    height: 48px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 1px solid
+        rgba(225, 204, 168, 0.30) !important;
+
+    border-radius: 50% !important;
+
+    background:
+        rgba(10, 8, 6, 0.75) !important;
+
+    color:
+        rgba(235, 220, 195, 0.85) !important;
+
+    font-family:
+        Arial,
+        sans-serif !important;
+
+    font-size: 34px !important;
+
+    font-weight: 200 !important;
+
+    line-height: 44px !important;
+
+    text-align: center !important;
+
+    cursor: pointer !important;
+
+    pointer-events: auto !important;
+
+    box-shadow: none !important;
+
+    appearance: none !important;
+    -webkit-appearance: none !important;
+}
+
+
+.document-close:hover {
+    background:
+        rgba(45, 36, 27, 0.95) !important;
+
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   OBSAH VIEWERU
+========================================================= */
+
+.document-viewer-content {
+    position: absolute !important;
+
+    top: 60px !important;
+    right: 70px !important;
+    bottom: 60px !important;
+    left: 70px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    overflow: hidden !important;
+
+    z-index: 1005 !important;
+}
+
+
+/* =========================================================
+   OBRÁZEK / VIDEO
+========================================================= */
+
+.document-image-wrapper {
+    position: relative !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    transform-origin: center center;
+
+    cursor: grab;
+
+    touch-action: none;
+
+    user-select: none !important;
+
+    will-change: transform;
+
+    transition:
+        transform 0.18s ease;
+}
+
+
+.document-image-wrapper.is-dragging {
+    cursor: grabbing;
+
+    transition: none !important;
+}
+
+
+.document-media {
+    display: block !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    max-width: calc(100vw - 140px) !important;
+    max-height: calc(100vh - 120px) !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    object-fit: contain !important;
+
+    user-select: none !important;
+
+    -webkit-user-drag: none !important;
+
+    box-shadow:
+        0 18px 60px
+        rgba(0, 0, 0, 0.65);
+}
+
+
+video.document-media {
+    background: #000000 !important;
+}
+
+
+/* =========================================================
+   ŠIPKY
+========================================================= */
+
+.document-navigation {
+    position: absolute !important;
+
+    top: 50% !important;
+
+    width: 64px !important;
+    height: 110px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    transform:
+        translateY(-50%) !important;
+
+    border: 0 !important;
+
+    border-radius: 0 !important;
+
+    background:
+        rgba(10, 8, 6, 0.30) !important;
+
+    color:
+        rgba(235, 220, 194, 0.82) !important;
+
+    font-family:
+        Georgia,
+        serif !important;
+
+    font-size: 72px !important;
+
+    font-weight: 200 !important;
+
+    line-height: 100px !important;
+
+    text-align: center !important;
+
+    cursor: pointer !important;
+
+    z-index: 1020 !important;
+
+    box-shadow: none !important;
+
+    appearance: none !important;
+    -webkit-appearance: none !important;
+}
+
+
+.document-navigation:hover {
+    background:
+        rgba(10, 8, 6, 0.60) !important;
+
+    color: #ffffff !important;
+}
+
+
+.document-navigation-left {
+    left: 10px !important;
+}
+
+
+.document-navigation-right {
+    right: 10px !important;
+}
+
+
+/* =========================================================
+   ZOOM
+========================================================= */
+
+.document-zoom-controls {
+    position: absolute !important;
+
+    left: 50% !important;
+    bottom: 16px !important;
+
+    transform:
+        translateX(-50%) !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 2px !important;
+
+    margin: 0 !important;
+    padding: 4px !important;
+
+    border:
+        1px solid
+        rgba(225, 204, 168, 0.20) !important;
+
+    border-radius: 30px !important;
+
+    background:
+        rgba(9, 7, 5, 0.80) !important;
+
+    z-index: 1020 !important;
+}
+
+
+.document-zoom-controls button {
+    width: 42px !important;
+    height: 38px !important;
+
+    min-width: 42px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    border-radius: 20px !important;
+
+    background:
+        transparent !important;
+
+    color:
+        #d8c7aa !important;
+
+    font-size: 23px !important;
+
+    cursor: pointer !important;
+
+    appearance: none !important;
+    -webkit-appearance: none !important;
+}
+
+
+.document-zoom-controls button:hover {
+    background:
+        rgba(255, 255, 255, 0.08) !important;
+}
+
+
+.document-zoom-controls .zoom-value {
+    width: 65px !important;
+
+    min-width: 65px !important;
+
+    font-family:
+        Arial,
+        sans-serif !important;
+
+    font-size: 13px !important;
+}
+
+
+/* =========================================================
+   ČÍSLO STRÁNKY
+========================================================= */
+
+.document-counter {
+    position: absolute !important;
+
+    left: 50% !important;
+    bottom: 65px !important;
+
+    transform:
+        translateX(-50%) !important;
+
+    margin: 0 !important;
+    padding: 5px 11px !important;
+
+    border-radius: 15px !important;
+
+    background:
+        rgba(8, 6, 4, 0.65) !important;
+
+    color:
+        rgba(220, 207, 187, 0.68) !important;
+
+    font-family:
+        Arial,
+        sans-serif !important;
+
+    font-size: 12px !important;
+
+    letter-spacing: 1px !important;
+
+    z-index: 1020 !important;
+}
+
+
+/* =========================================================
+   MOBIL
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .documents-back-button {
+        top: 12px !important;
+        left: 12px !important;
+
+        width: 42px !important;
+        height: 42px !important;
+
+        line-height: 42px !important;
+
+        font-size: 24px !important;
+    }
+
+
+    .document-viewer-content {
+        top: 55px !important;
+        right: 45px !important;
+        bottom: 55px !important;
+        left: 45px !important;
+
+        padding: 0 !important;
+    }
+
+
+    .document-media {
+        max-width: calc(100vw - 90px) !important;
+        max-height: calc(100vh - 110px) !important;
+    }
+
+
+    .document-navigation {
+        width: 45px !important;
+
+        font-size: 55px !important;
+    }
+
+
+    .document-navigation-left {
+        left: 0 !important;
+    }
+
+
+    .document-navigation-right {
+        right: 0 !important;
+    }
+
+
+    .document-close {
+        top: 10px !important;
+        right: 12px !important;
+
+        width: 42px !important;
+        height: 42px !important;
+
+        line-height: 38px !important;
+
+        font-size: 29px !important;
+    }
+
+
+    .document-hotspot {
+        width: 2cm !important;
+        height: 2cm !important;
+
+        min-width: 2cm !important;
+        min-height: 2cm !important;
+    }
+}
+
+
+body.vespera-documents-open {
+    overflow: hidden !important;
+}
+
+
+/* =========================================================
+   REDUKOVANÝ POHYB
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .dust {
+        animation: none !important;
+    }
+
+    .document-image-wrapper {
+        transition: none !important;
+    }
+}
+/* =========================================================
+   PRSTÝNEK – MENŠÍ HOTSPOT
+========================================================= */
+
+.hotspot-ring {
+    width: 1cm !important;
+    height: 1cm !important;
+
+    min-width: 1cm !important;
+    min-height: 1cm !important;
+}

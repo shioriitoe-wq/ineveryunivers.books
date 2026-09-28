@@ -2,35 +2,53 @@ import "./BookGrid.css";
 
 import BookCircle from "./BookCircle";
 
-/* ---------- knihy ---------- */
+
+/* =========================================================
+   KNIHY
+========================================================= */
 
 import nezacalo from "../assets/images/nezacalo-to.png";
-import vespera from "../assets/images/Vespera/vespera.png";
+import vespera from "../assets/images/Vespera/vespera.webp";
 import aeil from "../assets/images/AEIL/aeil.png";
 
-/* ---------- hlavní štětcové rámečky ---------- */
+
+/* =========================================================
+   HLAVNÍ TEXTOVÉ RÁMEČKY
+========================================================= */
 
 import sageFrame from "../assets/frames/frame-sage.png";
 import silverFrame from "../assets/frames/frame-ochre.png";
 import redFrame from "../assets/frames/frame-red.png";
 
-/* ---------- 2. vrstva (jemný akvarel) ---------- */
+
+/* =========================================================
+   2. VRSTVA - JEMNÝ AKVAREL
+========================================================= */
 
 import sageWatercolor from "../assets/overlays/sage-watercolor.png";
 import silverWatercolor from "../assets/overlays/silver-watercolor.png";
 import redWatercolor from "../assets/overlays/red-watercolor.png";
 
-/* ---------- 3. vrstva (silnější akvarel) ---------- */
+
+/* =========================================================
+   3. VRSTVA - SILNĚJŠÍ AKVAREL
+========================================================= */
 
 import sageSplatter from "../assets/overlays/sage-splatter.png";
 import silverSplatter from "../assets/overlays/silver-splatter.png";
 import redSplatter from "../assets/overlays/red-splatter.png";
+
 
 function BookGrid() {
 
     return (
 
         <section className="book-grid">
+
+
+            {/* =================================================
+                (NE)ZACALO TO...
+            ================================================= */}
 
             <BookCircle
                 title="(Ne)začalo to..."
@@ -44,6 +62,11 @@ function BookGrid() {
                 link="/books/nezacalo-series"
             />
 
+
+            {/* =================================================
+                VESPERA
+            ================================================= */}
+
             <BookCircle
                 title="Vespera"
                 hoverTitle="Genetická apokalypsa. Nadpřirozené schopnosti. Běžná sobota."
@@ -54,6 +77,11 @@ function BookGrid() {
                 titleColor="#d7d5d1"
                 link="/books/vespera"
             />
+
+
+            {/* =================================================
+                AEIL
+            ================================================= */}
 
             <BookCircle
                 title="AEIL"
@@ -66,10 +94,10 @@ function BookGrid() {
                 link="/books/aeil"
             />
 
+
         </section>
 
     );
-
 }
 
 export default BookGrid;

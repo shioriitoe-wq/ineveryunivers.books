@@ -6,16 +6,31 @@ import BooksPage from "./pages/BooksPage";
 import ProjectPage from "./pages/ProjectPage";
 import CommunityPage from "./pages/CommunityPage";
 
+/* =================================================
+   AEIL
+================================================= */
+
 import AEILPage from "./pages/AEILPage";
 import AEILcharactersPage from "./pages/AEILcharactersPage";
 import AEILChaptersPage from "./pages/AEILChaptersPage";
 import AEILChapterPage from "./pages/AEILChapterPage";
-import AEILcharacterpage from "./pages/AEILcharacterpage";
-import AEILRacesPage from "./pages/AEILRacesPage";
 import AEILMap from "./pages/AEILMap";
+import AEILRacesPage from "./pages/AEILRacesPage";
 import AEILWord from "./pages/AEILWord";
 
+/* =================================================
+   VESPERA
+================================================= */
+
 import VesperaPage from "./pages/VesperaPage";
+import VesperaDocuments from "./pages/VesperaDocuments";
+import VesperaMap from "./pages/VesperaMap";
+import VesperaDictionary from "./pages/VesperaDictionary";
+
+/* =================================================
+   (NE)ZAČALO TO...
+================================================= */
+
 import NezacaloToLetemPage from "./pages/nezacalo-to-letem-page";
 import BooksSeriesPage from "./pages/BooksSeriesPage";
 import ChaptersPage from "./pages/ChaptersPage";
@@ -30,13 +45,18 @@ import NezacaloVolume3Page from "./pages/NezacaloVolume3Page";
 import NezacaloVolume4Page from "./pages/NezacaloVolume4Page";
 import NezacaloVolume5Page from "./pages/NezacaloVolume5Page";
 
+/* =================================================
+   VIDEA / SOUNDTRACKY
+================================================= */
+
+import VideosPage from "./pages/VideosPage";
+import SoundtracksPage from "./pages/SoundtracksPage";
+
 import "./App.css";
 
 
 function App() {
-
   return (
-
     <Routes>
 
       {/* =================================================
@@ -90,12 +110,17 @@ function App() {
 
 
       {/* =================================================
-          AEIL – RASY
+          AEIL – KAPITOLY
       ================================================= */}
 
       <Route
-        path="/books/aeil/races"
-        element={<AEILRacesPage />}
+        path="/books/aeil/chapters"
+        element={<AEILChaptersPage />}
+      />
+
+      <Route
+        path="/books/aeil/chapters/:chapterId"
+        element={<AEILChapterPage />}
       />
 
 
@@ -110,28 +135,22 @@ function App() {
 
 
       {/* =================================================
+          AEIL – RASY
+      ================================================= */}
+
+      <Route
+        path="/books/aeil/races"
+        element={<AEILRacesPage />}
+      />
+
+
+      {/* =================================================
           AEIL – SLOVNÍK
       ================================================= */}
 
       <Route
         path="/books/aeil/word"
         element={<AEILWord />}
-      />
-
-
-      {/* =================================================
-          AEIL – KAPITOLY
-      ================================================= */}
-
-      <Route
-        path="/books/aeil/chapters"
-        element={<AEILChaptersPage />}
-      />
-
-
-      <Route
-        path="/books/aeil/chapters/:chapterId"
-        element={<AEILChapterPage />}
       />
 
 
@@ -146,7 +165,37 @@ function App() {
 
 
       {/* =================================================
-          (NE)ZAČÁLO TO..
+          VESPERA – DOKUMENTY
+      ================================================= */}
+
+      <Route
+        path="/books/vespera/documents"
+        element={<VesperaDocuments />}
+      />
+
+
+      {/* =================================================
+          VESPERA – MAPA
+      ================================================= */}
+
+      <Route
+        path="/books/vespera/map"
+        element={<VesperaMap />}
+      />
+
+
+      {/* =================================================
+          VESPERA – SLOVNÍK
+      ================================================= */}
+
+      <Route
+        path="/books/vespera/word"
+        element={<VesperaDictionary />}
+      />
+
+
+      {/* =================================================
+          (NE)ZAČALO TO..
       ================================================= */}
 
       <Route
@@ -218,36 +267,8 @@ function App() {
 
 
       {/* =================================================
-          AEIL – SEZNAM POSTAV
-      ================================================= */}
-
-      <Route
-        path="/project/2/characters"
-        element={<AEILcharactersPage />}
-      />
-
-
-      {/* =================================================
           DETAIL POSTAVY
-
-          VŠECHNY KNIHY POUŽÍVAJÍ STEJNOU STRÁNKU.
-
-          Pozadí se vybírá podle bookId:
-
-          1 → (Ne)začalo to.. → vlna
-          2 → AEIL → krajka
-          3 → Vespera
       ================================================= */}
-
-      {/* AEIL – vlastní stránka detailu postavy */}
-
-      <Route
-        path="/project/2/characters/:characterId"
-        element={<AEILcharacterpage />}
-      />
-
-
-      {/* Ostatní knihy – původní stránka postavy */}
 
       <Route
         path="/project/:bookId/characters/:characterId"
@@ -271,7 +292,7 @@ function App() {
 
       <Route
         path="/videos"
-        element={<h1>Videa</h1>}
+        element={<VideosPage />}
       />
 
 
@@ -281,7 +302,7 @@ function App() {
 
       <Route
         path="/soundtracks"
-        element={<h1>Soundtracky</h1>}
+        element={<SoundtracksPage />}
       />
 
 
@@ -295,9 +316,7 @@ function App() {
       />
 
     </Routes>
-
   );
-
 }
 
 

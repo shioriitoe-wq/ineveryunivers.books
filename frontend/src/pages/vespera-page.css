@@ -1,0 +1,1428 @@
+/* =========================================================
+   VESPERA
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+.vespera-page {
+    position: relative;
+
+    width: 100%;
+    min-width: 0;
+
+    height: 100vh;
+    min-height: 100vh;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+    color: #d8b36a;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    background-color: #080606;
+
+    background-image:
+        url("../assets/images/Vespera/vespera-back.webp");
+
+    background-repeat: no-repeat;
+
+    /* PŘESNĚ VELIKOST STRÁNKY */
+    background-size: 100vw 100vh;
+
+    background-position: top left;
+
+    background-attachment: fixed;
+
+    isolation: isolate;
+}
+
+
+
+/* =========================================================
+   ZATMAVENÍ POZADÍ
+   ========================================================= */
+
+.vespera-page::after {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.40),
+            rgba(0, 0, 0, 0.12) 50%,
+            rgba(0, 0, 0, 0.40)
+        );
+
+    z-index: 0;
+}
+
+
+/* =========================================================
+   PROBLIKÁVÁNÍ SVĚTLA V POZADÍ
+   Pouze pravá horní osvětlená část obrázku.
+   ========================================================= */
+
+.vespera-page::before {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    pointer-events: none;
+    z-index: 1;
+
+    opacity: 0;
+
+    background:
+        radial-gradient(
+            ellipse 27% 30% at 84% 12%,
+            rgba(236, 231, 214, 0.09) 0%,
+            rgba(225, 219, 201, 0.03) 46%,
+            transparent 78%
+        );
+
+    animation:
+        vesperaBackgroundLightFlicker
+        11.8s
+        steps(1, end)
+        infinite;
+}
+
+@keyframes vesperaBackgroundLightFlicker {
+    0%, 12%, 20%, 38%, 52%, 68%, 82%, 94%, 100% {
+        opacity: 0;
+    }
+
+    13% { opacity: 0.32; }
+    14% { opacity: 0.08; }
+    15% { opacity: 0; }
+
+    39% { opacity: 0.18; }
+    40% { opacity: 0; }
+
+    53% { opacity: 0.42; }
+    54% { opacity: 0.10; }
+    55% { opacity: 0; }
+
+    69% { opacity: 0.24; }
+    70% { opacity: 0; }
+
+    83% { opacity: 0.36; }
+    84% { opacity: 0.07; }
+    85% { opacity: 0; }
+
+    95% { opacity: 0.16; }
+    96% { opacity: 0; }
+}
+
+
+/* =========================================================
+   CENTRÁLNÍ TMAVÝ KRUH
+   Jemné nepravidelné poblikávání tmavého světla
+   ========================================================= */
+
+.vespera-content::before {
+    content: "";
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    width: 620px;
+    height: 620px;
+
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+
+    pointer-events: none;
+    z-index: 0;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(55, 28, 8, 0.32) 0%,
+            rgba(65, 32, 8, 0.21) 20%,
+            rgba(55, 27, 7, 0.12) 38%,
+            rgba(38, 18, 5, 0.055) 55%,
+            rgba(22, 10, 3, 0.025) 68%,
+            transparent 82%
+        );
+
+    filter: blur(30px);
+
+    opacity: 0.70;
+
+    animation:
+        vesperaCentralGlow
+        12s
+        linear
+        infinite;
+}
+
+
+@keyframes vesperaCentralGlow {
+
+    /* dlouho skoro nic */
+    0% {
+        opacity: 0.08;
+        transform: translate(-50%, -50%) scale(0.94);
+    }
+
+    25% {
+        opacity: 0.08;
+        transform: translate(-50%, -50%) scale(0.94);
+    }
+
+    /* RYCHLÝ SHLUK */
+    25.8% {
+        opacity: 0.75;
+        transform: translate(-50%, -50%) scale(1.03);
+    }
+
+    26.5% {
+        opacity: 0.10;
+        transform: translate(-50%, -50%) scale(0.94);
+    }
+
+    27.2% {
+        opacity: 0.90;
+        transform: translate(-50%, -50%) scale(1.06);
+    }
+
+    28.0% {
+        opacity: 0.05;
+        transform: translate(-50%, -50%) scale(0.93);
+    }
+
+    29.0% {
+        opacity: 0.65;
+        transform: translate(-50%, -50%) scale(1.02);
+    }
+
+    30.0% {
+        opacity: 0.08;
+        transform: translate(-50%, -50%) scale(0.94);
+    }
+
+    31.0% {
+        opacity: 0.82;
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    32.0% {
+        opacity: 0.06;
+        transform: translate(-50%, -50%) scale(0.93);
+    }
+
+    /* TADY ZASE DLOUHO NIC */
+    55% {
+        opacity: 0.06;
+        transform: translate(-50%, -50%) scale(0.93);
+    }
+
+    /* DRUHÝ, JEŠTĚ KRATŠÍ SHLUK */
+    55.7% {
+        opacity: 0.70;
+        transform: translate(-50%, -50%) scale(1.02);
+    }
+
+    56.3% {
+        opacity: 0.04;
+        transform: translate(-50%, -50%) scale(0.92);
+    }
+
+    57.0% {
+        opacity: 0.88;
+        transform: translate(-50%, -50%) scale(1.06);
+    }
+
+    57.8% {
+        opacity: 0.07;
+        transform: translate(-50%, -50%) scale(0.93);
+    }
+
+    58.8% {
+        opacity: 0.58;
+        transform: translate(-50%, -50%) scale(1.01);
+    }
+
+    60% {
+        opacity: 0.05;
+        transform: translate(-50%, -50%) scale(0.93);
+    }
+
+    /* zase dlouhé ticho */
+    82% {
+        opacity: 0.05;
+        transform: translate(-50%, -50%) scale(0.93);
+    }
+
+    /* JEDEN NÁHODNÝ SILNÝ ZÁBLESK */
+    82.8% {
+        opacity: 0.95;
+        transform: translate(-50%, -50%) scale(1.07);
+    }
+
+    83.5% {
+        opacity: 0.04;
+        transform: translate(-50%, -50%) scale(0.92);
+    }
+
+    /* konec */
+    100% {
+        opacity: 0.05;
+        transform: translate(-50%, -50%) scale(0.93);
+    }
+
+}
+
+
+/* =========================================================
+   OBSAH
+   ========================================================= */
+
+.vespera-content {
+    position: relative;
+
+    z-index: 10;
+
+    width: 100%;
+    min-height: 100vh;
+
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================================================
+   SVĚTLUŠKY
+   ========================================================= */
+
+.vespera-fireflies {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    pointer-events: none;
+    user-select: none;
+
+    z-index: 5;
+}
+
+.vespera-firefly {
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    border-radius: 50%;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(255, 245, 210, 1) 0%,
+        rgba(235, 195, 110, 0.95) 35%,
+        transparent 100%
+    );
+
+box-shadow:
+    0 0 4px rgba(255, 245, 210, 0.95),
+    0 0 10px rgba(235, 195, 110, 0.72),
+    0 0 18px rgba(190, 135, 50, 0.40);
+
+    animation:
+        vesperaFireflyMove
+        var(--fly-speed, 7s)
+        ease-in-out
+        var(--fly-delay, 0s)
+        infinite;
+}
+
+
+/* různé pozice */
+
+.fly-01 { left: 7%;  top: 18%; --fly-speed: 8s;  --fly-delay: -2s; }
+.fly-02 { left: 15%; top: 62%; --fly-speed: 11s; --fly-delay: -7s; }
+.fly-03 { left: 23%; top: 28%; --fly-speed: 9s;  --fly-delay: -4s; }
+.fly-04 { left: 31%; top: 72%; --fly-speed: 13s; --fly-delay: -9s; }
+.fly-05 { left: 38%; top: 14%; --fly-speed: 7s;  --fly-delay: -1s; }
+.fly-06 { left: 46%; top: 44%; --fly-speed: 10s; --fly-delay: -5s; }
+.fly-07 { left: 53%; top: 22%; --fly-speed: 12s; --fly-delay: -8s; }
+.fly-08 { left: 61%; top: 68%; --fly-speed: 8s;  --fly-delay: -3s; }
+.fly-09 { left: 68%; top: 17%; --fly-speed: 14s; --fly-delay: -10s; }
+.fly-10 { left: 75%; top: 51%; --fly-speed: 9s;  --fly-delay: -4s; }
+.fly-11 { left: 83%; top: 25%; --fly-speed: 11s; --fly-delay: -6s; }
+.fly-12 { left: 91%; top: 70%; --fly-speed: 8s;  --fly-delay: -2s; }
+
+.fly-13 { left: 11%; top: 40%; --fly-speed: 12s; --fly-delay: -5s; }
+.fly-14 { left: 19%; top: 82%; --fly-speed: 9s;  --fly-delay: -1s; }
+.fly-15 { left: 27%; top: 51%; --fly-speed: 14s; --fly-delay: -9s; }
+.fly-16 { left: 35%; top: 34%; --fly-speed: 10s; --fly-delay: -4s; }
+.fly-17 { left: 43%; top: 79%; --fly-speed: 8s;  --fly-delay: -6s; }
+.fly-18 { left: 51%; top: 60%; --fly-speed: 13s; --fly-delay: -8s; }
+.fly-19 { left: 58%; top: 35%; --fly-speed: 9s;  --fly-delay: -3s; }
+.fly-20 { left: 65%; top: 83%; --fly-speed: 12s; --fly-delay: -7s; }
+.fly-21 { left: 72%; top: 39%; --fly-speed: 8s;  --fly-delay: -2s; }
+.fly-22 { left: 79%; top: 73%; --fly-speed: 11s; --fly-delay: -5s; }
+.fly-23 { left: 87%; top: 46%; --fly-speed: 13s; --fly-delay: -9s; }
+.fly-24 { left: 95%; top: 31%; --fly-speed: 10s; --fly-delay: -4s; }
+
+.fly-25 { left: 4%;  top: 76%; --fly-speed: 15s; --fly-delay: -8s; }
+.fly-26 { left: 13%; top: 12%; --fly-speed: 7s;  --fly-delay: -3s; }
+.fly-27 { left: 30%; top: 20%; --fly-speed: 12s; --fly-delay: -7s; }
+.fly-28 { left: 40%; top: 67%; --fly-speed: 9s;  --fly-delay: -5s; }
+.fly-29 { left: 49%; top: 11%; --fly-speed: 14s; --fly-delay: -10s; }
+.fly-30 { left: 57%; top: 76%; --fly-speed: 8s;  --fly-delay: -2s; }
+.fly-31 { left: 64%; top: 12%; --fly-speed: 11s; --fly-delay: -6s; }
+.fly-32 { left: 71%; top: 64%; --fly-speed: 13s; --fly-delay: -8s; }
+.fly-33 { left: 78%; top: 18%; --fly-speed: 9s;  --fly-delay: -4s; }
+.fly-34 { left: 85%; top: 58%; --fly-speed: 12s; --fly-delay: -9s; }
+.fly-35 { left: 93%; top: 15%; --fly-speed: 8s;  --fly-delay: -1s; }
+
+.fly-36 { left: 9%;  top: 55%; --fly-speed: 13s; --fly-delay: -6s; }
+.fly-37 { left: 21%; top: 35%; --fly-speed: 10s; --fly-delay: -2s; }
+.fly-38 { left: 34%; top: 88%; --fly-speed: 15s; --fly-delay: -11s; }
+.fly-39 { left: 47%; top: 31%; --fly-speed: 8s;  --fly-delay: -4s; }
+.fly-40 { left: 59%; top: 89%; --fly-speed: 11s; --fly-delay: -7s; }
+.fly-41 { left: 69%; top: 29%; --fly-speed: 14s; --fly-delay: -9s; }
+.fly-42 { left: 81%; top: 87%; --fly-speed: 9s;  --fly-delay: -3s; }
+.fly-43 { left: 89%; top: 38%; --fly-speed: 12s; --fly-delay: -6s; }
+.fly-44 { left: 96%; top: 82%; --fly-speed: 10s; --fly-delay: -8s; }
+.fly-45 { left: 17%; top: 91%; --fly-speed: 13s; --fly-delay: -5s; }
+.fly-46 { left: 54%; top: 91%; --fly-speed: 7s;  --fly-delay: -2s; }
+
+
+@keyframes vesperaFireflyMove {
+
+    0% {
+        opacity: 0.58;
+        transform: translate3d(0, 15px, 0) scale(0.5);
+    }
+
+    25% {
+        opacity: 0.58;
+        transform: translate3d(12px, -8px, 0) scale(0.82);
+    }
+
+    50% {
+        opacity: 0.58;
+        transform: translate3d(20px, -25px, 0) scale(1);
+    }
+
+    75% {
+        opacity: 0.58;
+        transform: translate3d(-15px, -45px, 0) scale(0.76);
+    }
+
+    100% {
+        opacity: 0.58;
+        transform: translate3d(10px, -80px, 0) scale(0.35);
+    }
+}
+
+
+/* =========================================================
+   ZPĚT
+   ========================================================= */
+
+.vespera-back {
+    position: absolute;
+
+    top: 28px;
+    left: 5%;
+
+    width: 95px;
+
+    z-index: 30;
+
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+}
+
+.vespera-back-image {
+    display: block;
+
+    width: 100%;
+    height: auto;
+}
+
+.vespera-back:hover {
+    transform: scale(1.05);
+
+    filter:
+        drop-shadow(
+            0 0 8px
+            rgba(128, 127, 127, 0.7)
+        );
+}
+
+
+/* =========================================================
+   HLAVNÍ ČÁST
+   ========================================================= */
+
+.vespera-hero {
+    position: relative;
+
+    z-index: 10;
+
+    width: 100%;
+
+    height: 65vh;
+    min-height: 500px;
+
+    display: grid;
+
+    grid-template-columns:
+        30% 46% 24%;
+
+    align-items: center;
+
+    padding:
+        10px
+        2.5%
+        0;
+}
+
+
+/* =========================================================
+   LEVÁ ČÁST
+   ========================================================= */
+
+.vespera-cover-area {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    padding-left: 40px;
+}
+
+
+/* =========================================================
+   HLAVNÍ KRUH
+   ========================================================= */
+
+.vespera-cover-wrapper {
+    position: relative;
+
+    width: 290px;
+    height: 290px;
+
+    flex-shrink: 0;
+
+    cursor: pointer;
+}
+
+
+/* samotný kruh */
+
+.vespera-cover-circle {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    background: #090909;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   HLAVNÍ OBRÁZEK
+   ========================================================= */
+
+.vespera-cover-base {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    display: block;
+
+    border-radius: 50%;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   VIDEO
+   ========================================================= */
+
+.vespera-cover-video {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    display: block;
+
+    border-radius: 50%;
+
+    z-index: 2;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.22s ease;
+}
+
+.vespera-cover-video.is-active {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   HLAVNÍ KOVOVÝ RÁMEČEK
+   ========================================================= */
+
+.vespera-cover-frame {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 108%;
+    height: 108%;
+
+    object-fit: contain;
+
+    transform:
+        translate(-50%, -50%);
+
+    transform-origin: center;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    z-index: 5;
+
+    transition:
+        transform 0.8s cubic-bezier(0.22, 0.75, 0.2, 1),
+        filter 0.4s ease;
+}
+
+
+/* hover */
+
+.vespera-cover-wrapper:hover .vespera-cover-frame {
+    transform:
+        translate(-50%, -50%)
+        rotate(90deg);
+    filter: none;
+}
+
+
+/* =========================================================
+   PRAVÁ ČÁST
+   ========================================================= */
+
+.vespera-intro {
+    width: 100%;
+    max-width: 720px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+    justify-content: center;
+
+    transform: translateY(-15px);
+
+    padding:
+        0
+        3%
+        0
+        0;
+}
+
+
+/* =========================================================
+   VESPERA
+   ========================================================= */
+
+.vespera-title {
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 0 20px;
+
+    position: relative;
+}
+
+
+.vespera-title h1 {
+    margin: 0;
+
+    color: #d8b56a;
+
+    font-family:
+        "Courier New",
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(52px, 5vw, 76px);
+
+    font-weight: 500;
+
+    font-style: italic;
+
+    letter-spacing: 7px;
+
+    line-height: 1;
+
+    text-align: center;
+
+    text-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.95),
+        0 0 12px rgba(218, 163, 56, 0.2);
+}
+
+
+/* =========================================================
+   LINKA
+   ========================================================= */
+
+.vespera-title-line {
+    width: 65%;
+
+    height: 1px;
+
+    margin:
+        0 auto 22px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(213, 163, 72, 0.9),
+            transparent
+        );
+
+    box-shadow:
+        0 0 6px
+        #e2ae4659;
+}
+
+
+
+/* =========================================================
+   ZAČÍT ČÍST
+   ========================================================= */
+
+.vespera-read-button {
+    position: relative;
+
+    display: block;
+
+    width: 210px;
+
+    margin: 0;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+}
+
+
+.vespera-start-image,
+.vespera-start-read {
+    display: block;
+
+    width: 210px;
+    height: auto;
+
+    margin: 0;
+    padding: 0;
+
+    object-fit: contain;
+}
+
+
+.vespera-start-text,
+.vespera-start-read-text {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    color: #f5d88d;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 20px;
+
+    font-weight: 500;
+
+    letter-spacing: 2px;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+
+    text-shadow:
+        0 1px 3px #1a0804;
+}
+
+
+
+ .vespera-read-button:hover {
+    transform: scale(1.04);
+
+    filter:
+        drop-shadow(0 0 5px rgba(93, 3, 3, 0.75))
+        drop-shadow(0 0 12px rgba(110, 2, 2, 0.5))
+        drop-shadow(0 0 24px rgba(61, 1, 1, 0.32));
+}
+
+.vespera-read-area {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    padding-top: 200px;
+
+    transform: translateX(800px);
+}
+/* =========================================================
+   ŠEST PANELŮ
+   ========================================================= */
+
+.vespera-panels {
+    position: relative;
+
+    z-index: 10;
+
+    width: 100%;
+
+    height: 35vh;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, minmax(0, 1fr));
+
+    align-items: start;
+
+    gap: 4px;
+
+    /* PANELY POSUNUTÉ VÝŠ */
+    padding:
+        0
+        2.5%
+        35px;
+
+    transform: translateY(-65px);
+}
+
+/* =========================================================
+   PANEL
+   ========================================================= */
+
+ .vespera-panel-wrapper {
+    position: relative;
+    width: 115px;
+    height: 115px;
+
+    justify-self: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+    color: inherit;
+}
+
+/*
+   Jemné nepravidelné blikání je pouze UVNITŘ panelu.
+   Rámeček ani celý wrapper se kvůli blikání nemění.
+*/
+
+/* =========================================================
+   VNITŘNÍ KRUH PANELU
+   ========================================================= */
+
+ .vespera-panel {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    border-radius: 50%;
+    overflow: hidden;
+
+    z-index: 1;
+}
+
+/* =========================================================
+   OBRÁZEK PANELU
+   ========================================================= */
+
+ .vespera-panel-image {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    border-radius: 50%;
+
+    display: block;
+}
+
+
+/* =========================================================
+   RÁMEČEK PANELU
+   ========================================================= */
+
+ .vespera-panel-frame {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 108%;
+    height: 108%;
+
+    object-fit: contain;
+
+    transform: translate(-50%, -50%);
+    transform-origin: center;
+
+    pointer-events: none;
+    user-select: none;
+
+    z-index: 5;
+
+    transition: transform 0.8s cubic-bezier(0.22, 0.75, 0.2, 1);
+}
+
+
+/* =========================================================
+   HOVER PANEL
+   ========================================================= */
+
+
+
+
+ .vespera-panel-wrapper:hover .vespera-panel-frame {
+    transform: translate(-50%, -50%) rotate(90deg);
+    filter: none;
+}
+
+
+/* =========================================================
+   NÁZVY PANELŮ
+   ========================================================= */
+
+.vespera-panel-label {
+    position: absolute;
+
+    left: 50%;
+
+    top:
+        calc(100% + 9px);
+
+    transform:
+        translateX(-50%);
+
+    width: 180%;
+
+    text-align: center;
+
+    color: rgb(185, 92, 81);
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 14px;
+
+    line-height: 1;
+
+    letter-spacing: 2px;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+
+    z-index: 20;
+
+    text-shadow:
+        0 1px 4px #160403;
+}
+
+
+
+
+/* =========================================================
+   MENŠÍ OBRAZOVKA
+   ========================================================= */
+
+@media (max-width: 1200px) {
+
+    .vespera-hero {
+        grid-template-columns:
+            29% 47% 24%;
+
+        padding-left: 2%;
+        padding-right: 1%;
+    }
+
+    .vespera-intro {
+        transform: translateY(-30px);
+    }
+
+    .vespera-read-area {
+        transform: translateX(10px);
+    }
+
+    .vespera-cover-wrapper {
+        width: 270px;
+        height: 270px;
+    }
+
+    .vespera-panel-wrapper {
+        width: 82px;
+        height: 82px;
+    }
+
+    .vespera-panels {
+        grid-template-columns:
+            repeat(7, minmax(0, 1fr));
+
+        gap: 2px;
+
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .vespera-page {
+        overflow-y: auto;
+    }
+
+    .vespera-hero {
+        height: auto;
+        min-height: 0;
+
+        grid-template-columns:
+            1fr 1.35fr;
+
+        padding:
+            90px
+            5%
+            45px;
+    }
+
+    .vespera-read-area {
+        grid-column: 1 / -1;
+        height: auto;
+        justify-content: center;
+        padding: 10px 0 0;
+    }
+
+    .vespera-cover-wrapper {
+        width: 250px;
+        height: 250px;
+    }
+
+    .vespera-panels {
+        height: auto;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        row-gap: 55px;
+
+        padding:
+            20px
+            8%
+            75px;
+    }
+}
+
+
+/* =========================================================
+   MOBIL
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .vespera-hero {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 40px;
+
+        padding:
+            85px
+            25px
+            35px;
+    }
+
+    .vespera-cover-wrapper {
+        width: min(280px, 70vw);
+        height: min(280px, 70vw);
+    }
+
+    .vespera-intro {
+        max-width: 600px;
+
+        padding: 0;
+
+        align-items: center;
+    }
+
+    .vespera-read-area {
+        width: 100%;
+        height: auto;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .vespera-title h1 {
+        font-size:
+            clamp(42px, 13vw, 62px);
+
+        letter-spacing: 5px;
+    }
+
+    .vespera-description-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .vespera-description {
+        text-align: center;
+    }
+
+    .vespera-description p {
+        text-align: center;
+    }
+
+    .vespera-read-button {
+        align-self: center;
+        flex: 0 0 auto;
+    }
+
+    .vespera-panels {
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        row-gap: 55px;
+
+        padding:
+            20px
+            8%
+            70px;
+    }
+
+    .vespera-panel-wrapper {
+        width: 110px;
+        height: 110px;
+    }
+
+    .vespera-back {
+        left: 22px;
+        top: 20px;
+    }
+}
+
+
+/* =========================================================
+   MALÝ MOBIL
+   ========================================================= */
+
+@media (max-width: 450px) {
+
+    .vespera-cover-wrapper {
+        width: 72vw;
+        height: 72vw;
+    }
+
+    .vespera-panel-wrapper {
+        width: 92px;
+        height: 92px;
+    }
+
+    .vespera-panel-label {
+        font-size: 12px;
+        letter-spacing: 1.4px;
+    }
+
+    .vespera-panels {
+        column-gap: 8px;
+
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .vespera-read-button,
+    .vespera-start-image,
+    .vespera-start-read {
+        width: 205px;
+    }
+}
+
+
+/* =========================================================
+   REDUKCE POHYBU
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .vespera-page::before {
+        animation: none;
+        opacity: 0;
+    }
+
+
+    .vespera-firefly {
+        animation: none;
+        opacity: 0.3;
+    }
+
+    .vespera-cover-wrapper:hover .vespera-cover-frame,
+    .vespera-panel-wrapper:hover .vespera-panel-frame {
+        transition: none;
+    }
+}
+
+
+/* =========================================================
+   HOVER ZÁŘE PANELŮ
+   Rámeček se otočí o 90° a jeho okolí nepravidelně problikává.
+   Bez záře mimo hover.
+   ========================================================= */
+
+ .vespera-panel-wrapper:hover .vespera-panel-frame {
+    transform: translate(-50%, -50%) rotate(90deg);
+
+    filter:
+        drop-shadow(0 0 5px rgba(95, 6, 6, 0.75))
+        drop-shadow(0 0 12px rgba(97, 4, 4, 0.5))
+        drop-shadow(0 0 22px rgba(44, 3, 3, 0.32));
+
+    animation: none;
+}
+
+/*
+   Záře je pouze přes filter samotného kovového rámečku.
+   Obrázek uvnitř panelu se nijak nemění.
+*/
+@keyframes vesperaPanelFrameGlow {
+
+    0% {
+        filter:
+            drop-shadow(
+                0 0 3px
+                rgba(120, 0, 0, 0.45)
+            )
+            drop-shadow(
+                0 0 8px
+                rgba(160, 10, 10, 0.25)
+            );
+    }
+
+    8% {
+        filter:
+            drop-shadow(
+                0 0 5px
+                rgba(150, 0, 0, 0.65)
+            )
+            drop-shadow(
+                0 0 12px
+                rgba(190, 15, 15, 0.40)
+            );
+    }
+
+    17% {
+        filter:
+            drop-shadow(
+                0 0 3px
+                rgba(110, 0, 0, 0.40)
+            )
+            drop-shadow(
+                0 0 7px
+                rgba(150, 5, 5, 0.22)
+            );
+    }
+
+    29% {
+        filter:
+            drop-shadow(
+                0 0 7px
+                rgba(190, 5, 5, 0.80)
+            )
+            drop-shadow(
+                0 0 16px
+                rgba(220, 20, 20, 0.52)
+            );
+    }
+
+    37% {
+        filter:
+            drop-shadow(
+                0 0 3px
+                rgba(125, 0, 0, 0.45)
+            )
+            drop-shadow(
+                0 0 9px
+                rgba(165, 8, 8, 0.28)
+            );
+    }
+
+    51% {
+        filter:
+            drop-shadow(
+                0 0 6px
+                rgba(175, 0, 0, 0.72)
+            )
+            drop-shadow(
+                0 0 14px
+                rgba(210, 15, 15, 0.45)
+            );
+    }
+
+    63% {
+        filter:
+            drop-shadow(
+                0 0 2px
+                rgba(100, 0, 0, 0.35)
+            )
+            drop-shadow(
+                0 0 6px
+                rgba(145, 0, 0, 0.20)
+            );
+    }
+
+    72% {
+        filter:
+            drop-shadow(
+                0 0 8px
+                rgba(200, 10, 10, 0.85)
+            )
+            drop-shadow(
+                0 0 18px
+                rgba(225, 25, 25, 0.58)
+            );
+    }
+
+    81% {
+        filter:
+            drop-shadow(
+                0 0 3px
+                rgba(115, 0, 0, 0.42)
+            )
+            drop-shadow(
+                0 0 8px
+                rgba(155, 5, 5, 0.24)
+            );
+    }
+
+    90% {
+        filter:
+            drop-shadow(
+                0 0 7px
+                rgba(185, 0, 0, 0.78)
+            )
+            drop-shadow(
+                0 0 15px
+                rgba(215, 15, 15, 0.48)
+            );
+    }
+
+    100% {
+        filter:
+            drop-shadow(
+                0 0 3px
+                rgba(120, 0, 0, 0.45)
+            )
+            drop-shadow(
+                0 0 8px
+                rgba(160, 5, 5, 0.25)
+            );
+    }
+}
+
+/* Po opuštění panelu okamžitě žádná záře. */
+.vespera-panel-wrapper .vespera-panel-frame {
+    animation: none;
+}
