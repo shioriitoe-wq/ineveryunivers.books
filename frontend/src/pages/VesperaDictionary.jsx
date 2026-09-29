@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import "./VesperaDictionary.css";
 import dictionaryBackground
-  from "../assets/images/Vespera/words/back.webp";
+  from "../assets/images/Vespera/Words/back.webp";
   
 // ============================================================
 // OBRÁZKY
 // ============================================================
 
 // Pokud máš obrázky ve složce:
-// src/assets/images/Vespera/words/
+// src/assets/images/Vespera/Words/
 // můžeš je importovat takto:
 //
-// import glvr9 from "../assets/images/Vespera/words/glvr9.jpg";
+// import glvr9 from "../assets/images/Vespera/Words/glvr9.jpg";
 //
 // Níže je zatím cesta přes /images/vespera/words/
 // Uprav ji podle toho, kde máš Vespera obrázky uložené.
 
 const wordImages = import.meta.glob(
-  "../assets/images/Vespera/words/*",
+  "../assets/images/Vespera/Words/*",
   {
     eager: true,
     query: "?url",
@@ -26,7 +26,7 @@ const wordImages = import.meta.glob(
 );
 
 const getWordImage = (filename) => {
-  const path = `../assets/images/Vespera/words/${filename}`;
+  const path = `../assets/images/Vespera/Words/${filename}`;
   return wordImages[path];
 };
 

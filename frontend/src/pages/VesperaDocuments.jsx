@@ -11,7 +11,7 @@ import vesperaDocumentsBack from "../assets/images/Vespera/vespera-documents-bac
 import Severov from "../assets/images/Vespera/Documents/Severov.mp4";
 import MatyKai from "../assets/images/Vespera/Documents/MatyKai.mp4";
 import HopeWill from "../assets/images/Vespera/Documents/HopeWill.mp4";
-import odboj from "../assets/images/Vespera/Documents/odboj.mp3";
+import odboj from "../assets/images/Vespera/Documents/Odboj.MP3";
 
 import vesperaTablet from "../assets/images/Vespera/Documents/vespera-tablet.webp";
 import vesperaRunaNote from "../assets/images/Vespera/Documents/vespera-runa.webp";

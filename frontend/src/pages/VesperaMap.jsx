@@ -14,7 +14,7 @@ import mapBack
 ========================================================= */
 
 import BjornaMap
-    from "../assets/images/Vespera/Maps/Bjornamap.webp";
+    from "../assets/images/Vespera/Maps/BjornaMap.webp";
 
 import BjornaDocument
     from "../assets/images/Vespera/Maps/Bjorna.webp";
