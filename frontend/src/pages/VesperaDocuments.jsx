@@ -24,7 +24,7 @@ import vesperaPhotono1 from "../assets/images/Vespera/Documents/vespera-document
 import vesperaPhotoel from "../assets/images/Vespera/Documents/vespera-documents-photoel.webp";
 import vesperaNews from "../assets/images/Vespera/Documents/vespera-documents-news.webp";
 import vesperaRing from "../assets/images/Vespera/Documents/vespera-ring.webp";
-import vesperaSeverov from "../assets/images/Vespera/Documents/vespera-severov.webp";
+import vesperaSeverov from "../assets/images/Vespera/Documents/Vespera-severov.webp";
 import vesperaBase from "../assets/images/Vespera/Documents/vespera-base.webp";
 import vesperaNexcore from "../assets/images/Vespera/Documents/vespera-nexcore.webp";
 
@@ -186,7 +186,7 @@ const documents = {
 
     severov: makeDocument(
         vesperaSeverov,
-        "vespera-severov.webp"
+        "Vespera-severov.webp"
     ),
 
     base: makeDocument(
