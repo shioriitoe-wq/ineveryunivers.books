@@ -1,0 +1,1020 @@
+@font-face {
+  font-family: "Stamp Act";
+  src: url("../assets/fonts/Stamp%20Act/Stamp%20Act.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* =========================================================
+   VESPERA – DETAIL POSTAVY / OSOBNÍ SPIS
+========================================================= */
+
+.vespera-character-page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+
+  background-image: var(--vespera-character-background);
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   VESPERA ATMOSFÉRA – ZLOBIVÁ LAMPA + LÉTAJÍCÍ PRACH
+========================================================= */
+
+/*
+   Tmavé nepravidelné poblikávání lampy.
+   Nejde o malou svítící tečku – světlo se mění v celé
+   oblasti levého horního rohu, jako vadná žárovka.
+*/
+
+.vespera-character-page::before {
+  content: "";
+  position: fixed;
+  z-index: 2;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse 42% 48% at 5% 4%,
+      rgba(255, 218, 155, 0.10) 0%,
+      rgba(255, 193, 120, 0.045) 23%,
+      rgba(20, 24, 27, 0.10) 48%,
+      rgba(8, 11, 13, 0.28) 74%,
+      transparent 100%
+    );
+
+  mix-blend-mode: multiply;
+
+  animation: vespera-bad-lamp 5.8s steps(1, end) infinite;
+}
+
+
+/*
+   Jemné změny teploty světla v místě lampy.
+*/
+
+.vespera-character-page::after {
+  content: "";
+  position: fixed;
+  z-index: 3;
+
+  top: -8vh;
+  left: -8vw;
+
+  width: 48vw;
+  height: 60vh;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at 15% 12%,
+      rgba(255, 226, 168, 0.14) 0%,
+      rgba(255, 205, 130, 0.055) 27%,
+      rgba(255, 188, 110, 0.018) 49%,
+      transparent 72%
+    );
+
+  filter: blur(4px);
+
+  animation: vespera-lamp-glow 5.8s steps(1, end) infinite;
+}
+
+
+/*
+   Prach – první vrstva.
+   Větší a světlejší částice, aby byly skutečně vidět.
+*/
+
+.vespera-character-sheet::before {
+  content: "";
+  position: fixed;
+  z-index: 80;
+
+  top: 4vh;
+  left: 2vw;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  background: rgba(255, 238, 202, 0.72);
+
+  box-shadow:
+    7vw 8vh 0 0 rgba(255, 237, 203, 0.50),
+    14vw 17vh 0 0 rgba(255, 226, 184, 0.42),
+    22vw 7vh 0 0 rgba(255, 244, 215, 0.58),
+    30vw 25vh 0 0 rgba(255, 231, 191, 0.44),
+    38vw 11vh 0 0 rgba(255, 242, 213, 0.50),
+    46vw 20vh 0 0 rgba(255, 225, 181, 0.42),
+    54vw 9vh 0 0 rgba(255, 240, 209, 0.52),
+    62vw 29vh 0 0 rgba(255, 228, 188, 0.43),
+    71vw 13vh 0 0 rgba(255, 242, 213, 0.49),
+    80vw 25vh 0 0 rgba(255, 227, 186, 0.41),
+    90vw 8vh 0 0 rgba(255, 243, 217, 0.54),
+    11vw 43vh 0 0 rgba(255, 231, 191, 0.42),
+    20vw 57vh 0 0 rgba(255, 243, 213, 0.47),
+    34vw 48vh 0 0 rgba(255, 226, 184, 0.38),
+    48vw 61vh 0 0 rgba(255, 241, 211, 0.45),
+    61vw 51vh 0 0 rgba(255, 225, 183, 0.40),
+    76vw 63vh 0 0 rgba(255, 240, 211, 0.45),
+    88vw 48vh 0 0 rgba(255, 227, 188, 0.39);
+
+  opacity: 0.62;
+
+  filter: blur(0.25px);
+
+  animation: vespera-dust-float 17s ease-in-out infinite;
+}
+
+
+/*
+   Prach – druhá, menší vrstva s jinou rychlostí.
+*/
+
+.vespera-character-sheet::after {
+  content: "";
+  position: fixed;
+  z-index: 81;
+
+  top: 12vh;
+  left: 5vw;
+
+  width: 3px;
+  height: 3px;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  background: rgba(255, 247, 224, 0.75);
+
+  box-shadow:
+    10vw 21vh 0 0 rgba(255, 237, 202, 0.45),
+    25vw 5vh 0 0 rgba(255, 246, 220, 0.54),
+    41vw 32vh 0 0 rgba(255, 228, 187, 0.43),
+    56vw 6vh 0 0 rgba(255, 243, 213, 0.50),
+    69vw 38vh 0 0 rgba(255, 231, 193, 0.40),
+    83vw 17vh 0 0 rgba(255, 243, 213, 0.48),
+    95vw 43vh 0 0 rgba(255, 230, 190, 0.39),
+    17vw 70vh 0 0 rgba(255, 243, 215, 0.43),
+    36vw 82vh 0 0 rgba(255, 230, 190, 0.39),
+    53vw 73vh 0 0 rgba(255, 242, 213, 0.44),
+    73vw 85vh 0 0 rgba(255, 229, 190, 0.37),
+    92vw 74vh 0 0 rgba(255, 242, 213, 0.40);
+
+  opacity: 0.55;
+
+  filter: blur(0.2px);
+
+  animation: vespera-dust-float-reverse 23s ease-in-out infinite;
+}
+
+
+@keyframes vespera-bad-lamp {
+  0%, 100% {
+    opacity: 0.32;
+  }
+
+  7% {
+    opacity: 0.18;
+  }
+
+  8% {
+    opacity: 0.52;
+  }
+
+  10% {
+    opacity: 0.23;
+  }
+
+  12% {
+    opacity: 0.46;
+  }
+
+  24% {
+    opacity: 0.31;
+  }
+
+  42% {
+    opacity: 0.38;
+  }
+
+  43% {
+    opacity: 0.12;
+  }
+
+  44% {
+    opacity: 0.55;
+  }
+
+  45% {
+    opacity: 0.19;
+  }
+
+  47% {
+    opacity: 0.42;
+  }
+
+  66% {
+    opacity: 0.27;
+  }
+
+  82% {
+    opacity: 0.36;
+  }
+
+  83% {
+    opacity: 0.08;
+  }
+
+  84% {
+    opacity: 0.50;
+  }
+
+  86% {
+    opacity: 0.20;
+  }
+
+  88% {
+    opacity: 0.43;
+  }
+}
+
+
+@keyframes vespera-lamp-glow {
+  0%, 100% {
+    opacity: 0.42;
+    transform: scale(1);
+  }
+
+  7% {
+    opacity: 0.25;
+  }
+
+  8% {
+    opacity: 0.72;
+    transform: scale(1.025);
+  }
+
+  10% {
+    opacity: 0.30;
+  }
+
+  12% {
+    opacity: 0.62;
+  }
+
+  24% {
+    opacity: 0.39;
+  }
+
+  43% {
+    opacity: 0.18;
+  }
+
+  44% {
+    opacity: 0.75;
+    transform: scale(1.035);
+  }
+
+  45% {
+    opacity: 0.24;
+  }
+
+  47% {
+    opacity: 0.57;
+  }
+
+  66% {
+    opacity: 0.34;
+  }
+
+  83% {
+    opacity: 0.16;
+  }
+
+  84% {
+    opacity: 0.70;
+    transform: scale(1.03);
+  }
+
+  86% {
+    opacity: 0.25;
+  }
+
+  88% {
+    opacity: 0.58;
+  }
+}
+
+
+@keyframes vespera-dust-float {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate3d(18px, -13px, 0);
+  }
+
+  50% {
+    transform: translate3d(-11px, -28px, 0);
+  }
+
+  75% {
+    transform: translate3d(22px, -16px, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+
+@keyframes vespera-dust-float-reverse {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate3d(-19px, -17px, 0);
+  }
+
+  50% {
+    transform: translate3d(13px, -31px, 0);
+  }
+
+  75% {
+    transform: translate3d(-15px, -11px, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+
+/* =========================================================
+   ZPĚT
+========================================================= */
+
+.vespera-character-back {
+  position: fixed;
+  top: 28px;
+  left: 28px;
+  z-index: 200;
+
+  width: 48px;
+  height: 48px;
+
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.34);
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 27px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.vespera-character-back:hover {
+  background: rgba(0, 0, 0, 0.55);
+  border-color: rgba(255, 255, 255, 0.95);
+  transform: scale(1.05);
+}
+
+
+/* =========================================================
+   LIST / SHEET
+   Poměr původního obrázku: 1536 × 1024
+========================================================= */
+
+.vespera-character-sheet {
+  position: relative;
+
+  width: 100%;
+  height: 100vh;
+
+  margin: 0 auto;
+
+  background: transparent;
+
+  transform-origin: top center;
+}
+
+
+/* =========================================================
+   ZÁKLADNÍ STYL HODNOT
+   Předtištěné názvy polí jsou součástí obrázku.
+========================================================= */
+
+.vespera-file-value {
+  position: absolute;
+  z-index: 10;
+
+  color: rgba(55, 48, 39, 0.72);
+
+  font-family: "Times New Roman", serif;
+  font-size: clamp(15px, 1.22vw, 20px);
+  font-weight: 500;
+  line-height: 1.15;
+
+  letter-spacing: 0.035em;
+
+  text-shadow: none;
+
+  mix-blend-mode: multiply;
+
+  /* Žádný scrollbar u běžných kolonek.
+     Scroll má pouze Dostupné informace. */
+
+  /* DOČASNÉ BAREVNÉ RÁMEČKY PRO LADĚNÍ POZIC */
+  border: 2px dashed rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+
+/* =========================================================
+   HORNÍ ÚDAJE
+========================================================= */
+
+.vespera-file-case-number {
+  left: 85.2%;
+  top: 16%;
+
+  width: 11.5%;
+
+  transform: rotate(3deg);
+}
+
+
+.vespera-file-classification {
+  left: 83.2%;
+  top: 21.9%;
+
+  width: 13%;
+
+  color: #d21b1b;
+
+  font-family: "Stamp Act", serif;
+  font-weight: normal;
+  font-size: clamp(15px, 1.18vw, 20px);
+  letter-spacing: 0.025em;
+
+  transform: rotate(-6deg);
+}
+
+
+/* =========================================================
+   OSOBNÍ ÚDAJE
+========================================================= */
+
+.vespera-file-name {
+  left: 55.7%;
+  top: 34.1%;
+
+  width: 37%;
+
+  transform: rotate(3deg);
+}
+
+
+.vespera-file-age {
+  left: 55.7%;
+  top: 38.1%;
+
+  width: 37%;
+
+  transform: rotate(3deg);
+}
+
+
+.vespera-file-location {
+  left: 55.7%;
+  top: 42.1%;
+
+  width: 37%;
+
+  transform: rotate(3deg);
+}
+
+
+.vespera-file-nexis {
+  left: 55.7%;
+  top: 46.6%;
+
+  width: 37%;
+
+  transform: rotate(3deg);
+}
+
+
+.vespera-file-operational {
+  left: 55.7%;
+  top: 51.7%;
+
+  width: 38%;
+
+  font-size: 26px;
+
+  transform: rotate(3deg);
+}
+
+
+/* =========================================================
+   DOSTUPNÉ INFORMACE
+========================================================= */
+
+.vespera-file-information {
+  left: 54.2%;
+  top: 60.5%;
+
+  width: 39.7%;
+  height: 12.7%;
+
+  text-align: left;
+
+  padding: 4px 7px;
+
+  font-size: clamp(13px, 1.02vw, 17px);
+  line-height: 1.3;
+
+  white-space: pre-wrap;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+
+  transform: rotate(3deg);
+}
+
+
+/* =========================================================
+   SPODNÍ ÚDAJE
+========================================================= */
+
+.vespera-file-status {
+  left: 51.8%;
+  top: 79%;
+
+  width: 10.5%;
+
+  font-size: clamp(13px, 1.02vw, 17px);
+
+  transform: rotate(3deg);
+}
+
+
+.vespera-file-last-record {
+  left: 62.2%;
+  top: 80.4%;
+
+  width: 15.5%;
+
+  font-size: clamp(13px, 1.02vw, 17px);
+
+  transform: rotate(3deg);
+}
+
+
+.vespera-file-rank {
+  left: 79.4%;
+  top: 82.2%;
+
+  width: 12.5%;
+
+  font-size: clamp(13px, 1.02vw, 17px);
+
+  transform: rotate(3deg);
+}
+
+
+/* =========================================================
+   FOTOGRAFIE
+   Tři bílé fotografie jsou součástí předlohy.
+========================================================= */
+
+.vespera-file-photo {
+  position: absolute;
+  z-index: 5;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center top;
+
+  pointer-events: none;
+}
+
+
+/* levá horní fotografie */
+
+.vespera-file-photo-1 {
+  left: 10.7%;
+  top: 7.7%;
+
+  width: 19.8%;
+  height: 37%;
+
+  transform: rotate(-5.5deg);
+}
+
+
+/* levá dolní fotografie */
+
+.vespera-file-photo-2 {
+  left: 7.8%;
+  top: 47.7%;
+
+  width: 17.2%;
+  height: 32.7%;
+
+  transform: rotate(-5.8deg);
+}
+
+
+/* prostřední dolní fotografie */
+
+.vespera-file-photo-3 {
+  left: 28.2%;
+  top: 48.0%;
+
+  width: 20.2%;
+  height: 32.5%;
+
+  transform: rotate(6deg);
+}
+
+
+/* =========================================================
+   KAMERA / KLIKNUTÍ NA ZÁZNAM
+   Spot je umístěný přímo nad kamerou v pozadí.
+========================================================= */
+
+.vespera-camera-hotspot {
+  position: fixed;
+  z-index: 10000;
+
+  left: 38.9%;
+  top: 26%;
+
+  width: 5.5%;
+  height: 6%;
+
+  padding: 0;
+  margin: 0;
+
+  border: none;
+  background: transparent;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  outline: none;
+  box-shadow: none;
+
+  transform: rotate(17deg);
+
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+
+.vespera-camera-hotspot:hover,
+.vespera-camera-hotspot:focus,
+.vespera-camera-hotspot:active {
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+}
+
+
+/* =========================================================
+   ZÁZNAM – OTEVŘE SE AŽ PO KLIKNUTÍ NA KAMERU
+========================================================= */
+
+.vespera-recording-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 50px;
+
+  background: transparent;
+
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+
+.vespera-recording-window {
+  position: relative;
+
+  width: min(900px, 88vw);
+  max-height: 86vh;
+
+  padding: 14px;
+
+  background: transparent;
+
+  border: 1px solid rgba(134, 105, 105, 0.35);
+
+  box-shadow: 0 20px 70px rgba(235, 230, 230, 0.7);
+}
+
+
+.vespera-recording-window video {
+  display: block;
+
+  width: 100%;
+  max-height: 78vh;
+
+  object-fit: contain;
+}
+
+
+.vespera-recording-window audio {
+  display: block;
+
+  width: 100%;
+
+  margin-top: 18px;
+}
+
+
+.vespera-recording-close {
+  position: absolute;
+  z-index: 5;
+
+  top: -18px;
+  right: -18px;
+
+  width: 38px;
+  height: 38px;
+
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+
+  background: rgba(28, 28, 28, 0.95);
+  color: #fff;
+
+  font-size: 25px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   NAČÍTÁNÍ / CHYBA
+========================================================= */
+
+.vespera-character-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.vespera-character-message {
+  color: rgba(255, 255, 255, 0.9);
+
+  font-family: "Times New Roman", serif;
+
+  font-size: 22px;
+
+  text-align: center;
+
+  padding: 25px 35px;
+
+  background: rgba(0, 0, 0, 0.45);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+
+/* =========================================================
+   MENŠÍ OBRAZOVKY
+========================================================= */
+
+@media (max-width: 900px) {
+  .vespera-character-page {
+    overflow-x: auto;
+    overflow-y: auto;
+    background-attachment: scroll;
+  }
+
+  .vespera-character-sheet {
+    width: 100%;
+    min-width: 760px;
+    min-height: calc(760px * 1024 / 1536);
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .vespera-character-back {
+    top: 18px;
+    left: 18px;
+
+    width: 43px;
+    height: 43px;
+
+    font-size: 24px;
+  }
+}
+
+
+/* MĚKKÉ OKRAJE FOTOGRAFIÍ */
+
+.vespera-file-photo-1,
+.vespera-file-photo-2,
+.vespera-file-photo-3 {
+  filter: blur(0.25px);
+  overflow: hidden;
+
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      transparent 0%,
+      #000 5%,
+      #000 95%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 5%,
+      #000 95%,
+      transparent 100%
+    );
+
+  -webkit-mask-composite: intersect;
+
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent 0%,
+      #000 5%,
+      #000 95%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 5%,
+      #000 95%,
+      transparent 100%
+    );
+
+  mask-composite: intersect;
+}
+
+
+.vespera-file-information {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(70, 60, 50, 0.35) transparent;
+}
+
+
+/* Chrome, Edge, Safari */
+
+.vespera-file-information::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+
+
+.vespera-file-information::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+.vespera-file-information::-webkit-scrollbar-thumb {
+  background: rgba(70, 60, 50, 0.35);
+  border-radius: 10px;
+}
+
+
+.vespera-file-information::-webkit-scrollbar-thumb:hover {
+  background: rgba(70, 60, 50, 0.5);
+}
+
+
+/* =========================================================
+   KLIKACÍ SPOT – HLAVNÍ STRÁNKA VESPERA
+========================================================= */
+
+.vespera-mainpage-hotspot {
+  position: absolute;
+  z-index: 10001;
+
+  /* zde si potom nastavíš místo spotu */
+  left: 3%;
+  top: 84%;
+
+  width: 17%;
+  height: 12%;
+
+  transform: rotate(7deg);
+
+  padding: 0;
+  margin: 0;
+
+  border: none;
+  background: transparent;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+
+  pointer-events: auto;
+}
+
+
+.vespera-mainpage-hotspot:hover,
+.vespera-mainpage-hotspot:focus,
+.vespera-mainpage-hotspot:active {
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+}
+/* =========================================================
+   KLIKACÍ SPOT – OSOBNÍ GALERIE
+   ZATÍM ČERVENÝ PRO NALEZENÍ POZICE
+========================================================= */
+
+.vespera-gallery-hotspot {
+  position: absolute;
+  z-index: 10002;
+
+  left: 26%;
+  top: 90%;
+
+  width: 4%;
+  height: 10%;
+transform: rotate(20deg);
+  padding: 0;
+  margin: 0;
+
+  border: none;
+  background: transparent;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+
+  pointer-events: auto;
+}
+
+.vespera-gallery-hotspot:hover,
+.vespera-gallery-hotspot:focus,
+.vespera-gallery-hotspot:active {
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+}

@@ -1,0 +1,219 @@
+
+.vespera-character-form {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 30px 36px 40px;
+  box-sizing: border-box;
+}
+
+.vespera-character-form h2 {
+  text-align: center;
+  margin: 0 0 30px;
+}
+
+.vespera-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+.vespera-form-grid > label,
+.vespera-full-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.vespera-form-grid input,
+.vespera-form-grid select,
+.vespera-full-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.vespera-percent-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vespera-percent-input input {
+  flex: 1;
+}
+
+.vespera-percent-input span {
+  flex: 0 0 auto;
+}
+
+.vespera-full-field {
+  margin-top: 22px;
+}
+
+.vespera-full-field textarea {
+  min-height: 220px;
+  resize: vertical;
+}
+
+.vespera-media-section {
+  margin-top: 30px;
+}
+
+.vespera-media-section h3 {
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.vespera-media-hint {
+  margin: 0 0 18px;
+  text-align: center;
+  opacity: 0.75;
+}
+
+.vespera-image-picker {
+  margin-top: 24px;
+}
+
+.vespera-picker-title {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+}
+
+.vespera-image-grid,
+.vespera-recording-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.vespera-image-option,
+.vespera-recording-option {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.05);
+  color: inherit;
+  padding: 8px;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 4px;
+  transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+}
+
+.vespera-image-option:hover,
+.vespera-recording-option:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.09);
+}
+
+.vespera-image-option.selected,
+.vespera-recording-option.selected {
+  border-color: #d7b56d;
+  box-shadow: 0 0 0 2px rgba(215,181,109,0.25);
+}
+
+.vespera-image-option img {
+  display: block;
+  width: 100%;
+  height: 145px;
+  object-fit: cover;
+  border-radius: 2px;
+  margin-bottom: 7px;
+}
+
+.vespera-image-option span,
+.vespera-recording-option > span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.85rem;
+}
+
+.vespera-recording-preview {
+  width: 100%;
+  height: 105px;
+  margin-bottom: 7px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgba(0,0,0,0.3);
+}
+
+.vespera-recording-preview video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vespera-audio-preview {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  font-size: 1.8rem;
+}
+
+.vespera-audio-preview small {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.vespera-no-media {
+  padding: 22px;
+  border: 1px dashed rgba(255,255,255,0.25);
+  opacity: 0.7;
+  text-align: center;
+  grid-column: 1 / -1;
+}
+
+.vespera-selected-file {
+  margin-top: 14px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: rgba(255,255,255,0.05);
+}
+
+.vespera-selected-file button {
+  margin-left: auto;
+}
+
+.vespera-published {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.vespera-form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.vespera-form-error {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #b44;
+}
+
+@media (max-width: 700px) {
+  .vespera-character-form {
+    padding: 20px 16px 30px;
+  }
+
+  .vespera-image-grid,
+  .vespera-recording-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

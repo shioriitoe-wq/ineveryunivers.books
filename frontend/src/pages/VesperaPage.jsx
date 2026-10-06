@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+﻿import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import BackButton from "../components/BackButton";
@@ -170,7 +170,7 @@ export default function VesperaPage() {
                     ================================================= */}
 
                     <Link
-                        to="/project/3/characters"
+                        to="/books/vespera/characters"
                         className="vespera-panel-wrapper"
                     >
                         <div className="vespera-panel">

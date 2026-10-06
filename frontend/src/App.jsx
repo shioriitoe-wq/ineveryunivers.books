@@ -26,7 +26,9 @@ import VesperaPage from "./pages/VesperaPage";
 import VesperaDocuments from "./pages/VesperaDocuments";
 import VesperaMap from "./pages/VesperaMap";
 import VesperaDictionary from "./pages/VesperaDictionary";
-
+import VesperaCharactersPage from "./pages/VesperaCharactersPage";
+import VesperaCharacterPage from "./pages/VesperaCharacterPage";
+import VesperaCharacterGalleryPage from "./pages/VesperaCharacterGalleryPage";
 /* =================================================
    (NE)ZAČALO TO...
 ================================================= */
@@ -161,6 +163,24 @@ function App() {
       <Route
         path="/books/vespera"
         element={<VesperaPage />}
+      />
+
+<Route
+  path="/books/vespera/characters/:id"
+  element={<VesperaCharacterPage />}
+/>
+<Route
+  path="/books/vespera/characters/:id/gallery"
+  element={<VesperaCharacterGalleryPage />}
+/>
+
+      {/* =================================================
+          VESPERA – POSTAVY
+      ================================================= */}
+
+      <Route
+        path="/books/vespera/characters"
+        element={<VesperaCharactersPage />}
       />
 
 

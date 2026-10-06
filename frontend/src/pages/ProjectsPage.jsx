@@ -16,6 +16,12 @@ import ProjectForm from "../components/ProjectForm";
 import BookStructure from "../components/BookStructure";
 import CharacterForm from "../components/CharacterForm";
 import AEILCharacterForm from "../components/AEILCharacterForm";
+import VesperaCharacterForm from "../components/VesperaCharacterForm";
+
+import {
+  getVesperaCharacters,
+  deleteVesperaCharacter,
+} from "../services/vesperaCharactersService";
 
 import "./ProjectsPage.css";
 
@@ -66,6 +72,15 @@ function ProjectsPage() {
     }
 
     try {
+      if (Number(bookId) === 3) {
+        const characterData =
+          await getVesperaCharacters();
+
+        setCharacters(characterData);
+        setVolumes([]);
+        return;
+      }
+
       if (Number(bookId) === 2) {
         const characterData = await getCharacters(bookId);
         setCharacters(characterData);
@@ -165,6 +180,31 @@ function ProjectsPage() {
     setShowCharacterForm(true);
   }
 
+  async function handleVesperaCharacterSaved(
+    savedCharacter
+  ) {
+    try {
+      console.log(
+        "=== VESPERA POSTAVA ULOŽENA ===",
+        savedCharacter
+      );
+
+      await loadCharacters(
+        structureBook.id
+      );
+
+      setSelectedCharacter(null);
+      setShowCharacterForm(false);
+    } catch (error) {
+      console.error(
+        "=== CHYBA PO ULOŽENÍ VESPERA POSTAVY ===",
+        error
+      );
+
+      alert(error.message);
+    }
+  }
+
   async function handleSaveCharacter(characterData) {
     console.log(
       "=== PROJECTS PAGE: HANDLE SAVE CHARACTER ==="
@@ -260,10 +300,16 @@ function ProjectsPage() {
     }
 
     try {
-      await deleteCharacter(
-        structureBook.id,
-        characterId
-      );
+      if (Number(structureBook.id) === 3) {
+        await deleteVesperaCharacter(
+          characterId
+        );
+      } else {
+        await deleteCharacter(
+          structureBook.id,
+          characterId
+        );
+      }
 
       if (
         selectedCharacter?.id ===
@@ -595,25 +641,34 @@ function ProjectsPage() {
 
               <div className="admin-character-form">
 
-                {structureBook?.title === "AEIL" ? (
+               {structureBook?.title === "AEIL" ? (
 
-                  <AEILCharacterForm
-                    bookId={structureBook?.id}
-                    character={selectedCharacter}
-                    volumes={volumes}
-                    onSave={handleSaveCharacter}
-                    onCancel={handleCancelCharacter}
-                  />
+  <AEILCharacterForm
+    bookId={structureBook?.id}
+    character={selectedCharacter}
+    volumes={volumes}
+    onSave={handleSaveCharacter}
+    onCancel={handleCancelCharacter}
+  />
 
-                ) : (
+) : structureBook?.title === "Vespera" ? (
 
-                  <CharacterForm
-                    bookId={structureBook?.id}
-                    character={selectedCharacter}
-                    volumes={volumes}
-                    onSave={handleSaveCharacter}
-                    onCancel={handleCancelCharacter}
-                  />
+  <VesperaCharacterForm
+    bookId={structureBook.id}
+    character={selectedCharacter}
+    onSaved={handleVesperaCharacterSaved}
+    onCancel={handleCancelCharacter}
+  />
+
+) : (
+
+  <CharacterForm
+    bookId={structureBook?.id}
+    character={selectedCharacter}
+    volumes={volumes}
+    onSave={handleSaveCharacter}
+    onCancel={handleCancelCharacter}
+  />
 
                 )}
 
