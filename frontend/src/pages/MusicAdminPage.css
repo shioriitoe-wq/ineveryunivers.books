@@ -1,0 +1,410 @@
+﻿.music-admin {
+  box-sizing: border-box;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 36px 40px 60px;
+  color: #d9ddd4;
+}
+
+.music-admin * {
+  box-sizing: border-box;
+}
+
+.music-admin-heading,
+.music-admin-form-heading,
+.music-admin-list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.music-admin-heading {
+  margin-bottom: 28px;
+}
+
+.music-admin-eyebrow {
+  margin: 0 0 8px;
+  color: #91a384;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.music-admin h1 {
+  margin: 0;
+  color: #d5dfce;
+  font-size: clamp(26px, 3vw, 34px);
+  font-weight: 500;
+}
+
+.music-admin-description {
+  margin: 10px 0 0;
+  color: #929a8c;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.music-admin h2 {
+  margin: 0;
+  color: #c2d1b8;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.music-admin-button,
+.music-admin-secondary,
+.music-admin-danger,
+.music-admin-text-button {
+  border-radius: 5px;
+  font: inherit;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.music-admin-button {
+  flex-shrink: 0;
+  padding: 12px 17px;
+  border: 1px solid #88977c;
+  background: #68765f;
+  color: #fff;
+  font-size: 13px;
+}
+
+.music-admin-button:hover:not(:disabled) {
+  background: #7b8a70;
+}
+
+.music-admin-button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.music-admin-form {
+  margin-bottom: 42px;
+  padding: 26px;
+  border: 1px solid #303a2d;
+  border-radius: 7px;
+  background: #0c0f0c;
+}
+
+.music-admin-form-heading {
+  margin-bottom: 24px;
+}
+
+.music-admin-text-button {
+  padding: 5px 0;
+  border: 0;
+  background: transparent;
+  color: #a8b99b;
+  font-size: 13px;
+}
+
+.music-admin-text-button:hover {
+  color: #e0e9d9;
+}
+
+.music-admin-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.music-admin-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #b9c9ad;
+  font-size: 13px;
+}
+
+.music-admin-fields .music-admin-wide {
+  grid-column: 1 / -1;
+}
+
+.music-admin-fields input,
+.music-admin-fields select,
+.music-admin-fields textarea,
+.music-admin-search {
+  width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid #3b4439;
+  border-radius: 4px;
+  outline: none;
+  background: #080a08;
+  color: #e3e8df;
+  font: inherit;
+  font-size: 13px;
+}
+
+.music-admin-fields input:focus,
+.music-admin-fields select:focus,
+.music-admin-fields textarea:focus,
+.music-admin-search:focus {
+  border-color: #88977c;
+  box-shadow: 0 0 0 2px rgba(136, 151, 124, 0.12);
+}
+
+.music-admin-fields textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.music-admin-fields small {
+  color: #777f73;
+  font-size: 11px;
+}
+
+.music-admin-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 22px;
+}
+
+.music-admin-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #b9c9ad;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.music-admin-checkbox input {
+  width: 16px;
+  height: 16px;
+  accent-color: #88977c;
+}
+
+.music-admin-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.music-admin-secondary,
+.music-admin-danger {
+  padding: 9px 12px;
+  border: 1px solid #3b4439;
+  background: #101310;
+  color: #c4cbbf;
+  font-size: 12px;
+}
+
+.music-admin-secondary:hover {
+  border-color: #88977c;
+  background: #182016;
+  color: #fff;
+}
+
+.music-admin-danger {
+  border-color: #69413b;
+  color: #e4a69e;
+}
+
+.music-admin-danger:hover {
+  border-color: #a45f54;
+  background: #281714;
+}
+
+.music-admin-message {
+  margin-bottom: 18px;
+  padding: 12px 15px;
+  border: 1px solid;
+  border-radius: 5px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.music-admin-message.is-error {
+  border-color: #69413b;
+  background: #1b100f;
+  color: #e4a69e;
+}
+
+.music-admin-message.is-success {
+  border-color: #465b3e;
+  background: #10170e;
+  color: #b9c9ad;
+}
+
+.music-admin-list-heading {
+  margin-bottom: 18px;
+}
+
+.music-admin-list-heading p {
+  margin: 7px 0 0;
+  color: #777f73;
+  font-size: 12px;
+}
+
+.music-admin-search {
+  max-width: 280px;
+}
+
+.music-admin-track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.music-admin-track {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid #303a2d;
+  border-radius: 6px;
+  background: #0c0f0c;
+}
+
+.music-admin-cover {
+  flex-shrink: 0;
+  width: 76px;
+  height: 76px;
+  border-radius: 4px;
+  object-fit: cover;
+  background: #171c16;
+}
+
+.music-admin-cover-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #303a2d;
+  color: #91a384;
+  font-size: 28px;
+}
+
+.music-admin-track-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.music-admin-track-info h3 {
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: #d5dfce;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.music-admin-track-info p {
+  margin: 6px 0 10px;
+  color: #929a8c;
+  font-size: 12px;
+}
+
+.music-admin-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.music-admin-tags span {
+  padding: 4px 7px;
+  border: 1px solid #343c31;
+  border-radius: 3px;
+  color: #9da595;
+  font-size: 10px;
+}
+
+.music-admin-tags span.is-published {
+  border-color: #465b3e;
+  color: #b9c9ad;
+}
+
+.music-admin-tags span.is-draft {
+  border-color: #5c4934;
+  color: #d5b78d;
+}
+
+.music-admin-track-actions {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.music-admin-empty {
+  padding: 30px 20px;
+  border: 1px dashed #3b4439;
+  border-radius: 6px;
+  color: #929a8c;
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .music-admin {
+    padding: 28px 24px 48px;
+  }
+
+  .music-admin-track {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .music-admin-track-info {
+    flex-basis: calc(100% - 100px);
+  }
+
+  .music-admin-track-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .music-admin {
+    padding: 22px 16px 36px;
+  }
+
+  .music-admin-heading,
+  .music-admin-list-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .music-admin-heading .music-admin-button {
+    align-self: flex-start;
+  }
+
+  .music-admin-form {
+    padding: 18px 15px;
+  }
+
+  .music-admin-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .music-admin-fields .music-admin-wide {
+    grid-column: auto;
+  }
+
+  .music-admin-search {
+    max-width: none;
+  }
+
+  .music-admin-track {
+    gap: 12px;
+  }
+
+  .music-admin-cover {
+    width: 62px;
+    height: 62px;
+  }
+
+  .music-admin-track-info {
+    flex-basis: calc(100% - 80px);
+  }
+
+  .music-admin-track-actions > button {
+    flex: 1;
+  }
+}
