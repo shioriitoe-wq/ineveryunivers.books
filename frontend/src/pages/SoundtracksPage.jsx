@@ -295,19 +295,45 @@ function LyricsPanel({ track, expanded, onToggle, fullPage = false }) {
 
   const activeLine = useMemo(() => {
 
-    let result = -1;
+    // Nečasované řádky (např. [Kai], názvy slok nebo mezititulky)
+    // zůstávají v textu, ale nesmí se účastnit karaoke zvýrazňování.
+    const timedLines = lines
+      .map((line, index) => {
+        const rawStart = line.start_ms ?? line.startMs;
+        if (rawStart === null || rawStart === undefined || String(rawStart).trim() === "") {
+          return null;
+        }
 
-    lines.forEach((line, index) => {
+        const startMs = Number(rawStart);
+        if (!Number.isFinite(startMs) || startMs < 0) return null;
 
-      const start = Number(line.start_ms ?? line.startMs ?? 0) / 1000;
+        const rawEnd = line.end_ms ?? line.endMs;
+        const endMs = rawEnd === null || rawEnd === undefined || String(rawEnd).trim() === ""
+          ? null
+          : Number(rawEnd);
 
-      const end = Number(line.end_ms ?? line.endMs ?? Infinity) / 1000;
+        return {
+          index,
+          start: startMs / 1000,
+          end: Number.isFinite(endMs) && endMs > startMs ? endMs / 1000 : null,
+        };
+      })
+      .filter(Boolean)
+      .sort((a, b) => a.start - b.start);
 
-      if (player.currentTime >= start && player.currentTime < end) result = index;
+    const time = Number(player.currentTime) || 0;
 
-    });
+    for (let index = 0; index < timedLines.length; index += 1) {
+      const item = timedLines[index];
+      const nextStart = timedLines[index + 1]?.start;
+      const effectiveEnd = item.end ?? nextStart ?? Infinity;
 
-    return result;
+      if (time >= item.start && time < effectiveEnd) {
+        return item.index;
+      }
+    }
+
+    return -1;
 
   }, [lines, player.currentTime]);
 
