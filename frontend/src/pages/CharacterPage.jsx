@@ -7,10 +7,22 @@ import { getBook, getVolumes } from "../services/booksService";
 import frameMain from "../assets/frames/frame-character-main.png";
 import frameHeader from "../assets/frames/frame-character.png";
 import frameButton from "../assets/frames/frame-character-button.png";
+import aeilCharacterFrame from "../assets/frames/aeil-character.png";
+import aeilCharacterInfoFrame from "../assets/frames/aeil-character-info.png";
+import aeilChapterLine from "../assets/frames/aeil-chapter.png";
+
+// Obrázky do šesti spodních panelů AEIL
+import aeilPanelBook from "../assets/images/AEIL/aeil-character-chapters.png";
+import aeilPanelQuotes from "../assets/images/AEIL/aeil-character-motto.png";
+import aeilPanelRelationships from "../assets/images/AEIL/aeil-character-ships.png";
+import aeilPanelGallery from "../assets/images/AEIL/aeil-character-galery.png";
+import aeilPanelVideos from "../assets/images/AEIL/aeil-character-video.png";
+import aeilPanelSoundtrack from "../assets/images/AEIL/aeil-character-soundtrack.png";
 
 import { resolveCharacterAsset } from "../utils/characterAssetPaths";
 
 import "./CharacterPage.css";
+import "./CharacterPageAeil.css";
 import characterAllBackground from "../assets/images/Nezacalo-to/characterall.png";
 import aeilCharacterBackground from "../assets/images/AEIL/aeil-character-back.png";
 
@@ -51,6 +63,7 @@ function CharacterPage() {
   } = useParams();
 
   const navigate = useNavigate();
+  const isAeil = Number(bookId) === 2;
 
   const [character, setCharacter] = useState(null);
   const [book, setBook] = useState(null);
@@ -312,7 +325,7 @@ function CharacterPage() {
 
 
   /* =========================================================
-     NAČÍTÁNÍ
+     NAÄŚĂŤTĂNĂŤ
   ========================================================= */
 
   if (loading) {
@@ -382,7 +395,16 @@ function CharacterPage() {
 
 
   return (
-    <main className="character-page">
+    <main className={`character-page ${isAeil ? "character-page-aeil" : ""}`}>
+      <button
+        type="button"
+        className="character-back"
+        onClick={() => navigate(-1)}
+        aria-label="Zpět"
+      >
+        <span style={{ display: "block", transform: "translateY(-3px)" }}>←</span>
+      </button>
+      
 
       {/* =====================================================
           POZADÍ
@@ -402,7 +424,7 @@ function CharacterPage() {
 
 
       {/* =====================================================
-          HLAVNÍ LEVÝ OBRÁZEK
+          HLAVNĂŤ LEVĂť OBRĂZEK
       ===================================================== */}
 
       <div className="character-main-visual">
@@ -411,7 +433,7 @@ function CharacterPage() {
           className="character-main-frame"
           style={{
             backgroundImage:
-              `url(${frameMain})`,
+              `url(${isAeil ? aeilCharacterFrame : frameMain})`,
           }}
         />
 
@@ -426,6 +448,21 @@ function CharacterPage() {
                 )
               }
               alt={character.name}
+            />
+          </div>
+        )}
+
+        {character.hover_image && (
+          <div className="character-main-photo-hover" aria-hidden="true">
+            <img
+              src={
+                resolveCharacterAsset(
+                  character.hover_image,
+                  null,
+                  bookId
+                )
+              }
+              alt=""
             />
           </div>
         )}
@@ -460,7 +497,7 @@ function CharacterPage() {
 
 
       {/* =====================================================
-          PRAVÁ ČÁST
+          PRAVĂ ÄŚĂST
       ===================================================== */}
 
       <section className="character-right">
@@ -472,13 +509,14 @@ function CharacterPage() {
 
         <div className="character-header-visual">
 
-          <div
-            className="character-header-frame"
-            style={{
-              backgroundImage:
-                `url(${frameHeader})`,
-            }}
-          />
+          {!isAeil && (
+            <div
+              className="character-header-frame"
+              style={{
+                backgroundImage: `url(${frameHeader})`,
+              }}
+            />
+          )}
 
           {character.header_image && (
             <div className="character-header-photo">
@@ -502,6 +540,15 @@ function CharacterPage() {
               {character.name}
             </h1>
 
+            {isAeil && (
+              <img
+                className="character-aeil-gold-line"
+                src={aeilChapterLine}
+                alt=""
+                aria-hidden="true"
+              />
+            )}
+
             {character.quote && (
               <div className="character-quote">
                 {character.quote}
@@ -511,11 +558,74 @@ function CharacterPage() {
 
         </div>
 
+        {isAeil && (
+          <>
+            {/* PROFILOVÝ TEXT */}
+            {character.content_html && (
+              <section className="character-description character-aeil-description">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: character.content_html,
+                  }}
+                />
+              </section>
+            )}
+
+            {/* OSOBNÍ INFORMACE Z ADMINISTRACE */}
+            {(character.race || (Array.isArray(character.details) && character.details.length > 0)) && (
+              <section
+                className="character-section character-aeil-information"
+                style={{ "--aeil-info-frame": `url(${aeilCharacterInfoFrame})` }}
+              >
+                <div className="character-details">
+                  {character.race &&
+                    !(Array.isArray(character.details) && character.details.some(
+                      (detail) => detail.label?.toLowerCase() === "rasa"
+                    )) && (
+                      <Link to="/books/aeil/races" className="character-detail character-race-link">
+                        <span>Rasa</span>
+                        <strong>{character.race}</strong>
+                      </Link>
+                    )}
+
+                  {(Array.isArray(character.details) ? character.details : []).map((detail, index) => {
+                    const isRaceDetail = detail.label?.toLowerCase() === "rasa";
+                    const detailContent = (
+                      <>
+                        <span>{detail.label}</span>
+                        <strong>{detail.value}</strong>
+                      </>
+                    );
+
+                    return isRaceDetail ? (
+                      <Link
+                        key={detail.id || index}
+                        to="/books/aeil/races"
+                        className="character-detail character-race-link"
+                      >
+                        {detailContent}
+                      </Link>
+                    ) : (
+                      <div
+                        key={detail.id || index}
+                        className="character-detail"
+                      >
+                        {detailContent}
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            )}
+          </>
+        )}
+
 
         {/* =================================================
             ŠEST PANELŮ
         ================================================= */}
 
+        {!isAeil && (
         <nav className="character-panels">
 
           {/* =================================================
@@ -538,7 +648,7 @@ function CharacterPage() {
 
 
           {/* =================================================
-              2. CITÁTY
+              2. CITĂTY
           ================================================= */}
 
           <button
@@ -626,14 +736,34 @@ function CharacterPage() {
               backgroundImage:
                 `url(${frameButton})`,
             }}
-            onClick={() =>
-              togglePanel("soundtrack")
-            }
+            onClick={() => {
+              const numericBookId = Number(bookId);
+
+              if (numericBookId === 1) {
+                const assignedVolumeId =
+                  character.volume_ids?.[0] ?? volumes[0]?.id;
+
+                navigate(
+                  assignedVolumeId != null
+                    ? `/soundtracks/books?book=volume:${assignedVolumeId}`
+                    : "/soundtracks/books?book=volume:1"
+                );
+                return;
+              }
+
+              if (numericBookId === 2) {
+                navigate("/soundtracks/books?book=book:2");
+                return;
+              }
+
+              togglePanel("soundtrack");
+            }}
           >
             Soundtrack
           </button>
 
         </nav>
+        )}
 
 
         {/* =====================================================
@@ -712,7 +842,7 @@ function CharacterPage() {
 
 
         {/* =====================================================
-            CITÁTY
+            CITĂTY
         ===================================================== */}
 
         {activePanel === "quotes" && (
@@ -919,6 +1049,8 @@ function CharacterPage() {
         )}
 
 
+        {!isAeil && (
+          <>
         {/* =====================================================
             POPIS
         ===================================================== */}
@@ -970,7 +1102,102 @@ function CharacterPage() {
             </section>
           )}
 
+          </>
+        )}
+
+
+
+        
       </section>
+
+{isAeil && (
+        <nav className="character-panels character-panels-aeil" aria-label="Informace o postavě">
+          <button
+            type="button"
+            className="character-panel-button"
+            onClick={() => navigate("/books/aeil")}
+          >
+            <span className="character-panel-image" style={{ backgroundImage: `url(${aeilPanelBook})` }} aria-hidden="true" />
+            <span
+              className="character-panel-frame"
+              style={{ backgroundImage: `url(${aeilCharacterInfoFrame})` }}
+              aria-hidden="true"
+            />
+            <span className="character-panel-label">Kniha</span>
+          </button>
+
+          <button
+            type="button"
+            className="character-panel-button"
+            onClick={() => togglePanel("quotes")}
+          >
+            <span className="character-panel-image" style={{ backgroundImage: `url(${aeilPanelQuotes})` }} aria-hidden="true" />
+            <span
+              className="character-panel-frame"
+              style={{ backgroundImage: `url(${aeilCharacterInfoFrame})` }}
+              aria-hidden="true"
+            />
+            <span className="character-panel-label">Citáty</span>
+          </button>
+
+          <button
+            type="button"
+            className="character-panel-button"
+            onClick={() => togglePanel("relationships")}
+          >
+            <span className="character-panel-image" style={{ backgroundImage: `url(${aeilPanelRelationships})` }} aria-hidden="true" />
+            <span
+              className="character-panel-frame"
+              style={{ backgroundImage: `url(${aeilCharacterInfoFrame})` }}
+              aria-hidden="true"
+            />
+            <span className="character-panel-label">Vztahy</span>
+          </button>
+
+          <button
+            type="button"
+            className="character-panel-button"
+            onClick={() => navigate(`/project/${bookId}/characters/${characterId}/gallery`)}
+          >
+            <span className="character-panel-image" style={{ backgroundImage: `url(${aeilPanelGallery})` }} aria-hidden="true" />
+            <span
+              className="character-panel-frame"
+              style={{ backgroundImage: `url(${aeilCharacterInfoFrame})` }}
+              aria-hidden="true"
+            />
+            <span className="character-panel-label">Galerie</span>
+          </button>
+
+          <button
+            type="button"
+            className="character-panel-button"
+            onClick={() => togglePanel("videos")}
+          >
+            <span className="character-panel-image" style={{ backgroundImage: `url(${aeilPanelVideos})` }} aria-hidden="true" />
+            <span
+              className="character-panel-frame"
+              style={{ backgroundImage: `url(${aeilCharacterInfoFrame})` }}
+              aria-hidden="true"
+            />
+            <span className="character-panel-label">Videa</span>
+          </button>
+
+          <button
+            type="button"
+            className="character-panel-button"
+            onClick={() => navigate("/soundtracks/books?book=book:2")}
+          >
+            <span className="character-panel-image" style={{ backgroundImage: `url(${aeilPanelSoundtrack})` }} aria-hidden="true" />
+            <span
+              className="character-panel-frame"
+              style={{ backgroundImage: `url(${aeilCharacterInfoFrame})` }}
+              aria-hidden="true"
+            />
+            <span className="character-panel-label">Soundtrack</span>
+          </button>
+        </nav>
+      )}
+
     </main>
   );
 }

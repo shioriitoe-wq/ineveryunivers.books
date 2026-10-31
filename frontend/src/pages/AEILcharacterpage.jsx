@@ -4,18 +4,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getCharacter } from "../services/charactersService";
 import { getBook, getVolumes } from "../services/booksService";
 
-import characterBackground from "../assets/images/AEIL/aeil-character-back.png";
+import characterBackground from "../assets/images/aeil/aeil-character-back.png";
 
 import characterFrame from "../assets/frames/aeil-character.png";
 import infoFrame from "../assets/frames/aeil-character-info.png";
-import aeilLine from "../assets/images/AEIL/aeil-line.png";
-import chaptersImage from "../assets/images/AEIL/aeil-character-chapters.png";
-import raceImage from "../assets/images/AEIL/aeil-character-entita.png";
-import relationshipsImage from "../assets/images/AEIL/aeil-character-ships.png";
-import quotesImage from "../assets/images/AEIL/aeil-character-motto.png";
-import galleryImage from "../assets/images/AEIL/aeil-character-galery.png";
-import videosImage from "../assets/images/AEIL/aeil-character-video.png";
-import soundtrackImage from "../assets/images/AEIL/aeil-character-soundtrack.png";
+import aeilLine from "../assets/images/aeil/aeil-line.png";
+import chaptersImage from "../assets/images/aeil/aeil-character-chapters.png";
+import raceImage from "../assets/images/aeil/aeil-character-entita.png";
+import relationshipsImage from "../assets/images/aeil/aeil-character-ships.png";
+import quotesImage from "../assets/images/aeil/aeil-character-motto.png";
+import galleryImage from "../assets/images/aeil/aeil-character-galery.png";
+import videosImage from "../assets/images/aeil/aeil-character-video.png";
+import soundtrackImage from "../assets/images/aeil/aeil-character-soundtrack.png";
 
 import "./AEILcharacterpage.css";
 
@@ -51,7 +51,6 @@ function AEILcharacterpage() {
   const [error, setError] = useState("");
 
   const [activePanel, setActivePanel] = useState("");
-  const [showPortraitVideo, setShowPortraitVideo] = useState(false);
 
 
   /* =========================================================
@@ -136,24 +135,6 @@ function AEILcharacterpage() {
     bookId,
     characterId,
   ]);
-
-
-  /* =========================================================
-     AUTOMATICKÉ VIDEO V PORTRÉTU
-  ========================================================= */
-
-  useEffect(() => {
-    if (!character?.main_video) {
-      setShowPortraitVideo(false);
-      return undefined;
-    }
-
-    const timer = window.setTimeout(() => {
-      setShowPortraitVideo(true);
-    }, 8000);
-
-    return () => window.clearTimeout(timer);
-  }, [character?.main_video]);
 
 
   /* =========================================================
@@ -369,15 +350,6 @@ function AEILcharacterpage() {
     >
 
 
-      <button
-        type="button"
-        className="aeil-character-back"
-        onClick={() => navigate(`/project/${bookId}/characters`)}
-      >
-        ← ZPĚT K POSTAVÁM
-      </button>
-
-
       {/* =====================================================
           HLAVNÍ OBSAH
       ===================================================== */}
@@ -391,42 +363,49 @@ function AEILcharacterpage() {
 
         <section className="aeil-character-portrait-column">
 
-          <div
-            className="aeil-character-portrait"
-            onMouseEnter={() => setShowPortraitVideo(false)}
-          >
+          <div className="aeil-character-portrait">
+
+
+            {/* HLAVNÍ OBRÁZEK */}
 
             {character.main_image && (
+
               <img
                 src={character.main_image}
                 alt={character.name}
-                className={`aeil-character-photo ${showPortraitVideo ? "is-hidden" : ""}`}
+                className="aeil-character-photo"
               />
+
             )}
 
+
+            {/* OBRÁZEK PO NAJETÍ */}
+
             {character.hover_image && (
+
               <img
                 src={character.hover_image}
                 alt=""
                 className="aeil-character-photo-hover"
               />
+
             )}
 
-            {showPortraitVideo && character.main_video && (
-              <video
-                src={character.main_video}
-                className="aeil-character-photo-video"
-                autoPlay
-                muted
-                loop
-                playsInline
-              />
-            )}
+
+            {/* ZLATÝ RÁMEČEK */}
 
             <img
               src={characterFrame}
               alt=""
               className="aeil-character-portrait-frame"
+              aria-hidden="true"
+            />
+
+
+            {/* JEMNÁ ZÁŘ */}
+
+            <div
+              className="aeil-character-portrait-glow"
               aria-hidden="true"
             />
 
@@ -456,7 +435,7 @@ function AEILcharacterpage() {
             <img
               src={aeilLine}
               alt=""
-              className="aeil-character-name-line"
+              className="aeil-character-line"
               aria-hidden="true"
             />
 
@@ -484,6 +463,67 @@ function AEILcharacterpage() {
           )}
 
 
+          {/* =================================================
+              DALŠÍ INFORMACE
+          ================================================= */}
+
+          <section className="aeil-character-information">
+
+            <h2>
+              Další informace
+            </h2>
+
+            <div className="aeil-character-information-line" />
+
+            <div className="aeil-character-details">
+
+              {character.race && (
+
+                <div className="aeil-character-detail">
+
+                  <span>
+                    Rasa
+                  </span>
+
+                  <strong>
+                    {character.race}
+                  </strong>
+
+                </div>
+
+              )}
+
+
+              {Array.isArray(character.details) &&
+                character.details.map(
+                  (detail, index) => (
+
+                    <div
+                      key={
+                        detail.id ||
+                        index
+                      }
+                      className="aeil-character-detail"
+                    >
+
+                      <span>
+                        {detail.label}
+                      </span>
+
+                      <strong>
+                        {detail.value}
+                      </strong>
+
+                    </div>
+
+                  )
+                )}
+
+            </div>
+
+          </section>
+
+
         </section>
 
       </div>
@@ -495,40 +535,289 @@ function AEILcharacterpage() {
 
       <nav className="aeil-character-panels">
 
-        <button type="button" className={`aeil-character-panel ${activePanel === "chapters" ? "active" : ""}`} onClick={() => togglePanel("chapters")}>
-          <span className="aeil-character-panel-image"><img src={chaptersImage} alt="" /><img src={infoFrame} alt="" className="aeil-character-panel-frame" /></span>
-          <span className="aeil-character-panel-label">Kapitoly</span>
+
+        {/* ===================================================
+            KAPITOLY
+        =================================================== */}
+
+        <button
+          type="button"
+          className={`aeil-character-panel ${
+            activePanel === "chapters"
+              ? "active"
+              : ""
+          }`}
+          onClick={() =>
+            togglePanel("chapters")
+          }
+        >
+
+          <span className="aeil-character-panel-image">
+
+            <img
+              src={chaptersImage}
+              alt=""
+            />
+
+            <img
+              src={infoFrame}
+              alt=""
+              className="aeil-character-panel-frame"
+            />
+
+          </span>
+
+          <span className="aeil-character-panel-label">
+            Kapitoly
+          </span>
+
         </button>
 
-        <button type="button" className={`aeil-character-panel ${activePanel === "videos" ? "active" : ""}`} onClick={() => togglePanel("videos")}>
-          <span className="aeil-character-panel-image"><img src={videosImage} alt="" /><img src={infoFrame} alt="" className="aeil-character-panel-frame" /></span>
-          <span className="aeil-character-panel-label">Videa</span>
+
+        {/* ===================================================
+            RASA
+        =================================================== */}
+
+        {character.race && (
+
+          <button
+            type="button"
+            className={`aeil-character-panel ${
+              activePanel === "race"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              togglePanel("race")
+            }
+          >
+
+            <span className="aeil-character-panel-image">
+
+              <img
+                src={raceImage}
+                alt=""
+              />
+
+              <img
+                src={infoFrame}
+                alt=""
+                className="aeil-character-panel-frame"
+              />
+
+            </span>
+
+            <span className="aeil-character-panel-label">
+              Rasa
+            </span>
+
+          </button>
+
+        )}
+
+
+        {/* ===================================================
+            VZTAHY
+        =================================================== */}
+
+        {uniqueRelationships.length > 0 && (
+
+          <button
+            type="button"
+            className={`aeil-character-panel ${
+              activePanel === "relationships"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              togglePanel("relationships")
+            }
+          >
+
+            <span className="aeil-character-panel-image">
+
+              <img
+                src={relationshipsImage}
+                alt=""
+              />
+
+              <img
+                src={infoFrame}
+                alt=""
+                className="aeil-character-panel-frame"
+              />
+
+            </span>
+
+            <span className="aeil-character-panel-label">
+              Vztahy
+            </span>
+
+          </button>
+
+        )}
+
+
+        {/* ===================================================
+            CITÁTY
+        =================================================== */}
+
+        {character.quotes?.length > 0 && (
+
+          <button
+            type="button"
+            className={`aeil-character-panel ${
+              activePanel === "quotes"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              togglePanel("quotes")
+            }
+          >
+
+            <span className="aeil-character-panel-image">
+
+              <img
+                src={quotesImage}
+                alt=""
+              />
+
+              <img
+                src={infoFrame}
+                alt=""
+                className="aeil-character-panel-frame"
+              />
+
+            </span>
+
+            <span className="aeil-character-panel-label">
+              Citáty
+            </span>
+
+          </button>
+
+        )}
+
+
+        {/* ===================================================
+            GALERIE
+        =================================================== */}
+
+        <button
+          type="button"
+          className="aeil-character-panel"
+          onClick={() =>
+            navigate(
+              `/project/${bookId}/characters/${characterId}/gallery`
+            )
+          }
+        >
+
+          <span className="aeil-character-panel-image">
+
+            <img
+              src={galleryImage}
+              alt=""
+            />
+
+            <img
+              src={infoFrame}
+              alt=""
+              className="aeil-character-panel-frame"
+            />
+
+          </span>
+
+          <span className="aeil-character-panel-label">
+            Galerie
+          </span>
+
         </button>
 
-        <button type="button" className={`aeil-character-panel ${activePanel === "soundtrack" ? "active" : ""}`} onClick={() => togglePanel("soundtrack")}>
-          <span className="aeil-character-panel-image"><img src={soundtrackImage} alt="" /><img src={infoFrame} alt="" className="aeil-character-panel-frame" /></span>
-          <span className="aeil-character-panel-label">Soundtrack</span>
-        </button>
 
-        <button type="button" className={`aeil-character-panel ${activePanel === "race" ? "active" : ""}`} onClick={() => togglePanel("race")}>
-          <span className="aeil-character-panel-image"><img src={raceImage} alt="" /><img src={infoFrame} alt="" className="aeil-character-panel-frame" /></span>
-          <span className="aeil-character-panel-label">Rasa</span>
-        </button>
+        {/* ===================================================
+            VIDEA
+        =================================================== */}
 
-        <button type="button" className={`aeil-character-panel ${activePanel === "quotes" ? "active" : ""}`} onClick={() => togglePanel("quotes")}>
-          <span className="aeil-character-panel-image"><img src={quotesImage} alt="" /><img src={infoFrame} alt="" className="aeil-character-panel-frame" /></span>
-          <span className="aeil-character-panel-label">Citáty</span>
-        </button>
+        {character.main_video && (
 
-        <button type="button" className="aeil-character-panel" onClick={() => navigate(`/project/${bookId}/characters/${characterId}/gallery`)}>
-          <span className="aeil-character-panel-image"><img src={galleryImage} alt="" /><img src={infoFrame} alt="" className="aeil-character-panel-frame" /></span>
-          <span className="aeil-character-panel-label">Galerie</span>
-        </button>
+          <button
+            type="button"
+            className={`aeil-character-panel ${
+              activePanel === "videos"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              togglePanel("videos")
+            }
+          >
 
-        <button type="button" className={`aeil-character-panel ${activePanel === "relationships" ? "active" : ""}`} onClick={() => togglePanel("relationships")}>
-          <span className="aeil-character-panel-image"><img src={relationshipsImage} alt="" /><img src={infoFrame} alt="" className="aeil-character-panel-frame" /></span>
-          <span className="aeil-character-panel-label">Vztahy</span>
-        </button>
+            <span className="aeil-character-panel-image">
+
+              <img
+                src={videosImage}
+                alt=""
+              />
+
+              <img
+                src={infoFrame}
+                alt=""
+                className="aeil-character-panel-frame"
+              />
+
+            </span>
+
+            <span className="aeil-character-panel-label">
+              Videa
+            </span>
+
+          </button>
+
+        )}
+
+
+        {/* ===================================================
+            SOUNDTRACK
+        =================================================== */}
+
+        {character.soundtrack && (
+
+          <button
+            type="button"
+            className={`aeil-character-panel ${
+              activePanel === "soundtrack"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              navigate("/soundtracks/books?book=book:2")
+            }
+          >
+
+            <span className="aeil-character-panel-image">
+
+              <img
+                src={soundtrackImage}
+                alt=""
+              />
+
+              <img
+                src={infoFrame}
+                alt=""
+                className="aeil-character-panel-frame"
+              />
+
+            </span>
+
+            <span className="aeil-character-panel-label">
+              Soundtrack
+            </span>
+
+          </button>
+
+        )}
 
       </nav>
 
@@ -605,7 +894,8 @@ function AEILcharacterpage() {
               RASA
           ================================================= */}
 
-          {activePanel === "race" && character.race && (
+          {activePanel === "race" &&
+            character.race && (
 
             <div className="aeil-character-open-panel">
 
@@ -634,55 +924,32 @@ function AEILcharacterpage() {
                 Vztahy
               </h2>
 
-              {uniqueRelationships.length > 0 ? (
+              <div className="aeil-character-relationships">
 
-                <div className="aeil-character-relationships-list">
+                {uniqueRelationships.map(
+                  (relationship) => (
 
-                  {uniqueRelationships.map((relationship, index) => {
+                    <button
+                      key={
+                        relationship.related_character_id
+                      }
+                      type="button"
+                      onClick={() =>
+                        navigate(
+                          `/project/${bookId}/characters/${relationship.related_character_id}`
+                        )
+                      }
+                      className="aeil-character-relationship"
+                    >
 
-                    const relationshipIcons = {
-                      love: "❤️",
-                      family: "👨‍👩‍👧",
-                      friend: "🤝",
-                      enemy: "⚔️",
-                      ex: "💔",
-                      acquaintance: "👤",
-                    };
+                      {relationship.related_character_name}
 
-                    return (
-                      <div
-                        key={relationship.id || relationship.related_character_id || index}
-                        className="aeil-character-relationship"
-                      >
+                    </button>
 
-                        <strong>
-                          {relationship.related_character_name || "Neznámá postava"}
-                        </strong>
+                  )
+                )}
 
-                        {relationship.relationship_types?.length > 0 && (
-                          <span>
-                            {relationship.relationship_types.map((type, typeIndex) => (
-                              <span key={`${type}-${typeIndex}`}>
-                                {relationshipIcons[type] || "👤"} {type}
-                                {typeIndex < relationship.relationship_types.length - 1 ? " · " : ""}
-                              </span>
-                            ))}
-                          </span>
-                        )}
-
-                      </div>
-                    );
-                  })}
-
-                </div>
-
-              ) : (
-
-                <p className="aeil-character-panel-empty">
-                  Zatím nejsou uvedené žádné vztahy.
-                </p>
-
-              )}
+              </div>
 
             </div>
 

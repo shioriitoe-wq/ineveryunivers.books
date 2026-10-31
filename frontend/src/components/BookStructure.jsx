@@ -14,6 +14,7 @@ import {
   getChapters,
   updateChapter,
   getCharacters,
+  uploadBookMedia,
 } from "../services/booksService";
 
 import {
@@ -45,6 +46,9 @@ function BookStructure({ book }) {
 
   const [volumeNumber, setVolumeNumber] = useState("");
   const [volumeTitle, setVolumeTitle] = useState("");
+  const [volumeCoverUrl, setVolumeCoverUrl] = useState("");
+  const [volumeCoverUploading, setVolumeCoverUploading] = useState(false);
+  const [volumeCoverError, setVolumeCoverError] = useState("");
   const [editingVolumeId, setEditingVolumeId] = useState(null);
 
   /* =====================================================
@@ -342,6 +346,31 @@ function BookStructure({ book }) {
      DÍLY – PŘIDAT / UPRAVIT
   ===================================================== */
 
+  async function handleVolumeCoverUpload(file) {
+    if (!file) return;
+
+    const allowed = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowed.includes(file.type)) {
+      setVolumeCoverError("Vyber obrázek JPG, PNG nebo WebP.");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setVolumeCoverError("Obálka může mít maximálně 5 MB.");
+      return;
+    }
+
+    setVolumeCoverUploading(true);
+    setVolumeCoverError("");
+    try {
+      const result = await uploadBookMedia(file, "volume_cover");
+      setVolumeCoverUrl(result.url);
+    } catch (error) {
+      setVolumeCoverError(error.message || "Obálku svazku se nepodařilo nahrát.");
+    } finally {
+      setVolumeCoverUploading(false);
+    }
+  }
+
   async function handleVolumeSubmit(event) {
     event.preventDefault();
 
@@ -352,6 +381,7 @@ function BookStructure({ book }) {
           volumeNumber === ""
             ? null
             : Number(volumeNumber),
+        cover_url: volumeCoverUrl.trim(),
       };
 
       if (editingVolumeId) {
@@ -370,6 +400,8 @@ function BookStructure({ book }) {
 
       setVolumeNumber("");
       setVolumeTitle("");
+      setVolumeCoverUrl("");
+      setVolumeCoverError("");
       setEditingVolumeId(null);
 
       await loadStructure();
@@ -382,6 +414,8 @@ function BookStructure({ book }) {
     setEditingVolumeId(volume.id);
     setVolumeNumber(volume.number ?? "");
     setVolumeTitle(volume.title || "");
+    setVolumeCoverUrl(volume.cover_url || "");
+    setVolumeCoverError("");
   }
 
   async function removeVolume(volume) {
@@ -404,6 +438,8 @@ function BookStructure({ book }) {
         setEditingVolumeId(null);
         setVolumeNumber("");
         setVolumeTitle("");
+        setVolumeCoverUrl("");
+        setVolumeCoverError("");
       }
 
       await loadStructure();
@@ -738,7 +774,13 @@ function BookStructure({ book }) {
 
   return (
     <section className="book-structure">
-      <div className="book-structure-columns">
+      <div
+        className={`book-structure-columns ${
+          !book.uses_volumes && !book.uses_parts
+            ? "book-structure-columns--standalone"
+            : ""
+        }`}
+      >
 
       {/* =================================================
           1. DÍLY
@@ -840,8 +882,40 @@ function BookStructure({ book }) {
               required
             />
 
+            <div className="volume-cover-editor">
+              <label htmlFor="volume-cover-url">Obálka svazku (nepovinná)</label>
+              <input
+                id="volume-cover-url"
+                type="url"
+                value={volumeCoverUrl}
+                onChange={(event) => setVolumeCoverUrl(event.target.value)}
+                placeholder="URL vlastní obálky; prázdné = obálka knihy"
+              />
+              <label htmlFor="volume-cover-file">Nahrát obálku (JPG, PNG, WebP, max. 5 MB)</label>
+              <input
+                id="volume-cover-file"
+                type="file"
+                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                disabled={volumeCoverUploading}
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  event.target.value = "";
+                  if (file) handleVolumeCoverUpload(file);
+                }}
+              />
+              {volumeCoverUploading && <small>Nahrávám obálku svazku…</small>}
+              {volumeCoverError && <small className="volume-cover-error">{volumeCoverError}</small>}
+              {volumeCoverUrl && (
+                <div className="volume-cover-preview-wrap">
+                  <img src={volumeCoverUrl} alt="Náhled obálky svazku" />
+                  <button type="button" onClick={() => setVolumeCoverUrl("")}>Odebrat obálku</button>
+                </div>
+              )}
+              <small>Pokud vlastní obálku nevyplníš, použije se obálka hlavní knihy.</small>
+            </div>
+
             <div className="structure-form-actions">
-              <button type="submit">
+              <button type="submit" disabled={volumeCoverUploading}>
                 {editingVolumeId
                   ? "Uložit díl"
                   : "+ Přidat díl"}
@@ -854,6 +928,8 @@ function BookStructure({ book }) {
                     setEditingVolumeId(null);
                     setVolumeNumber("");
                     setVolumeTitle("");
+                    setVolumeCoverUrl("");
+                    setVolumeCoverError("");
                   }}
                 >
                   Zrušit

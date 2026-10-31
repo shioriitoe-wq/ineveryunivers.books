@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import "./MusicAdminPage.css";
 
 const API_BASE =
@@ -7,57 +7,162 @@ const API_BASE =
     ? "http://localhost:5000/api"
     : "https://ineveryunivers-books-api.onrender.com/api";
 
+const MOOD_OPTIONS = [
+  "Romantická",
+  "Energická",
+  "Temná",
+  "Epická",
+  "Snová",
+  "Melancholická",
+  "Napínavá",
+  "Nostalgická",
+  "Tajemná",
+  "Veselá",
+];
+
+const GENRE_OPTIONS = [
+  "Ambient",
+  "Pop",
+  "Rock",
+  "Metal",
+  "Orchestrální",
+  "Indie",
+  "Elektronická",
+  "Akustická",
+  "Soundtrack",
+  "Alternativní",
+  "Stories",
+];
+
 const EMPTY_FORM = {
   title: "",
   slug: "",
   artist: "",
   book_id: "",
+  volume_id: "",
+  character_names: [],
   audio_url: "",
   cover_url: "",
   duration_seconds: 0,
-  mood_tags: "",
-  genre_tags: "",
+  mood_tags: [],
+  genre_tags: [],
+  custom_moods: "",
+  custom_genres: "",
+  custom_characters: "",
   scene: "",
-  description: "",
   author_comment: "",
-  lyrics_lines: "",
+  lyrics_lines: [],
   allow_download: false,
   published: false,
   sort_order: 0,
 };
+
+function parseArray(value) {
+  if (Array.isArray(value)) return value;
+  if (typeof value === "string" && value.trim()) {
+    return value.split(",").map((item) => item.trim()).filter(Boolean);
+  }
+  return [];
+}
+
+function formatLyricsTime(value) {
+  if (value === "" || value == null) return "";
+  const milliseconds = Number(value);
+  if (!Number.isFinite(milliseconds) || milliseconds < 0) return "";
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  return `${Math.floor(totalSeconds / 60)}:${String(totalSeconds % 60).padStart(2, "0")}`;
+}
+
+function parseLyricsTime(value) {
+  const input = String(value ?? "").trim();
+  if (!input) return null;
+  const match = input.match(/^(\d+):([0-5]?\d)$/);
+  if (!match) return null;
+  return (Number(match[1]) * 60 + Number(match[2])) * 1000;
+}
+
+function normalizeLyrics(lines) {
+  if (!Array.isArray(lines)) return [];
+  return lines.map((line) => {
+    if (typeof line === "string") {
+      return { text_original: line, text_cs: "", start_ms: "", end_ms: "" };
+    }
+    return {
+      text_original: line?.text_original ?? line?.text_en ?? line?.en ?? "",
+      text_cs: line?.text_cs ?? line?.cs ?? "",
+      start_ms: formatLyricsTime(line?.start_ms ?? line?.startMs ?? ""),
+      end_ms: formatLyricsTime(line?.end_ms ?? line?.endMs ?? ""),
+    };
+  });
+}
 
 function fromTrack(track) {
   return {
     ...EMPTY_FORM,
     ...track,
     book_id: track.book_id == null ? "" : String(track.book_id),
-    mood_tags: Array.isArray(track.mood_tags)
-      ? track.mood_tags.join(", ")
-      : "",
-    genre_tags: Array.isArray(track.genre_tags)
-      ? track.genre_tags.join(", ")
-      : "",
-    lyrics_lines: Array.isArray(track.lyrics_lines)
-      ? track.lyrics_lines.join("\n")
-      : "",
+    volume_id: track.volume_id == null ? "" : String(track.volume_id),
+    character_names: parseArray(track.character_names),
+    mood_tags: parseArray(track.mood_tags).filter((tag) => MOOD_OPTIONS.includes(tag)),
+    genre_tags: parseArray(track.genre_tags).filter((tag) => GENRE_OPTIONS.includes(tag)),
+    custom_moods: parseArray(track.mood_tags).filter((tag) => !MOOD_OPTIONS.includes(tag)).join(", "),
+    custom_genres: parseArray(track.genre_tags).filter((tag) => !GENRE_OPTIONS.includes(tag)).join(", "),
+    custom_characters: "",
+    duration_seconds: Number(track.duration_seconds) || 0,
+    lyrics_lines: normalizeLyrics(track.lyrics_lines),
   };
 }
 
 function toPayload(form) {
+  const moodTags = [...new Set([
+    ...form.mood_tags,
+    ...parseArray(form.custom_moods),
+  ])];
+  const genreTags = [...new Set([
+    ...form.genre_tags,
+    ...parseArray(form.custom_genres),
+  ])];
+  const characterNames = [...new Set([
+    ...form.character_names,
+    ...parseArray(form.custom_characters),
+  ])];
+
   return {
-    ...form,
+    title: form.title,
+    slug: form.slug,
+    artist: form.artist,
     book_id: form.book_id || null,
+    volume_id: form.volume_id || null,
+    character_names: characterNames,
+    audio_url: form.audio_url,
+    cover_url: form.cover_url,
     duration_seconds: Number(form.duration_seconds) || 0,
+    mood_tags: moodTags,
+    genre_tags: genreTags,
+    scene: form.scene,
+    author_comment: form.author_comment,
+    lyrics_lines: form.lyrics_lines.map((line) => ({
+      text_original: line.text_original || "",
+      text_cs: line.text_cs || "",
+      start_ms: parseLyricsTime(line.start_ms),
+      end_ms: parseLyricsTime(line.end_ms),
+    })),
+    allow_download: Boolean(form.allow_download),
+    published: Boolean(form.published),
     sort_order: Number(form.sort_order) || 0,
-    mood_tags: form.mood_tags.split(",").map((item) => item.trim()).filter(Boolean),
-    genre_tags: form.genre_tags.split(",").map((item) => item.trim()).filter(Boolean),
-    lyrics_lines: form.lyrics_lines.split("\n"),
   };
+}
+
+function toggleInArray(values, value) {
+  return values.includes(value)
+    ? values.filter((item) => item !== value)
+    : [...values, value];
 }
 
 function MusicAdminPage() {
   const [tracks, setTracks] = useState([]);
   const [books, setBooks] = useState([]);
+  const [volumes, setVolumes] = useState([]);
   const [form, setForm] = useState(EMPTY_FORM);
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -66,6 +171,7 @@ function MusicAdminPage() {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [search, setSearch] = useState("");
+  const [lyricsBulkText, setLyricsBulkText] = useState("");
 
   const request = useCallback(async (path, options = {}) => {
     const token = sessionStorage.getItem("adminToken");
@@ -73,8 +179,8 @@ function MusicAdminPage() {
       ...options,
       headers: {
         ...(options.body && !(options.body instanceof FormData)
-  ? { "Content-Type": "application/json" }
-  : {}),
+          ? { "Content-Type": "application/json" }
+          : {}),
         Authorization: `Bearer ${token}`,
         ...options.headers,
       },
@@ -108,11 +214,79 @@ function MusicAdminPage() {
     loadData();
   }, [loadData]);
 
+  useEffect(() => {
+    let cancelled = false;
+    async function loadVolumes() {
+      if (!form.book_id) {
+        setVolumes([]);
+        return;
+      }
+      try {
+        const data = await request(`/books/${form.book_id}/volumes`);
+        if (!cancelled) setVolumes(Array.isArray(data) ? data : []);
+      } catch {
+        if (!cancelled) setVolumes([]);
+      }
+    }
+    loadVolumes();
+    return () => {
+      cancelled = true;
+    };
+  }, [form.book_id, request]);
+
   function updateField(event) {
     const { name, value, type, checked } = event.target;
     setForm((current) => ({
       ...current,
       [name]: type === "checkbox" ? checked : value,
+      ...(name === "book_id" ? { volume_id: "" } : {}),
+    }));
+  }
+
+  function updateLyrics(index, field, value) {
+    setForm((current) => ({
+      ...current,
+      lyrics_lines: current.lyrics_lines.map((line, lineIndex) =>
+        lineIndex === index ? { ...line, [field]: value } : line
+      ),
+    }));
+  }
+
+  function addLyricLine(afterIndex = null) {
+    setForm((current) => {
+      const next = [...current.lyrics_lines];
+      const insertAt = afterIndex == null ? next.length : afterIndex + 1;
+      next.splice(insertAt, 0, { text_original: "", text_cs: "", start_ms: "", end_ms: "" });
+      return { ...current, lyrics_lines: next };
+    });
+  }
+
+  function moveLyricLine(index, direction) {
+    setForm((current) => {
+      const target = index + direction;
+      if (target < 0 || target >= current.lyrics_lines.length) return current;
+      const next = [...current.lyrics_lines];
+      [next[index], next[target]] = [next[target], next[index]];
+      return { ...current, lyrics_lines: next };
+    });
+  }
+
+  function importLyricsText() {
+    const lines = lyricsBulkText
+      .split(/\r?\n/)
+      .map((text) => text.trim())
+      .filter(Boolean)
+      .map((text) => ({ text_original: text, text_cs: "", start_ms: "", end_ms: "" }));
+    if (!lines.length) return;
+    setForm((current) => ({ ...current, lyrics_lines: lines }));
+    setLyricsBulkText("");
+    setNotice(`Načteno ${lines.length} řádků textu. Časování můžeš doplnit později.`);
+  }
+
+  function removeLyricLine(index) {
+    setForm((current) => ({
+      ...current,
+      lyrics_lines: current.lyrics_lines.filter((_, lineIndex) => lineIndex !== index),
     }));
   }
 
@@ -140,6 +314,23 @@ function MusicAdminPage() {
       return;
     }
 
+    if (isAudio) {
+      const objectUrl = URL.createObjectURL(file);
+      const audio = new Audio();
+      audio.preload = "metadata";
+      audio.onloadedmetadata = () => {
+        if (Number.isFinite(audio.duration) && audio.duration > 0) {
+          setForm((current) => ({
+            ...current,
+            duration_seconds: Math.round(audio.duration),
+          }));
+        }
+        URL.revokeObjectURL(objectUrl);
+      };
+      audio.onerror = () => URL.revokeObjectURL(objectUrl);
+      audio.src = objectUrl;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("type", type);
@@ -150,11 +341,10 @@ function MusicAdminPage() {
         method: "POST",
         body: formData,
       });
-
       const field = isAudio ? "audio_url" : "cover_url";
       setForm((current) => ({ ...current, [field]: result.url }));
       setNotice(isAudio
-        ? "Audio bylo nahráno do úložiště. Nezapomeň uložit skladbu."
+        ? "Audio bylo nahráno do úložiště a délka se načetla z metadat. Nezapomeň uložit skladbu."
         : "Obal byl nahrán do úložiště. Nezapomeň uložit skladbu.");
     } catch (err) {
       setError(err.message || "Soubor se nepodařilo nahrát.");
@@ -164,7 +354,7 @@ function MusicAdminPage() {
   }
 
   function resetForm() {
-    setForm(EMPTY_FORM);
+    setForm({ ...EMPTY_FORM, mood_tags: [], genre_tags: [], character_names: [], lyrics_lines: [] });
     setEditingId(null);
     setError("");
     setNotice("");
@@ -220,11 +410,9 @@ function MusicAdminPage() {
           published: !track.published,
         }),
       });
-      setNotice(
-        track.published
-          ? "Skladba byla skryta z veřejné stránky."
-          : "Skladba byla publikována."
-      );
+      setNotice(track.published
+        ? "Skladba byla skryta z veřejné stránky."
+        : "Skladba byla publikována.");
       await loadData();
     } catch (err) {
       setError(err.message || "Stav publikování se nepodařilo změnit.");
@@ -232,16 +420,12 @@ function MusicAdminPage() {
   }
 
   async function deleteTrack(track) {
-    if (!window.confirm(`Opravdu chceš smazat skladbu „${track.title}“?`)) {
-      return;
-    }
+    if (!window.confirm(`Opravdu chceš smazat skladbu „${track.title}“?`)) return;
 
     setError("");
     setNotice("");
     try {
-      await request(`/admin/soundtracks/${track.id}`, {
-        method: "DELETE",
-      });
+      await request(`/admin/soundtracks/${track.id}`, { method: "DELETE" });
       if (editingId === track.id) resetForm();
       setNotice("Skladba byla odstraněna.");
       await loadData();
@@ -250,8 +434,13 @@ function MusicAdminPage() {
     }
   }
 
+  const knownCharacters = useMemo(() => {
+    const names = tracks.flatMap((track) => parseArray(track.character_names));
+    return [...new Set([...names, ...form.character_names])].sort((a, b) => a.localeCompare(b, "cs"));
+  }, [tracks, form.character_names]);
+
   const filteredTracks = tracks.filter((track) =>
-    `${track.title || ""} ${track.artist || ""} ${track.book_title || ""}`
+    `${track.title || ""} ${track.artist || ""} ${(track.character_names || []).join(" ")} ${track.book_title || ""}`
       .toLowerCase()
       .includes(search.toLowerCase())
   );
@@ -263,7 +452,7 @@ function MusicAdminPage() {
           <p className="music-admin-eyebrow">ADMINISTRACE / OBSAH</p>
           <h1>Správa hudby</h1>
           <p className="music-admin-description">
-            Spravuj soundtracky, jejich texty, přiřazení ke knihám a publikování.
+            Spravuj soundtracky, texty, postavy, přiřazení ke knihám a publikování.
           </p>
         </div>
         <button className="music-admin-button" type="button" onClick={resetForm}>
@@ -290,8 +479,28 @@ function MusicAdminPage() {
             <input name="title" value={form.title} onChange={updateField} required />
           </label>
           <label>
-            Interpret
-            <input name="artist" value={form.artist} onChange={updateField} />
+            Postavy (více postav = duet/skupina)
+            <div className="music-admin-options">
+              {knownCharacters.map((character) => (
+                <label className="music-admin-checkbox" key={character}>
+                  <input
+                    type="checkbox"
+                    checked={form.character_names.includes(character)}
+                    onChange={() => setForm((current) => ({
+                      ...current,
+                      character_names: toggleInArray(current.character_names, character),
+                    }))}
+                  />
+                  {character}
+                </label>
+              ))}
+            </div>
+            <input
+              name="custom_characters"
+              value={form.custom_characters}
+              onChange={updateField}
+              placeholder="Přidat novou postavu (odděluj čárkami)"
+            />
           </label>
           <label>
             URL audia
@@ -339,19 +548,83 @@ function MusicAdminPage() {
             </select>
           </label>
           <label>
-            Délka (sekundy)
+            Konkrétní díl knihy
+            <select
+              name="volume_id"
+              value={form.volume_id}
+              onChange={updateField}
+              disabled={!form.book_id || volumes.length === 0}
+            >
+              <option value="">Celá kniha / bez dílu</option>
+              {volumes.map((volume) => (
+                <option key={volume.id} value={volume.id}>
+                  {volume.number != null ? `${volume.number}. ` : ""}{volume.title}
+                </option>
+              ))}
+            </select>
+            {form.book_id && volumes.length === 0 && <small>Pro tuto knihu nejsou dostupné díly.</small>}
+          </label>
+          <label>
+            Délka skladby (sekundy; doplní se z MP3)
             <input name="duration_seconds" type="number" min="0" value={form.duration_seconds} onChange={updateField} />
           </label>
-          <label>
-            Žánry
-            <input name="genre_tags" value={form.genre_tags} onChange={updateField} placeholder="fantasy, dark ambient" />
-            <small>Odděluj čárkami.</small>
-          </label>
-          <label>
-            Nálady
-            <input name="mood_tags" value={form.mood_tags} onChange={updateField} placeholder="temná, romantická" />
-            <small>Odděluj čárkami.</small>
-          </label>
+
+          <fieldset className="music-admin-wide">
+            <legend>Žánry</legend>
+            <div className="music-admin-options">
+              {GENRE_OPTIONS.map((genre) => (
+                <label className="music-admin-checkbox" key={genre}>
+                  <input
+                    type="checkbox"
+                    checked={form.genre_tags.includes(genre)}
+                    onChange={() => setForm((current) => ({
+                      ...current,
+                      genre_tags: toggleInArray(current.genre_tags, genre),
+                    }))}
+                  />
+                  {genre}
+                </label>
+              ))}
+            </div>
+            <label>
+              Vlastní žánry
+              <input
+                name="custom_genres"
+                value={form.custom_genres}
+                onChange={updateField}
+                placeholder="Např. dark ambient, folk (odděluj čárkami)"
+              />
+            </label>
+          </fieldset>
+
+          <fieldset className="music-admin-wide">
+            <legend>Nálady</legend>
+            <div className="music-admin-options">
+              {MOOD_OPTIONS.map((mood) => (
+                <label className="music-admin-checkbox" key={mood}>
+                  <input
+                    type="checkbox"
+                    checked={form.mood_tags.includes(mood)}
+                    onChange={() => setForm((current) => ({
+                      ...current,
+                      mood_tags: toggleInArray(current.mood_tags, mood),
+                    }))}
+                  />
+                  {mood}
+                </label>
+              ))}
+            </div>
+            <label>
+              Vlastní nálady
+              <input
+                name="custom_moods"
+                value={form.custom_moods}
+                onChange={updateField}
+                placeholder="Např. hrozivá, triumfální (odděluj čárkami)"
+              />
+            </label>
+          </fieldset>
+
           <label>
             Scéna / použití
             <input name="scene" value={form.scene} onChange={updateField} />
@@ -361,17 +634,74 @@ function MusicAdminPage() {
             <input name="sort_order" type="number" min="0" value={form.sort_order} onChange={updateField} />
           </label>
           <label className="music-admin-wide">
-            Popis
-            <textarea name="description" value={form.description} onChange={updateField} rows="3" />
-          </label>
-          <label className="music-admin-wide">
             Komentář autorky
             <textarea name="author_comment" value={form.author_comment} onChange={updateField} rows="3" />
           </label>
-          <label className="music-admin-wide">
-            Text písně
-            <textarea name="lyrics_lines" value={form.lyrics_lines} onChange={updateField} rows="7" placeholder="Každý řádek textu na samostatný řádek." />
-          </label>
+        </div>
+
+        <div className="music-admin-lyrics music-admin-wide">
+          <div className="music-admin-form-heading">
+            <h3>Text písně a karaoke</h3>
+            <button className="music-admin-secondary" type="button" onClick={() => addLyricLine()}>
+              + Přidat řádek
+            </button>
+          </div>
+          <p>Každý řádek může obsahovat začátek, konec, originál i překlad. Čas zadávej jako minuty:sekundy (např. 01:12). Pokud karaoke nechceš, nech časy prázdné.</p>
+
+          <div className="music-admin-lyrics-import">
+            <label>
+              Rychlé vložení celého textu
+              <textarea
+                rows="5"
+                value={lyricsBulkText}
+                onChange={(event) => setLyricsBulkText(event.target.value)}
+                placeholder="Vlož celý text písně. Každý nový řádek se převede na samostatný řádek textu bez časování."
+              />
+            </label>
+            <button className="music-admin-secondary" type="button" onClick={importLyricsText} disabled={!lyricsBulkText.trim()}>
+              Nahradit řádky vloženým textem
+            </button>
+          </div>
+
+          <div className="music-admin-lyrics-table-wrap">
+            <div className="music-admin-lyrics-table-head">
+              <span>ZAČÁTEK (MM:SS)</span>
+              <span>KONEC (MM:SS)</span>
+              <span>ORIGINÁL</span>
+              <span>ČESKÝ PŘEKLAD</span>
+              <span>POŘADÍ</span>
+            </div>
+            {form.lyrics_lines.length === 0 && (
+              <p className="music-admin-empty">Zatím nejsou přidané žádné řádky textu.</p>
+            )}
+            {form.lyrics_lines.map((line, index) => (
+              <div className="music-admin-lyric-row" key={index}>
+                <label>
+                  <span className="music-admin-lyric-mobile-label">Začátek (mm:ss)</span>
+                  <input type="text" inputMode="numeric" value={line.start_ms} placeholder="00:00" onChange={(event) => updateLyrics(index, "start_ms", event.target.value)} />
+                </label>
+                <label>
+                  <span className="music-admin-lyric-mobile-label">Konec (mm:ss)</span>
+                  <input type="text" inputMode="numeric" value={line.end_ms} placeholder="00:00" onChange={(event) => updateLyrics(index, "end_ms", event.target.value)} />
+                </label>
+                <label>
+                  <span className="music-admin-lyric-mobile-label">Originál</span>
+                  <textarea rows="2" value={line.text_original} onChange={(event) => updateLyrics(index, "text_original", event.target.value)} />
+                </label>
+                <label>
+                  <span className="music-admin-lyric-mobile-label">Český překlad</span>
+                  <textarea rows="2" value={line.text_cs} onChange={(event) => updateLyrics(index, "text_cs", event.target.value)} />
+                </label>
+                <div className="music-admin-lyric-controls">
+                  <strong>{index + 1}</strong>
+                  <button type="button" className="music-admin-secondary" title="Posunout nahoru" aria-label={`Posunout řádek ${index + 1} nahoru`} disabled={index === 0} onClick={() => moveLyricLine(index, -1)}>↑</button>
+                  <button type="button" className="music-admin-secondary" title="Posunout dolů" aria-label={`Posunout řádek ${index + 1} dolů`} disabled={index === form.lyrics_lines.length - 1} onClick={() => moveLyricLine(index, 1)}>↓</button>
+                  <button type="button" className="music-admin-secondary" title="Vložit řádek pod tento" aria-label={`Vložit řádek pod ${index + 1}`} onClick={() => addLyricLine(index)}>+</button>
+                  <button type="button" className="music-admin-danger" title="Odebrat řádek" aria-label={`Odebrat řádek ${index + 1}`} onClick={() => removeLyricLine(index)}>×</button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="music-admin-options">
@@ -428,7 +758,11 @@ function MusicAdminPage() {
               )}
               <div className="music-admin-track-info">
                 <h3>{track.title}</h3>
-                <p>{track.artist || "Bez interpreta"}{track.book_title ? ` · ${track.book_title}` : ""}</p>
+                <p>
+                  {parseArray(track.character_names).join(" + ") || track.artist || "Bez přiřazené postavy"}
+                  {track.book_title ? ` · ${track.book_title}` : ""}
+                  {track.volume_title ? ` · ${track.volume_number != null ? `${track.volume_number}. ` : ""}${track.volume_title}` : ""}
+                </p>
                 <div className="music-admin-tags">
                   <span className={track.published ? "is-published" : "is-draft"}>
                     {track.published ? "Publikováno" : "Koncept"}

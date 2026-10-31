@@ -885,3 +885,65 @@
   }
 
 }
+
+/* =========================================================
+   OBÁLKA KNIHY – ADMINISTRACE
+========================================================= */
+.project-cover-field {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0;
+  max-width: 560px;
+}
+
+.project-cover-field > label,
+.project-cover-upload-label {
+  color: #b9c9ad;
+  font-size: 13px;
+}
+
+.project-cover-field input[type="url"],
+.project-cover-field input[type="file"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 10px;
+  border: 1px solid #3b4439;
+  border-radius: 5px;
+  background: #090c09;
+  color: #d9ddd4;
+}
+
+.project-cover-field small {
+  color: #929b8b;
+  line-height: 1.45;
+}
+
+.project-cover-field .project-cover-error {
+  color: #f0a0a0;
+}
+
+.project-cover-preview-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.project-cover-preview {
+  display: block;
+  width: 112px;
+  height: 148px;
+  object-fit: cover;
+  border: 1px solid #718366;
+  border-radius: 6px;
+  background: #080a08;
+}
+
+.project-cover-preview-wrap button {
+  border: 1px solid #593d3d;
+  border-radius: 5px;
+  padding: 8px 12px;
+  color: #e0bcbc;
+  background: #1b1111;
+  cursor: pointer;
+}

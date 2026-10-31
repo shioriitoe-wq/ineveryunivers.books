@@ -1,4 +1,4 @@
-﻿import json
+import json
 import re
 import unicodedata
 import os
@@ -22,6 +22,12 @@ def _track_query(where_clause="", order_clause=""):
             mt.artist,
             mt.book_id,
             b.title AS book_title,
+            b.cover_url AS book_cover_url,
+            mt.volume_id,
+            v.title AS volume_title,
+            v.number AS volume_number,
+            v.cover_url AS volume_cover_url,
+            mt.character_names,
             mt.audio_url,
             mt.cover_url,
             mt.duration_seconds,
@@ -37,6 +43,7 @@ def _track_query(where_clause="", order_clause=""):
             mt.created_at
         FROM music_tracks mt
         LEFT JOIN books b ON b.id = mt.book_id
+        LEFT JOIN volumes v ON v.id = mt.volume_id
         {where_clause}
         {order_clause}
     """
@@ -48,7 +55,7 @@ def _serialize_track(row):
 
     result = dict(row)
 
-    for field in ("mood_tags", "genre_tags"):
+    for field in ("mood_tags", "genre_tags", "character_names"):
         value = result.get(field)
         if value is None:
             result[field] = []
@@ -68,6 +75,30 @@ def _serialize_track(row):
             result["lyrics_lines"] = parsed if isinstance(parsed, list) else []
         except (json.JSONDecodeError, TypeError):
             result["lyrics_lines"] = []
+
+    # Convert older plain-text lyric rows into the newer bilingual row shape.
+    normalized_lyrics = []
+    for line in result.get("lyrics_lines", []):
+        if isinstance(line, str):
+            normalized_lyrics.append({
+                "text_original": line,
+                "text_en": line,
+                "text_cs": "",
+                "start_ms": None,
+                "end_ms": None,
+            })
+        elif isinstance(line, dict):
+            original = line.get("text_original", line.get("text_en", line.get("en", "")))
+            translated = line.get("text_cs", line.get("cs", ""))
+            normalized_lyrics.append({
+                **line,
+                "text_original": original if isinstance(original, str) else "",
+                "text_en": original if isinstance(original, str) else "",
+                "text_cs": translated if isinstance(translated, str) else "",
+                "start_ms": line.get("start_ms", line.get("startMs")),
+                "end_ms": line.get("end_ms", line.get("endMs")),
+            })
+    result["lyrics_lines"] = normalized_lyrics
 
     for field in ("allow_download", "published"):
         result[field] = bool(result.get(field))
@@ -122,14 +153,24 @@ def _tag_list(value, field):
     return result
 
 
+
 def _lyrics_list(value):
     if value is None or value == "":
         return []
+
     if isinstance(value, str):
         return value.splitlines()
-    if isinstance(value, list) and all(isinstance(line, str) for line in value):
-        return value
-    raise ValueError("Text písně musí být seznam řádků nebo text.")
+
+    if isinstance(value, list):
+        if all(isinstance(line, str) for line in value):
+            return value
+        if all(isinstance(line, dict) for line in value):
+            return value
+
+    raise ValueError(
+        "Text písně musí být seznam řádků nebo text."
+    )
+
 
 
 def _integer_value(data, field, default=0, minimum=0):
@@ -158,6 +199,7 @@ def _boolean_value(data, field, default=False):
     raise ValueError(f"Pole {field} musí být pravdivostní hodnota.")
 
 
+
 def _track_values(data):
     if not isinstance(data, dict):
         raise ValueError("Očekávám objekt s údaji o skladbě.")
@@ -182,11 +224,69 @@ def _track_values(data):
         if book_id <= 0:
             raise ValueError("ID knihy musí být kladné číslo.")
 
+    raw_volume_id = data.get("volume_id")
+    if raw_volume_id in (None, ""):
+        volume_id = None
+    else:
+        try:
+            volume_id = int(raw_volume_id)
+        except (ValueError, TypeError):
+            raise ValueError("Vybraný díl nemá platné ID.")
+        if volume_id <= 0:
+            raise ValueError("ID dílu musí být kladné číslo.")
+
+    raw_characters = data.get("character_names", [])
+    character_names = _tag_list(raw_characters, "character_names")
+
+    raw_lyrics = data.get("lyrics_lines")
+    lyrics_lines = _lyrics_list(raw_lyrics)
+
+    normalized_lyrics = []
+    for line in lyrics_lines:
+        if isinstance(line, str):
+            normalized_lyrics.append({
+                "text_original": line,
+                "text_cs": "",
+                "start_ms": None,
+                "end_ms": None,
+            })
+        elif isinstance(line, dict):
+            original = line.get("text_original", line.get("text_en", line.get("en", "")))
+            translated = line.get("text_cs", line.get("cs", ""))
+            if not isinstance(original, str) or not isinstance(translated, str):
+                raise ValueError("Texty řádků písně musí být text.")
+            start_ms = line.get("start_ms", line.get("startMs"))
+            end_ms = line.get("end_ms", line.get("endMs"))
+
+            def parse_time(value, field):
+                if value in (None, ""):
+                    return None
+                if isinstance(value, bool):
+                    raise ValueError(f"Čas {field} musí být nezáporné celé číslo.")
+                try:
+                    number = int(value)
+                except (ValueError, TypeError):
+                    raise ValueError(f"Čas {field} musí být nezáporné celé číslo.")
+                if number < 0:
+                    raise ValueError(f"Čas {field} nesmí být záporný.")
+                return number
+
+            normalized_lyrics.append({
+                "text_original": original,
+                "text_cs": translated,
+                "start_ms": parse_time(start_ms, "začátku"),
+                "end_ms": parse_time(end_ms, "konce"),
+            })
+        else:
+            raise ValueError("Řádek textu musí být text nebo objekt.")
+
     return {
         "title": title,
         "slug": slug,
         "artist": artist,
         "book_id": book_id,
+        "volume_id": volume_id,
+        "character_names": character_names,
         "audio_url": audio_url,
         "cover_url": cover_url,
         "duration_seconds": _integer_value(data, "duration_seconds"),
@@ -195,11 +295,12 @@ def _track_values(data):
         "scene": _string_value(data, "scene"),
         "description": _string_value(data, "description"),
         "author_comment": _string_value(data, "author_comment"),
-        "lyrics_lines": _lyrics_list(data.get("lyrics_lines")),
+        "lyrics_lines": normalized_lyrics,
         "allow_download": _boolean_value(data, "allow_download"),
         "published": _boolean_value(data, "published"),
         "sort_order": _integer_value(data, "sort_order"),
     }
+
 
 
 def _slug_exists(cursor, slug, exclude_id=None):
@@ -297,13 +398,13 @@ def admin_create_soundtrack():
         cursor.execute(
             """
             INSERT INTO music_tracks (
-                title, slug, artist, book_id, audio_url, cover_url,
-                duration_seconds, mood_tags, genre_tags, scene,
-                description, author_comment, lyrics_lines,
+                title, slug, artist, book_id, volume_id, character_names,
+                audio_url, cover_url, duration_seconds, mood_tags, genre_tags,
+                scene, description, author_comment, lyrics_lines,
                 allow_download, published, sort_order
             )
             VALUES (
-                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::jsonb, ?, ?, ?
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::jsonb, ?, ?, ?
             )
             RETURNING id
             """,
@@ -312,6 +413,8 @@ def admin_create_soundtrack():
                 values["slug"],
                 values["artist"],
                 values["book_id"],
+                values["volume_id"],
+                values["character_names"],
                 values["audio_url"],
                 values["cover_url"],
                 values["duration_seconds"],
@@ -365,6 +468,8 @@ def admin_update_soundtrack(track_id):
                 slug = ?,
                 artist = ?,
                 book_id = ?,
+                volume_id = ?,
+                character_names = ?,
                 audio_url = ?,
                 cover_url = ?,
                 duration_seconds = ?,
@@ -385,6 +490,8 @@ def admin_update_soundtrack(track_id):
                 values["slug"],
                 values["artist"],
                 values["book_id"],
+                values["volume_id"],
+                values["character_names"],
                 values["audio_url"],
                 values["cover_url"],
                 values["duration_seconds"],
@@ -432,7 +539,8 @@ def admin_delete_soundtrack(track_id):
         connection.close()
 
 @soundtracks_bp.route("/api/admin/soundtracks/upload", methods=["POST"])
-def admin_upload_soundtrack_file():
+@soundtracks_bp.route("/api/admin/media/upload", methods=["POST"])
+def admin_upload_media_file():
     if not _admin_authorized():
         return jsonify({"message": "Přihlášení administrátora je vyžadováno."}), 401
 
@@ -455,10 +563,22 @@ def admin_upload_soundtrack_file():
             "folder": "covers",
             "max_size": 5 * 1024 * 1024,
         },
+        "book_cover": {
+            "extensions": {".jpg", ".jpeg", ".png", ".webp"},
+            "mimetypes": {"image/jpeg", "image/png", "image/webp"},
+            "folder": "book-covers",
+            "max_size": 5 * 1024 * 1024,
+        },
+        "volume_cover": {
+            "extensions": {".jpg", ".jpeg", ".png", ".webp"},
+            "mimetypes": {"image/jpeg", "image/png", "image/webp"},
+            "folder": "volume-covers",
+            "max_size": 5 * 1024 * 1024,
+        },
     }
 
     if file_type not in allowed_types:
-        return jsonify({"message": "Typ musí být audio nebo cover."}), 400
+        return jsonify({"message": "Typ musí být audio, cover, book_cover nebo volume_cover."}), 400
 
     config = allowed_types[file_type]
     extension = Path(uploaded_file.filename).suffix.lower()

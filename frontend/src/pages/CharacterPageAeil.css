@@ -1,0 +1,816 @@
+
+/* =========================================================
+   AEIL – DETAIL POSTAVY
+========================================================= */
+
+.character-page-aeil {
+  --aeil-gold: #c99a4c;
+  --aeil-gold-light: #e6c77d;
+  --aeil-cream: #eadcc8;
+
+  display: grid !important;
+  grid-template-columns: minmax(320px, 34vw) minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: start;
+  column-gap: clamp(22px, 2.2vw, 42px);
+  row-gap: 0;
+
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  padding: 24px 2.5vw 42px;
+  overflow-x: clip;
+  overflow-y: visible;
+
+  color: var(--aeil-cream);
+  background: #160709;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  box-sizing: border-box;
+}
+
+.character-page-aeil .character-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center top;
+}
+
+/* ZPĚT */
+
+.character-page-aeil .character-back {
+  position: fixed;
+  top: 26px;
+  left: 26px;
+  z-index: 100;
+}
+
+/* LEVÝ PORTRÉT */
+
+.character-page-aeil .character-main-visual {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+
+  width: 100%;
+  max-width: 100%;
+  height: min(88vh, 1120px);
+  min-height: 560px;
+  margin: 0;
+
+  transform: none;
+  z-index: 2;
+  overflow: visible;
+}
+
+.character-page-aeil .character-main-photo,
+.character-page-aeil .character-main-photo-hover,
+.character-page-aeil .character-main-gif {
+   position: absolute;
+  left: 15%;
+  top: 10%;
+  width: 70%;
+  height: 78%;
+  overflow: hidden;
+  border-radius: 0;
+  z-index: 1;
+}
+
+.character-page-aeil .character-main-photo img,
+.character-page-aeil .character-main-photo-hover img,
+.character-page-aeil .character-main-gif img,
+.character-page-aeil .character-main-gif video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+}
+
+.character-page-aeil .character-main-photo-hover {
+  z-index: 2;
+  opacity: 0;
+  transition: opacity .45s ease;
+}
+
+.character-page-aeil .character-main-visual:hover .character-main-photo-hover {
+  opacity: 1;
+}
+
+.character-page-aeil .character-main-gif {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.character-page-aeil .character-main-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+}
+
+/* PRAVÁ ČÁST */
+
+.character-page-aeil .character-right {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+
+  transform: none;
+  overflow: visible;
+  z-index: 2;
+}
+
+/* JMÉNO */
+
+.character-page-aeil .character-header-visual {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0 0 16px;
+  box-sizing: border-box;
+}
+
+.character-page-aeil .character-header-frame,
+.character-page-aeil .character-header-photo {
+  display: none;
+}
+
+.character-page-aeil .character-header-text {
+  position: relative;
+  inset: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+
+.character-page-aeil .character-header-text h1 {
+  margin: 8px 0 14px;
+  color: #e6bd68;
+  font-family: "Italianno", "Caveat", cursive;
+  font-size: clamp(54px, 5.2vw, 88px);
+  font-weight: 400;
+  line-height: .95;
+  letter-spacing: .5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, .65);
+}
+
+/* ZLATÁ LINKA */
+
+.character-page-aeil .character-aeil-gold-line {
+  display: block;
+  width: min(92%, 250px);
+  height: 38px;
+  margin: 0 auto 10px;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* CITÁT */
+
+.character-page-aeil .character-quote {
+  position: static;
+  width: 100%;
+  margin: 0;
+  padding: 0 12px 18px;
+  color: var(--aeil-gold-light);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(18px, 1.55vw, 26px);
+  font-style: italic;
+  line-height: 1.35;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .7);
+}
+
+/* TEXTOVÝ PROFIL */
+
+.character-page-aeil .character-aeil-description {
+  flex: none;
+  width: 100%;
+  min-height: 430px;
+  height: auto;
+  max-height: none;
+  margin: 0;
+  padding: 30px 34px 36px;
+  overflow: visible;
+
+  border: 1px solid rgba(201, 154, 76, .62);
+  background: rgba(28, 8, 12, .34);
+  color: var(--aeil-cream);
+
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(19px, 1.55vw, 27px);
+  line-height: 1.48;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.character-page-aeil .character-aeil-description p {
+  margin: 0 0 1em;
+  color: inherit;
+}
+
+/* OSOBNÍ INFORMACE */
+
+.character-page-aeil .character-aeil-information {
+  position: relative;
+  flex: none;
+  width: 100%;
+  min-height: 190px;
+  height: auto;
+  max-height: none;
+  margin: 18px 0 28px;
+  padding: 28px 34px;
+  overflow: visible;
+
+  border: 0;
+  background-image: var(--aeil-info-frame);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-sizing: border-box;
+}
+
+.character-page-aeil .character-aeil-information .character-details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 16px 22px;
+  width: 100%;
+  margin: 0;
+}
+
+.character-page-aeil .character-aeil-information .character-detail {
+  flex: 1 1 140px;
+  min-width: 110px;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  text-align: center;
+}
+
+.character-page-aeil .character-aeil-information .character-detail span {
+  display: block;
+  margin: 0 0 7px;
+  color: var(--aeil-gold);
+  font-family: "Cinzel", serif;
+  font-size: clamp(13px, 1vw, 17px);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.character-page-aeil .character-aeil-information .character-detail strong {
+  display: block;
+  color: var(--aeil-cream);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(18px, 1.5vw, 25px);
+  font-weight: 600;
+}
+
+/* OBSAH ROZBALENÝCH PANELŮ */
+
+.character-page-aeil .character-section:not(.character-aeil-information) {
+  position: relative;
+  flex: none;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  min-height: 80px;
+  margin: 0 0 24px;
+  padding: 24px 28px;
+  overflow: visible;
+  border-top: 1px solid rgba(201, 154, 76, .55);
+  border-bottom: 1px solid rgba(201, 154, 76, .35);
+  background: rgba(18, 6, 9, .38);
+  color: var(--aeil-cream);
+}
+
+.character-page-aeil .character-section p {
+  color: var(--aeil-cream);
+}
+
+.character-page-aeil .character-admin-quote-text {
+  color: #d8c7b3;
+}
+
+.character-page-aeil .character-admin-quote-source {
+  color: var(--aeil-gold-light);
+}
+
+/* SPODNÍ NAVIGACE – CELOU ŠÍŘKOU */
+
+.character-page-aeil > .character-panels-aeil {
+  grid-column: 1 / -1;
+  grid-row: 2;
+
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: clamp(10px, 1.5vw, 24px);
+  width: 100%;
+  min-width: 0;
+  margin: 22px 0 0;
+  padding: 12px 1.5vw 18px;
+
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+/* JEDNOTLIVÉ PANELY */
+
+.character-page-aeil > .character-panels-aeil .character-panel-button {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: clamp(58px, 5.2vw, 82px);
+  padding: 0 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+
+  color: #e6c77d;
+  font-family: "Cinzel", serif;
+  font-size: clamp(12px, 1.05vw, 17px);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .85);
+
+  cursor: pointer;
+  transition: transform .25s ease, filter .25s ease;
+}
+
+.character-page-aeil > .character-panels-aeil .character-panel-button:hover {
+  color: #fff0c9;
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 5px rgba(220, 175, 95, .35));
+}
+
+/* SCROLL CELÉ STRÁNKY */
+
+.character-page-aeil,
+.character-page-aeil .character-right {
+  overflow: visible;
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+  .character-page-aeil {
+    grid-template-columns: minmax(230px, 34vw) minmax(0, 1fr);
+    column-gap: 18px;
+  }
+
+  .character-page-aeil .character-main-visual {
+    height: 72vh;
+    min-height: 460px;
+  }
+
+  .character-page-aeil > .character-panels-aeil {
+    gap: 6px;
+    padding-inline: 0;
+  }
+}
+
+/* MOBIL */
+
+@media (max-width: 650px) {
+  .character-page-aeil {
+    display: flex !important;
+    flex-direction: column;
+    gap: 18px;
+    padding: 82px 14px 28px;
+  }
+
+  .character-page-aeil .character-main-visual {
+    position: relative;
+    top: auto;
+    align-self: center;
+    width: min(88vw, 420px);
+    height: min(118vw, 590px);
+    min-height: 0;
+  }
+
+  .character-page-aeil .character-right {
+    width: 100%;
+  }
+
+  .character-page-aeil .character-header-text h1 {
+    font-size: clamp(42px, 11vw, 64px);
+  }
+
+  .character-page-aeil .character-aeil-description {
+    min-height: 260px;
+    padding: 20px;
+    font-size: 18px;
+  }
+
+  .character-page-aeil .character-aeil-information {
+    min-height: 180px;
+    padding: 24px 18px;
+  }
+
+  .character-page-aeil > .character-panels-aeil {
+    width: 100%;
+    margin: 10px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .character-page-aeil > .character-panels-aeil .character-panel-button {
+    height: 62px;
+    font-size: 13px;
+  }
+}
+
+/* ==========================================
+   AEIL – FINÁLNÍ DOLADĚNÍ
+========================================== */
+
+/* Menší text a úspornější pravá část */
+.character-page-aeil .character-aeil-description {
+  font-size: 20px !important;
+  line-height: 1.4 !important;
+  min-height: 280px !important;
+  padding: 22px 28px !important;
+  margin-bottom: 12px !important;
+}
+
+/* Menší nadpis */
+.character-page-aeil .character-header-text h1 {
+  font-size: clamp(48px, 4.2vw, 70px) !important;
+  margin-bottom: 8px !important;
+}
+
+/* Citát */
+.character-page-aeil .character-quote {
+  font-size: 19px !important;
+  padding-bottom: 12px !important;
+}
+
+/* Osobní informace – BEZ dekorativního rámečku */
+.character-page-aeil .character-aeil-information {
+  background: none !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  min-height: 90px !important;
+  margin: 8px 0 12px !important;
+  padding: 12px 10px !important;
+}
+
+/* Rozložení informací */
+.character-page-aeil .character-aeil-information .character-details {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Nadpisy informací */
+.character-page-aeil .character-aeil-information .character-detail span {
+  font-size: 14px !important;
+  letter-spacing: 1.3px;
+}
+
+/* Hodnoty informací */
+.character-page-aeil .character-aeil-information .character-detail strong {
+  font-size: 20px !important;
+}
+
+/* Spodní panely */
+.character-page-aeil .character-panel-button {
+  height: 105px !important;
+  flex: 1 1 0;
+  background-size: contain !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  color: #e6c77d !important;
+  font-size: 15px !important;
+  font-family: "Cinzel", serif !important;
+}
+
+/* Hover */
+.character-page-aeil .character-panel-button:hover {
+  transform: scale(1.04);
+  filter: drop-shadow(0 0 7px rgba(210, 165, 95, .4));
+}
+
+/* Celá stránka se posouvá */
+.character-page-aeil {
+  overflow-y: visible !important;
+  overflow-x: clip !important;
+}
+
+/* =====================================================
+   AEIL – VÝŠKA PROFILU A VNITŘNÍ SCROLL
+===================================================== */
+
+/* Pravá část má stejnou výšku jako hlavní portrét */
+.character-page-aeil .character-right {
+  height: min(88vh, 1120px) !important;
+  min-height: 560px !important;
+  max-height: min(88vh, 1120px) !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+
+  box-sizing: border-box;
+}
+
+/* Hlavička zůstane nahoře */
+.character-page-aeil .character-header-visual {
+  flex: 0 0 auto !important;
+  width: 100%;
+}
+
+/* Jméno */
+.character-page-aeil .character-header-text h1 {
+  font-size: clamp(46px, 4vw, 68px) !important;
+  margin: 4px 0 8px !important;
+}
+
+/* Zlatá linka */
+.character-page-aeil .character-aeil-gold-line {
+  height: 32px !important;
+  margin-bottom: 6px !important;
+}
+
+/* Citát */
+.character-page-aeil .character-quote {
+  flex: 0 0 auto !important;
+  padding-bottom: 12px !important;
+}
+
+/* Textový profil – vyplní volné místo */
+.character-page-aeil .character-aeil-description {
+  flex: 1 1 auto !important;
+
+  width: 100%;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+
+  margin: 0 !important;
+  padding: 20px 26px !important;
+
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+
+  box-sizing: border-box;
+
+  font-size: 20px !important;
+  line-height: 1.4 !important;
+
+  scrollbar-width: thin;
+  scrollbar-color: #a77b3c rgba(20, 7, 9, .4);
+}
+
+/* Scrollbar pro Chrome */
+.character-page-aeil .character-aeil-description::-webkit-scrollbar {
+  width: 7px;
+}
+
+.character-page-aeil .character-aeil-description::-webkit-scrollbar-track {
+  background: rgba(20, 7, 9, .4);
+}
+
+.character-page-aeil .character-aeil-description::-webkit-scrollbar-thumb {
+  background: #a77b3c;
+  border-radius: 10px;
+}
+
+/* Osobní informace zůstanou vždy dole */
+.character-page-aeil .character-aeil-information {
+  flex: 0 0 auto !important;
+
+  width: 100%;
+  min-height: 100px !important;
+  height: auto !important;
+  max-height: 145px;
+
+  margin: 8px 0 0 !important;
+  padding: 12px 10px !important;
+
+  overflow: visible !important;
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Mobilní zařízení – výška se přizpůsobí obsahu */
+@media (max-width: 650px) {
+  .character-page-aeil .character-right {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .character-page-aeil .character-aeil-description {
+    flex: none !important;
+    min-height: 300px !important;
+    max-height: 500px !important;
+  }
+}
+
+/* AEIL – POSUN HLAVNÍHO PORTRÉTU NAHORU */
+
+.character-page-aeil .character-main-visual {
+  position: relative !important;
+  align-self: start !important;
+  top: 0px !important;
+  margin-top: 0 !important;
+  transform: none !important;
+}
+
+
+/* =====================================================
+   AEIL – OBRÁZKY VE SPODNÍCH KRUHOVÝCH PANELECH
+===================================================== */
+.character-page-aeil > .character-panels-aeil {
+  align-items: center;
+  justify-content: space-around;
+  gap: clamp(8px, 1.2vw, 22px);
+  margin-top: 22px;
+  padding: 12px 1.5vw 18px;
+}
+
+.character-page-aeil > .character-panels-aeil .character-panel-button {
+  position: relative;
+  isolation: isolate;
+  flex: 0 1 clamp(112px, 10.5vw, 178px);
+  width: clamp(112px, 10.5vw, 178px);
+  min-width: 0;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  color: #e6c77d;
+  font-family: "Cinzel", serif;
+  font-size: clamp(11px, .95vw, 16px) !important;
+  letter-spacing: .7px;
+  text-transform: uppercase;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, .95);
+  cursor: pointer;
+  transition: transform .25s ease, filter .25s ease;
+}
+
+.character-page-aeil > .character-panels-aeil .character-panel-image {
+  position: absolute;
+  inset: 8%;
+  z-index: -1;
+  display: block;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, .55);
+  transition: filter .25s ease, transform .25s ease;
+}
+
+.character-page-aeil > .character-panels-aeil .character-panel-label {
+  position: relative;
+  z-index: 2;
+  display: block;
+  max-width: 90%;
+  line-height: 1.15;
+  pointer-events: none;
+}
+
+.character-page-aeil > .character-panels-aeil .character-panel-button:hover {
+  transform: translateY(-3px) scale(1.04);
+  filter: drop-shadow(0 0 7px rgba(210, 165, 95, .48));
+}
+
+.character-page-aeil > .character-panels-aeil .character-panel-button:hover .character-panel-image {
+  filter: brightness(1.2) saturate(1.08);
+  transform: scale(.97);
+}
+
+@media (max-width: 900px) {
+  .character-page-aeil > .character-panels-aeil .character-panel-button {
+    flex-basis: clamp(90px, 13vw, 130px);
+    width: clamp(90px, 13vw, 130px);
+  }
+}
+
+@media (max-width: 650px) {
+  .character-page-aeil > .character-panels-aeil {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-items: center;
+    gap: 12px;
+  }
+
+  .character-page-aeil > .character-panels-aeil .character-panel-button {
+    width: min(27vw, 130px);
+    flex: none;
+    font-size: 11px !important;
+  }
+}
+/* =====================================================
+   AEIL – PÍSMO SPODNÍCH PANELŮ
+===================================================== */
+
+.character-page-aeil > .character-panels-aeil .character-panel-label {
+  font-family: "Italianno", cursive !important;
+  font-size: clamp(27px, 2.2vw, 38px);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+
+  color: #e6c77d;
+
+  text-shadow:
+    0 1px 5px rgba(0, 0, 0, 0.95);
+}
+/* Obrázek pod rámečkem */
+.character-page-aeil .character-panel-image {
+  position: absolute;
+  inset: 8%;
+  z-index: 1;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Rámeček nad obrázkem */
+.character-page-aeil .character-panel-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Text úplně nahoře */
+.character-page-aeil .character-panel-label {
+  position: relative;
+  z-index: 3;
+  pointer-events: none;
+}
+.character-page-aeil .character-race-link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.character-page-aeil .character-race-link:hover {
+  text-decoration: none;
+}

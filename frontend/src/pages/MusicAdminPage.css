@@ -408,3 +408,81 @@
     flex: 1;
   }
 }
+/* Přehlednější editor lyrics a karaoke */
+.music-admin-lyrics-import {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 12px;
+  padding: 16px;
+  margin: 18px 0;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 12px;
+  background: rgba(255,255,255,.035);
+}
+.music-admin-lyrics-import label,
+.music-admin-lyric-row label { min-width: 0; }
+.music-admin-lyrics-import textarea { width: 100%; box-sizing: border-box; }
+.music-admin-lyrics-table-wrap { width: 100%; }
+.music-admin-lyrics-table-head,
+.music-admin-lyric-row {
+  display: grid;
+  grid-template-columns: minmax(105px, .7fr) minmax(105px, .7fr) minmax(190px, 1.5fr) minmax(190px, 1.5fr) minmax(145px, auto);
+  gap: 10px;
+  align-items: start;
+}
+.music-admin-lyrics-table-head {
+  padding: 10px 12px;
+  color: var(--music-ui-accent, #d58acb);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+.music-admin-lyric-row {
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 10px;
+  background: rgba(0,0,0,.18);
+}
+.music-admin-lyric-row input,
+.music-admin-lyric-row textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.music-admin-lyric-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+.music-admin-lyric-controls strong {
+  min-width: 22px;
+  text-align: center;
+  opacity: .75;
+}
+.music-admin-lyric-controls button {
+  min-width: 30px;
+  min-height: 34px;
+  padding: 4px 8px;
+}
+.music-admin-lyric-controls button:disabled { opacity: .3; cursor: not-allowed; }
+.music-admin-lyric-mobile-label { display: none; }
+@media (max-width: 900px) {
+  .music-admin-lyrics-import { grid-template-columns: 1fr; }
+  .music-admin-lyrics-table-head { display: none; }
+  .music-admin-lyric-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .music-admin-lyric-row label:nth-of-type(3),
+  .music-admin-lyric-row label:nth-of-type(4) { grid-column: 1 / -1; }
+  .music-admin-lyric-mobile-label { display: block; margin-bottom: 5px; font-size: .75rem; opacity: .75; }
+  .music-admin-lyric-controls { grid-column: 1 / -1; justify-content: flex-end; }
+}
+@media (max-width: 520px) {
+  .music-admin-lyric-row { grid-template-columns: 1fr; }
+  .music-admin-lyric-row label:nth-of-type(3),
+  .music-admin-lyric-row label:nth-of-type(4),
+  .music-admin-lyric-controls { grid-column: 1; }
+}

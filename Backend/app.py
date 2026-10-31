@@ -13,6 +13,7 @@ from routes.characters import characters_bp
 from routes.aeil import aeil_bp
 from routes.vespera_characters import vespera_characters_bp 
 from routes.soundtrack import soundtracks_bp
+from routes.videos import videos_bp
 from routes.admin_auth import admin_auth_bp
 
 app = Flask(__name__)
@@ -77,6 +78,7 @@ app.register_blueprint(characters_bp)
 app.register_blueprint(aeil_bp)
 app.register_blueprint(vespera_characters_bp)
 app.register_blueprint(soundtracks_bp)
+app.register_blueprint(videos_bp)
 app.register_blueprint(admin_auth_bp)
 
 @app.route("/")

@@ -444,10 +444,25 @@ class PostgresConnection:
 # CONNECTION
 # =========================================================
 
+
 def get_connection():
 
-    database_url = os.getenv("DATABASE_URL")
+    use_development_database = (
+        os.getenv("USE_DEVELOPMENT_DATABASE", "").strip().lower() == "true"
+    )
 
+    if use_development_database:
+        database_url = os.getenv("DATABASE_URL_DEVELOPMENT")
+
+        if not database_url:
+            raise RuntimeError(
+                "USE_DEVELOPMENT_DATABASE=true, ale "
+                "DATABASE_URL_DEVELOPMENT není nastavena."
+            )
+    else:
+        database_url = os.getenv("DATABASE_URL")
+
+    
     if database_url:
 
         import psycopg2
@@ -459,6 +474,8 @@ def get_connection():
         return PostgresConnection(
             connection
         )
+
+     
 
     # -----------------------------------------------------
     # LOCAL SQLITE FALLBACK

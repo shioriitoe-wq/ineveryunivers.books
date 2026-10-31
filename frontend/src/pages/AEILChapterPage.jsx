@@ -428,7 +428,7 @@ export default function AEILChapterPage() {
                 <button
                     type="button"
                     onClick={() =>
-                        navigate("/soundtracks")
+                        navigate("/soundtracks/books?book=book:2")
                     }
                 >
                     Soundtrack
