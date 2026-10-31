@@ -1,21 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&display=swap");
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* Box sizing can be global; the zero-margin reset belongs only to the home screen. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
-html,
-body,
-#root{
+.home,
+.home * {
+    margin: 0;
+    padding: 0;
+}
 
-    width:100%;
-    height:100%;
-
-    overflow:hidden;
-
-    background:#03060d;
+/* Lock scrolling only on the full-screen home page, never on other routes. */
+html:has(.home),
+body:has(.home),
+body:has(.home) #root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #03060d;
 }
 
 .home{
@@ -39,7 +44,7 @@ body,
 /* BACKGROUND */
 /* ====================================================== */
 
-.background{
+.home .background{
 
     position:absolute;
 
@@ -59,7 +64,7 @@ body,
 /* DRAGONFLY */
 /* ====================================================== */
 
-.dragonfly{
+.home .dragonfly{
 
     position:absolute;
 
@@ -91,7 +96,7 @@ body,
 /* CLOUDS */
 /* ====================================================== */
 
-.clouds{
+.home .clouds{
 
     position:absolute;
 
@@ -118,7 +123,7 @@ body,
 /* LOGO */
 /* ====================================================== */
 
-.logo{
+.home .logo{
 
     position:absolute;
 
@@ -152,7 +157,7 @@ body,
 /* PANEL GRID */
 /* ====================================================== */
 
-.panel-grid{
+.home .panel-grid{
 
     position:absolute;
 
@@ -186,7 +191,7 @@ body,
 
 @media(max-width:1200px){
 
-    .panel-grid{
+    .home .panel-grid{
 
         transform:
             translate(-50%,-50%)
@@ -194,7 +199,7 @@ body,
 
     }
 
-    .dragonfly{
+    .home .dragonfly{
 
         width:82vw;
 
@@ -204,7 +209,7 @@ body,
 
 @media(max-width:900px){
 
-    .panel-grid{
+    .home .panel-grid{
 
         transform:
             translate(-50%,-50%)
@@ -212,7 +217,7 @@ body,
 
     }
 
-    .dragonfly{
+    .home .dragonfly{
 
         width:82vw;
 
@@ -222,7 +227,7 @@ body,
 
 @media(max-width:700px){
 
-    .panel-grid{
+    .home .panel-grid{
 
         transform:
             translate(-50%,-50%)
@@ -230,7 +235,7 @@ body,
 
     }
 
-    .logo{
+    .home .logo{
 
         letter-spacing:5px;
 

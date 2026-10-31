@@ -19,3 +19,26 @@ frontend/dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local environment files and secrets
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Local databases and database backups
+**/database.db
+**/database.db.backup
+**/*.db
+**/*.db.backup
+
+# Backups and temporary copies
+*.bak
+*.backup
+*.backup-*
+backup-*/
+**/backup-*/
+
+# Local image conversion backups
+frontend/_encoding_backup/
+frontend/src/assets/images/Vespera_png_backup/

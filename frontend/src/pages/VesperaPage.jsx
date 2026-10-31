@@ -227,7 +227,7 @@ export default function VesperaPage() {
                         SOUNDTRACK
                     ================================================= */}
 
-                    <div className="vespera-panel-wrapper">
+                    <Link to="/soundtracks/books?book=book%3A3" className="vespera-panel-wrapper">
                         <div className="vespera-panel">
                             <img
                                 src={soundtrackImage}
@@ -246,7 +246,7 @@ export default function VesperaPage() {
                         <span className="vespera-panel-label">
                             SOUNDTRACK
                         </span>
-                    </div>
+                    </Link>
 
 
                     {/* =================================================

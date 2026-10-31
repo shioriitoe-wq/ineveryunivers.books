@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { uploadBookMedia } from "../services/booksService";
 
 function ProjectForm({
   onSaveProject,
@@ -9,6 +10,9 @@ function ProjectForm({
   const [type, setType] = useState("standalone");
   const [usesVolumes, setUsesVolumes] = useState(false);
   const [usesParts, setUsesParts] = useState(false);
+  const [coverUrl, setCoverUrl] = useState("");
+  const [coverUploading, setCoverUploading] = useState(false);
+  const [coverError, setCoverError] = useState("");
 
   useEffect(() => {
     if (selectedProject) {
@@ -17,14 +21,43 @@ function ProjectForm({
       setType(selectedProject.type || "standalone");
       setUsesVolumes(Boolean(selectedProject.uses_volumes));
       setUsesParts(Boolean(selectedProject.uses_parts));
+      setCoverUrl(selectedProject.cover_url || "");
+      setCoverError("");
     } else {
       setTitle("");
       setStatus("Rozpracováno");
       setType("standalone");
       setUsesVolumes(false);
       setUsesParts(false);
+      setCoverUrl("");
+      setCoverError("");
     }
   }, [selectedProject]);
+
+  async function handleCoverUpload(file) {
+    if (!file) return;
+
+    const allowed = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowed.includes(file.type)) {
+      setCoverError("Vyber obrázek JPG, PNG nebo WebP.");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setCoverError("Obálka může mít maximálně 5 MB.");
+      return;
+    }
+
+    setCoverUploading(true);
+    setCoverError("");
+    try {
+      const result = await uploadBookMedia(file, "book_cover");
+      setCoverUrl(result.url);
+    } catch (error) {
+      setCoverError(error.message || "Obálku se nepodařilo nahrát.");
+    } finally {
+      setCoverUploading(false);
+    }
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -36,6 +69,7 @@ function ProjectForm({
       uses_volumes: usesVolumes,
       uses_parts: usesParts,
       parent_id: selectedProject?.parent_id ?? null,
+      cover_url: coverUrl.trim(),
     };
 
     await onSaveProject(projectData);
@@ -135,6 +169,41 @@ function ProjectForm({
 
       <br />
 
+      <div className="project-cover-field">
+        <label htmlFor="book-cover-url">Obálka knihy</label>
+        <input
+          id="book-cover-url"
+          type="url"
+          value={coverUrl}
+          onChange={(event) => setCoverUrl(event.target.value)}
+          placeholder="Vlož URL obrázku nebo nahraj soubor"
+        />
+        <label htmlFor="book-cover-file" className="project-cover-upload-label">
+          Nahrát obálku (JPG, PNG nebo WebP, max. 5 MB)
+        </label>
+        <input
+          id="book-cover-file"
+          type="file"
+          accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+          disabled={coverUploading}
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            event.target.value = "";
+            if (file) handleCoverUpload(file);
+          }}
+        />
+        {coverUploading && <small>Nahrávám obálku…</small>}
+        {coverError && <small className="project-cover-error">{coverError}</small>}
+        {coverUrl && (
+          <div className="project-cover-preview-wrap">
+            <img className="project-cover-preview" src={coverUrl} alt="Náhled obálky knihy" />
+            <button type="button" onClick={() => setCoverUrl("")}>Odebrat obálku</button>
+          </div>
+        )}
+        <small>Obálka se použije také v knihovně soundtracků a v sekci Videa.</small>
+      </div>
+
+      <br />
 
       <fieldset>
 
@@ -181,7 +250,7 @@ function ProjectForm({
       <br />
 
 
-      <button type="submit">
+      <button type="submit" disabled={coverUploading}>
 
         {selectedProject?.id
           ? "Uložit změny"

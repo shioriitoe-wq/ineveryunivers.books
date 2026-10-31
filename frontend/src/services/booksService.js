@@ -38,6 +38,38 @@ async function request(
    KNIHY
    ========================================================= */
 
+/**
+ * Nahrá soubor obálky do společného Supabase úložiště.
+ * Typ může být "book_cover" nebo "volume_cover".
+ * Admin token doplní existující adminAuthFetch.js interceptor.
+ */
+export async function uploadBookMedia(file, type = "book_cover") {
+  if (!file) {
+    throw new Error("Nejdřív vyber obrázek obálky.");
+  }
+
+  if (!["book_cover", "volume_cover"].includes(type)) {
+    throw new Error("Neplatný typ obálky.");
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("type", type);
+
+  const result = await request(
+    `${API}/admin/media/upload`,
+    { method: "POST", body: formData },
+    "Obálku se nepodařilo nahrát."
+  );
+
+  if (!result?.url) {
+    throw new Error("Server nenalezl adresu nahrané obálky.");
+  }
+
+  return result;
+}
+
+
 export function getBooks() {
   return request(
     `${API}/books`,

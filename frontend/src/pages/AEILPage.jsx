@@ -338,7 +338,7 @@ export default function AeilPage() {
                     SOUNDTRACK
                 ================================================= */}
 
-                <div className="aeil-panel-wrapper">
+                <Link to="/soundtracks/books?book=book%3A2" className="aeil-panel-wrapper">
 
                     <div className="aeil-panel">
 
@@ -361,7 +361,7 @@ export default function AeilPage() {
                         SOUNDTRACK
                     </span>
 
-                </div>
+                </Link>
 
 
                 {/* =================================================

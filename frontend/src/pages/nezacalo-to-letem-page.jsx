@@ -271,7 +271,10 @@ export default function NezacaloToLetemPage() {
                     SOUNDTRACK
                 ================================================= */}
 
-                <div className="summer-panel-wrapper">
+                <Link
+                    to="/soundtracks/books?book=volume-number%3A1%3A1"
+                    className="summer-panel-wrapper"
+                >
 
                     <div className="summer-panel">
 
@@ -296,7 +299,7 @@ export default function NezacaloToLetemPage() {
                         SOUNDTRACK
                     </span>
 
-                </div>
+                </Link>
 
             </section>
 

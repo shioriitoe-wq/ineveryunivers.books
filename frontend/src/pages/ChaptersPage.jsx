@@ -1,349 +1,185 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
-import {
-  getCharacters,
-} from "../services/charactersService";
+import BackButton from "../components/BackButton";
+import { getChapters, getParts } from "../services/booksService";
 
-import {
-  getBook,
-  getVolumes,
-} from "../services/booksService";
+import "./ChaptersPage.css";
 
-import "./CharactersPage.css";
-import { resolveCharacterAsset } from "../utils/characterAssetPaths";
+const BOOK_ID = 1;
 
+const SEASONS = [
+  { title: "LÉTO", partNumber: 1, className: "summer-season", video: "/season-videos/summer.mp4" },
+  { title: "PODZIM", partNumber: 2, className: "autumn-season", video: "/season-videos/autumn.mp4" },
+  { title: "ZIMA", partNumber: 3, className: "winter-season", video: "/season-videos/winter.mp4" },
+  { title: "JARO", partNumber: 4, className: "spring-season", video: "/season-videos/spring.mp4" },
+];
 
-function CharactersPage() {
+function ChapterSeason({ title, chapters, className, video }) {
+  const listRef = useRef(null);
+  const [canScrollUp, setCanScrollUp] = useState(false);
+  const [canScrollDown, setCanScrollDown] = useState(false);
 
-  const {
-    bookId,
-    volumeId,
-  } = useParams();
+  function updateScrollState() {
+    const element = listRef.current;
+    if (!element) return;
 
-  const [book, setBook] = useState(null);
-  const [volume, setVolume] = useState(null);
-  const [characters, setCharacters] = useState([]);
+    const hasOverflow = element.scrollHeight > element.clientHeight + 2;
+    setCanScrollUp(element.scrollTop > 2);
+    setCanScrollDown(
+      hasOverflow &&
+      element.scrollTop + element.clientHeight < element.scrollHeight - 2
+    );
+  }
 
+  useEffect(() => {
+    const element = listRef.current;
+    if (!element) return undefined;
+
+    const update = () => requestAnimationFrame(updateScrollState);
+    update();
+    element.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", update);
+
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined" ? new ResizeObserver(update) : null;
+    resizeObserver?.observe(element);
+
+    return () => {
+      element.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", update);
+      resizeObserver?.disconnect();
+    };
+  }, [chapters]);
+
+  return (
+    <section className={`chapter-season ${className}`}>
+      <video
+        className="chapter-season-image"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-label={`${title} – animované pozadí`}
+      >
+        <source src={video} type="video/mp4" />
+      </video>
+
+      <div className="chapter-season-overlay">
+        <h2>{title}</h2>
+
+        <div
+          className="chapter-list"
+          ref={listRef}
+          onMouseEnter={updateScrollState}
+          onScroll={updateScrollState}
+          aria-label={`Kapitoly – ${title.toLowerCase()}`}
+        >
+          {chapters.map((chapter) => (
+            <Link
+              to={`/books/nezacalo/chapters/${chapter.id}`}
+              key={chapter.id}
+            >
+              Kapitola {chapter.number}
+            </Link>
+          ))}
+        </div>
+
+        {canScrollUp && (
+          <div className="chapter-scroll-arrow chapter-scroll-up" aria-hidden="true">↑</div>
+        )}
+        {canScrollDown && (
+          <div className="chapter-scroll-arrow chapter-scroll-down" aria-hidden="true">↓</div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+export default function ChaptersPage() {
+  const [chapters, setChapters] = useState([]);
+  const [parts, setParts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-
   useEffect(() => {
+    let cancelled = false;
 
     async function loadData() {
-
-      setLoading(true);
-      setError("");
-
       try {
+        setLoading(true);
+        setError("");
 
-        const [
-          loadedBook,
-          loadedCharacters,
-          loadedVolumes,
-        ] = await Promise.all([
-          getBook(bookId),
-          getCharacters(bookId),
-          getVolumes(bookId),
+        const [chaptersData, partsData] = await Promise.all([
+          getChapters(BOOK_ID),
+          getParts(BOOK_ID),
         ]);
 
-
-        setBook(loadedBook);
-
-
-        /*
-         * Najdeme konkrétní díl,
-         * ze kterého byla stránka otevřená.
-         */
-
-        const selectedVolume =
-          loadedVolumes.find(
-            (item) =>
-              Number(item.id) === Number(volumeId)
-          ) || null;
-
-
-        setVolume(selectedVolume);
-
-
-        /*
-         * Postavy filtrujeme podle volume_ids.
-         *
-         * Alex:
-         * volume_ids = [1, 2]
-         *
-         * Díl 1 → Alex ano
-         * Díl 2 → Alex ano
-         *
-         * Danny:
-         * volume_ids = [2]
-         *
-         * Díl 1 → Danny ne
-         * Díl 2 → Danny ano
-         */
-
-        const filteredCharacters =
-          loadedCharacters.filter(
-            (character) => {
-
-              const ids =
-                Array.isArray(
-                  character.volume_ids
-                )
-                  ? character.volume_ids
-                  : [];
-
-
-              return ids.some(
-                (id) =>
-                  Number(id) ===
-                  Number(volumeId)
-              );
-
-            }
-          );
-
-
-        setCharacters(
-          filteredCharacters
-        );
-
-
-      } catch (error) {
-
-        console.error(error);
-
-        setError(
-          error.message ||
-          "Nepodařilo se načíst postavy."
-        );
-
+        if (cancelled) return;
+        setChapters(Array.isArray(chaptersData) ? chaptersData : []);
+        setParts(Array.isArray(partsData) ? partsData : []);
+      } catch (err) {
+        console.error("ChaptersPage – načítání kapitol:", err);
+        if (!cancelled) {
+          setError(err?.message || "Nepodařilo se načíst kapitoly.");
+        }
       } finally {
-
-        setLoading(false);
-
+        if (!cancelled) setLoading(false);
       }
-
     }
 
+    loadData();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
-    if (bookId && volumeId) {
-      loadData();
-    }
-
-  }, [
-    bookId,
-    volumeId,
-  ]);
-
-
-  /*
-   * Postavy seřadíme podle sort_order.
-   */
-
-  const sortedCharacters = useMemo(() => {
-
-    return [
-      ...characters,
-    ].sort(
-      (a, b) =>
-        Number(a.sort_order || 0) -
-        Number(b.sort_order || 0)
+  function chaptersForPart(partNumber) {
+    const part = parts.find(
+      (item) => Number(item.number) === Number(partNumber)
     );
+    if (!part) return [];
 
-  }, [
-    characters,
-  ]);
-
+    return chapters
+      .filter((chapter) => Number(chapter.part_id) === Number(part.id))
+      .sort((a, b) => Number(a.number) - Number(b.number));
+  }
 
   if (loading) {
-
     return (
-      <main className="characters-page">
-
-        <div className="characters-page-state">
-          Načítám postavy...
-        </div>
-
+      <main className="chapters-page">
+        <div className="chapters-loading">Načítám kapitoly…</div>
       </main>
     );
-
   }
-
 
   if (error) {
-
     return (
-      <main className="characters-page">
-
-        <div className="characters-page-state characters-page-error">
-          {error}
+      <main className="chapters-page">
+        <div className="chapters-error">
+          <p>{error}</p>
+          <BackButton to="/books/nezacalo" />
         </div>
-
       </main>
     );
-
   }
-
-
-  if (!book) {
-
-    return (
-      <main className="characters-page">
-
-        <div className="characters-page-state">
-          Kniha nebyla nalezena.
-        </div>
-
-      </main>
-    );
-
-  }
-
 
   return (
+    <main className="chapters-page">
+      <div className="chapters-back">
+        <BackButton to="/books/nezacalo" />
+      </div>
 
-    <main className="characters-page">
-
-
-      {/* =================================================
-          POZADÍ
-      ================================================= */}
-
-      <div className="characters-background" />
-
-
-      {/* =================================================
-          OBSAH
-      ================================================= */}
-
-      <section className="characters-content">
-
-
-        {/* =================================================
-            HLAVIČKA
-        ================================================= */}
-
-        <header className="characters-header">
-
-          <span className="characters-eyebrow">
-            POSTAVY
-          </span>
-
-
-          <h1>
-            {volume?.title || "Postavy"}
-          </h1>
-
-
-          <p>
-            {book.title}
-          </p>
-
-        </header>
-
-
-        {/* =================================================
-            POSTAVY
-        ================================================= */}
-
-        {sortedCharacters.length === 0 ? (
-
-          <div className="characters-empty">
-
-            V tomto dílu zatím nejsou
-            přiřazeny žádné postavy.
-
-          </div>
-
-        ) : (
-
-          <div className="characters-grid">
-
-            {sortedCharacters.map(
-              (character) => (
-
-                <Link
-                  key={character.id}
-                  to={`/project/${bookId}/characters/${character.id}`}
-                  className="character-card"
-                >
-
-
-                  {/* -----------------------------------------
-                      FOTOGRAFIE
-                  ----------------------------------------- */}
-
-                  <div className="character-card-photo">
-
-                    {character.main_image ? (
-
-                      <img
-                        src={
-                          resolveCharacterAsset(
-                            character.main_image,
-                            null,
-                            bookId
-                          ) || character.main_image
-                        }
-                        alt={character.name}
-                      />
-
-                    ) : (
-
-                      <div className="character-card-no-image">
-                        {character.name}
-                      </div>
-
-                    )}
-
-                  </div>
-
-
-                  {/* -----------------------------------------
-                      TEXT
-                  ----------------------------------------- */}
-
-                  <div className="character-card-info">
-
-                    <span className="character-card-label">
-                      POSTAVA
-                    </span>
-
-
-                    <h2>
-                      {character.name}
-                    </h2>
-
-
-                    {character.quote && (
-
-                      <p className="character-card-quote">
-                        „{character.quote}“
-                      </p>
-
-                    )}
-
-                  </div>
-
-
-                </Link>
-
-              )
-            )}
-
-          </div>
-
-        )}
-
-      </section>
-
+      {SEASONS.map((season) => (
+        <ChapterSeason
+          key={season.partNumber}
+          title={season.title}
+          chapters={chaptersForPart(season.partNumber)}
+          className={season.className}
+          video={season.video}
+        />
+      ))}
     </main>
-
   );
-
 }
-
-
-export default CharactersPage;

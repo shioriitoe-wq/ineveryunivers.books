@@ -1,0 +1,2751 @@
+.soundtracks-page { --music-pink:#f17bcf; --music-blue:#55c9ff; --music-purple:#b18aff; min-height:100vh; position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:26px clamp(14px, 3vw, 42px) 130px; color:#f2eaf5; background:radial-gradient(ellipse at 65% 22%,rgba(32,20,46,.46),transparent 45%),radial-gradient(ellipse at 8% 70%,rgba(37,10,34,.28),transparent 42%),#04060c; font-family:"Cormorant Garamond",Georgia,serif; }
+
+.soundtracks-page * { box-sizing:border-box; }
+
+.soundtracks-background-glow { position:absolute; inset:0; pointer-events:none; z-index:-1; opacity:.55; background:radial-gradient(ellipse at 72% 45%,rgba(0,103,177,.10),transparent 38%),radial-gradient(ellipse at 25% 25%,rgba(210,42,137,.10),transparent 32%); }
+
+.soundtracks-header { display:flex; align-items:center; justify-content:space-between; gap:20px; max-width:1800px; margin:0 auto; font-family:var(--sans,Arial,sans-serif); }
+
+.soundtracks-back { display:flex; align-items:center; gap:12px; color:#e4c7e5; text-decoration:none; font-size:11px; letter-spacing:1px; }
+
+.soundtracks-back span { font-size:30px; line-height:1; font-weight:200; }
+
+.soundtracks-header-actions { display:flex; gap:18px; }
+
+.soundtracks-header-actions button { background:transparent; color:#f0e5f3; border:0; font-size:28px; cursor:pointer; font-weight:200; }
+
+.soundtracks-title-block { text-align:center; padding:28px 0 24px; }
+
+.soundtracks-universe-label { font-size:12px; letter-spacing:4px; color:#d7a9df; margin-bottom:8px; }
+
+.soundtracks-title-block h1 { margin:0; color:var(--music-pink); font-family:Arial,sans-serif; font-weight:300; letter-spacing:.23em; font-size:clamp(29px,4.2vw,64px); line-height:1.18; text-shadow:0 0 12px rgba(241,123,207,.5),0 0 28px rgba(241,123,207,.16); }
+
+.soundtracks-title-block p { color:#bfb3cc; letter-spacing:.24em; font:12px/1.5 Arial,sans-serif; margin:14px 0 0; }
+
+.soundtracks-layout { max-width:1800px; margin:0 auto; display:grid; grid-template-columns:minmax(230px, 27%) minmax(0,1fr); gap:clamp(16px,2.4vw,38px); align-items:start; }
+
+.soundtracks-playlist-column { min-width:0; position:relative; }
+
+.soundtracks-playlist-heading { display:flex; align-items:center; gap:14px; margin:0 8px 16px; color:var(--music-pink); font:12px Arial,sans-serif; letter-spacing:2px; }
+
+.soundtracks-wave { flex:1; overflow:hidden; white-space:nowrap; color:#b33c9a; letter-spacing:1px; animation:musicWaveDrift 9s linear infinite; opacity:.85; }
+
+@keyframes musicWaveDrift { from{transform:translateX(0)} to{transform:translateX(-20px)} }
+
+.soundtracks-floating-list { max-height:calc(100vh - 290px); min-height:180px; overflow-y:auto; overflow-x:hidden; padding:0 5px 4px 0; scrollbar-width:thin; scrollbar-color:rgba(218,81,173,.5) transparent; animation:musicListFloat 9s ease-in-out infinite alternate; }
+
+.soundtracks-floating-list:hover,.soundtracks-floating-list:focus-within { animation-play-state:paused; }
+
+@keyframes musicListFloat { from{transform:translateY(0)} to{transform:translateY(-5px)} }
+
+.music-track-row { display:flex; flex-direction:column; width:100%; min-width:0; text-align:left; gap:4px; padding:12px 13px 11px; border:1px solid transparent; border-bottom-color:rgba(124,91,136,.15); background:transparent; color:#eee4f1; cursor:pointer; transition:background .2s,border-color .2s,transform .2s; font-family:inherit; }
+
+.music-track-row:hover { background:rgba(241,123,207,.045); border-color:rgba(241,123,207,.28); }
+
+.music-track-row.is-active { border:1px solid rgba(222,72,165,.7); border-radius:9px; background:linear-gradient(110deg,rgba(119,22,83,.24),rgba(10,13,26,.4)); box-shadow:inset 0 0 18px rgba(241,123,207,.035),0 0 16px rgba(241,123,207,.045); }
+
+.music-track-row-title { font-size:clamp(13px,1.1vw,16px); text-transform:uppercase; letter-spacing:.06em; line-height:1.25; overflow-wrap:anywhere; }
+
+.music-track-row-book { font:11px/1.35 Arial,sans-serif; color:#b9a9c6; }
+
+.music-track-row-meta { display:flex; justify-content:space-between; align-items:center; gap:8px; font:10px/1.35 Arial,sans-serif; color:#68caff; }
+
+.music-track-row-meta span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+.music-track-row-meta time { color:#a79bb1; flex:0 0 auto; }
+
+.soundtracks-status { margin:0; padding:22px 14px; border:1px dashed rgba(172,108,175,.35); border-radius:8px; color:#b7a8c4; font:12px/1.7 Arial,sans-serif; }
+
+.soundtracks-full-playlist { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; margin-top:10px; padding:13px 15px; border:1px solid rgba(211,74,159,.34); border-radius:8px; color:#ee83ce; background:rgba(5,6,13,.6); font:10px Arial,sans-serif; letter-spacing:1px; cursor:pointer; }
+
+.soundtracks-full-playlist span { font-size:18px; }
+
+.soundtracks-main-column { min-width:0; }
+
+.soundtracks-main-nav { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; margin-bottom:16px; }
+
+.soundtracks-main-nav button { min-height:45px; padding:10px 8px; border:1px solid rgba(102,90,136,.45); border-radius:7px; color:#c6b8d3; background:rgba(9,11,22,.56); font:11px Arial,sans-serif; letter-spacing:1px; cursor:pointer; transition:all .2s; }
+
+.soundtracks-main-nav button:hover,.soundtracks-main-nav button.is-active { color:#ff9ae5; border-color:rgba(241,123,207,.7); box-shadow:0 0 16px rgba(241,123,207,.08); }
+
+.soundtracks-main-nav button span { color:var(--music-blue); margin-left:4px; }
+
+.soundtracks-player-card { position:relative; display:grid; grid-template-columns:minmax(180px,44%) minmax(0,1fr); align-items:center; min-height:320px; padding:clamp(18px,2.5vw,34px); border:1px solid rgba(71,105,153,.58); border-left-color:rgba(219,64,150,.58); border-radius:15px; overflow:hidden; background:radial-gradient(ellipse at 15% 30%,rgba(144,27,88,.2),transparent 35%),radial-gradient(ellipse at 92% 78%,rgba(0,101,173,.16),transparent 45%),linear-gradient(125deg,rgba(12,8,20,.94),rgba(3,8,19,.97)); box-shadow:inset 0 0 28px rgba(255,255,255,.012); }
+
+.soundtracks-record-art { align-self:stretch; display:flex; align-items:center; justify-content:center; min-width:0; }
+
+.soundtracks-record-art img { width:min(100%,330px); aspect-ratio:1; object-fit:cover; border-radius:50%; border:1px solid rgba(84,157,226,.45); box-shadow:0 0 30px rgba(230,61,166,.16),0 0 0 8px rgba(7,8,17,.8); }
+
+.soundtracks-record-placeholder { width:min(100%,300px); aspect-ratio:1; border-radius:50%; position:relative; display:grid; place-items:center; background:repeating-radial-gradient(circle at center,#05070e 0 3px,#171321 4px 5px,#090b14 6px 8px); border:1px solid rgba(232,95,180,.6); box-shadow:0 0 0 6px rgba(5,7,15,.9),0 0 25px rgba(234,75,177,.17),inset 0 0 32px rgba(0,0,0,.9); }
+
+.soundtracks-record-placeholder::before { content:""; position:absolute; inset:30%; border-radius:50%; border:1px solid rgba(99,159,255,.7); background:radial-gradient(circle,#13142a,#221034 72%,#05070d); box-shadow:0 0 18px rgba(115,80,255,.18); }
+
+.soundtracks-record-placeholder span { z-index:1; color:#f17bcf; font-size:42px; text-shadow:0 0 18px rgba(241,123,207,.8); }
+
+.soundtracks-record-placeholder i { position:absolute; width:2px; height:58%; left:58%; top:2%; transform:rotate(28deg); transform-origin:bottom; background:linear-gradient(#dbe9ff,#70cfff,#e5a6eb); box-shadow:0 0 10px rgba(85,201,255,.55); }
+
+.soundtracks-player-details { min-width:0; padding-left:clamp(8px,1.8vw,24px); }
+
+.soundtracks-eyebrow { display:block; color:#f17bcf; font:11px Arial,sans-serif; letter-spacing:1.8px; margin-bottom:15px; }
+
+.soundtracks-track-number { display:block; color:#d7c9e2; font:12px Arial,sans-serif; margin-bottom:8px; }
+
+.soundtracks-player-details h2 { margin:0; color:#f4edf7; font-weight:300; font-size:clamp(25px,3.2vw,46px); line-height:1.18; letter-spacing:.1em; overflow-wrap:anywhere; }
+
+.soundtracks-artist { margin:12px 0 0; color:#f17bcf; font:15px Arial,sans-serif; letter-spacing:.16em; text-transform:uppercase; }
+
+.soundtracks-equalizer { height:45px; display:flex; align-items:center; justify-content:center; gap:3px; margin:20px 0 18px; overflow:hidden; }
+
+.soundtracks-equalizer i { display:block; width:3px; height:var(--bar); max-height:100%; border-radius:4px; background:linear-gradient(to top,#f17bcf,#ad8cff,#43caff); opacity:.88; transform-origin:center; animation:equalizerPulse 1.05s ease-in-out var(--delay) infinite alternate; }
+
+@keyframes equalizerPulse { from{transform:scaleY(.28);opacity:.55} to{transform:scaleY(1);opacity:1} }
+
+.soundtracks-player-card:has(.soundtracks-no-track) { display:flex; align-items:center; justify-content:center; min-height:320px; }
+
+.soundtracks-no-track { display:flex; flex-direction:column; align-items:center; text-align:center; gap:13px; max-width:430px; }
+
+.soundtracks-no-track .soundtracks-record-placeholder { width:130px; }
+
+.soundtracks-no-track .soundtracks-record-placeholder span { font-size:26px; }
+
+.soundtracks-no-track h2 { font-size:24px; font-weight:300; margin:0; }
+
+.soundtracks-no-track p,.soundtracks-no-track small { margin:0; color:#b5a7c1; font:12px/1.7 Arial,sans-serif; }
+
+.soundtracks-player-controls { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+
+.soundtracks-player-controls button { color:#f0e9f5; background:transparent; border:0; padding:8px; font-size:21px; cursor:pointer; }
+
+.soundtracks-player-controls button.is-active { color:#70cfff; }
+
+.soundtracks-player-controls .soundtracks-play-button { width:62px; height:62px; flex:0 0 auto; border:2px solid #f17bcf; border-radius:50%; color:#ff9ae5; font-size:24px; box-shadow:0 0 15px rgba(241,123,207,.18),inset 0 0 10px rgba(241,123,207,.05); }
+
+.soundtracks-timeline { position:absolute; left:7%; right:7%; bottom:20px; display:flex; align-items:center; gap:12px; color:#d7cbe0; font:11px Arial,sans-serif; }
+
+.soundtracks-timeline input { flex:1; min-width:0; accent-color:#f17bcf; cursor:pointer; height:3px; }
+
+.music-lyrics-panel { margin-top:18px; border:1px solid rgba(112,83,138,.42); border-radius:13px; overflow:hidden; background:radial-gradient(ellipse at 18% 55%,rgba(106,20,78,.16),transparent 48%),radial-gradient(ellipse at 85% 60%,rgba(0,86,147,.12),transparent 50%),rgba(4,7,16,.82); }
+
+.music-lyrics-toggle { width:100%; display:flex; justify-content:space-between; align-items:center; gap:12px; padding:17px 20px; color:#ee85d2; background:transparent; border:0; cursor:pointer; font:11px Arial,sans-serif; letter-spacing:1.4px; }
+
+.music-lyrics-toggle span:first-child { font-size:13px; }
+
+.music-lyrics-toggle span:last-child { color:#d6c7e3; font-size:10px; }
+
+.music-lyrics-toggle b { font-size:18px; font-weight:300; margin-right:6px; }
+
+.music-lyrics-toolbar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:0 20px 15px; color:#a99ab9; font:10px Arial,sans-serif; letter-spacing:1px; }
+
+.music-lyrics-toolbar i { color:#f17bcf; font-style:normal; }
+
+.music-lyrics-toolbar button { border:1px solid rgba(85,201,255,.5); border-radius:20px; padding:7px 11px; color:#70cfff; background:transparent; font:10px Arial,sans-serif; cursor:pointer; }
+
+.music-lyrics-toolbar button.is-active { color:#07101b; background:#70cfff; }
+
+.music-lyrics-columns { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:0 20px 25px; }
+
+.music-lyrics-language { display:flex; flex-direction:column; gap:7px; min-width:0; }
+
+.music-lyrics-language h3 { color:#bda9ca; font:10px Arial,sans-serif; letter-spacing:1.5px; margin:0 0 8px; }
+
+.music-lyrics-language button { text-align:center; color:#ddd3e5; border:0; border-radius:4px; padding:5px 7px; background:transparent; font:clamp(13px,1.1vw,16px)/1.65 "Cormorant Garamond",Georgia,serif; cursor:pointer; }
+
+.music-lyrics-language button:hover { color:#fff; background:rgba(255,255,255,.035); }
+
+.music-lyrics-language button.is-current { color:#ff8ee0; background:rgba(241,123,207,.08); text-shadow:0 0 12px rgba(241,123,207,.35); }
+
+.music-lyrics-empty { padding:0 20px 24px; color:#a99ab9; font:12px/1.7 Arial,sans-serif; }
+
+.soundtracks-discovery,.soundtracks-listing-panel,.soundtracks-detail-actions { margin-top:20px; padding:20px; border:1px solid rgba(112,83,138,.35); border-radius:13px; background:rgba(6,8,17,.74); }
+
+.soundtracks-section-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; }
+
+.soundtracks-section-heading h2 { margin:4px 0 0; font-size:22px; font-weight:300; letter-spacing:.04em; }
+
+.soundtracks-section-heading h3 { margin:0; font-size:17px; font-weight:400; }
+
+.soundtracks-section-heading .soundtracks-eyebrow { margin-bottom:0; font-size:9px; }
+
+.soundtracks-count { color:#70cfff; font:10px Arial,sans-serif; letter-spacing:1px; }
+
+.soundtracks-tag-group { margin-top:17px; }
+
+.soundtracks-tag-label { display:block; color:#bda9ca; font:10px Arial,sans-serif; letter-spacing:1.5px; margin-bottom:9px; }
+
+.soundtracks-tags,.soundtracks-book-filters { display:flex; flex-wrap:wrap; gap:7px; }
+
+.soundtracks-tags button,.soundtracks-book-filters button { border:1px solid rgba(111,92,143,.48); border-radius:20px; padding:8px 12px; color:#cfc0d9; background:rgba(12,13,27,.6); font:11px Arial,sans-serif; cursor:pointer; transition:all .2s; }
+
+.soundtracks-tags button:hover,.soundtracks-tags button.is-active,.soundtracks-book-filters button:hover,.soundtracks-book-filters button.is-active { color:#ff9ae5; border-color:#c95aa8; background:rgba(130,35,101,.15); }
+
+.soundtracks-book-filters { margin-bottom:15px; }
+
+.soundtracks-listing-rows { max-height:430px; overflow-y:auto; }
+
+.soundtracks-filter-results { margin-top:20px; padding-top:15px; border-top:1px solid rgba(112,83,138,.35); }
+
+.soundtracks-filter-results .soundtracks-section-heading button { border:0; background:transparent; color:#70cfff; font:10px Arial,sans-serif; cursor:pointer; }
+
+.soundtracks-universe-links { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:18px; }
+
+.soundtracks-universe-links a { min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; min-height:132px; padding:14px 8px; text-align:center; text-decoration:none; color:#f0e7f5; border:1px solid rgba(241,123,207,.55); border-radius:10px; background:radial-gradient(ellipse at center,rgba(130,28,92,.14),rgba(6,8,17,.7)); transition:transform .2s,box-shadow .2s; }
+
+.soundtracks-universe-links a:nth-child(2) { border-color:rgba(85,201,255,.55); background:radial-gradient(ellipse at center,rgba(0,102,160,.15),rgba(6,8,17,.7)); }
+
+.soundtracks-universe-links a:nth-child(3) { border-color:rgba(177,138,255,.55); }
+
+.soundtracks-universe-links a:nth-child(4) { border-color:rgba(83,223,192,.55); background:radial-gradient(ellipse at center,rgba(0,113,91,.13),rgba(6,8,17,.7)); }
+
+.soundtracks-universe-links a:hover { transform:translateY(-3px); box-shadow:0 0 18px rgba(241,123,207,.08); }
+
+.soundtracks-universe-links a span { color:#f17bcf; font-size:28px; }
+
+.soundtracks-universe-links a:nth-child(2) span { color:#70cfff; }
+
+.soundtracks-universe-links a:nth-child(3) span { color:#b18aff; }
+
+.soundtracks-universe-links a:nth-child(4) span { color:#53dfc0; }
+
+.soundtracks-universe-links a b { font:11px Arial,sans-serif; letter-spacing:1px; }
+
+.soundtracks-universe-links a small { color:#bda9ca; font:9px Arial,sans-serif; letter-spacing:1px; }
+
+.soundtracks-universe-links a i { align-self:flex-end; margin-top:auto; font-style:normal; color:#d5c5df; }
+
+.soundtracks-author-note { display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:20px; margin-top:18px; padding:24px; border:1px solid rgba(169,54,126,.48); border-radius:13px; background:radial-gradient(ellipse at 92% 80%,rgba(113,22,83,.15),transparent 38%),rgba(5,7,15,.8); }
+
+.soundtracks-quote-mark { color:#f17bcf; font-size:60px; line-height:1; }
+
+.soundtracks-author-note .soundtracks-eyebrow { margin-bottom:7px; }
+
+.soundtracks-author-note p { color:#c6b8d0; margin:0; font-size:14px; line-height:1.8; }
+
+.soundtracks-signature { color:#f17bcf; font-size:clamp(14px,2vw,24px); font-style:italic; white-space:nowrap; }
+
+.soundtracks-detail-actions h2 { font-size:26px; font-weight:300; margin:0 0 8px; }
+
+.soundtracks-detail-actions p { color:#b8a9c4; font:12px/1.7 Arial,sans-serif; }
+
+.soundtracks-detail-buttons { display:flex; flex-wrap:wrap; gap:9px; margin-top:15px; }
+
+.soundtracks-detail-buttons a,.soundtracks-detail-buttons button { padding:10px 13px; border:1px solid rgba(241,123,207,.5); border-radius:6px; color:#f17bcf; background:transparent; font:10px Arial,sans-serif; letter-spacing:.8px; text-decoration:none; cursor:pointer; }
+
+.soundtracks-footer { max-width:1800px; margin:24px auto 0; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; color:#786b88; font:9px Arial,sans-serif; letter-spacing:1.2px; }
+
+.soundtracks-footer a { color:#8e80a3; text-decoration:none; }
+
+@media (min-width:1500px) { .soundtracks-layout { grid-template-columns:minmax(250px,27%) minmax(0,1fr); } .soundtracks-player-card { min-height:400px; } }
+
+@media (max-width:950px) { .soundtracks-layout { grid-template-columns:1fr; } .soundtracks-playlist-column { order:2; } .soundtracks-main-column { order:1; } .soundtracks-floating-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); max-height:280px; animation:none; } .soundtracks-playlist-heading { margin-top:20px; } .soundtracks-player-card { min-height:300px; } }
+
+@media (max-width:600px) { .soundtracks-page { padding:16px 12px 115px; } .soundtracks-title-block { padding:23px 0 20px; } .soundtracks-title-block h1 { letter-spacing:.1em; } .soundtracks-title-block p { letter-spacing:.12em; font-size:10px; } .soundtracks-layout { gap:12px; } .soundtracks-main-nav { gap:6px; } .soundtracks-main-nav button { font-size:9px; letter-spacing:.3px; padding:8px 4px; } .soundtracks-player-card { grid-template-columns:1fr; padding:20px 18px 58px; gap:18px; } .soundtracks-record-art { display:none; } .soundtracks-player-details { padding-left:0; } .soundtracks-player-details h2 { font-size:32px; } .soundtracks-equalizer { margin:15px 0; } .soundtracks-player-controls .soundtracks-play-button { width:54px; height:54px; } .soundtracks-timeline { left:18px; right:18px; bottom:16px; } .soundtracks-floating-list { grid-template-columns:1fr; max-height:300px; } .music-lyrics-columns { grid-template-columns:1fr; gap:20px; } .music-lyrics-language + .music-lyrics-language { border-top:1px solid rgba(112,83,138,.3); padding-top:17px; } .music-lyrics-toolbar { align-items:flex-start; flex-direction:column; } .soundtracks-universe-links { grid-template-columns:repeat(2,minmax(0,1fr)); } .soundtracks-author-note { grid-template-columns:auto 1fr; gap:12px; padding:17px; } .soundtracks-signature { grid-column:2; justify-self:end; } .soundtracks-section-heading h2 { font-size:19px; } }
+
+@media (prefers-reduced-motion: reduce) { .soundtracks-wave,.soundtracks-floating-list,.soundtracks-equalizer i { animation:none!important; } * { scroll-behavior:auto!important; transition:none!important; } }
+
+/* Oprava svislého scrollování stránky soundtracků */
+
+#root:has(.soundtracks-page) {
+
+  height: auto !important;
+
+  min-height: 100vh;
+
+  overflow: visible !important;
+
+}
+
+.soundtracks-page {
+
+  height: auto !important;
+
+  min-height: 100vh;
+
+  max-height: none !important;
+
+  overflow: visible !important;
+
+  flex-shrink: 0;
+
+}
+
+html:has(.soundtracks-page),
+
+body:has(.soundtracks-page) {
+
+  height: auto !important;
+
+  min-height: 100%;
+
+  overflow-y: auto !important;
+
+}
+
+/* Barevná témata podle aktuálně přehrávané knihy */
+
+.soundtracks-page.theme-aeil {
+
+  --music-pink: #c6a4ff;
+
+  --music-blue: #8bd9e8;
+
+  --music-purple: #9a7bdb;
+
+  background:
+
+    radial-gradient(ellipse at 70% 18%, rgba(102, 38, 41, 0.42), transparent 44%),
+
+    radial-gradient(ellipse at 15% 78%, rgba(88, 18, 18, 0.22), transparent 42%),
+
+    #0d0505;
+
+}
+
+.soundtracks-page.theme-vespera {
+
+  --music-pink: #83c9e8;
+
+  --music-blue: #8bbcff;
+
+  --music-purple: #7897d8;
+
+  background:
+
+    radial-gradient(ellipse at 70% 18%, rgba(20, 65, 100, .38), transparent 44%),
+
+    radial-gradient(ellipse at 15% 78%, rgba(15, 36, 63, .34), transparent 42%),
+
+    #03070d;
+
+}
+
+.soundtracks-page.theme-nezacalo {
+
+  --music-pink: #e9a6c8;
+
+  --music-blue: #e8c4a3;
+
+  --music-purple: #c4a2dc;
+
+  background:
+
+    radial-gradient(ellipse at 70% 18%, rgba(103, 43, 72, .34), transparent 44%),
+
+    radial-gradient(ellipse at 15% 78%, rgba(89, 56, 48, .24), transparent 42%),
+
+    #0b070c;
+
+}
+
+.soundtracks-page.theme-aeil .soundtracks-title-block h1,
+
+.soundtracks-page.theme-aeil .soundtracks-playlist-heading,
+
+.soundtracks-page.theme-aeil .soundtracks-eyebrow,
+
+.soundtracks-page.theme-aeil .soundtracks-artist,
+
+.soundtracks-page.theme-aeil .soundtracks-quote-mark,
+
+.soundtracks-page.theme-aeil .soundtracks-signature,
+
+.soundtracks-page.theme-aeil .soundtracks-record-placeholder span {
+
+  color: var(--music-pink);
+
+}
+
+.soundtracks-page.theme-vespera .soundtracks-title-block h1,
+
+.soundtracks-page.theme-vespera .soundtracks-playlist-heading,
+
+.soundtracks-page.theme-vespera .soundtracks-eyebrow,
+
+.soundtracks-page.theme-vespera .soundtracks-artist,
+
+.soundtracks-page.theme-vespera .soundtracks-quote-mark,
+
+.soundtracks-page.theme-vespera .soundtracks-signature,
+
+.soundtracks-page.theme-vespera .soundtracks-record-placeholder span {
+
+  color: var(--music-pink);
+
+}
+
+.soundtracks-page.theme-nezacalo .soundtracks-title-block h1,
+
+.soundtracks-page.theme-nezacalo .soundtracks-playlist-heading,
+
+.soundtracks-page.theme-nezacalo .soundtracks-eyebrow,
+
+.soundtracks-page.theme-nezacalo .soundtracks-artist,
+
+.soundtracks-page.theme-nezacalo .soundtracks-quote-mark,
+
+.soundtracks-page.theme-nezacalo .soundtracks-signature,
+
+.soundtracks-page.theme-nezacalo .soundtracks-record-placeholder span {
+
+  color: var(--music-pink);
+
+}
+
+.soundtracks-page.theme-aeil .soundtracks-background-glow {
+
+  background: radial-gradient(ellipse at 72% 45%, rgba(213, 91, 91, 0.14), transparent 38%), radial-gradient(ellipse at 25% 25%, rgba(154, 123, 219, .13), transparent 32%);
+
+}
+
+.soundtracks-page.theme-vespera .soundtracks-background-glow {
+
+  background: radial-gradient(ellipse at 72% 45%, rgba(0, 145, 210, .14), transparent 38%), radial-gradient(ellipse at 25% 25%, rgba(49, 88, 153, .14), transparent 32%);
+
+}
+
+.soundtracks-page.theme-nezacalo .soundtracks-background-glow {
+
+  background: radial-gradient(ellipse at 72% 45%, rgba(198, 93, 142, .13), transparent 38%), radial-gradient(ellipse at 25% 25%, rgba(193, 127, 93, .11), transparent 32%);
+
+}
+
+.soundtracks-page.theme-aeil .music-track-row.is-active,
+
+.soundtracks-page.theme-vespera .music-track-row.is-active,
+
+.soundtracks-page.theme-nezacalo .music-track-row.is-active {
+
+  border-color: color-mix(in srgb, var(--music-pink) 75%, transparent);
+
+}
+
+.soundtracks-page.theme-aeil .soundtracks-player-card,
+
+.soundtracks-page.theme-vespera .soundtracks-player-card,
+
+.soundtracks-page.theme-nezacalo .soundtracks-player-card {
+
+  border-left-color: color-mix(in srgb, var(--music-pink) 70%, transparent);
+
+}
+
+.soundtracks-page.theme-aeil .soundtracks-player-controls .soundtracks-play-button,
+
+.soundtracks-page.theme-vespera .soundtracks-player-controls .soundtracks-play-button,
+
+.soundtracks-page.theme-nezacalo .soundtracks-player-controls .soundtracks-play-button {
+
+  border-color: var(--music-pink);
+
+  color: var(--music-pink);
+
+}
+
+.soundtracks-page.theme-aeil .soundtracks-timeline input,
+
+.soundtracks-page.theme-vespera .soundtracks-timeline input,
+
+.soundtracks-page.theme-nezacalo .soundtracks-timeline input {
+
+  accent-color: var(--music-pink);
+
+}
+
+.soundtracks-page.theme-aeil .music-lyrics-language button.is-current,
+
+.soundtracks-page.theme-vespera .music-lyrics-language button.is-current,
+
+.soundtracks-page.theme-nezacalo .music-lyrics-language button.is-current {
+
+  color: var(--music-pink);
+
+}
+
+.soundtracks-page .music-lyrics-language button {
+
+  color: #eee6dc;
+
+  opacity: 1;
+
+  text-align: left;
+
+  white-space: pre-wrap;
+
+  overflow-wrap: anywhere;
+
+}
+
+/* FIX: stránka Hudby musí scrollovat i uvnitř obalů aplikace */
+
+html:has(.soundtracks-page),
+
+body:has(.soundtracks-page) {
+
+  height: auto !important;
+
+  min-height: 100% !important;
+
+  overflow-x: hidden !important;
+
+  overflow-y: auto !important;
+
+  position: static !important;
+
+}
+
+body:has(.soundtracks-page) #root,
+
+body:has(.soundtracks-page) #root > *,
+
+body:has(.soundtracks-page) #root > * > *,
+
+body:has(.soundtracks-page) #root > * > * > * {
+
+  height: auto !important;
+
+  min-height: 0;
+
+  max-height: none !important;
+
+  overflow-y: visible !important;
+
+}
+
+body:has(.soundtracks-page) .soundtracks-page {
+
+  height: auto !important;
+
+  min-height: 100vh !important;
+
+  max-height: none !important;
+
+  overflow: visible !important;
+
+  flex: 0 0 auto !important;
+
+}
+
+/* Hudební stránka – plynulý nekonečný playlist a kompaktnější návazné sekce */
+
+.soundtracks-title-block { padding-bottom: 14px; }
+
+.soundtracks-layout { align-items: start; gap: clamp(18px, 2vw, 30px); }
+
+.soundtracks-playlist-heading { margin-bottom: 14px; }
+
+.soundtracks-floating-list { height: min(62vh, 560px); max-height: none; min-height: 220px; overflow: hidden; display: block; animation: none; }
+
+.soundtracks-floating-list:hover .soundtracks-floating-list-track, .soundtracks-floating-list:focus-within .soundtracks-floating-list-track { animation-play-state: paused; }
+
+.soundtracks-floating-list-track { display: flex; flex-direction: column; animation: playlistMarquee 42s linear infinite; will-change: transform; }
+
+.soundtracks-floating-list-track .music-track-row { flex: 0 0 auto; }
+
+@keyframes playlistMarquee { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+
+.soundtracks-track-details { margin-top: 16px; padding: clamp(16px, 2vw, 24px); border: 1px solid rgba(112,83,138,.42); border-radius: 13px; background: linear-gradient(135deg,rgba(12,10,24,.92),rgba(4,7,16,.9)); }
+
+.soundtracks-track-details > .soundtracks-section-heading h2 { font-size: clamp(20px, 2vw, 28px); }
+
+.soundtracks-track-facts { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 18px; }
+
+.soundtracks-track-facts > div { display: flex; flex-direction: column; gap: 5px; min-width: 130px; max-width: 100%; padding: 10px 13px; border: 1px solid rgba(112,83,138,.3); border-radius: 8px; background: rgba(255,255,255,.018); }
+
+.soundtracks-track-facts span, .soundtracks-track-description blockquote span { color: var(--music-pink); font: 9px Arial,sans-serif; letter-spacing: 1.2px; }
+
+.soundtracks-track-facts strong { color: #e8deee; font: 12px/1.5 Arial,sans-serif; font-weight: 400; overflow-wrap: anywhere; }
+
+.soundtracks-track-description { color: #d5c8df; font: 13px/1.8 Arial,sans-serif; }
+
+.soundtracks-track-description p { margin: 0 0 12px; }
+
+.soundtracks-track-description blockquote { margin: 12px 0 18px; padding: 12px 15px; border-left: 2px solid var(--music-pink); background: rgba(255,255,255,.025); color: #d9ccdf; }
+
+.soundtracks-track-description blockquote span { display: block; margin-bottom: 6px; }
+
+.soundtracks-track-details .music-lyrics-panel { margin-top: 16px; }
+
+.soundtracks-main-nav button, .soundtracks-universe-links a b { font-size: 12px; }
+
+.soundtracks-universe-links a small { font-size: 10px; }
+
+.soundtracks-universe-links a { min-height: 112px; }
+
+.soundtracks-tags button, .soundtracks-book-filters button { font-size: 12px; }
+
+.soundtracks-section-heading h2 { font-size: 24px; }
+
+@media (max-width: 950px) { .soundtracks-floating-list { height: 300px; } }
+
+@media (max-width: 600px) { .soundtracks-floating-list { height: 280px; } .soundtracks-track-facts > div { flex: 1 1 42%; min-width: 0; } }
+
+@media (prefers-reduced-motion: reduce) { .soundtracks-floating-list-track { animation: none; } .soundtracks-floating-list { overflow-y: auto; } }
+
+/* Jemné jiskry a knižní barevná témata */
+
+.soundtracks-page { --music-accent: #f17bcf; --music-accent-2: #55c9ff; --music-accent-3: #b18aff; }
+
+.soundtracks-page.theme-nezacalo { --music-accent: #55bfff; --music-accent-2: #ff9a55; --music-accent-3: #f6d17c; }
+
+.soundtracks-page.theme-vespera { --music-accent: #56c7f2; --music-accent-2: #8a9dff; --music-accent-3: #a3d9e8; }
+
+.soundtracks-page.theme-aeil { --music-accent: #ff8a8a; --music-accent-2: #54d8e5; --music-accent-3: #f0a2ee; }
+
+.soundtracks-title-block h1 { background: linear-gradient(100deg,var(--music-accent),var(--music-accent-2),var(--music-accent-3)); -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; filter:drop-shadow(0 0 9px color-mix(in srgb,var(--music-accent) 48%,transparent)); }
+
+.soundtracks-title-block p { color:var(--music-accent-2); text-shadow:0 0 7px var(--music-accent-2),0 0 18px color-mix(in srgb,var(--music-accent-2) 45%,transparent); }
+
+.soundtracks-universe-label,.soundtracks-eyebrow,.soundtracks-playlist-heading,.soundtracks-main-nav button:hover,.soundtracks-main-nav button.is-active { color:var(--music-accent); }
+
+.soundtracks-main-nav button { text-shadow:0 0 8px color-mix(in srgb,var(--music-accent) 60%,transparent); border-color:color-mix(in srgb,var(--music-accent) 42%,transparent); }
+
+.soundtracks-main-nav button span { color:var(--music-accent-2); text-shadow:0 0 8px var(--music-accent-2); }
+
+.soundtracks-playlist-heading { color:var(--music-accent); }
+
+.soundtracks-wave { color:var(--music-accent); filter:drop-shadow(0 0 5px var(--music-accent)); }
+
+.soundtracks-full-playlist-bottom { grid-column: span 1; align-self:stretch; min-height:112px; margin:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:14px; color:var(--music-accent); border-color:color-mix(in srgb,var(--music-accent) 60%,transparent); background:radial-gradient(ellipse at center,color-mix(in srgb,var(--music-accent) 12%,transparent),rgba(6,8,17,.7)); font-size:10px; line-height:1.6; }
+
+.soundtracks-full-playlist-bottom span { align-self:flex-end; font-size:20px; color:var(--music-accent-2); }
+
+.soundtracks-universe-links { grid-template-columns:repeat(5,minmax(0,1fr)); }
+
+.soundtracks-universe-links a { border-color:color-mix(in srgb,var(--music-accent) 50%,transparent); }
+
+.soundtracks-universe-links a span { color:var(--music-accent); text-shadow:0 0 10px var(--music-accent); }
+
+.soundtracks-universe-links a:nth-child(2) span,.soundtracks-universe-links a:nth-child(3) span,.soundtracks-universe-links a:nth-child(4) span { color:var(--music-accent-2); }
+
+.soundtracks-sparkles { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+
+.soundtracks-sparkles i { position:absolute; left:var(--sparkle-x); top:var(--sparkle-y); width:2px; height:2px; border-radius:50%; background:var(--music-accent-2); opacity:0; box-shadow:0 0 5px 1px var(--music-accent-2),0 0 12px var(--music-accent); animation:soundtrackSparkle var(--sparkle-duration) ease-in-out var(--sparkle-delay) infinite; }
+
+.soundtracks-sparkles i:nth-child(3n) { background:var(--music-accent); box-shadow:0 0 5px 1px var(--music-accent),0 0 12px var(--music-accent-3); }
+
+.soundtracks-sparkles i:nth-child(4n) { width:3px; height:3px; background:var(--music-accent-3); box-shadow:0 0 7px 2px var(--music-accent-3); }
+
+@keyframes soundtrackSparkle { 0%,100% { transform:translate3d(0,8px,0) scale(.55); opacity:0; } 25% { opacity:.7; } 55% { transform:translate3d(8px,-18px,0) scale(1.15); opacity:.9; } 80% { opacity:.25; } }
+
+.soundtracks-track-facts { justify-content:center; text-align:center; }
+
+.soundtracks-track-facts > div { flex:0 1 auto; min-width:145px; max-width:100%; }
+
+.soundtracks-track-description blockquote.soundtracks-author-quote { position:relative; margin:16px 0 18px; padding:20px 44px; border:0; border-left:2px solid var(--music-accent-2); background:rgba(255,255,255,.025); text-align:center; color:#f1e5f1; }
+
+.soundtracks-author-quote::before,.soundtracks-author-quote::after { position:absolute; color:var(--music-accent); font: bold 64px/1 Georgia,serif; text-shadow:0 0 10px var(--music-accent),0 0 22px color-mix(in srgb,var(--music-accent) 60%,transparent); }
+
+.soundtracks-author-quote::before { content:'“'; left:10px; top:5px; }
+
+.soundtracks-author-quote::after { content:'”'; right:10px; bottom:-22px; }
+
+.soundtracks-track-description blockquote.soundtracks-author-quote span { margin-bottom:8px; color:var(--music-accent-2); }
+
+.soundtracks-track-description blockquote.soundtracks-author-quote p { margin:0; font-family:'Biro Script Plus','Segoe Script',cursive; font-size:clamp(20px,2vw,29px); line-height:1.5; color:#fff0fc; }
+
+.music-lyrics-toolbar-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+
+.music-lyrics-toolbar-actions button { border:1px solid color-mix(in srgb,var(--music-accent-2) 55%,transparent); border-radius:20px; padding:7px 11px; color:var(--music-accent-2); background:transparent; font:10px Arial,sans-serif; cursor:pointer; }
+
+.music-lyrics-toolbar-actions button:disabled { opacity:.4; cursor:not-allowed; }
+
+.music-lyrics-toolbar-actions button.is-active { color:#07101b; background:var(--music-accent-2); }
+
+@media (max-width:950px) { .soundtracks-universe-links { grid-template-columns:repeat(3,minmax(0,1fr)); } .soundtracks-full-playlist-bottom { min-height:100px; } }
+
+@media (max-width:600px) { .soundtracks-universe-links { grid-template-columns:repeat(2,minmax(0,1fr)); } .soundtracks-full-playlist-bottom { min-height:110px; } .music-lyrics-toolbar-actions { justify-content:flex-start; } .soundtracks-track-description blockquote.soundtracks-author-quote { padding:20px 34px; } }
+
+@media (prefers-reduced-motion:reduce) { .soundtracks-sparkles i { animation:none; opacity:.3; } }
+
+.soundtracks-header,.soundtracks-title-block,.soundtracks-layout,.soundtracks-footer { position:relative; z-index:1; }
+
+.soundtracks-floating-list-track { animation-duration: 32s; }
+
+/* Jemnější vyplnění levého sloupce, výraznější gradient a viditelnější jiskry */
+
+.soundtracks-title-block h1 {
+
+  background: linear-gradient(90deg, #090b16 0%, color-mix(in srgb, var(--music-accent) 58%, #17101d) 28%, var(--music-accent-2) 68%, #fff3dc 100%);
+
+  -webkit-background-clip: text;
+
+  background-clip: text;
+
+  color: transparent;
+
+  -webkit-text-fill-color: transparent;
+
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--music-accent) 65%, transparent)) drop-shadow(0 0 24px color-mix(in srgb, var(--music-accent-2) 38%, transparent));
+
+}
+
+.soundtracks-page.theme-nezacalo .soundtracks-title-block h1 {
+
+  background: linear-gradient(90deg, #080b16 0%, #174d79 28%, #55bfff 55%, #ff9a55 82%, #fff0b9 100%);
+
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+
+}
+
+.soundtracks-page.theme-vespera .soundtracks-title-block h1 {
+
+  background: linear-gradient(90deg, #060b13 0%, #164b72 30%, #56c7f2 62%, #d7f5ff 100%);
+
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+
+}
+
+.soundtracks-page.theme-aeil .soundtracks-title-block h1 {
+
+  background: linear-gradient(90deg, #090713 0%, #7e3131 30%, #ff8a8a 62%, #e8ffff 100%);
+
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+
+}
+
+.soundtracks-sparkles i { width: 3px; height: 3px; opacity: .28; box-shadow: 0 0 7px 2px var(--music-accent-2), 0 0 18px 4px color-mix(in srgb, var(--music-accent) 70%, transparent); animation-duration: calc(var(--sparkle-duration) * .78); }
+
+.soundtracks-sparkles i:nth-child(3n) { width: 4px; height: 4px; opacity: .35; box-shadow: 0 0 9px 3px var(--music-accent), 0 0 22px 5px color-mix(in srgb, var(--music-accent) 65%, transparent); }
+
+.soundtracks-sparkles i:nth-child(4n) { width: 5px; height: 5px; opacity: .4; box-shadow: 0 0 10px 3px var(--music-accent-3), 0 0 24px 5px var(--music-accent-3); }
+
+@keyframes soundtrackSparkle { 0% { transform: translate3d(0,10px,0) scale(.7); opacity:.15; } 25% { opacity:.85; } 55% { transform:translate3d(10px,-20px,0) scale(1.45); opacity:1; } 80% { opacity:.45; } 100% { transform:translate3d(0,10px,0) scale(.7); opacity:.15; } }
+
+.soundtracks-floating-list { height: min(72vh, 700px); min-height: 420px; }
+
+.soundtracks-playlist-column { position: sticky; top: 18px; align-self: start; }
+
+.soundtracks-floating-list-track { animation-duration: 28s; }
+
+@media (max-width: 950px) { .soundtracks-playlist-column { position: relative; top: auto; } .soundtracks-floating-list { height: 300px; min-height: 240px; } }
+
+@media (max-width: 600px) { .soundtracks-floating-list { height: 280px; min-height: 220px; } }
+
+/* Samostatná barevná identita pro každý konkrétní titul.
+
+   Upravuj tyto proměnné; ostatní komponenty je používají automaticky. */
+
+/* Nezačalo to létem — azurová → oranžová */
+
+.soundtracks-page.theme-nezacalo-letem {
+
+  --music-accent: #073b5c;
+
+  --music-accent-2: #ff8a32;
+
+  --music-accent-3: #38d8f2;
+
+  --music-pink: #38d8f2;
+
+  --music-blue: #ff8a32;
+
+  --music-purple: #77cfe0;
+
+  background:
+
+    radial-gradient(ellipse at 72% 18%, rgba(0, 174, 220, .22), transparent 44%),
+
+    radial-gradient(ellipse at 16% 78%, rgba(255, 111, 37, .17), transparent 42%),
+
+    #040910;
+
+}
+
+.soundtracks-page.theme-nezacalo-letem .soundtracks-title-block h1 {
+
+  background: linear-gradient(100deg, #03101b 0%, #07507a 24%, #13c8ed 48%, #ff7b24 78%, #ffe0a0 100%);
+
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+
+}
+
+/* Nezačalo to v temnotě — fialová → světle zelená */
+
+.soundtracks-page.theme-nezacalo-temnote {
+
+  --music-accent: #7438bd;
+
+  --music-accent-2: #c9ff9b;
+
+  --music-accent-3: #a98aff;
+
+  --music-pink: #b48aff;
+
+  --music-blue: #c9ff9b;
+
+  --music-purple: #7438bd;
+
+  background:
+
+    radial-gradient(ellipse at 72% 18%, rgba(123, 49, 196, .24), transparent 44%),
+
+    radial-gradient(ellipse at 16% 78%, rgba(178, 255, 135, .12), transparent 42%),
+
+    #090711;
+
+}
+
+.soundtracks-page.theme-nezacalo-temnote .soundtracks-title-block h1 {
+
+  background: linear-gradient(100deg, #090510 0%, #44206d 25%, #a66bff 50%, #baff83 80%, #efffdc 100%);
+
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+
+}
+
+/* Nezačalo to správně — neonově růžová → neonově modrá */
+
+.soundtracks-page.theme-nezacalo-spravne {
+
+  --music-accent: #ff28b8;
+
+  --music-accent-2: #19aaff;
+
+  --music-accent-3: #ff83df;
+
+  --music-pink: #ff28b8;
+
+  --music-blue: #19aaff;
+
+  --music-purple: #8e5bff;
+
+  background:
+
+    radial-gradient(ellipse at 72% 18%, rgba(255, 24, 177, .20), transparent 44%),
+
+    radial-gradient(ellipse at 16% 78%, rgba(0, 143, 255, .17), transparent 42%),
+
+    #080611;
+
+}
+
+.soundtracks-page.theme-nezacalo-spravne .soundtracks-title-block h1 {
+
+  background: linear-gradient(100deg, #100512 0%, #8b075c 25%, #ff29b9 50%, #168fff 78%, #b9f2ff 100%);
+
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+
+}
+
+/* Nezačalo to tady — bílá → ledově modrá */
+
+.soundtracks-page.theme-nezacalo-tady {
+
+  --music-accent: #f6fbff;
+
+  --music-accent-2: #9bdfff;
+
+  --music-accent-3: #d4f4ff;
+
+  --music-pink: #f6fbff;
+
+  --music-blue: #9bdfff;
+
+  --music-purple: #b8d9f0;
+
+  background:
+
+    radial-gradient(ellipse at 72% 18%, rgba(174, 225, 255, .18), transparent 44%),
+
+    radial-gradient(ellipse at 16% 78%, rgba(233, 249, 255, .10), transparent 42%),
+
+    #050a11;
+
+}
+
+.soundtracks-page.theme-nezacalo-tady .soundtracks-title-block h1 {
+
+  background: linear-gradient(100deg, #090d14 0%, #5b7186 25%, #ffffff 52%, #a6e4ff 80%, #eafaff 100%);
+
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+
+}
+
+/* Nezačalo to naším příběhem — červená → královská modrá */
+
+.soundtracks-page.theme-nezacalo-pribehem {
+
+  --music-accent: #f02d43;
+
+  --music-accent-2: #4169e1;
+
+  --music-accent-3: #ff9aa5;
+
+  --music-pink: #f02d43;
+
+  --music-blue: #4169e1;
+
+  --music-purple: #8c3b71;
+
+  background:
+
+    radial-gradient(ellipse at 72% 18%, rgba(225, 27, 57, .20), transparent 44%),
+
+    radial-gradient(ellipse at 16% 78%, rgba(45, 82, 214, .20), transparent 42%),
+
+    #080710;
+
+}
+
+.soundtracks-page.theme-nezacalo-pribehem .soundtracks-title-block h1 {
+
+  background: linear-gradient(100deg, #10050a 0%, #9d152b 27%, #f02d43 49%, #315ce0 78%, #a8bdff 100%);
+
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+
+}
+
+/* AEIL — zlato → rudá */
+
+.soundtracks-page.theme-aeil {
+
+  --music-accent: #e5b84b;
+
+  --music-accent-2: #b51e32;
+
+  --music-accent-3: #ffd982;
+
+  --music-pink: #e5b84b;
+
+  --music-blue: #b51e32;
+
+  --music-purple: #a97842;
+
+  background:
+
+    radial-gradient(ellipse at 72% 18%, rgba(197, 143, 30, .22), transparent 44%),
+
+    radial-gradient(ellipse at 16% 78%, rgba(153, 19, 43, .20), transparent 42%),
+
+    #0b0708;
+
+}
+
+.soundtracks-page.theme-aeil .soundtracks-title-block h1 {
+
+  background: linear-gradient(100deg, #100a06 0%, #76541a 25%, #f0c65a 48%, #740815 78%, #6b0101 100%);
+
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+
+}
+
+/* Vespera — měděná → tyrkysová */
+
+.soundtracks-page.theme-vespera {
+
+  --music-accent: #919191;
+
+  --music-accent-2: #39d7c3;
+
+  --music-accent-3: #7bf1c2;
+
+  --music-pink: #4dc87c;
+
+  --music-blue: #39d7c3;
+
+  --music-purple: #5baaa3;
+
+  background:
+
+    radial-gradient(ellipse at 72% 18%, rgba(190, 98, 55, .20), transparent 44%),
+
+    radial-gradient(ellipse at 16% 78%, rgba(20, 183, 164, .16), transparent 42%),
+
+    #050b0d;
+
+}
+
+.soundtracks-page.theme-vespera .soundtracks-title-block h1 {
+
+  background: linear-gradient(100deg, #080c0d 0%, #5a626a 25%, #445379 48%, #28cbb9 78%, #c4fff5 100%);
+
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+
+}
+
+/* Jiskry i aktivní prvky přebírají barvy konkrétní knihy. */
+
+.soundtracks-page .soundtracks-sparkles i {
+
+  background: var(--music-accent-2);
+
+  box-shadow: 0 0 8px 2px var(--music-accent-2), 0 0 18px 4px color-mix(in srgb, var(--music-accent) 70%, transparent);
+
+}
+
+.soundtracks-page .soundtracks-sparkles i:nth-child(3n) {
+
+  background: var(--music-accent);
+
+  box-shadow: 0 0 9px 3px var(--music-accent), 0 0 22px 5px color-mix(in srgb, var(--music-accent-3) 70%, transparent);
+
+}
+
+.soundtracks-page .soundtracks-sparkles i:nth-child(4n) {
+
+  background: var(--music-accent-3);
+
+  box-shadow: 0 0 10px 3px var(--music-accent-3), 0 0 24px 5px var(--music-accent-3);
+
+}
+
+/* Kompletní barevné téma stránky + skutečně ovladatelný playlist */
+
+.soundtracks-page {
+
+  --music-ink: #030914;
+
+  position: relative;
+
+  isolation: isolate;
+
+  color: #e9eef8;
+
+  background-color: #030914 !important;
+
+  background-image:
+
+    radial-gradient(ellipse at 78% 18%, color-mix(in srgb, var(--music-accent) 23%, transparent) 0%, transparent 42%),
+
+    radial-gradient(ellipse at 18% 52%, color-mix(in srgb, var(--music-accent-2) 16%, transparent) 0%, transparent 43%),
+
+    radial-gradient(ellipse at 53% 95%, color-mix(in srgb, var(--music-accent-3) 10%, transparent) 0%, transparent 48%),
+
+    linear-gradient(135deg, #030711 0%, #06101e 52%, #030711 100%) !important;
+
+  background-attachment: fixed;
+
+}
+
+.soundtracks-page::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: -1;
+
+  pointer-events: none;
+
+  opacity: .56;
+
+  background:
+
+    radial-gradient(ellipse 42% 20% at 16% 25%, color-mix(in srgb, var(--music-accent) 18%, transparent), transparent 72%),
+
+    radial-gradient(ellipse 35% 23% at 72% 38%, color-mix(in srgb, var(--music-accent-2) 17%, transparent), transparent 72%),
+
+    radial-gradient(ellipse 50% 25% at 45% 70%, color-mix(in srgb, var(--music-accent-3) 11%, transparent), transparent 74%);
+
+  filter: blur(24px);
+
+  animation: soundtrackSmoke 18s ease-in-out infinite alternate;
+
+}
+
+@keyframes soundtrackSmoke {
+
+  0% { transform: translate3d(-1.5%, 0, 0) scale(1); }
+
+  50% { transform: translate3d(1.5%, -1%, 0) scale(1.04); }
+
+  100% { transform: translate3d(-.5%, 1.5%, 0) scale(1.02); }
+
+}
+
+.soundtracks-page .soundtracks-background-glow { opacity: .9; }
+
+.soundtracks-page .soundtracks-title-block h1 { text-shadow: 0 0 12px color-mix(in srgb, var(--music-accent) 48%, transparent), 0 0 32px color-mix(in srgb, var(--music-accent-2) 28%, transparent); }
+
+.soundtracks-page .soundtracks-title-block p,
+
+.soundtracks-page .soundtracks-universe-label,
+
+.soundtracks-page .soundtracks-eyebrow,
+
+.soundtracks-page .soundtracks-playlist-heading,
+
+.soundtracks-page .soundtracks-section-heading .soundtracks-count { color: var(--music-accent); }
+
+.soundtracks-page .soundtracks-main-nav button,
+
+.soundtracks-page .soundtracks-book-filters button,
+
+.soundtracks-page .soundtracks-filter-results,
+
+.soundtracks-page .soundtracks-listing-panel,
+
+.soundtracks-page .soundtracks-track-details,
+
+.soundtracks-page .soundtracks-lyrics-panel,
+
+.soundtracks-page .soundtracks-author-note,
+
+.soundtracks-page .soundtracks-universe-links a,
+
+.soundtracks-page .soundtracks-full-playlist {
+
+  border-color: color-mix(in srgb, var(--music-accent) 45%, #142236) !important;
+
+  background-color: rgba(3, 9, 20, .78);
+
+}
+
+.soundtracks-page .soundtracks-main-nav button { color: #e2e9f5; }
+
+.soundtracks-page .soundtracks-main-nav button:hover,
+
+.soundtracks-page .soundtracks-main-nav button.is-active,
+
+.soundtracks-page .soundtracks-book-filters button.is-active {
+
+  color: var(--music-accent-2) !important;
+
+  border-color: var(--music-accent-2) !important;
+
+  box-shadow: 0 0 18px color-mix(in srgb, var(--music-accent-2) 20%, transparent);
+
+}
+
+.soundtracks-page .soundtracks-player-card {
+
+  border-color: color-mix(in srgb, var(--music-accent) 55%, #17243b) !important;
+
+  background:
+
+    radial-gradient(ellipse at 15% 30%, color-mix(in srgb, var(--music-accent) 17%, transparent), transparent 42%),
+
+    radial-gradient(ellipse at 92% 78%, color-mix(in srgb, var(--music-accent-2) 15%, transparent), transparent 48%),
+
+    linear-gradient(125deg, rgba(5, 8, 19, .97), rgba(3, 12, 27, .97)) !important;
+
+  box-shadow: inset 0 0 35px color-mix(in srgb, var(--music-accent) 6%, transparent), 0 12px 35px rgba(0,0,0,.16);
+
+}
+
+.soundtracks-page .soundtracks-player-details h2,
+
+.soundtracks-page .soundtracks-track-details h2,
+
+.soundtracks-page .soundtracks-section-heading h2 { color: #eef4ff; }
+
+.soundtracks-page .soundtracks-artist,
+
+.soundtracks-page .soundtracks-track-facts span,
+
+.soundtracks-page .soundtracks-track-description blockquote span { color: var(--music-accent-2) !important; }
+
+.soundtracks-page .soundtracks-equalizer i {
+
+  background: linear-gradient(to top, var(--music-accent), var(--music-accent-2), var(--music-accent-3)) !important;
+
+  box-shadow: 0 0 8px color-mix(in srgb, var(--music-accent-2) 40%, transparent);
+
+}
+
+.soundtracks-page .soundtracks-player-controls button,
+
+.soundtracks-page .soundtracks-header-actions button { border-color: color-mix(in srgb, var(--music-accent) 52%, transparent); }
+
+.soundtracks-page .soundtracks-player-controls .soundtracks-play-button {
+
+  color: var(--music-accent-2) !important;
+
+  border-color: var(--music-accent-2) !important;
+
+  box-shadow: 0 0 20px color-mix(in srgb, var(--music-accent-2) 20%, transparent);
+
+}
+
+.soundtracks-page .soundtracks-timeline input { accent-color: var(--music-accent-2); }
+
+.soundtracks-page .music-track-row { color: #e8edf8; border-bottom-color: color-mix(in srgb, var(--music-accent) 18%, transparent); }
+
+.soundtracks-page .music-track-row:hover,
+
+.soundtracks-page .music-track-row.is-active {
+
+  border-color: color-mix(in srgb, var(--music-accent) 72%, transparent) !important;
+
+  background: linear-gradient(110deg, color-mix(in srgb, var(--music-accent) 13%, transparent), color-mix(in srgb, var(--music-accent-2) 9%, #030914)) !important;
+
+  box-shadow: inset 0 0 20px color-mix(in srgb, var(--music-accent) 5%, transparent), 0 0 18px color-mix(in srgb, var(--music-accent) 10%, transparent);
+
+}
+
+.soundtracks-page .music-track-row-book { color: #b9c7da; }
+
+.soundtracks-page .music-track-row-meta { color: var(--music-accent-2); }
+
+/* ==========================================================
+   FINÁLNÍ OPRAVA: jeden scrollbar, plná výška levého sloupce,
+   nekonečný pohyb playlistu.
+   Playlist v JSX obsahuje seznam skladeb dvakrát, proto se
+   animace může vracet beze skoku.
+========================================================== */
+
+html:has(.soundtracks-page) {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+body:has(.soundtracks-page) {
+  height: auto !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+#root:has(.soundtracks-page),
+#root:has(.soundtracks-page) > * {
+  height: auto !important;
+  min-height: 100vh !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.soundtracks-page {
+  min-height: 100vh !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+  padding-bottom: 72px !important;
+}
+
+.soundtracks-layout {
+  align-items: stretch !important;
+  min-width: 0;
+}
+
+.soundtracks-playlist-column {
+  align-self: stretch !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-width: 0;
+  min-height: 100%;
+  position: relative !important;
+  top: auto !important;
+}
+
+/* Samotný seznam nemá scrollbar; posouvá se pouze stránka. */
+.soundtracks-page .soundtracks-floating-list {
+  position: relative !important;
+  display: block !important;
+  flex: 1 1 auto !important;
+  width: 100%;
+  height: auto !important;
+  max-height: none !important;
+  min-height: max(320px, 65vh) !important;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  padding: 0 5px 4px 0;
+  overscroll-behavior: none !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  animation: none !important;
+}
+
+.soundtracks-page .soundtracks-floating-list::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Dvě kopie seznamu se posunou přesně o výšku jedné kopie. */
+.soundtracks-page .soundtracks-floating-list-track {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  height: max-content !important;
+  transform: translate3d(0, 0, 0);
+  animation: soundtrackPlaylistLoop 34s linear infinite !important;
+  animation-play-state: running !important;
+  will-change: transform;
+}
+
+.soundtracks-page .soundtracks-floating-list-track > .music-track-row {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  width: 100%;
+}
+
+/* Nezastavujeme automatický pohyb pod kurzorem: klikání na skladby zůstává možné. */
+.soundtracks-page .soundtracks-floating-list:hover .soundtracks-floating-list-track,
+.soundtracks-page .soundtracks-floating-list:focus-within .soundtracks-floating-list-track {
+  animation-play-state: running !important;
+}
+
+@keyframes soundtrackPlaylistLoop {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -50%, 0); }
+}
+
+@media (max-width: 950px) {
+  .soundtracks-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: start !important;
+  }
+
+  .soundtracks-playlist-column {
+    order: 2;
+    min-height: 0 !important;
+  }
+
+  .soundtracks-main-column { order: 1; }
+
+  .soundtracks-page .soundtracks-floating-list {
+    height: 300px !important;
+    min-height: 300px !important;
+    max-height: 300px !important;
+    flex: 0 0 300px !important;
+  }
+
+  .soundtracks-page .soundtracks-floating-list-track {
+    animation-duration: 40s !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .soundtracks-page .soundtracks-floating-list {
+    height: 280px !important;
+    min-height: 280px !important;
+    max-height: 280px !important;
+    flex-basis: 280px !important;
+  }
+}
+/* =====================================================
+   OPRAVA KLIKÁNÍ – soundtracky
+   ===================================================== */
+
+/* Dekorativní vrstvy nesmějí zachytávat kliknutí. */
+.soundtracks-page::before,
+.soundtracks-page .soundtracks-background-glow,
+.soundtracks-page .soundtracks-sparkles {
+  pointer-events: none !important;
+}
+
+/* Obsah stránky musí ležet nad dekorativními vrstvami. */
+.soundtracks-page .soundtracks-header,
+.soundtracks-page .soundtracks-title-block,
+.soundtracks-page .soundtracks-layout,
+.soundtracks-page .soundtracks-footer {
+  position: relative !important;
+  z-index: 5 !important;
+  pointer-events: auto !important;
+}
+
+/* Navigace, filtry, skladby a odkazy musí být klikatelné. */
+.soundtracks-page .soundtracks-layout button,
+.soundtracks-page .soundtracks-layout a,
+.soundtracks-page .soundtracks-layout input,
+.soundtracks-page .soundtracks-layout select {
+  position: relative;
+  z-index: 6;
+  pointer-events: auto !important;
+  cursor: pointer;
+}
+
+/* Při výběru skladby se playlist zastaví. */
+.soundtracks-page .soundtracks-floating-list:hover
+.soundtracks-floating-list-track,
+.soundtracks-page .soundtracks-floating-list:focus-within
+.soundtracks-floating-list-track {
+  animation-play-state: paused !important;
+}
+
+/* Po odjetí kurzorem pokračuje v pohybu. */
+.soundtracks-page .soundtracks-floating-list-track {
+  pointer-events: auto !important;
+}
+
+.soundtracks-page .music-track-row {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+.soundtracks-page .soundtracks-tags button,
+.soundtracks-page .soundtracks-book-filters button,
+.soundtracks-page .soundtracks-main-nav button {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+.soundtracks-page .soundtracks-floating-list:hover .soundtracks-floating-list-track,
+.soundtracks-page .soundtracks-floating-list:focus-within .soundtracks-floating-list-track {
+  animation-play-state: paused !important;
+}
+
+/* ==========================================================
+   FIX DEFINITIVNĚ: klikání, jeden scroll a globální přehrávač
+   Dřívější pravidlo #root:has(.soundtracks-page) > * nastavovalo
+   min-height:100vh všem přímým dětem #root. Tím se nafoukl také
+   globální fixed přehrávač a jeho průhledný obdélník překrýval stránku.
+========================================================== */
+
+html:has(.soundtracks-page) {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+body:has(.soundtracks-page) {
+  height: auto !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+#root:has(.soundtracks-page) {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  min-height: 100vh !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  text-align: initial !important;
+}
+
+/* Audio je pouze technický element. Nesmí vytvořit další výšku stránky. */
+#root:has(.soundtracks-page) > audio {
+  position: fixed !important;
+  left: -10px !important;
+  top: -10px !important;
+  display: block !important;
+  width: 1px !important;
+  height: 1px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 1px !important;
+  max-height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+#root:has(.soundtracks-page) > .soundtracks-page {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  min-height: 100vh !important;
+  max-height: none !important;
+  margin: 0 !important;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+/* Důležité: průhledné prázdné plochy globálního přehrávače
+   nesmí zachytávat kliknutí na obsah pod ním. */
+#root:has(.soundtracks-page) > .global-music-player {
+  position: fixed !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  pointer-events: none !important;
+}
+
+.global-music-player button,
+.global-music-player input {
+  pointer-events: auto !important;
+}
+
+#root:has(.soundtracks-page) > .global-player-reopen {
+  height: 40px !important;
+  min-height: 0 !important;
+  max-height: 40px !important;
+  pointer-events: auto !important;
+}
+
+/* Animovaný playlist se při najetí kurzorem zastaví, aby šlo snadno kliknout. */
+.soundtracks-page .soundtracks-floating-list:hover .soundtracks-floating-list-track,
+.soundtracks-page .soundtracks-floating-list:focus-within .soundtracks-floating-list-track {
+  animation-play-state: paused !important;
+}
+
+.soundtracks-page .soundtracks-sparkles,
+.soundtracks-page .soundtracks-background-glow,
+.soundtracks-page::before {
+  pointer-events: none !important;
+}
+
+.soundtracks-page .soundtracks-tags button,
+.soundtracks-page .soundtracks-book-filters button,
+.soundtracks-page .soundtracks-main-nav button,
+.soundtracks-page .music-track-row {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+
+/* ==========================================================
+   DYNAMICKÉ BARVY TEXTŮ A LYRICS + VYSTŘEDĚNÍ HLAVNÍHO PŘEHRÁVAČE
+
+   Barvy upravuj v proměnných --music-ui-accent / -2 / -3 níže.
+   Jde o světlé barvy pro texty a ovládací prvky; samostatné
+   --music-accent proměnné výše dál řídí pozadí a gradient nadpisu.
+========================================================== */
+
+.soundtracks-page {
+  --music-ui-accent: #f17bcf;
+  --music-ui-accent-2: #55c9ff;
+  --music-ui-accent-3: #d8b8ff;
+}
+
+/* Nezačalo to létem: ledově azurová + oranžová */
+.soundtracks-page.theme-nezacalo-letem {
+  --music-ui-accent: #0ed1f4;
+  --music-ui-accent-2: #f5811a;
+  --music-ui-accent-3: #ffe2aa;
+}
+
+/* Nezačalo to v temnotě: jasná levandulová + limetková */
+.soundtracks-page.theme-nezacalo-temnote {
+  --music-ui-accent: #c5a0ff;
+  --music-ui-accent-2: #7ed60a;
+  --music-ui-accent-3: #eee0ff;
+}
+
+/* Nezačalo to správně: neonově růžová + modrá */
+.soundtracks-page.theme-nezacalo-spravne {
+  --music-ui-accent: #ff65c7;
+  --music-ui-accent-2: #68caff;
+  --music-ui-accent-3: #ffc0e8;
+}
+
+/* Nezačalo to tady: bílá + ledová modrá */
+.soundtracks-page.theme-nezacalo-tady {
+  --music-ui-accent: #ffffff;
+  --music-ui-accent-2: #1fc0ff;
+  --music-ui-accent-3: #d8f5ff;
+}
+
+/* Nezačalo to naším příběhem: červená + královská modrá */
+.soundtracks-page.theme-nezacalo-pribehem {
+  --music-ui-accent: #900011;
+  --music-ui-accent-2: #2548b9;
+  --music-ui-accent-3: #ffd0d6;
+}
+
+/* AEIL: zlato + jasná rudá */
+.soundtracks-page.theme-aeil {
+  --music-ui-accent: #ffdc79;
+  --music-ui-accent-2: #d30420;
+  --music-ui-accent-3: #ce3c13;
+}
+
+/* Vespera: měď + tyrkysová */
+.soundtracks-page.theme-vespera {
+  --music-ui-accent: #858889;
+  --music-ui-accent-2: #29dbc0;
+  --music-ui-accent-3: #63a9fe;
+}
+
+/* Nadpis si ponechá svůj existující barevný gradient, ale záře
+   se odvíjí od jasných, čitelných barev aktuálního tématu. */
+.soundtracks-page .soundtracks-title-block h1 {
+  filter:
+    drop-shadow(0 0 8px color-mix(in srgb, var(--music-ui-accent) 58%, transparent))
+    drop-shadow(0 0 22px color-mix(in srgb, var(--music-ui-accent-2) 32%, transparent));
+}
+
+/* Vystředění obsahu hlavního přehrávače v pravé části karty. */
+.soundtracks-page .soundtracks-player-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  width: 100%;
+  padding-left: 0 !important;
+  text-align: center;
+}
+
+.soundtracks-page .soundtracks-player-details > * {
+  max-width: 100%;
+}
+
+.soundtracks-page .soundtracks-player-details .soundtracks-eyebrow {
+  color: var(--music-ui-accent) !important;
+  margin-bottom: 12px;
+}
+
+.soundtracks-page .soundtracks-player-details h2 {
+  width: 100%;
+  text-align: center;
+}
+
+.soundtracks-page .soundtracks-player-details .soundtracks-track-number {
+  text-align: center;
+}
+
+.soundtracks-page .soundtracks-player-details .soundtracks-artist {
+  color: var(--music-ui-accent-2) !important;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--music-ui-accent-2) 22%, transparent);
+}
+
+.soundtracks-page .soundtracks-player-details .soundtracks-equalizer {
+  width: min(100%, 430px);
+}
+
+.soundtracks-page .soundtracks-player-details .soundtracks-equalizer i {
+  background: linear-gradient(
+    to top,
+    var(--music-ui-accent),
+    var(--music-ui-accent-2),
+    var(--music-ui-accent-3)
+  ) !important;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--music-ui-accent-2) 34%, transparent);
+}
+
+.soundtracks-page .soundtracks-player-details .soundtracks-player-controls {
+  width: min(100%, 510px);
+  margin-inline: auto;
+}
+
+/* Barvy detailů, nadpisů a štítků. Běžný text necháváme světlý,
+   aby zůstal dobře čitelný na tmavém pozadí. */
+.soundtracks-page .soundtracks-eyebrow,
+.soundtracks-page .soundtracks-playlist-heading,
+.soundtracks-page .soundtracks-section-heading .soundtracks-count,
+.soundtracks-page .soundtracks-track-facts span,
+.soundtracks-page .soundtracks-track-description blockquote span,
+.soundtracks-page .soundtracks-tag-label,
+.soundtracks-page .soundtracks-quote-mark {
+  color: var(--music-ui-accent) !important;
+}
+
+.soundtracks-page .soundtracks-track-facts > div {
+  border-color: color-mix(in srgb, var(--music-ui-accent) 28%, transparent) !important;
+}
+
+.soundtracks-page .soundtracks-track-description blockquote.soundtracks-author-quote {
+  border-left-color: var(--music-ui-accent-2) !important;
+}
+
+.soundtracks-page .soundtracks-author-quote::before,
+.soundtracks-page .soundtracks-author-quote::after {
+  color: var(--music-ui-accent) !important;
+  text-shadow:
+    0 0 8px color-mix(in srgb, var(--music-ui-accent) 50%, transparent),
+    0 0 20px color-mix(in srgb, var(--music-ui-accent-2) 28%, transparent) !important;
+}
+
+/* Navigace, tlačítka playlistu a filtry nálad/žánrů/knih. */
+.soundtracks-page .soundtracks-main-nav button:hover,
+.soundtracks-page .soundtracks-main-nav button.is-active,
+.soundtracks-page .soundtracks-tags button:hover,
+.soundtracks-page .soundtracks-tags button.is-active,
+.soundtracks-page .soundtracks-book-filters button:hover,
+.soundtracks-page .soundtracks-book-filters button.is-active {
+  color: var(--music-ui-accent) !important;
+  border-color: color-mix(in srgb, var(--music-ui-accent) 76%, transparent) !important;
+  background: color-mix(in srgb, var(--music-ui-accent) 10%, #030914) !important;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--music-ui-accent) 15%, transparent);
+}
+
+.soundtracks-page .soundtracks-main-nav button,
+.soundtracks-page .soundtracks-tags button,
+.soundtracks-page .soundtracks-book-filters button {
+  border-color: color-mix(in srgb, var(--music-ui-accent) 34%, #142236) !important;
+  color: #e8edf8;
+}
+
+.soundtracks-page .soundtracks-main-nav button span,
+.soundtracks-page .soundtracks-full-playlist span {
+  color: var(--music-ui-accent-2) !important;
+}
+
+.soundtracks-page .soundtracks-full-playlist,
+.soundtracks-page .soundtracks-detail-buttons a,
+.soundtracks-page .soundtracks-detail-buttons button,
+.soundtracks-page .soundtracks-filter-results .soundtracks-section-heading button {
+  color: var(--music-ui-accent) !important;
+  border-color: color-mix(in srgb, var(--music-ui-accent) 58%, transparent) !important;
+}
+
+.soundtracks-page .soundtracks-universe-links a {
+  border-color: color-mix(in srgb, var(--music-ui-accent) 48%, #142236) !important;
+}
+
+.soundtracks-page .soundtracks-universe-links a span {
+  color: var(--music-ui-accent) !important;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--music-ui-accent) 38%, transparent);
+}
+
+.soundtracks-page .soundtracks-universe-links a:nth-child(2) span,
+.soundtracks-page .soundtracks-universe-links a:nth-child(3) span,
+.soundtracks-page .soundtracks-universe-links a:nth-child(4) span {
+  color: var(--music-ui-accent-2) !important;
+}
+
+/* Playlistové řádky a aktivní skladba. */
+.soundtracks-page .music-track-row:hover,
+.soundtracks-page .music-track-row.is-active {
+  border-color: color-mix(in srgb, var(--music-ui-accent) 70%, transparent) !important;
+  box-shadow:
+    inset 0 0 18px color-mix(in srgb, var(--music-ui-accent) 5%, transparent),
+    0 0 13px color-mix(in srgb, var(--music-ui-accent) 10%, transparent) !important;
+}
+
+.soundtracks-page .music-track-row-meta {
+  color: var(--music-ui-accent-2) !important;
+}
+
+/* LYRICS – panel, nadpis, tlačítka, originál/překlad i karaoke
+   mají barvy odvozené od aktuální knihy. Text písně zůstává světlý. */
+.soundtracks-page .music-lyrics-panel {
+  border-color: color-mix(in srgb, var(--music-ui-accent) 30%, #172236) !important;
+  background:
+    radial-gradient(ellipse at 18% 55%, color-mix(in srgb, var(--music-ui-accent) 8%, transparent), transparent 48%),
+    radial-gradient(ellipse at 85% 60%, color-mix(in srgb, var(--music-ui-accent-2) 7%, transparent), transparent 50%),
+    rgba(4, 7, 16, .88) !important;
+}
+
+.soundtracks-page .music-lyrics-toggle {
+  color: var(--music-ui-accent) !important;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--music-ui-accent) 18%, transparent);
+}
+
+.soundtracks-page .music-lyrics-toggle:hover {
+  background: color-mix(in srgb, var(--music-ui-accent) 7%, transparent) !important;
+}
+
+.soundtracks-page .music-lyrics-toggle span:last-child,
+.soundtracks-page .music-lyrics-toolbar i,
+.soundtracks-page .music-lyrics-language h3 {
+  color: var(--music-ui-accent-2) !important;
+}
+
+.soundtracks-page .music-lyrics-toggle b {
+  color: var(--music-ui-accent) !important;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--music-ui-accent) 42%, transparent);
+}
+
+.soundtracks-page .music-lyrics-toolbar {
+  color: #c4ccdc !important;
+}
+
+.soundtracks-page .music-lyrics-toolbar-actions button,
+.soundtracks-page .music-lyrics-toolbar button {
+  color: var(--music-ui-accent-2) !important;
+  border-color: color-mix(in srgb, var(--music-ui-accent-2) 58%, transparent) !important;
+}
+
+.soundtracks-page .music-lyrics-toolbar-actions button:hover,
+.soundtracks-page .music-lyrics-toolbar button:hover {
+  color: #07101b !important;
+  background: var(--music-ui-accent-2) !important;
+}
+
+.soundtracks-page .music-lyrics-toolbar-actions button.is-active,
+.soundtracks-page .music-lyrics-toolbar button.is-active {
+  color: #07101b !important;
+  background: var(--music-ui-accent-2) !important;
+  border-color: var(--music-ui-accent-2) !important;
+}
+
+.soundtracks-page .music-lyrics-language button {
+  color: #e9edf7 !important;
+  transition: color .18s ease, background .18s ease, text-shadow .18s ease;
+}
+
+.soundtracks-page .music-lyrics-language button:hover {
+  color: var(--music-ui-accent-3) !important;
+  background: color-mix(in srgb, var(--music-ui-accent) 8%, transparent) !important;
+}
+
+.soundtracks-page .music-lyrics-language button.is-current {
+  color: var(--music-ui-accent) !important;
+  background: color-mix(in srgb, var(--music-ui-accent) 11%, transparent) !important;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--music-ui-accent) 36%, transparent) !important;
+}
+
+.soundtracks-page .music-lyrics-empty {
+  color: #c3ccdc !important;
+}
+
+@media (max-width: 600px) {
+  .soundtracks-page .soundtracks-player-details {
+    text-align: center;
+    align-items: center;
+  }
+
+  .soundtracks-page .soundtracks-player-details .soundtracks-player-controls {
+    width: 100%;
+  }
+}
+/* Čitelnější podnadpis SOUNDTRACK */
+.soundtracks-page .soundtracks-title-block p {
+  color: #f2fbff !important;
+  -webkit-text-fill-color: #f2fbff !important;
+
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+
+  text-shadow:
+    0 0 4px var(--music-accent-2),
+    0 0 10px var(--music-accent-2),
+    0 0 22px color-mix(
+      in srgb,
+      var(--music-accent-2) 65%,
+      transparent
+    );
+
+  opacity: 1;
+}
+/* ==========================================
+   VYCENTROVÁNÍ SPODNÍCH PANELŮ
+   ========================================== */
+
+.soundtracks-page .soundtracks-universe-links {
+  width: min(100%, 1200px);
+  margin: 18px auto 0;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* Obsah všech pěti panelů bude uprostřed. */
+.soundtracks-page .soundtracks-universe-links > a,
+.soundtracks-page .soundtracks-universe-links > .soundtracks-full-playlist-bottom {
+  box-sizing: border-box;
+  min-height: 142px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 10px;
+  text-align: center;
+}
+
+/* Šipka v panelech bude také uprostřed. */
+.soundtracks-page .soundtracks-universe-links > a i {
+  align-self: center;
+  margin: 3px 0 0;
+}
+
+.soundtracks-page .soundtracks-full-playlist-bottom {
+  width: 100%;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.soundtracks-page .soundtracks-full-playlist-bottom span {
+  align-self: center;
+}
+
+/* Menší obrazovky */
+@media (max-width: 950px) {
+  .soundtracks-page .soundtracks-universe-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .soundtracks-page .soundtracks-universe-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   KNIHOVNA SOUNDTRACKŮ – přehled knih a detail knihy
+   ========================================================= */
+.soundtracks-page .soundtracks-books-heading {
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+.soundtracks-page .soundtracks-books-heading h2 {
+  font-size: clamp(25px, 2.5vw, 34px);
+  line-height: 1.15;
+  margin-top: 7px;
+}
+.soundtracks-page .soundtracks-books-heading p {
+  color: #cbd2e2;
+  font: 12px/1.7 Arial, sans-serif;
+  margin: 9px 0 0;
+  letter-spacing: .02em;
+}
+.soundtracks-page .soundtracks-books-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 0 0 17px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--music-ui-accent, #bd8aff) 23%, #1c2435);
+  border-radius: 9px;
+  background: rgba(2, 7, 17, .62);
+  color: var(--music-ui-accent, #bd8aff);
+  font: 10px/1.4 Arial, sans-serif;
+  letter-spacing: 1.3px;
+}
+.soundtracks-page .soundtracks-books-toolbar label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #cbd2e2;
+  letter-spacing: .04em;
+}
+.soundtracks-page .soundtracks-books-toolbar select {
+  min-width: 175px;
+  max-width: 55vw;
+  padding: 9px 30px 9px 11px;
+  border: 1px solid color-mix(in srgb, var(--music-ui-accent, #bd8aff) 48%, #293247);
+  border-radius: 7px;
+  outline: none;
+  color: #f0ecf8;
+  background: #080d1a;
+  font: 12px Arial, sans-serif;
+  cursor: pointer;
+}
+.soundtracks-page .soundtracks-books-toolbar select:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--music-ui-accent, #bd8aff) 35%, transparent);
+}
+.soundtracks-page .soundtracks-book-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+}
+.soundtracks-page .soundtracks-book-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  align-items: stretch;
+  gap: 13px;
+  min-width: 0;
+  min-height: 152px;
+  padding: 13px;
+  overflow: hidden;
+  text-align: left;
+  color: #edf1fb;
+  border: 1px solid color-mix(in srgb, var(--book-accent, #bd8aff) 55%, #182135);
+  border-radius: 12px;
+  background:
+    radial-gradient(ellipse at 90% 10%, color-mix(in srgb, var(--book-accent, #bd8aff) 15%, transparent), transparent 58%),
+    linear-gradient(145deg, rgba(9, 13, 26, .98), rgba(3, 7, 17, .96));
+  box-shadow: inset 0 0 20px color-mix(in srgb, var(--book-accent, #bd8aff) 4%, transparent);
+  cursor: pointer;
+  isolation: isolate;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.soundtracks-page .soundtracks-book-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -60% -70%;
+  pointer-events: none;
+  opacity: .28;
+  background: linear-gradient(115deg, transparent 42%, color-mix(in srgb, var(--book-accent-3, #f0a2ee) 16%, transparent) 49%, transparent 56%);
+  transform: translateX(-38%);
+  transition: transform .55s ease, opacity .25s ease;
+}
+.soundtracks-page .soundtracks-book-card::after {
+  content: "";
+  position: absolute;
+  right: 15px;
+  top: 13px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--book-accent-3, #f0a2ee);
+  opacity: .75;
+  box-shadow: 0 0 7px 2px var(--book-accent-3, #f0a2ee), 0 0 17px 4px color-mix(in srgb, var(--book-accent, #bd8aff) 55%, transparent);
+  animation: soundtrackBookSpark 3.5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.soundtracks-page .soundtracks-book-card:hover,
+.soundtracks-page .soundtracks-book-card:focus-visible {
+  transform: translateY(-3px);
+  outline: none;
+  border-color: var(--book-accent-3, #f0a2ee);
+  box-shadow:
+    inset 0 0 20px color-mix(in srgb, var(--book-accent, #bd8aff) 7%, transparent),
+    0 0 19px color-mix(in srgb, var(--book-accent, #bd8aff) 16%, transparent);
+}
+.soundtracks-page .soundtracks-book-card:hover::before,
+.soundtracks-page .soundtracks-book-card:focus-visible::before {
+  opacity: .75;
+  transform: translateX(38%);
+}
+.soundtracks-page .soundtracks-book-card-cover {
+  position: relative;
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  min-width: 0;
+  min-height: 124px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--book-accent, #bd8aff) 65%, transparent);
+  border-radius: 8px;
+  background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--book-accent, #bd8aff) 20%, #080c18), #030711 75%);
+  box-shadow: 0 0 15px color-mix(in srgb, var(--book-accent, #bd8aff) 12%, transparent);
+}
+.soundtracks-page .soundtracks-book-card-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .82;
+  transition: transform .35s ease, opacity .25s ease;
+}
+.soundtracks-page .soundtracks-book-card:hover .soundtracks-book-card-cover img {
+  transform: scale(1.06);
+  opacity: 1;
+}
+.soundtracks-page .soundtracks-book-card-placeholder {
+  color: var(--book-accent-3, #f0a2ee);
+  font-size: 32px;
+  text-shadow: 0 0 13px var(--book-accent, #bd8aff);
+}
+.soundtracks-page .soundtracks-book-card-index {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  padding: 3px 5px;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 4px;
+  color: #f4f5fb;
+  background: rgba(2,5,12,.72);
+  font: 9px Arial, sans-serif;
+  letter-spacing: 1px;
+}
+.soundtracks-page .soundtracks-book-card-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 7px;
+  min-width: 0;
+  padding: 3px 7px 3px 0;
+}
+.soundtracks-page .soundtracks-book-card-kicker {
+  color: var(--book-accent-2, #54d8e5);
+  font: 8px Arial, sans-serif;
+  letter-spacing: 1.3px;
+  text-shadow: 0 0 7px color-mix(in srgb, var(--book-accent-2, #54d8e5) 38%, transparent);
+}
+.soundtracks-page .soundtracks-book-card-content strong {
+  max-width: 100%;
+  color: #f1f3fb;
+  font-size: clamp(15px, 1.2vw, 19px);
+  font-weight: 400;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+  text-shadow: 0 0 11px color-mix(in srgb, var(--book-accent, #bd8aff) 35%, transparent);
+}
+.soundtracks-page .soundtracks-book-card-content small {
+  max-width: 100%;
+  color: #aeb9ce;
+  font: 10px/1.35 Arial, sans-serif;
+  overflow-wrap: anywhere;
+}
+.soundtracks-page .soundtracks-book-card-count {
+  color: var(--book-accent, #bd8aff);
+  font: 9px Arial, sans-serif;
+  letter-spacing: 1px;
+}
+.soundtracks-page .soundtracks-book-card-moods {
+  max-width: 100%;
+  color: #c9d0df;
+  font: 9px/1.45 Arial, sans-serif;
+  overflow-wrap: anywhere;
+}
+.soundtracks-page .soundtracks-book-card-arrow {
+  position: absolute;
+  right: 12px;
+  bottom: 9px;
+  color: var(--book-accent-3, #f0a2ee);
+  font: 17px Arial, sans-serif;
+  text-shadow: 0 0 8px var(--book-accent, #bd8aff);
+}
+@keyframes soundtrackBookSpark {
+  from { opacity: .25; transform: scale(.75); }
+  to { opacity: .95; transform: scale(1.2); }
+}
+.soundtracks-page .soundtracks-book-detail-heading h2 {
+  font-size: clamp(24px, 2.4vw, 34px);
+}
+.soundtracks-page .soundtracks-book-series {
+  margin: 8px 0 0;
+  color: #bfc8da;
+  font: 11px/1.5 Arial, sans-serif;
+  letter-spacing: .04em;
+}
+.soundtracks-page .soundtracks-book-detail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 8px 10px 8px 6px;
+  border: 1px solid color-mix(in srgb, var(--music-ui-accent, #bd8aff) 45%, transparent);
+  border-radius: 7px;
+  color: var(--music-ui-accent, #bd8aff);
+  background: rgba(4, 8, 18, .62);
+  font: 10px Arial, sans-serif;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.soundtracks-page .soundtracks-book-detail-back span {
+  font-size: 20px;
+  line-height: .7;
+}
+.soundtracks-page .soundtracks-book-track-list {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Katalog a seznam vybrané knihy používají hlavní scroll stránky. */
+.soundtracks-page .soundtracks-listing-rows,
+.soundtracks-page .soundtracks-book-track-list {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+@media (max-width: 1100px) {
+  .soundtracks-page .soundtracks-book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .soundtracks-page .soundtracks-book-grid { grid-template-columns: 1fr; }
+  .soundtracks-page .soundtracks-books-toolbar { align-items: flex-start; flex-direction: column; }
+  .soundtracks-page .soundtracks-books-toolbar label { width: 100%; justify-content: space-between; }
+  .soundtracks-page .soundtracks-books-toolbar select { max-width: 65%; }
+}
+
+
+/* Řazení v přehledu VŠECH skladeb používá stejný vzhled jako řazení knih. */
+.soundtracks-page .soundtracks-all-sort-toolbar {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.soundtracks-page .soundtracks-all-sort-toolbar > span {
+  color: var(--music-ui-accent, var(--music-accent, #bd8aff));
+}
+
+
+/* =========================================================
+   NÁHLEDY SKLADEB V PŘEHLEDU VŠECH SKLADEB A DETAILU KNIHY
+   ========================================================= */
+.soundtracks-page .music-track-row.has-cover {
+  display: grid !important;
+  grid-template-columns: 58px minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-height: 78px;
+  padding: 10px 13px !important;
+  flex-direction: initial !important;
+}
+
+.soundtracks-page .music-track-row-cover {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  min-width: 58px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--music-ui-accent, var(--music-accent, #bd8aff)) 62%, transparent);
+  border-radius: 8px;
+  background:
+    radial-gradient(ellipse at 35% 25%, color-mix(in srgb, var(--music-ui-accent-2, #55c9ff) 22%, transparent), transparent 70%),
+    #070b16;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--music-ui-accent, #bd8aff) 14%, transparent);
+}
+
+.soundtracks-page .music-track-row-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .25s ease, filter .25s ease;
+}
+
+.soundtracks-page .music-track-row.has-cover:hover .music-track-row-cover img,
+.soundtracks-page .music-track-row.has-cover:focus-visible .music-track-row-cover img {
+  transform: scale(1.06);
+}
+
+.soundtracks-page .music-track-row-cover-placeholder {
+  color: var(--music-ui-accent, #bd8aff);
+  font-size: 25px;
+  text-shadow: 0 0 12px var(--music-ui-accent, #bd8aff);
+}
+
+.soundtracks-page .music-track-row-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+}
+
+.soundtracks-page .music-track-row.has-cover .music-track-row-title {
+  font-size: clamp(14px, 1.15vw, 17px);
+}
+
+.soundtracks-page .music-track-row.has-cover .music-track-row-meta {
+  margin-top: 2px;
+}
+
+/* Obálka knihy je samostatná od obalu písně. Při nerozpoznané knize se ukáže neutrální značka. */
+.soundtracks-page .soundtracks-book-card-cover img {
+  z-index: 0;
+  object-fit: cover;
+  opacity: .96;
+}
+
+.soundtracks-page .soundtracks-book-card-placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--book-accent-3, var(--music-ui-accent, #bd8aff));
+  background: radial-gradient(ellipse at 50% 35%, color-mix(in srgb, var(--book-accent, #bd8aff) 17%, transparent), transparent 72%);
+}
+
+@media (max-width: 600px) {
+  .soundtracks-page .music-track-row.has-cover {
+    grid-template-columns: 48px minmax(0, 1fr) !important;
+    min-height: 66px;
+    gap: 9px !important;
+    padding: 8px 9px !important;
+  }
+  .soundtracks-page .music-track-row-cover {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+  }
+}
+
+
+/* ==========================================================
+   LEVÝ PLAYLIST — vysoký, plynulý a nekonečný pás všech skladeb
+   Tři shodné kopie zabrání prázdné části okna při cyklování.
+========================================================== */
+
+.soundtracks-page .soundtracks-playlist-column {
+  position: sticky !important;
+  top: 18px !important;
+  align-self: start !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.soundtracks-page .soundtracks-playlist-heading {
+  flex: 0 0 auto !important;
+}
+
+.soundtracks-page .soundtracks-floating-list {
+  position: relative !important;
+  display: block !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  height: clamp(460px, calc(100vh - 145px), 760px) !important;
+  min-height: 360px !important;
+  max-height: 860px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+  padding: 0 5px 4px 0 !important;
+  margin: 0 !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  animation: none !important;
+}
+
+.soundtracks-page .soundtracks-floating-list::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.soundtracks-page .soundtracks-floating-list-track {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: translate3d(0, 0, 0);
+  animation: soundtrackPlaylistSeamlessLoop 72s linear infinite !important;
+  animation-play-state: running !important;
+  will-change: transform;
+}
+
+.soundtracks-page .soundtracks-floating-list-group {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.soundtracks-page .soundtracks-floating-list-group > .music-track-row {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Posun o jednu ze tří stejně vysokých kopií. */
+@keyframes soundtrackPlaylistSeamlessLoop {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -33.333333%, 0); }
+}
+
+.soundtracks-page .soundtracks-floating-list:hover .soundtracks-floating-list-track,
+.soundtracks-page .soundtracks-floating-list:focus-within .soundtracks-floating-list-track {
+  animation-play-state: running !important;
+}
+
+@media (max-width: 950px) {
+  .soundtracks-page .soundtracks-playlist-column {
+    position: relative !important;
+    top: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .soundtracks-page .soundtracks-floating-list {
+    height: min(64vh, 520px) !important;
+    min-height: 280px !important;
+    max-height: 520px !important;
+  }
+
+  .soundtracks-page .soundtracks-floating-list-track {
+    animation-duration: 96s !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .soundtracks-page .soundtracks-floating-list {
+    height: 280px !important;
+    min-height: 240px !important;
+    max-height: 280px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .soundtracks-page .soundtracks-floating-list-track {
+    animation-duration: 120s !important;
+  }
+}
+
+
+/* Boční listování uvnitř stávajícího přehrávače */
+.soundtracks-player-card {
+  position: relative;
+  min-width: 0;
+}
+.soundtracks-player-viewport {
+  width: 100%;
+  min-width: 0;
+  min-height: 320px;
+  height: 100%;
+  padding: 0 34px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(180px, 44%) minmax(0, 1fr);
+  align-items: center;
+}
+.soundtracks-player-viewport > * {
+  width: 100%;
+  min-width: 0;
+}
+.soundtracks-player-arrow {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 54px;
+  padding: 0;
+  border: 1px solid rgba(224,190,151,.28);
+  border-radius: 20px;
+  color: inherit;
+  background: rgba(10,11,15,.45);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease;
+}
+.soundtracks-player-arrow:hover {
+  background: rgba(201,164,110,.18);
+  border-color: rgba(224,190,151,.65);
+}
+.soundtracks-player-arrow-left { left: 10px; }
+.soundtracks-player-arrow-right { right: 10px; }
+.soundtracks-volume-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  color: rgba(238,230,220,.7);
+  font-size: .66rem;
+  letter-spacing: .12em;
+}
+.soundtracks-volume-control input {
+  width: min(150px, 42%);
+  accent-color: var(--soundtracks-accent, #c9a46e);
+  cursor: pointer;
+}
+.soundtracks-volume-control small {
+  min-width: 34px;
+  color: rgba(238,230,220,.85);
+  font-size: .7rem;
+  letter-spacing: 0;
+}
+.soundtracks-media-view {
+  width: 100%;
+  min-width: 0;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: 8px 0;
+}
+.soundtracks-media-video-list {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  max-height: 430px;
+  overflow-y: auto;
+}
+.soundtracks-media-video video {
+  display: block;
+  width: 100%;
+  max-height: 390px;
+  border-radius: 10px;
+  background: #08090c;
+  object-fit: contain;
+}
+@media (max-width: 700px) {
+  .soundtracks-player-viewport {
+    min-height: 360px;
+    padding: 0 24px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .soundtracks-player-arrow {
+    width: 27px;
+    height: 46px;
+  }
+  .soundtracks-player-arrow-left { left: 3px; }
+  .soundtracks-player-arrow-right { right: 3px; }
+  .soundtracks-volume-control input { width: min(120px, 38%); }
+}
+
+
+/* Doladění bočních šipek a videa přes plochu přehrávače */
+.soundtracks-player-card {
+  position: relative;
+  overflow: hidden;
+}
+.soundtracks-player-viewport {
+  width: 100%;
+  min-height: 320px;
+  padding: 0 52px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+}
+.soundtracks-player-arrow {
+  top: 50%;
+  left: auto;
+  right: auto;
+  width: 38px;
+  height: 62px;
+  border-radius: 22px;
+}
+.soundtracks-player-arrow-left {
+  left: 12px;
+  right: auto;
+}
+.soundtracks-player-arrow-right {
+  right: 12px;
+  left: auto;
+}
+.soundtracks-media-view {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+  min-height: 320px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 12px;
+  padding: 0;
+  box-sizing: border-box;
+}
+.soundtracks-media-view > .soundtracks-eyebrow {
+  flex: 0 0 auto;
+  text-align: center;
+}
+.soundtracks-media-video-list {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-height: none;
+  min-height: 0;
+  overflow: auto;
+}
+.soundtracks-media-video {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.soundtracks-media-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 260px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #05060b;
+}
+@media (max-width: 700px) {
+  .soundtracks-player-viewport {
+    min-height: 360px;
+    padding: 0 38px;
+  }
+  .soundtracks-player-arrow {
+    width: 28px;
+    height: 48px;
+  }
+  .soundtracks-player-arrow-left { left: 4px; }
+  .soundtracks-player-arrow-right { right: 4px; }
+  .soundtracks-media-view {
+    min-height: 340px;
+  }
+  .soundtracks-media-video video {
+    min-height: 240px;
+  }
+}
+
+
+/* Původní rozložení obalu a informací zůstává zachované ve zobrazení písničky */
+.soundtracks-player-viewport:has(.soundtracks-record-art) {
+  grid-template-columns: minmax(180px, 44%) minmax(0, 1fr);
+}
+.soundtracks-player-viewport:has(.soundtracks-record-art) .soundtracks-timeline {
+  grid-column: 1 / -1;
+}
+@media (max-width: 700px) {
+  .soundtracks-player-viewport:has(.soundtracks-record-art) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+/* FINAL LAYOUT FIX: song view uses the original player grid; video fills the frame */
+.soundtracks-player-card {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: minmax(180px, 44%) minmax(0, 1fr);
+  align-items: center;
+  min-height: 320px;
+  overflow: hidden;
+}
+
+/* In song mode, let the original artwork/details/timeline participate directly
+   in the original card grid instead of creating a second nested grid. */
+.soundtracks-player-viewport:has(.soundtracks-record-art) {
+  display: contents !important;
+}
+
+/* The video modes use one centered viewport across the complete inner frame. */
+.soundtracks-player-card:has(.soundtracks-media-view) {
+  display: block !important;
+}
+.soundtracks-player-viewport:not(:has(.soundtracks-record-art)) {
+  display: flex !important;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  padding: 0 58px;
+}
+.soundtracks-media-view {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center !important;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  padding: 0 !important;
+  gap: 10px;
+}
+.soundtracks-media-view > .soundtracks-eyebrow {
+  text-align: center;
+  margin: 0 0 4px;
+}
+.soundtracks-media-video-list {
+  display: flex !important;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 100%;
+  min-height: 0;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+.soundtracks-media-video {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 100%;
+  min-height: 0;
+}
+.soundtracks-media-video video {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 0 !important;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #05060b;
+}
+
+/* Arrows sit on the left/right edge at the same vertical midpoint. */
+.soundtracks-player-arrow {
+  position: absolute !important;
+  z-index: 20;
+  top: 50% !important;
+  bottom: auto !important;
+  transform: translateY(-50%) !important;
+  display: grid !important;
+  place-items: center;
+  width: 42px;
+  height: 62px;
+  margin: 0 !important;
+}
+.soundtracks-player-arrow-left {
+  left: 12px !important;
+  right: auto !important;
+}
+.soundtracks-player-arrow-right {
+  right: 12px !important;
+  left: auto !important;
+}
+
+@media (max-width: 700px) {
+  .soundtracks-player-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .soundtracks-player-viewport:not(:has(.soundtracks-record-art)) {
+    min-height: 340px;
+    padding: 0 42px;
+  }
+  .soundtracks-player-arrow {
+    width: 30px;
+    height: 48px;
+  }
+  .soundtracks-player-arrow-left { left: 4px !important; }
+  .soundtracks-player-arrow-right { right: 4px !important; }
+}
+
+
+/* Zarovnání originálu a překladu: každý pár sdílí jednu výšku řádku. */
+.music-lyrics-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 20px;
+  row-gap: 0;
+  align-items: stretch;
+}
+
+.music-lyrics-column-heading {
+  padding: 0 7px 8px;
+  color: #bda9ca;
+  font: 10px Arial, sans-serif;
+  letter-spacing: 1.5px;
+}
+
+.music-lyrics-pair {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 20px;
+  align-items: stretch;
+}
+
+.music-lyrics-pair button {
+  min-width: 0;
+  width: 100%;
+  padding: 8px 7px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #eee6dc;
+  text-align: left;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: clamp(13px, 1.1vw, 16px)/1.65 "Cormorant Garamond", Georgia, serif;
+  cursor: pointer;
+}
+
+.music-lyrics-pair button:hover {
+  color: #fff;
+  background: rgba(255,255,255,.035);
+}
+
+.music-lyrics-pair button.is-current {
+  color: #ff8ee0;
+  background: rgba(241,123,207,.08);
+  text-shadow: 0 0 12px rgba(241,123,207,.35);
+}

@@ -408,7 +408,7 @@ export default function ChapterPageNezacaloletem() {
                     type="button"
                     onClick={() =>
                         navigate(
-                            "/books/nezacalo/soundtracks"
+                            `/soundtracks/books?book=volume:${chapter.volume_id ?? chapter.volumeId ?? 1}`
                         )
                     }
                 >

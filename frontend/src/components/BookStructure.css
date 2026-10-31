@@ -1523,3 +1523,115 @@
 .structure-message {
   font-size: 11px !important;
 }
+
+/* =========================================================
+   OBÁLKA SVAZKU – ADMINISTRACE
+========================================================= */
+.volume-cover-editor {
+  display: grid;
+  gap: 7px;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #30372f;
+  border-radius: 5px;
+  background: #080c09;
+}
+
+.volume-cover-editor label {
+  color: #aabd9d;
+  font-size: 10px;
+}
+
+.volume-cover-editor input[type="url"],
+.volume-cover-editor input[type="file"] {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 7px;
+  border: 1px solid #3b4439;
+  border-radius: 4px;
+  background: #0d110e;
+  color: #d8ddd5;
+  font-size: 11px;
+}
+
+.volume-cover-editor small {
+  color: #929b8b;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.volume-cover-editor .volume-cover-error {
+  color: #e9a2a2;
+}
+
+.volume-cover-preview-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.volume-cover-preview-wrap img {
+  width: 72px;
+  height: 96px;
+  object-fit: cover;
+  border: 1px solid #718366;
+  border-radius: 4px;
+}
+
+.volume-cover-preview-wrap button {
+  border: 1px solid #593d3d;
+  border-radius: 4px;
+  padding: 6px 8px;
+  color: #e0bcbc;
+  background: #1b1111;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   SAMOSTATNÉ KNIHY – ŠIROKÝ EDITOR
+   Knihy bez dílů a částí (např. Vespera) mají pouze:
+   kapitoly | editor | informace.
+   ========================================================= */
+
+.book-structure-columns--standalone {
+  grid-template-columns:
+    minmax(165px, 210px)
+    minmax(0, 1fr)
+    minmax(165px, 210px);
+}
+
+.book-structure-columns--standalone > .chapters-column {
+  grid-column: auto;
+}
+
+.book-structure-columns--standalone > .chapter-editor-column {
+  grid-column: auto;
+  min-width: 0;
+}
+
+.book-structure-columns--standalone > .chapter-info-column {
+  grid-column: auto;
+  min-width: 0;
+}
+
+.book-structure-columns--standalone .chapter-editor-form,
+.book-structure-columns--standalone .chapter-editor-wrapper,
+.book-structure-columns--standalone .chapter-editor {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1200px) and (min-width: 751px) {
+  .book-structure-columns--standalone {
+    min-width: 900px;
+    grid-template-columns:
+      180px
+      minmax(520px, 1fr)
+      180px;
+  }
+}

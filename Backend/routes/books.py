@@ -18,6 +18,12 @@ def book_from_row(row):
         "status": row["status"],
         "type": row["type"],
         "parent_id": row["parent_id"],
+        # The field is present after the cover migration. .get keeps this
+        # serializer compatible with older local SQLite databases as well.
+        "cover_url": (row.get("cover_url") or ""),
+        "cover_position_x": float(row.get("cover_position_x") or 0),
+        "cover_position_y": float(row.get("cover_position_y") or 0),
+        "cover_scale": float(row.get("cover_scale") or 1),
 
         "uses_volumes": bool(
             row["uses_volumes"]
@@ -27,6 +33,17 @@ def book_from_row(row):
             row["uses_parts"]
         ),
     }
+
+
+def clean_cover_url(value):
+    if value is None:
+        return ""
+    if not isinstance(value, str):
+        raise ValueError("Adresa obálky musí být text.")
+    value = value.strip()
+    if len(value) > 2048:
+        raise ValueError("Adresa obálky je příliš dlouhá.")
+    return value
 
 
 def book_exists(cursor, book_id):
@@ -115,6 +132,11 @@ def add_book():
             "message": "Název knihy je povinný."
         }), 400
 
+    try:
+        cover_url = clean_cover_url(data.get("cover_url", ""))
+    except ValueError as error:
+        return jsonify({"message": str(error)}), 400
+
     status = data.get(
         "status",
         "Rozpracováno"
@@ -153,9 +175,10 @@ def add_book():
                 type,
                 parent_id,
                 uses_volumes,
-                uses_parts
+                uses_parts,
+                cover_url
             )
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         """,
         (
             title,
@@ -163,7 +186,8 @@ def add_book():
             book_type,
             parent_id,
             uses_volumes,
-            uses_parts
+            uses_parts,
+            cover_url
         )
     )
 
@@ -195,6 +219,16 @@ def update_book(book_id):
             "message": "Název knihy je povinný."
         }), 400
 
+    cover_url_supplied = "cover_url" in data
+    try:
+        cover_url = clean_cover_url(data.get("cover_url", "")) if cover_url_supplied else ""
+    except ValueError as error:
+        return jsonify({"message": str(error)}), 400
+    crop_supplied = any(k in data for k in ("cover_position_x", "cover_position_y", "cover_scale"))
+    crop_x = max(-100.0, min(100.0, float(data.get("cover_position_x", 0))))
+    crop_y = max(-100.0, min(100.0, float(data.get("cover_position_y", 0))))
+    crop_scale = max(1.0, min(4.0, float(data.get("cover_scale", 1))))
+
     status = data.get(
         "status",
         "Rozpracováno"
@@ -224,29 +258,66 @@ def update_book(book_id):
     connection = get_connection()
     cursor = connection.cursor()
 
-    cursor.execute(
-        """
-        UPDATE books
-        SET
-            title = ?,
-            status = ?,
-            type = ?,
-            parent_id = ?,
-            uses_volumes = ?,
-            uses_parts = ?
-
-        WHERE id = ?
-        """,
-        (
-            title,
-            status,
-            book_type,
-            parent_id,
-            uses_volumes,
-            uses_parts,
-            book_id
+    if cover_url_supplied:
+        cursor.execute(
+            """
+            UPDATE books
+            SET
+                title = ?,
+                status = ?,
+                type = ?,
+                parent_id = ?,
+                uses_volumes = ?,
+                uses_parts = ?,
+                cover_url = ?,
+                cover_position_x = ?,
+                cover_position_y = ?,
+                cover_scale = ?
+            WHERE id = ?
+            """,
+            (
+                title,
+                status,
+                book_type,
+                parent_id,
+                uses_volumes,
+                uses_parts,
+                cover_url,
+                crop_x,
+                crop_y,
+                crop_scale,
+                book_id,
+            ),
         )
-    )
+    else:
+        cursor.execute(
+            """
+            UPDATE books
+            SET
+                title = ?,
+                status = ?,
+                type = ?,
+                parent_id = ?,
+                uses_volumes = ?,
+                uses_parts = ?
+            WHERE id = ?
+            """,
+            (
+                title,
+                status,
+                book_type,
+                parent_id,
+                uses_volumes,
+                uses_parts,
+                book_id,
+            ),
+        )
+
+    if crop_supplied and not cover_url_supplied:
+        cursor.execute(
+            "UPDATE books SET cover_position_x = ?, cover_position_y = ?, cover_scale = ? WHERE id = ?",
+            (crop_x, crop_y, crop_scale, book_id),
+        )
 
     if cursor.rowcount == 0:
 
@@ -363,6 +434,11 @@ def add_volume(book_id):
             "message": "Název dílu je povinný."
         }), 400
 
+    try:
+        cover_url = clean_cover_url(data.get("cover_url", ""))
+    except ValueError as error:
+        return jsonify({"message": str(error)}), 400
+
     connection = get_connection()
     cursor = connection.cursor()
 
@@ -383,14 +459,16 @@ def add_volume(book_id):
             (
                 book_id,
                 number,
-                title
+                title,
+                cover_url
             )
-        VALUES (?, ?, ?)
+        VALUES (?, ?, ?, ?)
         """,
         (
             book_id,
             data.get("number"),
-            title
+            title,
+            cover_url,
         )
     )
 
@@ -437,27 +515,63 @@ def update_volume(
             "message": "Název dílu je povinný."
         }), 400
 
+    cover_url_supplied = "cover_url" in data
+    try:
+        cover_url = clean_cover_url(data.get("cover_url", "")) if cover_url_supplied else ""
+    except ValueError as error:
+        return jsonify({"message": str(error)}), 400
+    crop_supplied = any(k in data for k in ("cover_position_x", "cover_position_y", "cover_scale"))
+    crop_x = max(-100.0, min(100.0, float(data.get("cover_position_x", 0))))
+    crop_y = max(-100.0, min(100.0, float(data.get("cover_position_y", 0))))
+    crop_scale = max(1.0, min(4.0, float(data.get("cover_scale", 1))))
+
     connection = get_connection()
     cursor = connection.cursor()
 
-    cursor.execute(
-        """
-        UPDATE volumes
-        SET
-            number = ?,
-            title = ?
-
-        WHERE
-            id = ?
-            AND book_id = ?
-        """,
-        (
-            data.get("number"),
-            title,
-            volume_id,
-            book_id
+    if cover_url_supplied:
+        cursor.execute(
+            """
+            UPDATE volumes
+            SET
+                number = ?,
+                title = ?,
+                cover_url = ?,
+                cover_position_x = ?,
+                cover_position_y = ?,
+                cover_scale = ?
+            WHERE id = ? AND book_id = ?
+            """,
+            (
+                data.get("number"),
+                title,
+                cover_url,
+                crop_x,
+                crop_y,
+                crop_scale,
+                volume_id,
+                book_id,
+            ),
         )
-    )
+    else:
+        cursor.execute(
+            """
+            UPDATE volumes
+            SET number = ?, title = ?
+            WHERE id = ? AND book_id = ?
+            """,
+            (
+                data.get("number"),
+                title,
+                volume_id,
+                book_id,
+            ),
+        )
+
+    if crop_supplied and not cover_url_supplied:
+        cursor.execute(
+            "UPDATE volumes SET cover_position_x = ?, cover_position_y = ?, cover_scale = ? WHERE id = ? AND book_id = ?",
+            (crop_x, crop_y, crop_scale, volume_id, book_id),
+        )
 
     if cursor.rowcount == 0:
 

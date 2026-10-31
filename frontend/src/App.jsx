@@ -52,6 +52,7 @@ import NezacaloVolume5Page from "./pages/NezacaloVolume5Page";
 ================================================= */
 
 import VideosPage from "./pages/VideosPage";
+import VideoLibraryAdminPage from "./pages/VideoLibraryAdminPage";
 import SoundtracksPage from "./pages/SoundtracksPage";
 
 import "./App.css";
@@ -78,6 +79,10 @@ function App() {
       <Route
         path="/admin"
         element={<AdminPage />}
+      />
+      <Route
+        path="/admin/videos"
+        element={<VideoLibraryAdminPage />}
       />
 
 
@@ -320,8 +325,31 @@ function App() {
           SOUNDTRACKY
       ================================================= */}
 
-      <Route
+            <Route
         path="/soundtracks"
+        element={<SoundtracksPage />}
+      />
+<Route
+  path="/soundtracks/*"
+  element={<SoundtracksPage />}
+/>
+      <Route
+        path="/soundtracks/all"
+        element={<SoundtracksPage />}
+      />
+
+      <Route
+        path="/soundtracks/books"
+        element={<SoundtracksPage />}
+      />
+
+      <Route
+        path="/soundtracks/surprise"
+        element={<SoundtracksPage />}
+      />
+
+      <Route
+        path="/soundtracks/track/:slug"
         element={<SoundtracksPage />}
       />
 
