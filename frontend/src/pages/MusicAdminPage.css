@@ -1,4 +1,4 @@
-﻿.music-admin {
+.music-admin {
   box-sizing: border-box;
   max-width: 1400px;
   margin: 0 auto;
@@ -485,4 +485,67 @@
   .music-admin-lyric-row label:nth-of-type(3),
   .music-admin-lyric-row label:nth-of-type(4),
   .music-admin-lyric-controls { grid-column: 1; }
+}
+
+
+/* IEU NIGHT LIBRARY – administrace soundtracku */
+.music-admin {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #e8e3d7 !important;
+}
+.music-admin-form,
+.music-admin-track,
+.music-admin-empty,
+.music-admin-lyrics-import,
+.music-admin-lyric-row {
+  background: rgba(7, 20, 42, .66) !important;
+  background-color: rgba(7, 20, 42, .66) !important;
+  border-color: rgba(215, 182, 110, .34) !important;
+  color: #e8e3d7 !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.music-admin-fields input,
+.music-admin-fields select,
+.music-admin-fields textarea,
+.music-admin-search {
+  background: rgba(5, 15, 32, .92) !important;
+  color: #f1eee7 !important;
+  border-color: rgba(215, 182, 110, .38) !important;
+}
+.music-admin h1,
+.music-admin h2,
+.music-admin-track-info h3 {
+  color: #ead9b4 !important;
+}
+.music-admin p,
+.music-admin label,
+.music-admin small,
+.music-admin-description,
+.music-admin-eyebrow,
+.music-admin-track-info p {
+  color: #aeb8ca !important;
+}
+.music-admin-cover,
+.music-admin-cover-empty {
+  background: rgba(5, 15, 32, .72) !important;
+  border-color: rgba(215, 182, 110, .30) !important;
+}
+.music-admin-button {
+  background: linear-gradient(135deg, #b99655, #806238) !important;
+  color: #10182a !important;
+  border-color: #dfc17d !important;
+}
+.music-admin-secondary,
+.music-admin-danger {
+  background: rgba(17, 36, 62, .90) !important;
+  color: #e9dfca !important;
+  border-color: rgba(215, 182, 110, .42) !important;
+}
+.music-admin-message.is-success {
+  background: rgba(7, 20, 42, .82) !important;
+  color: #d9e6d4 !important;
+  border-color: rgba(215, 182, 110, .34) !important;
 }

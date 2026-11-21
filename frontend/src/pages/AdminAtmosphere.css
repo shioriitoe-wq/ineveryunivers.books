@@ -1,0 +1,91 @@
+/* IN EVERY UNIVERSE – sdílené pozadí pouze pro administrační centrum a účet.
+   Veřejné stránky (domovská stránka, knihy, AEIL, Vespera) se tímto CSS nemění. */
+
+:root {
+  --admin-night: #07142b;
+  --admin-panel: rgba(8, 20, 42, .76);
+  --admin-panel-soft: rgba(8, 20, 42, .62);
+  --admin-gold: #d7b66e;
+  --admin-gold-soft: rgba(215, 182, 110, .42);
+  --admin-text: #e8e3d7;
+  --admin-muted: #aeb8ca;
+}
+
+/* Pozadí s vážkou a mraky – zapne se pouze na /admin a /account. */
+body:has(.iu-admin),
+body:has(.iu-account) {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+  overflow-x: hidden;
+  background: #050d1d !important;
+}
+
+body:has(.iu-admin)::before,
+body:has(.iu-account)::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(5, 13, 29, .12), rgba(5, 13, 29, .22)),
+    url("../assets/images/admin-background.png") center center / cover no-repeat;
+}
+
+body:has(.iu-admin) #root,
+body:has(.iu-account) #root {
+  position: relative;
+  z-index: 0;
+  min-height: 100vh;
+  background: transparent !important;
+}
+
+/* Důležité: žádné globální přepisování body, odkazů, tlačítek ani nadpisů.
+   Veřejná část webu tak zůstane nedotčená. */
+.iu-admin,
+.iu-account {
+  position: relative;
+  isolation: isolate;
+  color: var(--admin-text);
+  background: transparent !important;
+  background-image: none !important;
+}
+
+/* Admin dashboard – průsvitné karty, pozadí zůstává viditelné pod nimi. */
+.iu-admin-card {
+  background: linear-gradient(145deg, rgba(20, 39, 68, .78), rgba(7, 18, 38, .72)) !important;
+  border-color: var(--admin-gold-soft) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.iu-admin-workspace {
+  background: rgba(7, 19, 40, .72) !important;
+  border-color: var(--admin-gold-soft) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Osobní účet – průsvitné panely a plně viditelné společné pozadí. */
+.iu-account-sidebar,
+.iu-account-main,
+.iu-account-auth {
+  background: rgba(7, 19, 40, .76) !important;
+  border-color: var(--admin-gold-soft) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.iu-account-sidebar nav button.active,
+.iu-account-sidebar nav button:hover {
+  background: rgba(37, 57, 88, .78) !important;
+}
+
+.iu-account input,
+.iu-account select,
+.iu-account textarea {
+  background: rgba(4, 13, 29, .78) !important;
+  border-color: rgba(215, 182, 110, .38) !important;
+  color: #eee9df;
+}

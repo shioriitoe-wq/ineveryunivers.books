@@ -297,3 +297,61 @@
     width: min(100%, 280px);
   }
 }
+
+
+/* IEU NIGHT LIBRARY – obálky knih a svazků */
+.covers-admin {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #e8e3d7 !important;
+}
+.covers-admin-controls,
+.covers-admin-preview,
+.covers-admin-crop-controls {
+  background: rgba(7, 20, 42, .66) !important;
+  background-color: rgba(7, 20, 42, .66) !important;
+  border-color: rgba(215, 182, 110, .36) !important;
+  color: #e8e3d7 !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.covers-admin-controls select,
+.covers-admin-controls input,
+.covers-admin-controls textarea {
+  background: rgba(5, 15, 32, .92) !important;
+  color: #f1eee7 !important;
+  border-color: rgba(215, 182, 110, .38) !important;
+}
+.covers-admin-preview-frame,
+.covers-admin-empty {
+  background: rgba(5, 15, 32, .64) !important;
+  color: #d8dce4 !important;
+  border-color: rgba(215, 182, 110, .30) !important;
+}
+.covers-admin h1,
+.covers-admin h2,
+.covers-admin-section-title,
+.covers-admin-preview-caption strong,
+.covers-admin-empty strong {
+  color: #ead9b4 !important;
+}
+.covers-admin p,
+.covers-admin label,
+.covers-admin-muted,
+.covers-admin-help,
+.covers-admin-upload small,
+.covers-admin-range {
+  color: #aeb8ca !important;
+}
+.covers-admin-reset,
+.covers-admin-remove {
+  background: rgba(17, 36, 62, .90) !important;
+  color: #e9dfca !important;
+  border-color: rgba(215, 182, 110, .42) !important;
+}
+.covers-admin-save {
+  background: linear-gradient(135deg, #b99655, #806238) !important;
+  color: #10182a !important;
+  border-color: #dfc17d !important;
+}

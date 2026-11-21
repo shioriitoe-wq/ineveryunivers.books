@@ -947,3 +947,104 @@
   background: #1b1111;
   cursor: pointer;
 }
+
+
+/* IEU NIGHT LIBRARY – správa knih, svazků a postav */
+.admin-page,
+.admin-book-selector,
+.admin-book-form,
+.admin-workspace,
+.admin-characters,
+.admin-character-form,
+.admin-character-card,
+.admin-characters-empty {
+  background: rgba(7, 20, 42, .54) !important;
+  background-color: rgba(7, 20, 42, .54) !important;
+  background-image: none !important;
+  color: #e8e3d7 !important;
+  border-color: rgba(215, 182, 110, .34) !important;
+  backdrop-filter: blur(11px);
+  -webkit-backdrop-filter: blur(11px);
+}
+.admin-page { background: transparent !important; }
+.admin-book-list,
+.admin-structure,
+.admin-character-list,
+.admin-character-content {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+.admin-book-item,
+.admin-character-volumes span,
+.character-volume {
+  background: rgba(8, 24, 48, .78) !important;
+  color: #e8e3d7 !important;
+  border-color: rgba(215, 182, 110, .32) !important;
+}
+.admin-book-item.active,
+.character-volume.active {
+  background: rgba(167, 132, 68, .28) !important;
+  border-color: #d7b66e !important;
+}
+.admin-character-card-image,
+.project-cover-preview {
+  background: rgba(5, 15, 32, .64) !important;
+  color: #aeb8ca !important;
+}
+.admin-character-card h3,
+.admin-section-heading h2,
+.admin-workspace h2,
+.admin-characters h2 {
+  color: #ead9b4 !important;
+}
+.admin-character-quote,
+.admin-eyebrow,
+.admin-subtitle,
+.admin-character-card small {
+  color: #aeb8ca !important;
+}
+.admin-page input,
+.admin-page select,
+.admin-page textarea,
+.admin-book-form input,
+.admin-book-form select,
+.admin-book-form textarea,
+.character-form-section input,
+.character-form-section textarea,
+.project-cover-field input {
+  background: rgba(5, 15, 32, .91) !important;
+  color: #f1eee7 !important;
+  border-color: rgba(215, 182, 110, .38) !important;
+}
+.admin-character-actions button,
+.admin-header-actions button,
+.admin-workspace-actions button,
+.admin-section-heading button,
+.admin-characters-empty button,
+.admin-book-list button {
+  background: rgba(17, 36, 62, .90) !important;
+  color: #e9dfca !important;
+  border-color: rgba(215, 182, 110, .42) !important;
+}
+.admin-character-actions button:hover,
+.admin-header-actions button:hover,
+.admin-workspace-actions button:hover,
+.admin-section-heading button:hover,
+.admin-characters-empty button:hover {
+  background: rgba(42, 62, 88, .96) !important;
+}
+.admin-page button.primary,
+.admin-add-book,
+.admin-add-character {
+  background: linear-gradient(135deg, #b99655, #806238) !important;
+  color: #10182a !important;
+  border-color: #dfc17d !important;
+}
+.character-detail-row,
+.character-form-section,
+.project-cover-field,
+.volume-cover-editor {
+  background: rgba(7, 20, 42, .62) !important;
+  color: #e8e3d7 !important;
+  border-color: rgba(215, 182, 110, .30) !important;
+}

@@ -1,4 +1,4 @@
-﻿const originalFetch = window.fetch.bind(window);
+const originalFetch = window.fetch.bind(window);
 
 window.fetch = (input, init = {}) => {
   const requestUrl =
@@ -20,17 +20,22 @@ window.fetch = (input, init = {}) => {
     return originalFetch(input, init);
   }
 
-  const token = sessionStorage.getItem("adminToken");
-
-  if (!token) {
-    return originalFetch(input, init);
-  }
-
+  // Preserve an explicitly supplied Authorization header.
+  // The current account system uses userToken. adminToken is retained only
+  // as a compatibility fallback for older admin-only flows.
   const headers = new Headers(
     init.headers || (input instanceof Request ? input.headers : undefined)
   );
 
-  headers.set("Authorization", `Bearer ${token}`);
+  if (!headers.has("Authorization")) {
+    const userToken = sessionStorage.getItem("userToken");
+    const adminToken = sessionStorage.getItem("adminToken");
+    const token = userToken || adminToken;
+
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+  }
 
   return originalFetch(input, { ...init, headers });
 };

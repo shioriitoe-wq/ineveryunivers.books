@@ -1,0 +1,40 @@
+ .iu-account{position:relative;isolation:isolate;min-height:100vh;padding:0 5vw 50px;box-sizing:border-box;color:#eee8da;background:radial-gradient(ellipse at 50% -10%,#293f68 0,#111f3b 42%,#070e1d 100%);font-family:Inter,Arial,sans-serif}.iu-account>.stars{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5}.iu-account-auth{width:min(460px,100%);box-sizing:border-box;margin:8vh auto;padding:34px;border:1px solid #c6a56870;border-radius:15px;background:#09162beF;box-shadow:0 25px 80px #0007}.iu-account-back,.iu-account-header a{color:#d8bd80;text-decoration:none;font-size:12px}.iu-account-mark{text-align:center;margin:25px 0 4px;color:#d8bd80;font-size:36px}.iu-account-kicker{color:#d2b675;font-size:10px;letter-spacing:3px}.iu-account-auth .iu-account-kicker,.iu-account-auth h1,.iu-account-auth .iu-account-lead{text-align:center}.iu-account-auth h1,.iu-account-main h1{margin:8px 0;color:#f0dfbd;font:400 38px 'Cormorant Garamond',Georgia,serif}.iu-account-lead{color:#aebbd0;font-size:13px;line-height:1.7}.iu-account-switch{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:24px 0;padding:4px;border-radius:8px;background:#050d1b}.iu-account-switch button{border:0;border-radius:6px;padding:10px;background:transparent;color:#aebbd0;cursor:pointer}.iu-account-switch button.active{background:#263b5c;color:#f0d8a3}.iu-account-form{display:grid;gap:15px}.iu-account-form label{display:grid;gap:7px;color:#e7dfd3;font-size:12px}.iu-account-form input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #42516b;border-radius:7px;background:#071225;color:#fff;font:inherit;outline:none}.iu-account-form input:focus{border-color:#d1b271;box-shadow:0 0 0 2px #d1b27120}.iu-account-form input:disabled{opacity:.6}.iu-account-form small,.iu-account-form>small{color:#94a2b9;font-size:11px;line-height:1.6}.iu-account-primary{border:1px solid #e0c68d;border-radius:7px;padding:12px 18px;background:linear-gradient(110deg,#b18b51,#e3c98f);color:#101728;font-weight:600;cursor:pointer}.iu-account-primary:disabled{opacity:.6}.iu-account-error,.iu-account-success{padding:10px 12px;border-radius:7px;font-size:12px}.iu-account-error{background:#48252d;color:#ffc0c0}.iu-account-success{background:#203c32;color:#bce7ca}.iu-account-header{max-width:1450px;min-height:76px;margin:auto;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #c6a56855}.iu-account-brand{font:22px 'Cormorant Garamond',serif!important;letter-spacing:1px}.iu-account-brand span{color:#d8bd80;font-size:28px;margin-right:8px}.iu-account-header>div{display:flex;align-items:center;gap:18px}.iu-account-header button{border:1px solid #c6a56870;border-radius:20px;padding:8px 13px;background:#10203b;color:#e2cc9c;cursor:pointer}.iu-account-layout{max-width:1320px;margin:42px auto;display:grid;grid-template-columns:270px minmax(0,1fr);gap:25px}.iu-account-sidebar,.iu-account-main{border:1px solid #c6a56860;border-radius:13px;background:#09162be8;box-shadow:0 18px 55px #0003}.iu-account-sidebar{padding:22px;height:max-content}.iu-profile-summary{text-align:center;padding:10px 0 22px;border-bottom:1px solid #c6a56833}.iu-profile-avatar{width:82px;height:82px;margin:0 auto 12px;border:2px solid #d0b474;border-radius:50%;display:grid;place-items:center;overflow:hidden;background:#243958;color:#f1d79c;font:32px 'Cormorant Garamond',serif}.iu-profile-avatar img{width:100%;height:100%;object-fit:cover}.iu-profile-summary h2{margin:0;color:#f0dfbd;font:25px 'Cormorant Garamond',serif}.iu-profile-summary p{margin:5px 0 12px;color:#9eacc2;font-size:12px}.iu-member-pill{display:inline-block;padding:6px 9px;border:1px solid #c6a56855;border-radius:20px;color:#d8bd80;font-size:9px}.iu-account-sidebar nav{display:grid;gap:5px;margin:18px 0}.iu-account-sidebar nav button{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid transparent;border-radius:7px;background:transparent;color:#b9c4d5;text-align:left;cursor:pointer;font:inherit;font-size:12px}.iu-account-sidebar nav button span{width:20px;color:#d8bd80;font-size:18px;text-align:center}.iu-account-sidebar nav button.active,.iu-account-sidebar nav button:hover{border-color:#c6a56855;background:#1a2b48;color:#f1dfbb}.iu-account-sidebar-links{display:grid;gap:9px;padding-top:14px;border-top:1px solid #c6a56833}.iu-account-sidebar-links a{color:#d8bd80;text-decoration:none;font-size:11px}.iu-account-main{min-width:0;padding:30px}.iu-account-main h1{margin-top:4px}.iu-profile-form{max-width:620px;margin-top:25px}.iu-account-meta{margin-top:35px;padding-top:15px;border-top:1px solid #c6a56830;color:#8f9db2;font-size:10px}.iu-badge-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:25px}.iu-badge{padding:18px;text-align:center;border:1px solid #c6a56866;border-radius:10px;background:linear-gradient(145deg,#1a2b49,#0a1428)}.iu-badge>span{font-size:32px;color:#e0c27d}.iu-badge h3{margin:9px 0 5px;color:#f0dfbd;font:21px 'Cormorant Garamond',serif}.iu-badge p{min-height:34px;color:#aebbd0;font-size:11px;line-height:1.5}.iu-badge small{color:#d4b879;font-size:10px}.iu-badge.locked{opacity:.55;filter:saturate(.45)}.iu-empty-state{margin-top:25px;padding:25px;border:1px dashed #c6a56866;border-radius:9px;color:#aebbd0;font-size:13px;line-height:1.7}.iu-account-loading{padding:20vh;text-align:center;color:#b8c4d5}@media(max-width:850px){.iu-account-layout{grid-template-columns:1fr}.iu-account-sidebar{display:grid;grid-template-columns:1fr 1.4fr;align-items:center;gap:15px}.iu-profile-summary{border:0;padding:0}.iu-account-sidebar nav{margin:0}.iu-account-sidebar-links{grid-column:1/-1;display:flex;flex-wrap:wrap}}@media(max-width:600px){.iu-account{padding:0 14px 30px}.iu-account-auth{padding:25px 20px;margin:5vh auto}.iu-account-header{align-items:flex-start;padding:15px 0;gap:12px}.iu-account-header>div{flex-wrap:wrap;justify-content:flex-end;gap:10px}.iu-account-layout{margin:20px auto}.iu-account-sidebar{display:block}.iu-account-sidebar nav{margin-top:18px}.iu-account-main{padding:20px}.iu-badge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* Společné pozadí s vážkou je pod profilem; samotná stránka ho nesmí zakrýt. */
+.iu-account {
+  background: transparent !important;
+  background-image: none !important;
+  isolation: isolate;
+}
+.iu-account > .stars {
+  z-index: 0;
+}
+.iu-account-header,
+.iu-account-layout {
+  position: relative;
+  z-index: 1;
+}
+.iu-account-sidebar,
+.iu-account-main {
+  background: rgba(7, 19, 40, .76) !important;
+  border-color: rgba(215, 182, 110, .42);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+
+.iu-notifications-panel { display: grid; gap: 14px; }
+.iu-notifications-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.iu-notifications-heading h2 { margin:0; color:#ead8b0; font-family:inherit; font-size:1.45rem; }
+.iu-notifications-heading button, .iu-notification-item button { border:1px solid rgba(213,177,105,.45); border-radius:9px; background:#14243d; color:#e6c77f; padding:9px 13px; cursor:pointer; }
+.iu-notifications-heading button:disabled { opacity:.45; cursor:default; }
+.iu-notification-item { display:flex; justify-content:space-between; align-items:center; gap:18px; padding:18px 20px; border:1px solid rgba(213,177,105,.25); border-radius:12px; background:rgba(13,27,48,.78); }
+.iu-notification-item.is-unread { border-left:3px solid #dfb95f; background:rgba(28,47,75,.82); }
+.iu-notification-item h3 { margin:5px 0 6px; color:#ead8b0; font-size:1.12rem; }
+.iu-notification-item p { margin:0; color:#aebbd0; }
+.iu-notification-kicker { color:#8292aa; font-size:.78rem; }
+@media(max-width:650px){.iu-notification-item{align-items:flex-start;flex-direction:column;}}
+
+/* Malá zlatá tečka u upozornění v navigaci účtu. */
+.iu-account-sidebar nav button .iu-account-nav-dot{width:7px;height:7px;min-width:7px;margin-left:auto;border-radius:50%;background:#e4bd67;box-shadow:0 0 7px rgba(228,189,103,.8);}

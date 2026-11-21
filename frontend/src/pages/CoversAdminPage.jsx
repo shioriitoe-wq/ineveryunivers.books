@@ -365,16 +365,18 @@ function CoversAdminPage() {
             <div className="covers-admin-crop-controls">
               <div className="covers-admin-section-title">Upravit ořez</div>
               <label className="covers-admin-range">
-                <span><span>Přiblížení</span><strong>{crop.scale.toFixed(1)}×</strong></span>
+                <span><span>Přiblížení / oddálení</span><strong>{crop.scale.toFixed(2)}×</strong></span>
                 <input
                   type="range"
-                  min="1"
+                  min="0.5"
                   max="3"
                   step="0.05"
                   value={crop.scale}
                   onChange={(event) => updateCrop("scale", event.target.value)}
                   disabled={uploading || savingCrop}
+                  aria-label="Přiblížení a oddálení obálky"
                 />
+                <small>0,5× = oddálení · 1× = původní velikost · 3× = maximální přiblížení</small>
               </label>
               <label className="covers-admin-range">
                 <span><span>Vodorovná poloha</span><strong>{Math.round(crop.x)}</strong></span>

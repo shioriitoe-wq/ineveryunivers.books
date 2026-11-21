@@ -1,0 +1,86 @@
+.users-admin-page{min-height:100vh;padding:36px 5vw 70px;background:#0b101b;color:#eee7d8;font-family:inherit}.users-admin-wrap{max-width:1400px;margin:0 auto}.users-admin-back{color:#d9bd83;text-decoration:none}.users-admin-heading{text-align:center;margin:24px 0 34px}.users-admin-heading>span{font-size:12px;letter-spacing:5px;color:#c8a96c}.users-admin-heading h1{font-family:Georgia,serif;font-weight:400;letter-spacing:5px;color:#e2c78f;margin:12px 0}.users-admin-heading p,.users-admin-count{color:#aeb4c0}.users-admin-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}.users-admin-stats article,.users-admin-panel,.users-admin-modal{background:rgba(5,9,17,.86);border:1px solid rgba(202,169,108,.42);border-radius:13px}.users-admin-stats article{padding:18px;text-align:center}.users-admin-stats strong{display:block;font:30px Georgia,serif;color:#e0c38b}.users-admin-stats span{font-size:13px;color:#c5c0b5}.users-admin-panel{padding:20px}.users-admin-toolbar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}.users-admin-toolbar input,.users-admin-toolbar select{min-width:0;padding:12px 14px;background:#0b111d;color:#eee;border:1px solid #454b59;border-radius:7px}.users-admin-table-scroll{overflow:auto}.users-admin-table-scroll table{width:100%;border-collapse:collapse;white-space:nowrap}.users-admin-table-scroll th,.users-admin-table-scroll td{text-align:left;padding:13px 11px;border-bottom:1px solid rgba(205,177,126,.17);font-size:13px}.users-admin-table-scroll th{color:#d7bd8d;font-weight:500}.users-admin-user{display:flex;align-items:center;gap:10px;background:none;border:0;color:inherit;text-align:left;cursor:pointer}.users-admin-user b,.users-admin-user small{display:block}.users-admin-user small{color:#9da5b3;margin-top:3px}.users-admin-avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#b68d53;color:#171717;overflow:hidden}.users-admin-avatar img{width:100%;height:100%;object-fit:cover}.users-admin-status{padding:4px 8px;border-radius:20px;font-size:11px;background:#24352b;color:#b9e0c2}.status-pending{background:#403820;color:#ead59b}.status-suspended,.status-disabled{background:#42282a;color:#f0b5b5}.users-admin-action,.users-admin-pagination button,.users-admin-actions button{background:transparent;border:1px solid #92764e;color:#e5c58c;border-radius:6px;padding:8px 12px;cursor:pointer}.users-admin-action:hover,.users-admin-pagination button:hover,.users-admin-actions button:hover{background:rgba(191,151,88,.16)}.users-admin-pagination{display:flex;justify-content:center;align-items:center;gap:18px;padding-top:18px;color:#c5c0b5}.users-admin-pagination button:disabled,.users-admin-actions button:disabled{opacity:.45;cursor:not-allowed}.users-admin-empty{text-align:center;padding:35px;color:#b7bac3}.users-admin-error,.users-admin-notice{padding:12px 15px;border-radius:8px}.users-admin-error{background:#3a2024;color:#ffc5c5}.users-admin-notice{background:#1d3429;color:#bfe7ca}.users-admin-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.72);display:grid;place-items:center;padding:20px;z-index:1000}.users-admin-modal{width:min(540px,100%);padding:28px;position:relative}.users-admin-modal h2{font:28px Georgia,serif;color:#e2c78f}.users-admin-modal>p{color:#aeb4c0}.users-admin-close{position:absolute;right:16px;top:12px;background:none;border:0;color:#eee;font-size:27px;cursor:pointer}.users-admin-modal dl{display:grid;grid-template-columns:1fr 1.5fr;gap:10px;margin:24px 0}.users-admin-modal dt{color:#c8a96c}.users-admin-modal dd{margin:0;overflow-wrap:anywhere}.users-admin-actions{display:flex;flex-wrap:wrap;gap:9px}.users-admin-actions button{font-size:12px}@media(max-width:760px){.users-admin-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.users-admin-toolbar{grid-template-columns:1fr}.users-admin-page{padding:24px 14px}.users-admin-panel{padding:12px}.users-admin-modal dl{grid-template-columns:1fr}.users-admin-modal dd{margin-bottom:8px}}
+
+.users-admin-role-editor,.users-admin-audit{margin-top:22px;padding-top:16px;border-top:1px solid rgba(205,177,126,.2)}
+.users-admin-role-editor h3,.users-admin-audit h3,.users-admin-actions h3{flex-basis:100%;width:100%;margin:0 0 8px;color:#d7bd8d;font:18px Georgia,serif}
+.users-admin-role-editor label{display:inline-flex;align-items:center;gap:7px;margin:0 16px 12px 0;color:#e9e1d2;font-size:13px}
+.users-admin-role-editor input{accent-color:#c9a66a}
+.users-admin-role-editor>button{display:block;margin-top:8px;background:transparent;border:1px solid #92764e;color:#e5c58c;border-radius:6px;padding:8px 14px;cursor:pointer}
+.users-admin-hint{color:#b9a987;font-size:12px;line-height:1.5}
+.users-admin-audit p{margin:8px 0;color:#aeb4c0;font-size:12px}
+/* Oprava posouvání detailu uživatele */
+.users-admin-modal-backdrop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 24px 16px;
+}
+
+.users-admin-modal {
+  width: min(760px, 100%);
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: auto 0;
+  box-sizing: border-box;
+}
+
+.users-admin-modal-backdrop,
+.users-admin-modal {
+  scrollbar-width: thin;
+  scrollbar-color: #b9955e #101522;
+}
+
+.users-admin-modal::-webkit-scrollbar {
+  width: 8px;
+}
+
+.users-admin-modal::-webkit-scrollbar-thumb {
+  background: #b9955e;
+  border-radius: 8px;
+}
+
+
+/* IEU NIGHT LIBRARY – správa uživatelů */
+.users-admin-page {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+.users-admin-stats article,
+.users-admin-panel,
+.users-admin-modal {
+  background: rgba(7, 20, 42, .82) !important;
+  border-color: rgba(215, 182, 110, .40) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.users-admin-toolbar input,
+.users-admin-toolbar select {
+  background: rgba(5, 15, 32, .92) !important;
+  color: #f1eee7 !important;
+  border-color: rgba(215, 182, 110, .38) !important;
+}
+
+.users-admin-permission-list{display:grid;gap:10px;margin:14px 0}
+.users-admin-permission-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,230px) auto;align-items:center;gap:12px;padding:12px;border:1px solid rgba(205,177,126,.18);border-radius:8px;background:rgba(3,12,27,.38)}
+.users-admin-permission-copy strong,.users-admin-permission-copy small{display:block}
+.users-admin-permission-copy strong{font-size:13px;color:#e9e1d2}
+.users-admin-permission-copy small{font-size:11px;color:#aeb4c0;margin-top:4px}
+.users-admin-permission-row select{min-width:0;padding:9px 10px;background:#0b111d;color:#eee;border:1px solid rgba(215,182,110,.38);border-radius:6px}
+.users-admin-permission-effective{font-size:11px;white-space:nowrap}
+.users-admin-permission-effective.is-allowed{color:#b9e0c2}
+.users-admin-permission-effective.is-denied{color:#e4aaaa}
+.users-admin-permissions-editor>button{display:block;margin-top:12px;background:transparent;border:1px solid #92764e;color:#e5c58c;border-radius:6px;padding:9px 14px;cursor:pointer}
+@media(max-width:760px){.users-admin-permission-row{grid-template-columns:1fr}.users-admin-permission-effective{white-space:normal}}
+
+
+/* Srozumitelné skupiny individuálních oprávnění */
+.users-admin-permission-list{gap:16px}
+.users-admin-permission-group{padding:14px;border:1px solid rgba(205,177,126,.22);border-radius:10px;background:rgba(3,12,27,.22)}
+.users-admin-permission-group-heading{margin:0 0 10px}
+.users-admin-permission-group-heading h4{margin:0 0 5px;color:#e2c78f;font:17px Georgia,serif;letter-spacing:.3px}
+.users-admin-permission-group-heading p{margin:0;color:#aeb4c0;font-size:12px;line-height:1.5}
+.users-admin-permission-group .users-admin-permission-row{margin-top:8px;background:rgba(3,12,27,.45)}
+.users-admin-permission-copy small{line-height:1.45}
+@media(max-width:760px){.users-admin-permission-group{padding:10px}}

@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
+import './pages/AdminAtmosphere.css'
 import { MusicPlayerProvider } from './context/MusicPlayerContext.jsx'
 import GlobalMusicPlayer from './components/GlobalMusicPlayer.jsx'
 

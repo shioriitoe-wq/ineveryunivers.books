@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 
+import BookAccessGate from "../components/BookAccessGate";
 import "./NezacaloVolume5Page.css";
 
 
-export default function NezacaloVolume5Page() {
+function NezacaloVolume5PageContent() {
 
     return (
 
@@ -43,4 +44,12 @@ export default function NezacaloVolume5Page() {
 
     );
 
+}
+
+export default function NezacaloVolume5Page() {
+    return (
+        <BookAccessGate bookId={1} volumeId={5}>
+            <NezacaloVolume5PageContent />
+        </BookAccessGate>
+    );
 }

@@ -2,6 +2,6 @@ services:
   - type: web
     name: ineveryunivers-books-api
     runtime: python
-    rootDir: Backend
+    rootDir: backend
     buildCommand: pip install -r requirements.txt && python -m database.init_database
     startCommand: gunicorn app:app

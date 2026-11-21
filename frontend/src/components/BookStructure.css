@@ -1635,3 +1635,426 @@
       180px;
   }
 }
+
+
+/* FIX: chapter cards rendered by the current BookStructure.jsx */
+.chapter-list {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 7px !important;
+  width: 100%;
+  min-width: 0;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.chapter-list > .chapter-card {
+  display: flex !important;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 62px;
+  box-sizing: border-box;
+  padding: 10px 9px;
+  border: 1px solid #30372f;
+  border-radius: 5px;
+  background: #111711;
+  color: #e8eee5;
+  text-align: left;
+  cursor: pointer;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.chapter-list > .chapter-card:hover,
+.chapter-list > .chapter-card.active {
+  border-color: #91a982;
+  background: #1a2419;
+}
+
+.chapter-card-number {
+  flex: 0 0 27px;
+  color: #a8bd98;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.chapter-card-main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.chapter-card-main strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: #eef2e9;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.chapter-card-main small {
+  display: block;
+  color: #9aa694;
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.chapter-card-status {
+  flex: 0 0 18px;
+  color: #b7c6ac;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+}
+
+
+/* IEU NIGHT LIBRARY – struktura knih, svazků, dílů, částí a kapitol.
+   Přepisuje i původní pravidla s !important. */
+.book-structure {
+  background: rgba(7, 20, 42, .10) !important;
+  background-color: rgba(7, 20, 42, .10) !important;
+  background-image: none !important;
+  color: #e8e3d7 !important;
+}
+.book-structure-columns {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+.book-structure .structure-panel {
+  background: rgba(7, 20, 42, .62) !important;
+  background-color: rgba(7, 20, 42, .62) !important;
+  border-color: rgba(215, 182, 110, .36) !important;
+  backdrop-filter: blur(11px);
+  -webkit-backdrop-filter: blur(11px);
+}
+.book-structure .structure-panel-header,
+.book-structure .structure-panel-body,
+.book-structure .structure-list,
+.book-structure .chapter-list,
+.book-structure .chapter-list-visible {
+  background: rgba(7, 20, 42, .24) !important;
+  background-color: rgba(7, 20, 42, .24) !important;
+  border-color: rgba(215, 182, 110, .26) !important;
+}
+.book-structure .structure-card,
+.book-structure .structure-form,
+.book-structure .chapter-card,
+.book-structure .volume-cover-editor {
+  background: rgba(7, 20, 42, .70) !important;
+  background-color: rgba(7, 20, 42, .70) !important;
+  color: #e8e3d7 !important;
+  border-color: rgba(215, 182, 110, .34) !important;
+}
+.book-structure .structure-card.is-selected,
+.book-structure .chapter-card.active {
+  background: rgba(167, 132, 68, .28) !important;
+  border-color: #d7b66e !important;
+  color: #fff2d2 !important;
+}
+.book-structure .structure-form input,
+.book-structure .structure-form select,
+.book-structure .chapter-form-grid input,
+.book-structure .chapter-form-grid select,
+.book-structure .chapter-workspace-footer select,
+.book-structure .volume-cover-editor input {
+  background: rgba(5, 15, 32, .94) !important;
+  color: #f1eee7 !important;
+  border-color: rgba(215, 182, 110, .40) !important;
+}
+.book-structure .structure-card-actions button,
+.book-structure .structure-form-actions button,
+.book-structure .structure-add-button,
+.book-structure .structure-cancel-button,
+.book-structure .volume-cover-editor button {
+  background: rgba(17, 36, 62, .92) !important;
+  color: #e9dfca !important;
+  border-color: rgba(215, 182, 110, .44) !important;
+}
+.book-structure .structure-add-button.primary {
+  background: linear-gradient(135deg, #b99655, #806238) !important;
+  color: #10182a !important;
+}
+.book-structure .chapter-workspace {
+  background: rgba(7, 20, 42, .46) !important;
+  background-color: rgba(7, 20, 42, .46) !important;
+  color: #e8e3d7 !important;
+  border-color: rgba(215, 182, 110, .34) !important;
+  backdrop-filter: blur(11px);
+  -webkit-backdrop-filter: blur(11px);
+}
+.book-structure .chapter-workspace-header,
+.book-structure .chapter-workspace-footer {
+  background: rgba(7, 20, 42, .30) !important;
+  color: #e8e3d7 !important;
+}
+.book-structure .volume-cover-editor {
+  background: rgba(7, 20, 42, .70) !important;
+}
+.book-structure .chapter-list > .chapter-card {
+  background: rgba(7, 20, 42, .72) !important;
+  color: #e8e3d7 !important;
+}
+
+
+/* Publish control is available directly in the chapter editor, including
+   while creating a new chapter. */
+.chapter-editor-publish {
+  margin: 14px 0 18px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.chapter-editor-publish small {
+  display: block;
+  line-height: 1.45;
+  margin-top: 4px;
+}
+
+
+/* Administrace kapitol: samostatné složky Publikované / Koncepty */
+.chapter-folder-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin: 12px 0 10px;
+  width: 100%;
+}
+.chapter-folder-tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  padding: 9px 11px;
+  border: 1px solid rgba(190, 157, 94, .34);
+  border-radius: 5px;
+  background: rgba(12, 29, 53, .82);
+  color: #d9d1c1;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+.chapter-folder-tab span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.08);
+  color: #d9c18d;
+  font-size: 11px;
+}
+.chapter-folder-tab:hover,
+.chapter-folder-tab.active {
+  border-color: #c5a15e;
+  background: rgba(34, 52, 77, .96);
+  color: #f0d49a;
+}
+.chapter-folder-tab.active span {
+  background: rgba(197,161,94,.2);
+}
+.chapter-editor-publish {
+  margin: 12px 0 16px;
+}
+
+
+/* =========================================================
+   REDAKČNÍ PRACOVNÍ PROSTOR – postupné kroky
+   ========================================================= */
+.book-structure {
+  background: transparent;
+  color: #eee7d8;
+}
+
+.book-structure-columns {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.82fr) minmax(0, 2fr);
+  align-items: start;
+  gap: 24px;
+  width: 100%;
+}
+
+.book-structure-columns > .volumes-column,
+.book-structure-columns > .parts-column {
+  grid-column: 1 / -1;
+  width: min(100%, 760px);
+  min-height: 0;
+  padding: 24px;
+  border: 1px solid rgba(215, 182, 110, .28);
+  border-radius: 12px;
+  background: rgba(8, 22, 43, .78);
+}
+
+.book-structure-columns > .chapters-column {
+  grid-column: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 22px;
+  border: 1px solid rgba(215, 182, 110, .28);
+  border-radius: 12px;
+  background: rgba(8, 22, 43, .72);
+}
+
+.book-structure-columns > .chapter-editor-column {
+  grid-column: 2;
+  min-width: 0;
+  min-height: 0;
+  padding: 26px;
+  border: 1px solid rgba(215, 182, 110, .28);
+  border-radius: 12px;
+  background: rgba(8, 22, 43, .72);
+}
+
+.book-structure-columns > .chapter-editor-column .chapter-editor-content,
+.book-structure-columns > .chapter-editor-column [contenteditable="true"] {
+  min-height: 680px;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.book-structure-columns > .chapter-editor-column .chapter-editor {
+  width: 100%;
+}
+
+.structure-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+}
+
+.structure-breadcrumbs button {
+  border: 1px solid rgba(215, 182, 110, .35);
+  border-radius: 6px;
+  padding: 7px 12px;
+  color: #e9d7ad;
+  background: rgba(20, 42, 69, .8);
+  cursor: pointer;
+  font: inherit;
+}
+
+.structure-breadcrumbs button:hover {
+  border-color: #d7b66e;
+  background: rgba(34, 57, 87, .95);
+}
+
+.structure-column-header h3 {
+  font-size: 28px;
+}
+
+.structure-items {
+  gap: 12px;
+}
+
+.structure-item {
+  padding: 16px;
+  margin-bottom: 8px;
+}
+
+.structure-add-form {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(215, 182, 110, .2);
+}
+
+.chapter-folder-tabs {
+  margin: 18px 0;
+}
+
+.chapter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chapter-card {
+  min-height: 66px;
+  padding: 14px;
+}
+
+.chapter-editor-top {
+  margin-bottom: 22px;
+}
+
+.chapter-main-fields {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) minmax(240px, 1fr);
+  gap: 18px;
+  align-items: end;
+  margin-bottom: 22px;
+}
+
+.chapter-location-fields {
+  margin: 16px 0;
+}
+
+.chapter-editor-wrapper {
+  margin-top: 22px;
+}
+
+.chapter-editor-label {
+  margin-bottom: 12px;
+  letter-spacing: .08em;
+}
+
+.chapter-editor-footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(215, 182, 110, .24);
+}
+
+.chapter-editor-footer > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.publish-box.chapter-editor-publish {
+  margin: 16px 0 22px;
+  padding: 16px 18px;
+  border: 1px solid rgba(215, 182, 110, .25);
+  border-radius: 8px;
+  background: rgba(17, 36, 62, .55);
+}
+
+@media (max-width: 1050px) {
+  .book-structure-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .book-structure-columns > .volumes-column,
+  .book-structure-columns > .parts-column,
+  .book-structure-columns > .chapters-column,
+  .book-structure-columns > .chapter-editor-column {
+    grid-column: 1;
+    width: 100%;
+  }
+  .book-structure-columns > .chapter-editor-column [contenteditable="true"] {
+    min-height: 520px;
+  }
+}
+
+@media (max-width: 640px) {
+  .book-structure-columns > .chapter-editor-column,
+  .book-structure-columns > .chapters-column,
+  .book-structure-columns > .volumes-column,
+  .book-structure-columns > .parts-column {
+    padding: 14px;
+  }
+  .chapter-main-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Celoknižní pořadí – doplněk k redakčnímu pracovnímu prostoru */
+.chapter-order-field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.chapter-order-field small { display: block; max-width: 340px; color: rgba(226, 216, 190, .68); font-size: 12px; line-height: 1.5; }
+.chapter-number-auto-hint { min-height: 38px; display: flex; align-items: center; max-width: 420px; color: rgba(226, 216, 190, .72); font-size: 13px; line-height: 1.5; }

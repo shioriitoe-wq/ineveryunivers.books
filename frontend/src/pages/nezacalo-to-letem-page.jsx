@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import BackButton from "../components/BackButton";
+import { getChapters } from "../services/booksService";
 import { Link } from "react-router-dom";
+import BookAccessGate from "../components/BookAccessGate";
 import "./nezacalo-to-letem-page.css";
 
 import beachTexture from "../assets/images/Nezacalo-to/beach-texture.png";
@@ -14,7 +17,29 @@ import chaptersImage from "../assets/images/Nezacalo-to/chapters.png";
 import photoImage from "../assets/images/Nezacalo-to/photo.png";
 import musicImage from "../assets/images/Nezacalo-to/music.png";
 
-export default function NezacaloToLetemPage() {
+function NezacaloToLetemPageContent() {
+    const [firstPublishedChapterId, setFirstPublishedChapterId] = useState(null);
+
+    useEffect(() => {
+        let active = true;
+        getChapters(1)
+            .then((items) => {
+                if (!active) return;
+                const first = (Array.isArray(items) ? items : [])
+                    .filter((chapter) => chapter.status === "published")
+                    .sort((a, b) => {
+                        const byNumber = (Number(a.number) || 0) - (Number(b.number) || 0);
+                        return byNumber || (Number(a.id) - Number(b.id));
+                    })[0];
+                setFirstPublishedChapterId(first?.id ?? null);
+            })
+            .catch((error) => {
+                console.error("Nepodařilo se načíst první publikovanou kapitolu:", error);
+                if (active) setFirstPublishedChapterId(null);
+            });
+        return () => { active = false; };
+    }, []);
+
     return (
         <main className="summer-page">
 
@@ -137,8 +162,14 @@ export default function NezacaloToLetemPage() {
                     ================================================= */}
 
                     <Link
-                        to="/books/nezacalo/chapters/1"
-                        className="summer-read-button"
+                        to={firstPublishedChapterId
+                            ? `/books/nezacalo/chapters/${firstPublishedChapterId}`
+                            : "/books/nezacalo/chapters"}
+                        className={`summer-read-button${firstPublishedChapterId ? "" : " is-unavailable"}`}
+                        aria-disabled={!firstPublishedChapterId}
+                        onClick={(event) => {
+                            if (!firstPublishedChapterId) event.preventDefault();
+                        }}
                     >
 
                         <img
@@ -307,3 +338,12 @@ export default function NezacaloToLetemPage() {
     );
 }
 
+
+
+export default function NezacaloToLetemPage() {
+    return (
+        <BookAccessGate bookId={1} volumeId={1}>
+            <NezacaloToLetemPageContent />
+        </BookAccessGate>
+    );
+}

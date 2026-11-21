@@ -7,11 +7,12 @@ import { getChapterNarrator } from "../services/aeilService";
 import aeilCharactersBack from "../assets/images/AEIL/aeil-characters-back.png";
 import libraryLogo from "../assets/images/library-logo.png";
 
+import BookAccessGate from "../components/BookAccessGate";
 import "./AEILChaptersPage.css";
 
 const BOOK_ID = 2;
 
-export default function AEILChaptersPage() {
+function AEILChaptersPageContent() {
     const navigate = useNavigate();
 
     const [chapters, setChapters] = useState([]);
@@ -193,5 +194,14 @@ export default function AEILChaptersPage() {
                 })}
             </section>
         </main>
+    );
+}
+
+
+export default function AEILChaptersPage() {
+    return (
+        <BookAccessGate bookId={2}>
+            <AEILChaptersPageContent />
+        </BookAccessGate>
     );
 }

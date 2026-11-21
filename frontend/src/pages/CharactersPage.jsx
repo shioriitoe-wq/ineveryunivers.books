@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import {
-  getCharacters,
+  getCharactersPage,
 } from "../services/charactersService";
 
 import {
@@ -49,67 +49,17 @@ function CharactersPage() {
 
       try {
 
-        const [
-          loadedBook,
-          loadedCharacters,
-          loadedVolumes,
-        ] = await Promise.all([
+        const pageData = await getCharactersPage(
+          bookId,
+          volumeId
+        );
 
-          getBook(bookId),
-
-          getCharacters(bookId),
-
-          getVolumes(bookId),
-
-        ]);
-
-
-        setBook(loadedBook);
-
-
-        /* =================================================
-           KONKRÉTNÍ DÍL
-        ================================================= */
-
-        const selectedVolume =
-          loadedVolumes.find(
-            (item) =>
-              Number(item.id) ===
-              Number(volumeId)
-          ) || null;
-
-
-        setVolume(selectedVolume);
-
-
-        /* =================================================
-           POSTAVY PŘIŘAZENÉ K TOMUTO DÍLU
-        ================================================= */
-
-        const filteredCharacters =
-          loadedCharacters.filter(
-            (character) => {
-
-              const ids =
-                Array.isArray(
-                  character.volume_ids
-                )
-                  ? character.volume_ids
-                  : [];
-
-
-              return ids.some(
-                (id) =>
-                  Number(id) ===
-                  Number(volumeId)
-              );
-
-            }
-          );
-
-
+        setBook(pageData.book || null);
+        setVolume(pageData.volume || null);
         setCharacters(
-          filteredCharacters
+          Array.isArray(pageData.characters)
+            ? pageData.characters
+            : []
         );
 
 

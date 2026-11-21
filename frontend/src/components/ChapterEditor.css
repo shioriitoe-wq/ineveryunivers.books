@@ -80,3 +80,51 @@
   border-left: 3px solid #687761;
   color: #b4bcb0;
 }
+
+
+/* IEU NIGHT LIBRARY – textový editor kapitol */
+.chapter-editor {
+  background: rgba(7, 20, 42, .54) !important;
+  background-color: rgba(7, 20, 42, .54) !important;
+  border-color: rgba(215, 182, 110, .38) !important;
+  color: #f1eee7 !important;
+}
+.chapter-editor-toolbar {
+  background: rgba(17, 36, 62, .92) !important;
+  border-color: rgba(215, 182, 110, .32) !important;
+}
+.chapter-editor-toolbar button,
+.chapter-editor-toolbar select {
+  background: rgba(24, 43, 69, .94) !important;
+  color: #eee7d8 !important;
+  border-color: rgba(215, 182, 110, .36) !important;
+}
+.chapter-editor-toolbar option {
+  background: #10213a !important;
+  color: #f1eee7 !important;
+}
+/* BookStructure vkládá vlastní contenteditable/textarea – tyto selektory
+   mají vyšší specificitu než původní .chapter-editor [contenteditable]. */
+.book-structure .chapter-editor textarea,
+.book-structure .chapter-editor [contenteditable="true"],
+.book-structure .chapter-editor-content,
+.chapter-editor .chapter-editor-content {
+  background: rgba(5, 15, 32, .48) !important;
+  background-color: rgba(5, 15, 32, .48) !important;
+  color: #f4f0e7 !important;
+  caret-color: #e0c27c !important;
+}
+.chapter-editor-content:empty::before {
+  color: rgba(220, 225, 235, .58) !important;
+}
+.chapter-editor-content h2,
+.chapter-editor-content h3 {
+  color: #f0dfb9 !important;
+}
+.chapter-editor-content a {
+  color: #e0c27c !important;
+}
+.chapter-editor-content blockquote {
+  border-left-color: #c5a45e !important;
+  color: #d7d5ce !important;
+}

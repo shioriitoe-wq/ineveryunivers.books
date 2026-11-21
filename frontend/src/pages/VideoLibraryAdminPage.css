@@ -1,1 +1,95 @@
+/* Typografie sjednocená se SoundtracksPage.css */
+.video-admin{font-family:"Cormorant Garamond",Georgia,serif}
+.video-admin button,.video-admin input,.video-admin textarea,.video-admin select{font-family:inherit}
 .video-admin{max-width:1440px;margin:0 auto;padding:clamp(22px,4vw,56px);color:#eee;background:#111;min-height:100vh}.video-admin-header{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:30px}.video-admin-kicker{font-size:11px;letter-spacing:.2em;color:#b99b72}.video-admin-header h1{font-size:clamp(30px,4vw,48px);margin:8px 0}.video-admin-header p{color:#aaa}.video-admin-back{color:#d8c3a2;text-decoration:none;border:1px solid #514536;padding:10px 15px;border-radius:8px}.video-admin-upload{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px;border:1px dashed #67553e;background:#191714;border-radius:12px;margin-bottom:26px}.video-admin-upload div{display:grid;gap:6px}.video-admin-upload span,.video-admin-hint,.video-admin-storage{color:#999;font-size:13px}.video-admin-upload-button{background:#c1a477;color:#17130e;padding:12px 18px;border-radius:7px;cursor:pointer;font-weight:700}.video-admin-upload-button input{display:none}.video-admin-message{padding:12px 16px;border-radius:8px;margin:12px 0}.video-admin-message.success{background:#1d3026;color:#bce3c9}.video-admin-message.error{background:#3a2020;color:#f1bcbc}.video-admin-layout{display:grid;grid-template-columns:minmax(280px,.8fr) minmax(420px,1.4fr);gap:22px;align-items:start}.video-admin-library,.video-admin-editor{background:#191919;border:1px solid #333;border-radius:12px;padding:20px}.video-admin-library h2{font-size:17px;margin:0 0 14px}.video-admin-library h2 span{color:#999;font-weight:400}.video-admin-item{width:100%;display:flex;align-items:center;gap:12px;text-align:left;color:#eee;background:transparent;border:1px solid #333;border-radius:8px;padding:12px;margin:8px 0;cursor:pointer}.video-admin-item.active{border-color:#c1a477;background:#25211b}.video-admin-play{color:#c1a477}.video-admin-item-text{display:grid;gap:4px;flex:1;min-width:0}.video-admin-item-text strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.video-admin-item-text small{color:#999}.video-admin-status{font-size:10px;color:#aaa}.video-admin-status.on{color:#9ac7a4}.video-admin-empty{color:#999}.video-admin-preview{background:#090909;border-radius:8px;overflow:hidden;margin-bottom:18px}.video-admin-preview video{display:block;width:100%;max-height:340px}.video-admin-editor>label:not(.video-admin-publish){display:grid;gap:7px;margin:14px 0;color:#c9b99f;font-size:13px}.video-admin-editor input:not([type=checkbox]),.video-admin-editor textarea,.video-admin-editor select{width:100%;box-sizing:border-box;background:#101010;border:1px solid #444;color:#eee;padding:11px;border-radius:6px;font:inherit}.video-admin-editor h3{font-size:15px;margin:24px 0 6px;color:#d8c3a2}.video-admin-checks{max-height:240px;overflow:auto;border:1px solid #333;border-radius:8px;padding:6px 12px}.video-admin-checkrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #2b2b2b}.video-admin-checkrow:last-child{border:0}.video-admin-checkrow label,.video-admin-publish{display:flex;align-items:center;gap:9px;font-size:13px}.video-admin-checkrow select{max-width:170px}.video-admin-publish{margin:20px 0;color:#ddd}.video-admin-actions{display:flex;gap:10px;flex-wrap:wrap}.video-admin-actions button{background:#c1a477;color:#17130e;border:0;padding:11px 18px;border-radius:7px;font-weight:700;cursor:pointer}.video-admin-actions button:disabled{opacity:.6}.video-admin-actions button.danger{background:transparent;color:#e6a0a0;border:1px solid #754545}.video-admin-storage{display:block;margin-top:16px;overflow-wrap:anywhere}.video-admin-placeholder{min-height:250px;display:grid;place-items:center;color:#999;text-align:center}@media(max-width:850px){.video-admin-layout{grid-template-columns:1fr}.video-admin-header,.video-admin-upload{align-items:flex-start;flex-direction:column}.video-admin-back{align-self:flex-start}}
+.video-admin-character-book{color:#888;font-size:11px;white-space:nowrap}.video-admin-comment textarea{min-height:90px;resize:vertical}
+
+/* Typografie sjednocená se SoundtracksPage.css */
+.video-admin { font-family: "Cormorant Garamond", Georgia, serif; }
+.video-admin-header h1 { font-family: Arial, sans-serif; font-weight: 300; letter-spacing: .08em; }
+.video-admin-kicker,.video-admin-hint,.video-admin-storage,.video-admin-editor h3 { font-family: Arial, sans-serif; }
+.video-admin-editor input,.video-admin-editor textarea,.video-admin-editor select { font-family: inherit; }
+
+.video-admin-poster-editor{margin:20px 0;padding:16px;border:1px solid rgba(193,164,119,.35);border-radius:10px;background:linear-gradient(145deg,rgba(193,164,119,.07),rgba(10,10,10,.4))}
+.video-admin-poster-editor h3{margin:0 0 12px}
+.video-admin-poster-preview{display:block;width:min(100%,440px);max-height:240px;object-fit:contain;object-position:left center;border:1px solid rgba(193,164,119,.4);border-radius:8px;background:#080808}
+.video-admin-poster-empty{display:grid;place-items:center;width:min(100%,440px);min-height:130px;border:1px dashed #66563e;border-radius:8px;color:#95866f;font-size:13px}
+.video-admin-poster-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}
+.video-admin-poster-button{display:inline-flex;align-items:center;padding:10px 14px;border:1px solid #c1a477;border-radius:6px;color:#e6cf9e;background:rgba(193,164,119,.1);cursor:pointer;font-size:12px}
+.video-admin-poster-button input{display:none}
+.video-admin-poster-remove{padding:9px 12px;border:1px solid #754545;border-radius:6px;background:transparent;color:#e6a0a0;cursor:pointer}
+
+.video-admin-book-assignment{padding:10px 0;border-bottom:1px solid rgba(193,164,119,.18)}
+.video-admin-book-toggle{display:flex;align-items:center;gap:9px;font-size:14px}
+.video-admin-volume-select{display:grid;grid-template-columns:70px minmax(0,1fr);align-items:center;gap:12px;margin:10px 0 2px 25px;color:#c9b99f;font-size:12px}
+.video-admin-volume-select select{max-width:none!important}
+.video-admin-tag-grid{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+.video-admin-tag{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid rgba(177,138,255,.35);border-radius:8px;background:rgba(15,13,27,.7);color:#d9c9ed;font-size:12px;cursor:pointer;transition:.2s}
+.video-admin-tag.selected{border-color:#b18aff;box-shadow:0 0 14px rgba(177,138,255,.18);background:rgba(91,55,133,.22);color:#fff}
+.video-admin-tag input{accent-color:#b18aff}
+
+
+/* IEU NIGHT LIBRARY – administrace videotéky */
+.video-admin {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #e8e3d7 !important;
+}
+.video-admin-upload,
+.video-admin-library,
+.video-admin-editor,
+.video-admin-poster-editor {
+  background: rgba(7, 20, 42, .68) !important;
+  background-color: rgba(7, 20, 42, .68) !important;
+  border-color: rgba(215, 182, 110, .36) !important;
+  color: #e8e3d7 !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.video-admin-preview,
+.video-admin-poster-preview,
+.video-admin-poster-empty {
+  background: rgba(5, 15, 32, .68) !important;
+  border-color: rgba(215, 182, 110, .30) !important;
+}
+.video-admin-editor input:not([type=checkbox]),
+.video-admin-editor textarea,
+.video-admin-editor select {
+  background: rgba(5, 15, 32, .92) !important;
+  color: #f1eee7 !important;
+  border-color: rgba(215, 182, 110, .38) !important;
+}
+.video-admin h1,
+.video-admin h2,
+.video-admin-editor h3 {
+  color: #ead9b4 !important;
+}
+.video-admin p,
+.video-admin label,
+.video-admin-hint,
+.video-admin-storage,
+.video-admin-upload span {
+  color: #aeb8ca !important;
+}
+.video-admin-item {
+  background: rgba(8, 24, 48, .68) !important;
+  color: #e8e3d7 !important;
+  border-color: rgba(215, 182, 110, .30) !important;
+}
+.video-admin-item.active {
+  background: rgba(167, 132, 68, .26) !important;
+  border-color: #d7b66e !important;
+}
+.video-admin-upload-button,
+.video-admin-actions button:not(.danger) {
+  background: linear-gradient(135deg, #b99655, #806238) !important;
+  color: #10182a !important;
+  border-color: #dfc17d !important;
+}
+.video-admin-back,
+.video-admin-actions button.danger {
+  background: rgba(17, 36, 62, .90) !important;
+  color: #e9dfca !important;
+  border-color: rgba(215, 182, 110, .42) !important;
+}

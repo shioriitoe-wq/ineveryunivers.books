@@ -5,33 +5,48 @@ const API =
     : "https://ineveryunivers-books-api.onrender.com/api";
 
 
+const inFlightGetRequests = new Map();
+
 async function request(
   url,
   options = {},
   errorMessage = "Nastala chyba."
 ) {
-  const response = await fetch(
-    url,
-    options
-  );
+  const method = String(options.method || "GET").toUpperCase();
+  const requestKey = method === "GET" ? url : null;
 
-  if (!response.ok) {
-    let message = errorMessage;
-
-    try {
-      const data =
-        await response.json();
-
-      message =
-        data.message || message;
-    } catch {
-      // výchozí chyba
-    }
-
-    throw new Error(message);
+  if (requestKey && inFlightGetRequests.has(requestKey)) {
+    return inFlightGetRequests.get(requestKey);
   }
 
-  return response.json();
+  const executeRequest = async () => {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      let message = errorMessage;
+      try {
+        const data = await response.json();
+        message = data.message || message;
+      } catch {
+        // Použijeme výchozí chybovou zprávu.
+      }
+      throw new Error(message);
+    }
+
+    return response.json();
+  };
+
+  if (!requestKey) return executeRequest();
+
+  const pendingRequest = executeRequest();
+  inFlightGetRequests.set(requestKey, pendingRequest);
+  try {
+    return await pendingRequest;
+  } finally {
+    if (inFlightGetRequests.get(requestKey) === pendingRequest) {
+      inFlightGetRequests.delete(requestKey);
+    }
+  }
 }
 
 

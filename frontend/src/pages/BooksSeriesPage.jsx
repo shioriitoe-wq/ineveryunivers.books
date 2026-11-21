@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getVolumes } from "../services/booksService";
 import BackButton from "../components/BackButton";
+import BookAccessGate from "../components/BookAccessGate";
 import "./BooksSeriesPage.css";
 
 import libraryLogo from "../assets/images/library-logo.png";
@@ -15,7 +18,39 @@ import house from "../assets/images/Nezacalo-to/house.png";
 import threeStars from "../assets/images/Nezacalo-to/threestars.png";
 import motto from "../assets/images/Nezacalo-to/motto.png";
 
-export default function BooksSeriesPage() {
+const VOLUME_PRESENTATION = {
+  1: { title: "(Ne)začalo to létem", hover: "Tady začíná problém.", image: panelLetem, className: "panel-summer" },
+  2: { title: "(Ne)začalo to správně", hover: "Odvážná volba.", image: panelSpravne, className: "panel-message" },
+  3: { title: "(Ne)začalo to v temnotě", hover: "Nebojíš se tmy?", image: panelTemnotou, className: "panel-dream" },
+  4: { title: "(Ne)začalo to tady", hover: "Co by se mohlo pokazit?", image: panelTady, className: "panel-story" },
+  5: { title: "(Ne)začalo to naším příběhem", hover: "Dobrá volba. Asi.", image: panelNami, className: "panel-story-blue" },
+};
+
+function BooksSeriesPageContent() {
+  const [volumes, setVolumes] = useState([]);
+  const [loadingVolumes, setLoadingVolumes] = useState(true);
+  const [volumesError, setVolumesError] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    getVolumes(1)
+      .then((data) => {
+        if (!active) return;
+        setVolumes(Array.isArray(data) ? data : []);
+      })
+      .catch((error) => {
+        console.error("Nepodařilo se načíst veřejné svazky knihy.", error);
+        if (active) {
+          setVolumes([]);
+          setVolumesError("Svazky se nepodařilo načíst.");
+        }
+      })
+      .finally(() => {
+        if (active) setLoadingVolumes(false);
+      });
+    return () => { active = false; };
+  }, []);
+
   return (
     <main
       className="books-series-page"
@@ -151,135 +186,34 @@ export default function BooksSeriesPage() {
         />
 
 
-        {/* =========================================
-            1. DÍL — LÉTO
-            ========================================= */}
+        {loadingVolumes ? (
+          <div className="series-loading">Načítám svazky…</div>
+        ) : volumesError ? (
+          <div className="series-error">{volumesError}</div>
+        ) : (
+          volumes
+            .slice()
+            .sort((a, b) => Number(a.number || a.id) - Number(b.number || b.id))
+            .map((volume) => {
+              const number = Number(volume.number || volume.id);
+              const presentation = VOLUME_PRESENTATION[number] || {};
+              const title = presentation.title || volume.title || `Svazek ${number}`;
+              const hover = presentation.hover || "Otevřít svazek.";
+              const image = presentation.image || panelLetem;
+              const className = presentation.className || "panel-summer";
+              const to = number === 1
+                ? "/books/nezacalo"
+                : `/books/nezacalo/volume/${volume.id}`;
 
-        <Link
-          to="/books/nezacalo"
-          className="series-panel panel-summer"
-        >
-
-          <img
-            src={panelLetem}
-            alt=""
-            className="brush-panel"
-          />
-
-          <span className="panel-text panel-text-normal">
-            (Ne)začalo to létem
-          </span>
-
-          <span className="panel-text panel-text-hover">
-            Tady začíná problém.
-          </span>
-
-        </Link>
-
-
-        {/* =========================================
-            2. DÍL — SPRÁVNĚ
-            ========================================= */}
-
-        <Link
-          to="/books/nezacalo/volume/2"
-          className="series-panel panel-message"
-        >
-
-          <img
-            src={panelSpravne}
-            alt=""
-            className="brush-panel"
-          />
-
-          <span className="panel-text panel-text-normal">
-            (Ne)začalo to správně
-          </span>
-
-          <span className="panel-text panel-text-hover">
-            Odvážná volba.
-          </span>
-
-        </Link>
-
-
-        {/* =========================================
-            3. DÍL — V TEMNOTĚ
-            ========================================= */}
-
-        <Link
-          to="/books/nezacalo/volume/3"
-          className="series-panel panel-dream"
-        >
-
-          <img
-            src={panelTemnotou}
-            alt=""
-            className="brush-panel"
-          />
-
-          <span className="panel-text panel-text-normal">
-            (Ne)začalo to v temnotě
-          </span>
-
-          <span className="panel-text panel-text-hover">
-            Nebojíš se tmy?
-          </span>
-
-        </Link>
-
-
-        {/* =========================================
-            4. DÍL — TADY
-            ========================================= */}
-
-        <Link
-          to="/books/nezacalo/volume/4"
-          className="series-panel panel-story"
-        >
-
-          <img
-            src={panelTady}
-            alt=""
-            className="brush-panel"
-          />
-
-          <span className="panel-text panel-text-normal">
-            (Ne)začalo to tady
-          </span>
-
-          <span className="panel-text panel-text-hover">
-            Co by se mohlo pokazit?
-          </span>
-
-        </Link>
-
-
-        {/* =========================================
-            5. DÍL — NAŠÍM PŘÍBĚHEM
-            ========================================= */}
-
-        <Link
-          to="/books/nezacalo/volume/5"
-          className="series-panel panel-story-blue"
-        >
-
-          <img
-            src={panelNami}
-            alt=""
-            className="brush-panel"
-          />
-
-          <span className="panel-text panel-text-normal">
-            (Ne)začalo to naším příběhem
-          </span>
-
-          <span className="panel-text panel-text-hover">
-            Dobrá volba. Asi.
-          </span>
-
-        </Link>
-
+              return (
+                <Link key={volume.id} to={to} className={`series-panel ${className}`}>
+                  <img src={image} alt="" className="brush-panel" />
+                  <span className="panel-text panel-text-normal">{title}</span>
+                  <span className="panel-text panel-text-hover">{hover}</span>
+                </Link>
+              );
+            })
+        )}
       </section>
 
 
@@ -307,4 +241,13 @@ export default function BooksSeriesPage() {
 
     </main>
   );
+}
+
+
+export default function BooksSeriesPage() {
+    return (
+        <BookAccessGate bookId={1}>
+            <BooksSeriesPageContent />
+        </BookAccessGate>
+    );
 }

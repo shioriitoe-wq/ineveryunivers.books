@@ -1,0 +1,219 @@
+
+/* HLAVNÍ TLAČÍTKO */
+
+/* GLOBÁLNÍ TLAČÍTKO VÁŽKY */
+.iu-dragonfly-entry {
+  position: fixed !important;
+
+  right: 15px !important;
+  bottom: 18px !important;
+  left: auto !important;
+  top: auto !important;
+
+  margin: 0 !important;
+  transform: none !important;
+
+  width: 48px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+
+  aspect-ratio: 1 / 1 !important;
+  flex: 0 0 58px !important;
+  box-sizing: border-box !important;
+
+  display: grid !important;
+  place-items: center !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  border: none !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+
+  z-index: 10000 !important;
+  cursor: pointer;
+  transform-origin: center;
+}
+
+.iu-dragonfly-entry:hover {
+  transform: translateY(-3px) scale(1.06);
+}
+
+.iu-dragonfly-ring {
+  position: relative !important;
+
+  width: 58px !important;
+  min-width: 58px !important;
+  max-width: 58px !important;
+  height: 58px !important;
+  min-height: 58px !important;
+  max-height: 58px !important;
+
+  aspect-ratio: 1 / 1 !important;
+  flex: 0 0 58px !important;
+  box-sizing: border-box !important;
+
+  display: grid !important;
+  place-items: center !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  border: 1px solid rgba(210, 177, 105, .55) !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  box-shadow: none;
+
+  overflow: visible !important;
+}
+
+.iu-dragonfly-ring img {
+  display: block !important;
+  width: 88% !important;
+  height: 88% !important;
+  max-width: none !important;
+  max-height: none !important;
+
+  object-fit: contain !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* ZÁŘE POUZE RÁMEČKU */
+.iu-dragonfly-entry.is-signed-in .iu-dragonfly-ring {
+  animation: iu-dragonfly-glow 3s ease-in-out infinite;
+  border-color: rgba(255, 220, 137, .9) !important;
+  background: transparent !important;
+}
+
+.iu-dragonfly-entry.is-signed-in img {
+  filter: none !important;
+}
+
+@media (max-width: 600px) {
+  .iu-dragonfly-entry {
+    width: 52px !important;
+    min-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    right: 14px !important;
+    bottom: 14px !important;
+  }
+
+  .iu-dragonfly-ring {
+    width: 52px !important;
+    min-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+  }
+}
+
+
+/* OBRÁZEK VÁŽKY */
+.iu-dragonfly-ring img {
+  display: block;
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
+
+  opacity: .9;
+  filter: drop-shadow(0 0 2px rgba(214, 178, 102, .3));
+
+  transition: .4s ease;
+}
+
+/* PŘIHLÁŠENÝ UŽIVATEL */
+.iu-dragonfly-entry.is-signed-in .iu-dragonfly-ring {
+  border-color: rgba(255, 220, 137, .9);
+
+  box-shadow:
+    0 0 7px rgba(255, 211, 125, .5),
+    0 0 16px rgba(225, 174, 78, .3);
+
+  animation: iu-dragonfly-glow 3s ease-in-out infinite;
+}
+
+.iu-dragonfly-entry.is-signed-in img {
+  opacity: 1;
+  filter: none;
+}
+
+/* ANIMACE ZÁŘE */
+@keyframes iu-dragonfly-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 6px rgba(255, 211, 125, .45),
+      0 0 14px rgba(225, 174, 78, .25);
+  }
+
+  50% {
+    box-shadow:
+      0 0 11px rgba(255, 221, 151, .8),
+      0 0 23px rgba(225, 174, 78, .5);
+  }
+}
+
+/* MOBIL */
+@media (max-width: 600px) {
+  .iu-dragonfly-entry {
+    width: 52px;
+    height: 52px;
+    right: 14px;
+    bottom: 14px;
+  }
+}
+
+/* OMEZENÍ POHYBU */
+@media (prefers-reduced-motion: reduce) {
+  .iu-dragonfly-entry,
+  .iu-dragonfly-entry * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+body .iu-dragonfly-entry {
+  position: fixed !important;
+  right: 22px !important;
+  bottom: 22px !important;
+  left: auto !important;
+  top: auto !important;
+  translate: none !important;
+}
+/* Vážka vždy pevně v rohu obrazovky */
+body > .iu-dragonfly-entry {
+  position: fixed !important;
+  right: 22px !important;
+  bottom: 22px !important;
+  left: auto !important;
+  top: auto !important;
+
+  transform: none;
+  z-index: 2147483647 !important;
+}
+
+/* Mobil */
+@media (max-width: 600px) {
+  body > .iu-dragonfly-entry {
+    right: 14px !important;
+    bottom: 14px !important;
+  }
+}
+
+/* Zlatá tečka signalizující nepřečtenou aktivitu na účtu */
+.iu-dragonfly-notification-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #f1c96b;
+  border: 2px solid #081326;
+  box-shadow: 0 0 7px rgba(255, 207, 103, .95), 0 0 15px rgba(255, 190, 70, .65);
+  z-index: 3;
+}

@@ -6,6 +6,7 @@ import {
     getParts,
 } from "../services/booksService";
 
+import BookAccessGate from "../components/BookAccessGate";
 import "./ChapterPageNezacaloletem.css";
 
 import libraryLogo from "../assets/images/library-logo.png";
@@ -26,7 +27,7 @@ const ALLOWED_THEMES = [
     "spring",
 ];
 
-export default function ChapterPageNezacaloletem() {
+function ChapterPageNezacaloletemContent() {
 
     const { chapterId } = useParams();
     const navigate = useNavigate();
@@ -466,5 +467,14 @@ export default function ChapterPageNezacaloletem() {
             </nav>
 
         </main>
+    );
+}
+
+
+export default function ChapterPageNezacaloletem() {
+    return (
+        <BookAccessGate bookId={1} volumeId={1}>
+            <ChapterPageNezacaloletemContent />
+        </BookAccessGate>
     );
 }

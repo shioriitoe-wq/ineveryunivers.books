@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import { getChapters, getParts } from "../services/booksService";
 
+import BookAccessGate from "../components/BookAccessGate";
 import "./ChaptersPage.css";
 
 const BOOK_ID = 1;
@@ -97,7 +98,7 @@ function ChapterSeason({ title, chapters, className, video }) {
   );
 }
 
-export default function ChaptersPage() {
+function ChaptersPageContent() {
   const [chapters, setChapters] = useState([]);
   const [parts, setParts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -171,7 +172,11 @@ export default function ChaptersPage() {
         <BackButton to="/books/nezacalo" />
       </div>
 
-      {SEASONS.map((season) => (
+      {SEASONS
+        .filter((season) =>
+          parts.some((part) => Number(part.number) === Number(season.partNumber))
+        )
+        .map((season) => (
         <ChapterSeason
           key={season.partNumber}
           title={season.title}
@@ -182,4 +187,13 @@ export default function ChaptersPage() {
       ))}
     </main>
   );
+}
+
+
+export default function ChaptersPage() {
+    return (
+        <BookAccessGate bookId={1} volumeId={1}>
+            <ChaptersPageContent />
+        </BookAccessGate>
+    );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   addPart,
@@ -14,7 +14,6 @@ import {
   getChapters,
   updateChapter,
   getCharacters,
-  uploadBookMedia,
 } from "../services/booksService";
 
 import {
@@ -46,9 +45,6 @@ function BookStructure({ book }) {
 
   const [volumeNumber, setVolumeNumber] = useState("");
   const [volumeTitle, setVolumeTitle] = useState("");
-  const [volumeCoverUrl, setVolumeCoverUrl] = useState("");
-  const [volumeCoverUploading, setVolumeCoverUploading] = useState(false);
-  const [volumeCoverError, setVolumeCoverError] = useState("");
   const [editingVolumeId, setEditingVolumeId] = useState(null);
 
   /* =====================================================
@@ -73,15 +69,19 @@ function BookStructure({ book }) {
   const [chapterPartId, setChapterPartId] = useState("");
   const [chapterContent, setChapterContent] = useState("");
   const [chapterStatus, setChapterStatus] = useState("concept");
+  const [chapterListTab, setChapterListTab] = useState("published");
   const [chapterNarratorId, setChapterNarratorId] = useState("");
 
   const [message, setMessage] = useState("");
+  const loadSequence = useRef(0);
 
   /* =====================================================
      NAČTENÍ
   ===================================================== */
 
   async function loadStructure() {
+    const requestId = ++loadSequence.current;
+    const requestedBookId = Number(book.id);
     try {
       const [
         loadedVolumes,
@@ -97,16 +97,24 @@ function BookStructure({ book }) {
           ? getParts(book.id)
           : Promise.resolve([]),
 
-        getChapters(book.id),
+        getChapters(book.id, { includeConcepts: true }),
 
         Number(book.id) === 2
           ? getCharacters(book.id)
           : Promise.resolve([]),
       ]);
 
-      setVolumes(loadedVolumes);
-      setParts(loadedParts);
-      setChapters(loadedChapters);
+      // A response from a previously selected book must never overwrite the current book.
+      if (requestId !== loadSequence.current) return;
+
+      setVolumes(Array.isArray(loadedVolumes) ? loadedVolumes : []);
+      setParts(Array.isArray(loadedParts) ? loadedParts : []);
+      // Defensive client-side book isolation in addition to the API WHERE book_id filter.
+      setChapters(
+        (Array.isArray(loadedChapters) ? loadedChapters : []).filter(
+          (chapter) => Number(chapter.book_id) === requestedBookId
+        )
+      );
 
       setSelectedVolumeId((current) =>
         loadedVolumes.some(
@@ -137,7 +145,9 @@ function BookStructure({ book }) {
        */
       if (selectedChapterId) {
         const refreshedChapter = loadedChapters.find(
-          (chapter) => chapter.id === selectedChapterId
+          (chapter) =>
+            Number(chapter.book_id) === requestedBookId &&
+            Number(chapter.id) === Number(selectedChapterId)
         );
 
         if (refreshedChapter) {
@@ -162,6 +172,7 @@ function BookStructure({ book }) {
                 await getChapterNarrator(
                   refreshedChapter.id
                 );
+              if (requestId !== loadSequence.current) return;
 
               setChapterNarratorId(
                 narrator?.character_id ?? ""
@@ -174,15 +185,24 @@ function BookStructure({ book }) {
         }
       }
     } catch (error) {
+      if (requestId !== loadSequence.current) return;
       console.error(error);
       setMessage(error.message);
     }
   }
 
   useEffect(() => {
+    // Invalidate in-flight requests immediately when the selected book changes.
+    loadSequence.current += 1;
+    setVolumes([]);
+    setParts([]);
+    setChapters([]);
+    setSelectedVolumeId(null);
+    setSelectedPartId(null);
     setSelectedChapterId(null);
     resetChapterEditor();
     loadStructure();
+    return () => { loadSequence.current += 1; };
   }, [
     book.id,
     book.uses_volumes,
@@ -213,11 +233,11 @@ function BookStructure({ book }) {
 
   const chapterLocation = (chapter) => {
     const volume = volumes.find(
-      (item) => item.id === chapter.volume_id
+      (item) => Number(item.id) === Number(chapter.volume_id)
     );
 
     const part = parts.find(
-      (item) => item.id === chapter.part_id
+      (item) => Number(item.id) === Number(chapter.part_id)
     );
 
     const labels = [];
@@ -266,50 +286,45 @@ function BookStructure({ book }) {
     selectedVolumeId,
   ]);
 
-  const visibleChapters = useMemo(() => {
-    if (book.uses_volumes && !selectedVolumeId) {
-      return [];
+  // Only show chapters belonging to the currently selected book and, when
+  // a structure node is selected, to that exact volume/part.
+  const visibleChapters = chapters.filter((chapter) => {
+    if (Number(chapter.book_id) !== Number(book.id)) return false;
+    if (selectedPartId) {
+      return Number(chapter.part_id) === Number(selectedPartId);
     }
-
-    if (
-      book.uses_parts &&
-      selectedVolumeId &&
-      visibleParts.length > 0 &&
-      !selectedPartId
-    ) {
-      return [];
+    if (selectedVolumeId) {
+      return (
+        Number(chapter.volume_id) === Number(selectedVolumeId) &&
+        (chapter.part_id == null || chapter.part_id === "")
+      );
     }
+    return true;
+  });
 
-    return chapters.filter((chapter) => {
-      const belongsToVolume =
-        !selectedVolumeId ||
-        !chapter.volume_id ||
-        Number(chapter.volume_id) === Number(selectedVolumeId);
+  // Chapters are kept in two separate administration folders. A missing status
+  // is treated as a concept so unpublished content is never accidentally shown
+  // as published in the editor.
+  const publishedChapters = visibleChapters.filter(
+    (chapter) => chapter.status === "published"
+  );
+  const conceptChapters = visibleChapters.filter(
+    (chapter) => chapter.status !== "published"
+  );
+  const displayedChapters =
+    chapterListTab === "concept" ? conceptChapters : publishedChapters;
 
-      if (selectedPartId) {
-        return (
-          belongsToVolume &&
-          (!chapter.part_id ||
-            Number(chapter.part_id) === Number(selectedPartId))
-        );
-      }
-
-      return belongsToVolume && !chapter.part_id;
-    });
-  }, [
-    book.uses_volumes,
-    book.uses_parts,
-    chapters,
-    selectedPartId,
-    selectedVolumeId,
-    visibleParts.length,
-  ]);
 
   const canOpenChapters =
-    (!book.uses_volumes || !!selectedVolumeId) &&
-    (!book.uses_parts ||
-      visibleParts.length === 0 ||
-      !!selectedPartId);
+    (!book.uses_volumes || Boolean(selectedVolumeId)) &&
+    (!book.uses_parts || Boolean(selectedPartId) || visibleParts.length === 0);
+
+  const showVolumesPanel = Boolean(book.uses_volumes && !selectedVolumeId);
+  const showPartsPanel = Boolean(
+    book.uses_parts &&
+    !selectedPartId &&
+    (!book.uses_volumes || Boolean(selectedVolumeId))
+  );
 
   const chaptersContext = selectedPart
     ? partName(selectedPart)
@@ -346,31 +361,6 @@ function BookStructure({ book }) {
      DÍLY – PŘIDAT / UPRAVIT
   ===================================================== */
 
-  async function handleVolumeCoverUpload(file) {
-    if (!file) return;
-
-    const allowed = ["image/jpeg", "image/png", "image/webp"];
-    if (!allowed.includes(file.type)) {
-      setVolumeCoverError("Vyber obrázek JPG, PNG nebo WebP.");
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      setVolumeCoverError("Obálka může mít maximálně 5 MB.");
-      return;
-    }
-
-    setVolumeCoverUploading(true);
-    setVolumeCoverError("");
-    try {
-      const result = await uploadBookMedia(file, "volume_cover");
-      setVolumeCoverUrl(result.url);
-    } catch (error) {
-      setVolumeCoverError(error.message || "Obálku svazku se nepodařilo nahrát.");
-    } finally {
-      setVolumeCoverUploading(false);
-    }
-  }
-
   async function handleVolumeSubmit(event) {
     event.preventDefault();
 
@@ -381,7 +371,6 @@ function BookStructure({ book }) {
           volumeNumber === ""
             ? null
             : Number(volumeNumber),
-        cover_url: volumeCoverUrl.trim(),
       };
 
       if (editingVolumeId) {
@@ -400,8 +389,6 @@ function BookStructure({ book }) {
 
       setVolumeNumber("");
       setVolumeTitle("");
-      setVolumeCoverUrl("");
-      setVolumeCoverError("");
       setEditingVolumeId(null);
 
       await loadStructure();
@@ -414,8 +401,6 @@ function BookStructure({ book }) {
     setEditingVolumeId(volume.id);
     setVolumeNumber(volume.number ?? "");
     setVolumeTitle(volume.title || "");
-    setVolumeCoverUrl(volume.cover_url || "");
-    setVolumeCoverError("");
   }
 
   async function removeVolume(volume) {
@@ -438,8 +423,6 @@ function BookStructure({ book }) {
         setEditingVolumeId(null);
         setVolumeNumber("");
         setVolumeTitle("");
-        setVolumeCoverUrl("");
-        setVolumeCoverError("");
       }
 
       await loadStructure();
@@ -464,9 +447,11 @@ function BookStructure({ book }) {
             : Number(partNumber),
 
         volume_id:
-          partVolumeId === ""
-            ? null
-            : Number(partVolumeId),
+          partVolumeId !== ""
+            ? Number(partVolumeId)
+            : (book.uses_volumes && selectedVolumeId
+                ? Number(selectedVolumeId)
+                : null),
       };
 
       if (editingPartId) {
@@ -544,6 +529,7 @@ function BookStructure({ book }) {
     setChapterPartId("");
     setChapterContent("");
     setChapterStatus("concept");
+    setChapterListTab("concept");
     setChapterNarratorId("");
   }
 
@@ -591,6 +577,9 @@ function BookStructure({ book }) {
 
     setChapterStatus(
       chapter.status || "concept"
+    );
+    setChapterListTab(
+      chapter.status === "published" ? "published" : "concept"
     );
 
     setChapterNarratorId("");
@@ -665,6 +654,7 @@ function BookStructure({ book }) {
           );
         }
 
+        setChapterListTab(chapterStatus === "published" ? "published" : "concept");
         setMessage("Kapitola byla uložena.");
       } else {
         const created = await addChapter(
@@ -688,6 +678,7 @@ function BookStructure({ book }) {
           }
         }
 
+        setChapterListTab(chapterStatus === "published" ? "published" : "concept");
         setMessage("Kapitola byla přidána.");
       }
 
@@ -738,7 +729,8 @@ function BookStructure({ book }) {
   const selectedChapter =
     chapters.find(
       (chapter) =>
-        chapter.id === selectedChapterId
+        Number(chapter.book_id) === Number(book.id) &&
+        Number(chapter.id) === Number(selectedChapterId)
     ) || null;
 
   /* =====================================================
@@ -785,7 +777,7 @@ function BookStructure({ book }) {
       {/* =================================================
           1. DÍLY
       ================================================= */}
-      {book.uses_volumes && (
+      {showVolumesPanel && (
         <section className="structure-column volumes-column">
           <div className="structure-column-header">
             <div>
@@ -817,9 +809,9 @@ function BookStructure({ book }) {
                 }`}
                 onClick={() => {
                   setSelectedVolumeId(volume.id);
+                  setPartVolumeId(String(volume.id));
                   setSelectedPartId(null);
                   setSelectedChapterId(null);
-                  setShowChapterForm(false);
                 }}
                 style={{ cursor: "pointer" }}
               >
@@ -882,40 +874,8 @@ function BookStructure({ book }) {
               required
             />
 
-            <div className="volume-cover-editor">
-              <label htmlFor="volume-cover-url">Obálka svazku (nepovinná)</label>
-              <input
-                id="volume-cover-url"
-                type="url"
-                value={volumeCoverUrl}
-                onChange={(event) => setVolumeCoverUrl(event.target.value)}
-                placeholder="URL vlastní obálky; prázdné = obálka knihy"
-              />
-              <label htmlFor="volume-cover-file">Nahrát obálku (JPG, PNG, WebP, max. 5 MB)</label>
-              <input
-                id="volume-cover-file"
-                type="file"
-                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-                disabled={volumeCoverUploading}
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  event.target.value = "";
-                  if (file) handleVolumeCoverUpload(file);
-                }}
-              />
-              {volumeCoverUploading && <small>Nahrávám obálku svazku…</small>}
-              {volumeCoverError && <small className="volume-cover-error">{volumeCoverError}</small>}
-              {volumeCoverUrl && (
-                <div className="volume-cover-preview-wrap">
-                  <img src={volumeCoverUrl} alt="Náhled obálky svazku" />
-                  <button type="button" onClick={() => setVolumeCoverUrl("")}>Odebrat obálku</button>
-                </div>
-              )}
-              <small>Pokud vlastní obálku nevyplníš, použije se obálka hlavní knihy.</small>
-            </div>
-
             <div className="structure-form-actions">
-              <button type="submit" disabled={volumeCoverUploading}>
+              <button type="submit" >
                 {editingVolumeId
                   ? "Uložit díl"
                   : "+ Přidat díl"}
@@ -928,8 +888,6 @@ function BookStructure({ book }) {
                     setEditingVolumeId(null);
                     setVolumeNumber("");
                     setVolumeTitle("");
-                    setVolumeCoverUrl("");
-                    setVolumeCoverError("");
                   }}
                 >
                   Zrušit
@@ -949,7 +907,7 @@ function BookStructure({ book }) {
       {/* =================================================
           2. ČÁSTI
       ================================================= */}
-      {book.uses_parts && (
+      {showPartsPanel && (
         <section className="structure-column parts-column">
           <div className="structure-column-header">
             <div>
@@ -958,6 +916,13 @@ function BookStructure({ book }) {
               </span>
               <h3>Části</h3>
             </div>
+            {book.uses_volumes && (
+              <button type="button" className="structure-back-link" onClick={() => {
+                setSelectedVolumeId(null);
+                setSelectedPartId(null);
+                setSelectedChapterId(null);
+              }}>← Díly</button>
+            )}
 
             <span className="structure-count">
               {book.uses_volumes
@@ -992,8 +957,8 @@ function BookStructure({ book }) {
                   onClick={() => {
                     setSelectedPartId(part.id);
                     setSelectedChapterId(null);
-                    setShowChapterForm(false);
-                  }}
+                    setChapterListTab("published");
+                    }}
                   style={{ cursor: "pointer" }}
                 >
                   <div>
@@ -1070,27 +1035,6 @@ function BookStructure({ book }) {
               required
             />
 
-            {book.uses_volumes && (
-              <select
-                value={partVolumeId}
-                onChange={(event) =>
-                  setPartVolumeId(event.target.value)
-                }
-              >
-                <option value="">
-                  Bez přiřazeného dílu
-                </option>
-
-                {volumes.map((volume) => (
-                  <option
-                    key={volume.id}
-                    value={volume.id}
-                  >
-                    {volumeName(volume)}
-                  </option>
-                ))}
-              </select>
-            )}
 
             <div className="structure-form-actions">
               <button type="submit">
@@ -1127,14 +1071,7 @@ function BookStructure({ book }) {
           3. KAPITOLY
       ================================================= */}
 
-      <section
-        className="structure-column chapters-column"
-        style={
-          Number(book.id) === 2
-            ? { gridColumn: "3" }
-            : undefined
-        }
-      >
+      {canOpenChapters && <section className="structure-column chapters-column">
 
         <div className="structure-column-header">
 
@@ -1147,11 +1084,30 @@ function BookStructure({ book }) {
           </div>
 
           <span className="structure-count">
-            {chapters.length}
+            {visibleChapters.length}
           </span>
 
         </div>
 
+        <div className="structure-breadcrumbs">
+          {selectedVolume && (
+            <button type="button" onClick={() => {
+              setSelectedPartId(null);
+              setSelectedChapterId(null);
+            }}>{volumeName(selectedVolume)}</button>
+          )}
+          {selectedPart && (
+            <button type="button" onClick={() => {
+              setSelectedPartId(null);
+              setSelectedChapterId(null);
+            }}>{partName(selectedPart)}</button>
+          )}
+          <button type="button" onClick={() => {
+            setSelectedPartId(null);
+            setSelectedVolumeId(null);
+            setSelectedChapterId(null);
+          }}>Zpět na strukturu</button>
+        </div>
         {canOpenChapters && (
           <div className="structure-context">
             {chaptersContext ||
@@ -1159,6 +1115,7 @@ function BookStructure({ book }) {
                 ? "Bez části"
                 : "Samostatná kniha")}
           </div>
+
         )}
 
         <button
@@ -1170,6 +1127,27 @@ function BookStructure({ book }) {
           + Nová kapitola
         </button>
 
+        <div className="chapter-folder-tabs" role="tablist" aria-label="Složky kapitol">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={chapterListTab === "published"}
+            className={chapterListTab === "published" ? "chapter-folder-tab active" : "chapter-folder-tab"}
+            onClick={() => setChapterListTab("published")}
+          >
+            Publikované <span>{publishedChapters.length}</span>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={chapterListTab === "concept"}
+            className={chapterListTab === "concept" ? "chapter-folder-tab active" : "chapter-folder-tab"}
+            onClick={() => setChapterListTab("concept")}
+          >
+            Koncepty <span>{conceptChapters.length}</span>
+          </button>
+        </div>
+
         <div className="chapter-list">
 
           {!canOpenChapters ? (
@@ -1179,46 +1157,50 @@ function BookStructure({ book }) {
             </div>
           ) : (
             <>
-              {visibleChapters.length === 0 && (
+              {displayedChapters.length === 0 && (
                 <div className="structure-empty">
-                  Zatím žádné kapitoly.
+                  {chapterListTab === "concept"
+                    ? "Ve složce Koncepty zatím nejsou žádné kapitoly."
+                    : "Zatím nejsou zveřejněné žádné kapitoly."}
                 </div>
               )}
 
-              {visibleChapters.map((chapter) => (
+              {displayedChapters.map((chapter) => (
             <button
               key={chapter.id}
               type="button"
               className={
-                selectedChapterId === chapter.id
-                  ? "chapter-list-item active"
-                  : "chapter-list-item"
+                Number(selectedChapterId) === Number(chapter.id)
+                  ? "chapter-card active"
+                  : "chapter-card"
               }
               onClick={() =>
                 openChapter(chapter)
               }
             >
-              <span className="chapter-list-number">
-                {String(
-                  chapter.number ?? ""
-                ).padStart(2, "0")}
+              <span className="chapter-card-number">
+                {chapter.status === "published"
+                  ? String(chapter.number ?? "").padStart(2, "0")
+                  : "K"}
               </span>
 
-              <span className="chapter-list-main">
+              <span className="chapter-card-main">
                 <strong>
                   {chapter.title}
                 </strong>
 
                 <small>
-                  {chapter.status ===
-                  "published"
+                  {chapter.status === "published"
                     ? "Zveřejněno"
                     : "Rozpracováno"}
+                  {chapterLocation(chapter)
+                    ? ` · ${chapterLocation(chapter)}`
+                    : " · Bez přiřazení"}
                 </small>
               </span>
 
               <span
-                className="chapter-list-status"
+                className="chapter-card-status"
                 onClick={(event) => {
                   event.stopPropagation();
                   removeChapter(chapter);
@@ -1234,20 +1216,13 @@ function BookStructure({ book }) {
 
         </div>
 
-      </section>
+      </section>}
 
       {/* =================================================
           4. EDITOR – NEJVĚTŠÍ
       ================================================= */}
 
-      <section
-        className="chapter-editor-column"
-        style={
-          Number(book.id) === 2
-            ? { gridColumn: "4" }
-            : undefined
-        }
-      >
+      {canOpenChapters && <section className="chapter-editor-column">
 
         <div className="chapter-editor-top">
 
@@ -1287,20 +1262,33 @@ function BookStructure({ book }) {
 
           <div className="chapter-main-fields">
 
-            <label>
-              <span>Číslo kapitoly</span>
+            <label className="chapter-order-field">
+              <span>
+                {chapterStatus === "published" && selectedChapter?.status === "published"
+                  ? "Pořadí v celé knize"
+                  : "Číslování kapitoly"}
+              </span>
 
-              <input
-                type="number"
-                min="1"
-                value={chapterNumber}
-                onChange={(event) =>
-                  setChapterNumber(
-                    event.target.value
-                  )
-                }
-                required
-              />
+              {chapterStatus === "published" && selectedChapter?.status === "published" ? (
+                <>
+                  <input
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={chapterNumber}
+                    onChange={(event) => setChapterNumber(event.target.value)}
+                    required
+                    aria-label="Pořadí kapitoly v celé knize"
+                  />
+                  <small>Změnou pořadí se přečísluje celá kniha, nejen právě vybraný díl nebo část.</small>
+                </>
+              ) : (
+                <div className="chapter-number-auto-hint">
+                  {chapterStatus === "published"
+                    ? "Po zveřejnění dostane kapitola další volné číslo na konci knihy."
+                    : "Koncept nemá číslo. Číslo dostane automaticky až při zveřejnění."}
+                </div>
+              )}
             </label>
 
             <label className="chapter-title-field">
@@ -1319,6 +1307,30 @@ function BookStructure({ book }) {
               />
             </label>
 
+          </div>
+
+          <div className="publish-box chapter-editor-publish">
+            <div>
+              <span>Zveřejnění kapitoly</span>
+              <small>
+                {chapterStatus === "published"
+                  ? "Kapitola bude po uložení viditelná na webu."
+                  : "Kapitola zůstane konceptem a na veřejném webu se nezobrazí."}
+              </small>
+            </div>
+
+            <label className="publish-switch">
+              <input
+                type="checkbox"
+                checked={chapterStatus === "published"}
+                onChange={(event) =>
+                  setChapterStatus(
+                    event.target.checked ? "published" : "concept"
+                  )
+                }
+              />
+              <span />
+            </label>
           </div>
 
           {Number(book.id) === 2 && (
@@ -1351,75 +1363,6 @@ function BookStructure({ book }) {
                   )}
                 </select>
               </label>
-            </div>
-          )}
-
-          {(book.uses_volumes ||
-            book.uses_parts) && (
-            <div className="chapter-location-fields">
-
-              {book.uses_volumes && (
-                <label>
-                  <span>Díl</span>
-
-                  <select
-                    value={chapterVolumeId}
-                    onChange={(event) => {
-                      setChapterVolumeId(
-                        event.target.value
-                      );
-
-                      setChapterPartId("");
-                    }}
-                  >
-                    <option value="">
-                      Bez dílu
-                    </option>
-
-                    {volumes.map(
-                      (volume) => (
-                        <option
-                          key={volume.id}
-                          value={volume.id}
-                        >
-                          {volumeName(volume)}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </label>
-              )}
-
-              {book.uses_parts && (
-                <label>
-                  <span>Část</span>
-
-                  <select
-                    value={chapterPartId}
-                    onChange={(event) =>
-                      setChapterPartId(
-                        event.target.value
-                      )
-                    }
-                  >
-                    <option value="">
-                      Bez části
-                    </option>
-
-                    {availableChapterParts.map(
-                      (part) => (
-                        <option
-                          key={part.id}
-                          value={part.id}
-                        >
-                          {partName(part)}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </label>
-              )}
-
             </div>
           )}
 
@@ -1467,241 +1410,8 @@ function BookStructure({ book }) {
 
         </form>
 
-      </section>
+      </section>}
 
-      {/* =================================================
-          5. INFORMACE O KAPITOLE
-      ================================================= */}
-
-      <aside
-        className="chapter-info-column"
-        style={
-          Number(book.id) === 2
-            ? { gridColumn: "5" }
-            : undefined
-        }
-      >
-
-        <div className="chapter-info-header">
-          <span className="info-icon">
-            i
-          </span>
-
-          <h3>
-            INFORMACE
-          </h3>
-        </div>
-
-        {Number(book.id) === 2 ? (
-          <div className="chapter-info-content">
-
-            <div className="chapter-info-title">
-              {selectedChapter?.title ||
-                chapterTitle ||
-                "Nová kapitola"}
-            </div>
-
-            <div className="chapter-info-row">
-              <span>Číslo kapitoly</span>
-              <strong>
-                {selectedChapter?.number ??
-                  (chapterNumber === ""
-                    ? "—"
-                    : chapterNumber)}
-              </strong>
-            </div>
-
-            <div className="chapter-info-row">
-              <span>Stav</span>
-              <strong
-                className={
-                  chapterStatus === "published"
-                    ? "status-published"
-                    : "status-concept"
-                }
-              >
-                {chapterStatus === "published"
-                  ? "Zveřejněno"
-                  : "Rozpracováno"}
-              </strong>
-            </div>
-
-            {selectedChapter && (
-              <>
-                <div className="chapter-info-row">
-                  <span>Pořadí</span>
-                  <strong>
-                    {selectedChapter.order ??
-                      selectedChapter.position ??
-                      selectedChapter.number ??
-                      "—"}
-                  </strong>
-                </div>
-
-                <div className="chapter-info-row">
-                  <span>Datum vytvoření</span>
-                  <strong>
-                    {formatDate(
-                      selectedChapter.created_at
-                    )}
-                  </strong>
-                </div>
-
-                <div className="chapter-info-row">
-                  <span>Poslední úprava</span>
-                  <strong>
-                    {formatDate(
-                      selectedChapter.updated_at ||
-                        selectedChapter.modified_at
-                    )}
-                  </strong>
-                </div>
-              </>
-            )}
-
-            <div className="publish-box">
-
-              <div>
-                <span>Publikovat</span>
-
-                <small>
-                  {chapterStatus === "published"
-                    ? "Kapitola je zveřejněná"
-                    : "Kapitola zatím není zveřejněná"}
-                </small>
-              </div>
-
-              <label className="publish-switch">
-                <input
-                  type="checkbox"
-                  checked={
-                    chapterStatus === "published"
-                  }
-                  onChange={(event) =>
-                    setChapterStatus(
-                      event.target.checked
-                        ? "published"
-                        : "concept"
-                    )
-                  }
-                />
-
-                <span />
-              </label>
-
-            </div>
-
-          </div>
-        ) : (
-          <>
-        {!selectedChapter && (
-          <div className="chapter-info-empty">
-            Vyber kapitolu ze seznamu.
-          </div>
-        )}
-
-        {selectedChapter && (
-          <div className="chapter-info-content">
-
-            <div className="chapter-info-title">
-              {selectedChapter.title}
-            </div>
-
-            <div className="chapter-info-row">
-              <span>Číslo kapitoly</span>
-              <strong>
-                {selectedChapter.number ??
-                  "—"}
-              </strong>
-            </div>
-
-            <div className="chapter-info-row">
-              <span>Stav</span>
-
-              <strong
-                className={
-                  selectedChapter.status ===
-                  "published"
-                    ? "status-published"
-                    : "status-concept"
-                }
-              >
-                {selectedChapter.status ===
-                "published"
-                  ? "Zveřejněno"
-                  : "Rozpracováno"}
-              </strong>
-            </div>
-
-            <div className="chapter-info-row">
-              <span>Pořadí</span>
-              <strong>
-                {selectedChapter.order ??
-                  selectedChapter.position ??
-                  selectedChapter.number ??
-                  "—"}
-              </strong>
-            </div>
-
-            <div className="chapter-info-row">
-              <span>Datum vytvoření</span>
-              <strong>
-                {formatDate(
-                  selectedChapter.created_at
-                )}
-              </strong>
-            </div>
-
-            <div className="chapter-info-row">
-              <span>Poslední úprava</span>
-              <strong>
-                {formatDate(
-                  selectedChapter.updated_at ||
-                    selectedChapter.modified_at
-                )}
-              </strong>
-            </div>
-
-            <div className="publish-box">
-
-              <div>
-                <span>Publikovat</span>
-
-                <small>
-                  {selectedChapter.status ===
-                  "published"
-                    ? "Kapitola je zveřejněná"
-                    : "Kapitola zatím není zveřejněná"}
-                </small>
-              </div>
-
-              <label className="publish-switch">
-                <input
-                  type="checkbox"
-                  checked={
-                    chapterStatus ===
-                    "published"
-                  }
-                  onChange={(event) =>
-                    setChapterStatus(
-                      event.target.checked
-                        ? "published"
-                        : "concept"
-                    )
-                  }
-                />
-
-                <span />
-              </label>
-
-            </div>
-
-          </div>
-        )}
-          </>
-        )}
-
-      </aside>
 
       </div>
     </section>

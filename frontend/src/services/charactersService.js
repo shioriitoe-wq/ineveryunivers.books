@@ -9,30 +9,53 @@ const API =
    OBECNÝ REQUEST
    ========================================================= */
 
+const inFlightGetRequests = new Map();
+
 async function request(
   url,
   options = {},
   errorMessage = "Nastala chyba."
 ) {
-  const response = await fetch(url, options);
+  const method = String(options.method || "GET").toUpperCase();
+  const requestKey = method === "GET" ? url : null;
 
-  if (!response.ok) {
-    let message = errorMessage;
-
-    try {
-      const data = await response.json();
-
-      message =
-        data.message ||
-        message;
-    } catch {
-      // Použijeme výchozí zprávu.
-    }
-
-    throw new Error(message);
+  if (requestKey && inFlightGetRequests.has(requestKey)) {
+    return inFlightGetRequests.get(requestKey);
   }
 
-  return response.json();
+  const executeRequest = async () => {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      let message = errorMessage;
+
+      try {
+        const data = await response.json();
+        message = data.message || message;
+      } catch {
+        // Použijeme výchozí chybovou zprávu.
+      }
+
+      throw new Error(message);
+    }
+
+    return response.json();
+  };
+
+  if (!requestKey) {
+    return executeRequest();
+  }
+
+  const pendingRequest = executeRequest();
+  inFlightGetRequests.set(requestKey, pendingRequest);
+
+  try {
+    return await pendingRequest;
+  } finally {
+    if (inFlightGetRequests.get(requestKey) === pendingRequest) {
+      inFlightGetRequests.delete(requestKey);
+    }
+  }
 }
 
 
@@ -58,6 +81,25 @@ export function getCharacters(bookId) {
     `${API}/books/${bookId}/characters`,
     {},
     "Nepodařilo se načíst postavy."
+  );
+}
+
+
+/* =========================================================
+   DATA STRÁNKY POSTAV PRO KONKRÉTNÍ DÍL
+   ========================================================= */
+
+export function getCharactersPage(bookId, volumeId) {
+  if (!bookId || !volumeId) {
+    return Promise.reject(
+      new Error("Nelze načíst postavy: chybí ID knihy nebo dílu.")
+    );
+  }
+
+  return request(
+    `${API}/books/${bookId}/volumes/${volumeId}/characters-page`,
+    {},
+    "Nepodařilo se načíst stránku postav."
   );
 }
 

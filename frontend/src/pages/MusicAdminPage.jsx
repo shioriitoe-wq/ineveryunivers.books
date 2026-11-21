@@ -174,7 +174,7 @@ function MusicAdminPage() {
   const [lyricsBulkText, setLyricsBulkText] = useState("");
 
   const request = useCallback(async (path, options = {}) => {
-    const token = sessionStorage.getItem("adminToken");
+    const token = sessionStorage.getItem("userToken");
     const response = await fetch(`${API_BASE}${path}`, {
       ...options,
       headers: {
