@@ -1,6 +1,10 @@
-
 -- Convert existing video tag columns from TEXT to JSONB.
--- Preserve existing JSON arrays and replace empty values with [].
+-- Drop legacy defaults first: PostgreSQL cannot always cast a column default
+-- automatically when changing the column type. Existing row values are preserved.
+
+ALTER TABLE media_videos
+    ALTER COLUMN genre_tags DROP DEFAULT,
+    ALTER COLUMN mood_tags DROP DEFAULT;
 
 ALTER TABLE media_videos
     ALTER COLUMN genre_tags TYPE JSONB
